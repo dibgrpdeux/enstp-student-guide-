@@ -887,8 +887,19 @@ function renderItems(section, items, category) {
       html += '<iframe src="https://www.youtube.com/embed/' + item.video + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
       html += '</div>';
     }
-    
-    if (desc) html += '<p style="color:var(--mut);margin:8px 0;font-size:.95rem;line-height:1.6">' + desc + '</p>';
+if (desc) {
+  // إذا كان الوصف فيه قائمة مرقّمة (stations)
+  if (item.title && (item.title.fr || '').includes('Stations')) {
+    const stations = desc.split('\n').filter(l => l.trim());
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin:10px 0">';
+    stations.forEach(st => {
+      html += '<div style="background:var(--acc-soft);padding:8px 12px;border-radius:10px;font-size:.85rem;border-left:3px solid var(--acc)">' + st + '</div>';
+    });
+    html += '</div>';
+  } else {
+    html += '<p style="color:var(--mut);margin:8px 0;font-size:.95rem;line-height:1.6;white-space:pre-line">' + desc + '</p>';
+  }
+}
     if (item.hours) html += '<p style="margin:6px 0;font-size:.9rem"><b>🕐 ' + window.t('labelHours', LANG) + ':</b> ' + item.hours + '</p>';
     if (item.budget) html += '<p style="margin:6px 0;font-size:.9rem"><b>💰 ' + window.t('labelBudget', LANG) + ':</b> ' + item.budget + '</p>';
     if (item.extra) html += '<p style="margin:6px 0;font-size:.9rem;color:var(--acc)"><b>' + item.extra + '</b></p>';
