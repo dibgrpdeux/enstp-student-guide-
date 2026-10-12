@@ -1163,7 +1163,120 @@ window.installPWA = installPWA;
 window.dismissInstallBanner = dismissInstallBanner;
 window.showToast = showToast;
 </script>
-
+  
+<!-- ============================================ -->
+<!-- 🎓 قسم أساتذتي — Direct (inline) -->
+<!-- ============================================ -->
+<script>
+// ============================================
+// Profs — الأساتذة
+// ============================================
+(function() {
+  // ابحث عن مصفوفة SECTIONS الموجودة
+  let SECTIONS_ARRAY = null;
+  
+  if (typeof window.SECTIONS !== 'undefined' && Array.isArray(window.SECTIONS)) {
+    SECTIONS_ARRAY = window.SECTIONS;
+  } else if (typeof SECTIONS !== 'undefined' && Array.isArray(SECTIONS)) {
+    SECTIONS_ARRAY = SECTIONS;
+  } else {
+    console.error('❌ SECTIONS غير موجود!');
+    return;
+  }
+  
+  // احذف أي قسم قديم باسم profs
+  for (let i = SECTIONS_ARRAY.length - 1; i >= 0; i--) {
+    if (SECTIONS_ARRAY[i].id === 'profs') {
+      SECTIONS_ARRAY.splice(i, 1);
+    }
+  }
+  
+  // أضف قسم profs الجديد
+  SECTIONS_ARRAY.push({
+    id: "profs",
+    icon: "👨‍🏫",
+    titleKey: "sectionProfs",
+    introKey: "profsIntro",
+    type: "services",
+    categories: [
+      {
+        id: "prep1",
+        icon: "📘",
+        titleKey: "profsPrep1",
+        title: "1ère année Préparatoire",
+        intro: {
+          fr: "Enseignants de la 1ère année du cycle préparatoire.",
+          ar: "أساتذة السنة الأولى من الطور التحضيري.",
+          en: "1st year Preparatory teachers."
+        },
+        items: [
+          { title: { fr: "🔢 Algèbre", ar: "🔢 الجبر", en: "🔢 Algebra" }, icon: "🔢", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Algèbre" },
+          { title: { fr: "📐 Analyse", ar: "📐 التحليل", en: "📐 Analysis" }, icon: "📐", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Analyse" },
+          { title: { fr: "🧪 Chimie", ar: "🧪 الكيمياء", en: "🧪 Chemistry" }, icon: "🧪", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Chimie" },
+          { title: { fr: "⚛️ Physique", ar: "⚛️ الفيزياء", en: "⚛️ Physics" }, icon: "⚛️", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Physique" },
+          { title: { fr: "💹 Économie", ar: "💹 الاقتصاد", en: "💹 Economics" }, icon: "💹", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Économie" },
+          { title: { fr: "📏 Dessin Technique", ar: "📏 الرسم التقني", en: "📏 Technical Drawing" }, icon: "📏", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Dessin" },
+          { title: { fr: "🇫🇷 Français", ar: "🇫🇷 الفرنسية", en: "🇫🇷 French" }, icon: "🇫🇷", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Français" },
+          { title: { fr: "📊 Statistiques", ar: "📊 الإحصاء", en: "📊 Statistics" }, icon: "📊", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Statistiques" },
+          { title: { fr: "💻 Informatique", ar: "💻 الإعلام الآلي", en: "💻 Computer Science" }, icon: "💻", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Informatique" },
+          { title: { fr: "🇬🇧 Anglais", ar: "🇬🇧 الإنجليزية", en: "🇬🇧 English" }, icon: "🇬🇧", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Anglais" },
+          { title: { fr: "🤝 Génie Humain", ar: "🤝 الهندسة البشرية", en: "🤝 Human Engineering" }, icon: "🤝", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Génie Humain" }
+        ]
+      },
+      {
+        id: "prep2",
+        icon: "📗",
+        titleKey: "profsPrep2",
+        title: "2ème année Préparatoire",
+        intro: {
+          fr: "Enseignants de la 2ème année du cycle préparatoire.",
+          ar: "أساتذة السنة الثانية من الطور التحضيري.",
+          en: "2nd year Preparatory teachers."
+        },
+        items: [
+          { title: { fr: "⚛️ Physique", ar: "⚛️ الفيزياء", en: "⚛️ Physics" }, icon: "⚛️", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Physique" },
+          { title: { fr: "🧪 Chimie", ar: "🧪 الكيمياء", en: "🧪 Chemistry" }, icon: "🧪", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Chimie" },
+          { title: { fr: "📐 Analyse", ar: "📐 التحليل", en: "📐 Analysis" }, icon: "📐", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Analyse" },
+          { title: { fr: "💻 Informatique", ar: "💻 الإعلام الآلي", en: "💻 Computer Science" }, icon: "💻", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Informatique" },
+          { title: { fr: "💧 Mécanique des Fluides", ar: "💧 ميكانيك الموائع", en: "💧 Fluid Mechanics" }, icon: "💧", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Méca Fluides" },
+          { title: { fr: "🔩 Mécanique des Solides", ar: "🔩 ميكانيك الصلب", en: "🔩 Solid Mechanics" }, icon: "🔩", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Méca Solides" },
+          { title: { fr: "🇬🇧 Anglais", ar: "🇬🇧 الإنجليزية", en: "🇬🇧 English" }, icon: "🇬🇧", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Anglais" },
+          { title: { fr: "💬 Techniques de Communication", ar: "💬 تقنيات التواصل", en: "💬 Communication" }, icon: "💬", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Communication" },
+          { title: { fr: "📐 Géométrie", ar: "📐 الهندسة", en: "📐 Geometry" }, icon: "📐", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Géométrie" },
+          { title: { fr: "🔧 Résistance des Matériaux", ar: "🔧 مقاومة المواد", en: "🔧 Strength of Materials" }, icon: "🔧", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 RDM" },
+          { title: { fr: "🔢 Analyse Numérique", ar: "🔢 التحليل الرقمي", en: "🔢 Numerical Analysis" }, icon: "🔢", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Analyse Num." },
+          { title: { fr: "⚡ Électricité & Électronique", ar: "⚡ الكهرباء والإلكترونيك", en: "⚡ Electricity & Electronics" }, icon: "⚡", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Élec." }
+        ]
+      }
+    ]
+  });
+  
+  // أضف مفاتيح الترجمة
+  if (typeof LANG_DATA !== 'undefined') {
+    if (LANG_DATA.fr) {
+      if (!LANG_DATA.fr.profsPrep1) LANG_DATA.fr.profsPrep1 = "1ère année Préparatoire";
+      if (!LANG_DATA.fr.profsPrep2) LANG_DATA.fr.profsPrep2 = "2ème année Préparatoire";
+    }
+    if (LANG_DATA.ar) {
+      if (!LANG_DATA.ar.profsPrep1) LANG_DATA.ar.profsPrep1 = "السنة الأولى تحضيري";
+      if (!LANG_DATA.ar.profsPrep2) LANG_DATA.ar.profsPrep2 = "2ème année Préparatoire";
+    }
+    if (LANG_DATA.en) {
+      if (!LANG_DATA.en.profsPrep1) LANG_DATA.en.profsPrep1 = "1st year Preparatory";
+      if (!LANG_DATA.en.profsPrep2) LANG_DATA.en.profsPrep2 = "2nd year Preparatory";
+    }
+  }
+  
+  console.log('✅ Profs ajouté en direct. Total sections:', SECTIONS_ARRAY.length);
+  
+  // إذا كانت الصفحة الرئيسية معروضة، أعد عرضها
+  if (typeof renderHome === 'function' && typeof CURRENT_SECTION !== 'undefined' && !CURRENT_SECTION) {
+    setTimeout(() => {
+      try { renderHome(); } catch(e) {}
+    }, 100);
+  }
+})();
+</script>
 </body>
 </html>
   
