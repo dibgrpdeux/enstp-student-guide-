@@ -171,7 +171,15 @@ html[dir="rtl"] .feedback-float{right:auto;left:20px}
   <p id="tagline" style="margin:4px 0 0;opacity:.9;font-size:.9rem">Ton premier jour, dans ta poche.</p>
 </header>
 
-<div style="padding:12px 16px;background:var(--card);border-bottom:1px solid var(--line);animation:fadeInDown .5s ease-out .1s both">
+  <div class="search-container">
+  <div class="search-inner">
+    <input id="q" placeholder="🔎 Chercher…" oninput="doSearch(this.value)">
+    <button class="ai-btn" onclick="openAISearch()" id="aiBtn" title="Assistant IA">
+      <span class="ai-icon">✨</span>
+      <span class="ai-text">IA</span>
+    </button>
+  </div>
+</div>
   <div style="display:flex;gap:8px;align-items:center;max-width:900px;margin:0 auto">
     <input id="q" placeholder="🔎 Chercher…" oninput="doSearch(this.value)"
            style="flex:1;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font-size:1rem;outline:none;font-family:inherit;transition:all .3s;min-width:0"
