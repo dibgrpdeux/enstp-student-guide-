@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ENSTP — Guide de survie</title>
 
-<!-- PWA Meta -->
+<script src="text-size.js"></script>
+
 <meta name="theme-color" content="#c2410c">
 <meta name="description" content="Guide de survie pour les nouveaux étudiants de l'ENSTP — 3 langues, hors ligne, gratuit.">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,13 +27,13 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{
-  font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   background:var(--bg);color:var(--ink);
   overflow-x:hidden;
 }
 img{max-width:100%;height:auto;display:block}
 
-/* ==== الشريط العلوي ==== */
+/* ============ الشريط العلوي ============ */
 .top-controls{
   position:fixed;top:16px;right:16px;z-index:1000;
   display:flex;gap:8px;align-items:center;flex-wrap:wrap;
@@ -56,12 +57,70 @@ img{max-width:100%;height:auto;display:block}
 .pill button:hover{background:rgba(255,255,255,.15)}
 .pill button.on{background:#fff;color:var(--acc)}
 
-/* ==== Hero ==== */
+.ctrl-btn{
+  width:38px;height:38px;padding:0;
+  font-size:1rem;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:transparent;color:#fff;
+  cursor:pointer;transition:all .2s;border:0;font-family:inherit;
+}
+.ctrl-btn:hover{background:rgba(255,255,255,.15)}
+
+/* Text Size Panel */
+.text-size-panel{
+  position:fixed;top:70px;right:16px;z-index:999;
+  background:#fff;color:#1d2433;
+  padding:16px;border-radius:16px;
+  box-shadow:0 20px 50px rgba(0,0,0,.25);
+  border:1px solid #e5e1d8;
+  display:none;min-width:240px;
+}
+.text-size-panel.show{display:block;animation:fadeSlide .25s ease-out}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+.text-size-panel .tsp-header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:14px;
+}
+.text-size-panel .tsp-header strong{font-size:.9rem;color:#c2410c}
+.text-size-panel .tsp-close{
+  background:none;border:0;font-size:1.4rem;color:#94a3b8;
+  cursor:pointer;padding:0;line-height:1;font-family:inherit;
+}
+.text-size-panel .tsp-list{
+  display:flex;flex-direction:column;gap:8px;
+}
+.text-size-panel .tsp-btn{
+  padding:12px 14px;
+  border:2px solid #e5e1d8;
+  background:#fff;color:#1d2433;
+  border-radius:10px;cursor:pointer;
+  text-align:left;font-family:inherit;
+  transition:all .2s;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.text-size-panel .tsp-btn:hover{
+  border-color:#c2410c;
+  transform:translateX(3px);
+}
+.text-size-panel .tsp-btn.active{
+  border-color:#c2410c;
+  background:#fde8dc;
+  color:#c2410c;
+  font-weight:700;
+}
+.text-size-panel .tsp-btn .tsp-label{
+  font-size:.8rem;color:#94a3b8;
+}
+.text-size-panel .tsp-btn.active .tsp-label{
+  color:#c2410c;
+}
+
+/* ============ Hero ============ */
 .hero{
   position:relative;min-height:100vh;
   display:flex;flex-direction:column;justify-content:center;
-  padding:100px 20px 60px;text-align:center;
-  background-image:linear-gradient(135deg,rgba(194,65,12,.55),rgba(15,17,23,.72)),url('enstp-entrance.jpg');
+  padding:6.25rem 1.25rem 3.75rem;text-align:center;
+  background-image:linear-gradient(135deg,rgba(194,65,12,.55),rgba(15,17,23,.72)),url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80');
   background-size:cover;
   background-position:center 40%;
   background-attachment:fixed;
@@ -75,7 +134,7 @@ img{max-width:100%;height:auto;display:block}
 .hero>*{position:relative;z-index:1}
 
 .logo-3d{
-  width:110px;height:110px;margin:0 auto 26px;
+  width:6.875rem;height:6.875rem;margin:0 auto 1.625rem;
   background:linear-gradient(135deg,#fff,#f8f5ef);
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
@@ -95,7 +154,7 @@ img{max-width:100%;height:auto;display:block}
 .hero h1{
   font-size:clamp(1.7rem,6vw,3.2rem);
   font-weight:900;
-  margin-bottom:16px;
+  margin-bottom:1rem;
   line-height:1.2;
   letter-spacing:-.8px;
   color:#fff;
@@ -103,21 +162,21 @@ img{max-width:100%;height:auto;display:block}
 }
 .hero .subtitle{
   font-size:clamp(1rem,3.5vw,1.35rem);
-  opacity:.95;margin-bottom:10px;
+  opacity:.95;margin-bottom:.625rem;
   font-weight:300;color:#fff;
   text-shadow:0 2px 10px rgba(0,0,0,.5);
 }
 .hero .tagline{
   font-size:clamp(.9rem,3vw,1.1rem);
-  opacity:.9;margin-bottom:36px;font-style:italic;
-  max-width:640px;margin-left:auto;margin-right:auto;
+  opacity:.9;margin-bottom:2.25rem;font-style:italic;
+  max-width:40rem;margin-left:auto;margin-right:auto;
   line-height:1.5;color:#fff;
   text-shadow:0 2px 10px rgba(0,0,0,.5);
 }
 
 .badges{
-  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
-  margin-bottom:40px;max-width:760px;
+  display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;
+  margin-bottom:2.5rem;max-width:47.5rem;
   margin-left:auto;margin-right:auto;
 }
 .badge{
@@ -125,22 +184,22 @@ img{max-width:100%;height:auto;display:block}
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
   border:1px solid rgba(255,255,255,.3);
-  padding:8px 16px;border-radius:24px;
+  padding:.5rem 1rem;border-radius:1.5rem;
   font-size:.82rem;font-weight:500;color:#fff;
   transition:all .25s;
 }
 .badge:hover{background:rgba(255,255,255,.28);transform:translateY(-2px)}
 
 .cta-group{
-  display:flex;flex-wrap:wrap;gap:14px;
+  display:flex;flex-wrap:wrap;gap:.875rem;
   justify-content:center;align-items:center;
 }
 
 .btn-3d{
-  display:inline-flex;align-items:center;gap:10px;
+  display:inline-flex;align-items:center;gap:.625rem;
   background:linear-gradient(180deg,#fff,#f0ebe2);
   color:var(--acc);
-  padding:18px 52px;border-radius:50px;
+  padding:1.125rem 3.25rem;border-radius:3.125rem;
   font-size:1.15rem;font-weight:800;
   text-decoration:none;
   box-shadow:
@@ -165,9 +224,9 @@ html[dir="rtl"] .btn-3d .arrow{transform:scaleX(-1)}
 html[dir="rtl"] .btn-3d:hover .arrow{transform:scaleX(-1) translateX(6px)}
 
 .btn-install{
-  display:none;align-items:center;gap:8px;
+  display:none;align-items:center;gap:.5rem;
   background:linear-gradient(135deg,#10b981,#059669);
-  color:#fff;padding:15px 30px;border-radius:50px;
+  color:#fff;padding:.9375rem 1.875rem;border-radius:3.125rem;
   font-size:1rem;font-weight:700;
   box-shadow:
     0 10px 25px rgba(16,185,129,.4),
@@ -180,59 +239,59 @@ html[dir="rtl"] .btn-3d:hover .arrow{transform:scaleX(-1) translateX(6px)}
 .btn-install:hover{transform:translateY(-3px)}
 .btn-install.show{display:inline-flex}
 
-/* ==== Sections ==== */
-section{padding:70px 20px}
+/* ============ Sections ============ */
+section{padding:4.375rem 1.25rem}
 .about{background:#fff;color:#1d2433}
-.about-inner{max-width:820px;margin:0 auto}
-.about h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:24px;text-align:center}
-.about p{font-size:1.05rem;line-height:1.85;color:#475569;margin-bottom:16px;text-align:justify}
+.about-inner{max-width:51.25rem;margin:0 auto}
+.about h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:1.5rem;text-align:center}
+.about p{font-size:1.05rem;line-height:1.85;color:#475569;margin-bottom:1rem;text-align:justify}
 .about p strong{color:var(--acc)}
 
 .stats{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:20px;max-width:700px;margin:40px auto 0;
-  padding:0 10px;
+  gap:1.25rem;max-width:43.75rem;margin:2.5rem auto 0;
+  padding:0 .625rem;
 }
 .stat{
   text-align:center;
   background:linear-gradient(180deg,#fff,#f8fafc);
-  padding:26px 14px;border-radius:16px;
+  padding:1.625rem .875rem;border-radius:1rem;
   border:1px solid #e2e8f0;
   box-shadow:0 4px 12px rgba(0,0,0,.04);
 }
-.stat b{display:block;font-size:2rem;color:var(--acc);font-weight:900;margin-bottom:4px}
+.stat b{display:block;font-size:2rem;color:var(--acc);font-weight:900;margin-bottom:.25rem}
 .stat span{font-size:.85rem;color:#64748b;font-weight:500}
 
 .features{background:#f8fafc}
-.features-inner{max-width:1000px;margin:0 auto}
-.features h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:30px;text-align:center}
+.features-inner{max-width:62.5rem;margin:0 auto}
+.features h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:1.875rem;text-align:center}
 .features-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:20px;
+  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  gap:1.25rem;
 }
 .feature{
-  background:#fff;padding:28px 20px;border-radius:16px;
+  background:#fff;padding:1.75rem 1.25rem;border-radius:1rem;
   box-shadow:0 4px 15px rgba(0,0,0,.05);
   text-align:center;
   border:1px solid #e2e8f0;
   transition:all .3s;
 }
 .feature:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,.1)}
-.feature .icon{font-size:2.5rem;margin-bottom:12px;display:block}
-.feature h3{color:var(--acc);margin-bottom:8px;font-size:1.05rem}
+.feature .icon{font-size:2.5rem;margin-bottom:.75rem;display:block}
+.feature h3{color:var(--acc);margin-bottom:.5rem;font-size:1.05rem}
 .feature p{color:#64748b;font-size:.9rem;line-height:1.6}
 
 .gallery{background:#fff}
-.gallery-inner{max-width:1000px;margin:0 auto}
-.gallery h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:30px;text-align:center}
+.gallery-inner{max-width:62.5rem;margin:0 auto}
+.gallery h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:1.875rem;text-align:center}
 .gallery-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
+  grid-template-columns:repeat(auto-fit,minmax(13.75rem,1fr));
+  gap:1rem;
 }
 .gallery-item{
-  border-radius:16px;overflow:hidden;
+  border-radius:1rem;overflow:hidden;
   box-shadow:0 4px 20px rgba(0,0,0,.08);
   aspect-ratio:4/3;background:#e2e8f0;
   position:relative;transition:transform .3s;
@@ -242,62 +301,56 @@ section{padding:70px 20px}
 .gallery-item .cap{
   position:absolute;bottom:0;left:0;right:0;
   background:linear-gradient(transparent,rgba(0,0,0,.85));
-  color:#fff;padding:24px 14px 12px;
+  color:#fff;padding:1.5rem .875rem .75rem;
   font-size:.9rem;font-weight:600;
 }
 
 .team{background:linear-gradient(135deg,#fef3c7,#fff)}
-.team-inner{max-width:820px;margin:0 auto}
-.team h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:24px;text-align:center}
-.team p{font-size:1.05rem;line-height:1.85;color:#475569;margin-bottom:16px;text-align:justify}
+.team-inner{max-width:51.25rem;margin:0 auto}
+.team h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:1.5rem;text-align:center}
+.team p{font-size:1.05rem;line-height:1.85;color:#475569;margin-bottom:1rem;text-align:justify}
 .team p strong{color:var(--acc)}
-.values{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:30px 0}
+.values{display:flex;flex-wrap:wrap;gap:.625rem;justify-content:center;margin:1.875rem 0}
 .value{
   background:#fff;border:2px solid var(--acc-soft);
-  padding:9px 20px;border-radius:30px;
+  padding:.5625rem 1.25rem;border-radius:1.875rem;
   font-size:.9rem;font-weight:600;color:var(--acc);
   box-shadow:0 2px 8px rgba(0,0,0,.04);
 }
-.quote{text-align:center;margin-top:30px;font-style:italic;color:#94a3b8;font-size:1.05rem}
-.learn-more{
-  display:block;text-align:center;margin-top:24px;
-  color:var(--acc);font-weight:700;
-  text-decoration:none;font-size:1rem;
-}
+.quote{text-align:center;margin-top:1.875rem;font-style:italic;color:#94a3b8;font-size:1.05rem}
 
 .final-cta{
   background:linear-gradient(135deg,var(--acc),var(--acc2));
   text-align:center;color:#fff;
 }
-.final-cta h2{font-size:clamp(1.3rem,4vw,1.8rem);margin-bottom:12px}
-.final-cta p{opacity:.95;margin-bottom:30px;max-width:600px;margin-left:auto;margin-right:auto}
+.final-cta h2{font-size:clamp(1.3rem,4vw,1.8rem);margin-bottom:.75rem}
+.final-cta p{opacity:.95;margin-bottom:1.875rem;max-width:37.5rem;margin-left:auto;margin-right:auto}
 
 footer{
   background:#0f1117;color:#94a3b8;
-  text-align:center;padding:36px 20px;
+  text-align:center;padding:2.25rem 1.25rem;
   font-size:.9rem;line-height:1.7;
 }
 footer strong{color:#e2e8f0}
 footer a{color:var(--acc);text-decoration:none;font-weight:600}
 
-/* Install Banner */
 .install-banner{
-  display:none;position:fixed;bottom:20px;
-  left:20px;right:20px;
+  display:none;position:fixed;bottom:1.25rem;
+  left:1.25rem;right:1.25rem;
   background:#fff;color:#1d2433;
-  padding:14px 18px;border-radius:16px;
+  padding:.875rem 1.125rem;border-radius:1rem;
   box-shadow:0 20px 50px rgba(0,0,0,.3);
-  z-index:1000;align-items:center;gap:12px;
-  max-width:440px;margin:0 auto;
+  z-index:1000;align-items:center;gap:.75rem;
+  max-width:27.5rem;margin:0 auto;
   border:1px solid #e2e8f0;
 }
 .install-banner.show{display:flex}
 .install-banner .ib-icon{font-size:1.8rem;flex-shrink:0}
 .install-banner .ib-text{flex:1;font-size:.88rem;line-height:1.4}
-.install-banner .ib-text strong{display:block;color:var(--acc);font-size:.95rem;margin-bottom:2px}
+.install-banner .ib-text strong{display:block;color:var(--acc);font-size:.95rem;margin-bottom:.125rem}
 .install-banner .ib-btn{
   background:var(--acc);color:#fff;
-  padding:10px 18px;border-radius:10px;
+  padding:.625rem 1.125rem;border-radius:.625rem;
   font-weight:600;cursor:pointer;
   font-family:inherit;font-size:.88rem;
   flex-shrink:0;border:0;
@@ -305,32 +358,67 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
 .install-banner .ib-close{
   background:none;border:0;color:#94a3b8;
   font-size:1.3rem;cursor:pointer;
-  padding:0 4px;font-family:inherit;
+  padding:0 .25rem;font-family:inherit;
 }
 
 @media(max-width:600px){
-  .hero{background-attachment:scroll;background-position:center 30%;padding:80px 16px 50px}
-  .stats{grid-template-columns:1fr;gap:12px}
-  .btn-3d{padding:16px 40px;font-size:1.05rem}
-  .btn-install{padding:13px 24px;font-size:.92rem}
-  .top-controls{top:10px;right:10px;gap:5px}
-  .pill button{padding:5px 9px;font-size:.7rem}
-  .install-banner{left:12px;right:12px;bottom:12px}
+  .hero{background-attachment:scroll;background-position:center 30%;padding:5rem 1rem 3.125rem}
+  .stats{grid-template-columns:1fr;gap:.75rem}
+  .btn-3d{padding:1rem 2.5rem;font-size:1.05rem}
+  .btn-install{padding:.8125rem 1.5rem;font-size:.92rem}
+  .top-controls{top:.625rem;right:.625rem;gap:.3125rem}
+  .pill button{padding:.3125rem .5625rem;font-size:.7rem}
+  .install-banner{left:.75rem;right:.75rem;bottom:.75rem}
+  .text-size-panel{top:3.75rem;right:.625rem;left:.625rem;min-width:0}
 }
 </style>
 </head>
 <body>
 
-<div class="lang-switch top-controls">
+<!-- ============================================ -->
+<!-- الشريط العلوي -->
+<!-- ============================================ -->
+<div class="top-controls">
   <div class="pill">
     <button onclick="setLang('fr')" data-lang="fr">🇫🇷 FR</button>
     <button onclick="setLang('ar')" data-lang="ar">🇩🇿 AR</button>
     <button onclick="setLang('en')" data-lang="en">🇬🇧 EN</button>
   </div>
+  <div class="pill">
+    <button class="ctrl-btn" onclick="toggleTextSizePanel()" title="Taille du texte" id="text-size-btn">🅰️</button>
+  </div>
 </div>
 
 <!-- ============================================ -->
-<!-- HERO — صورة المدرسة كخلفية -->
+<!-- لوحة حجم النص -->
+<!-- ============================================ -->
+<div class="text-size-panel" id="text-size-panel">
+  <div class="tsp-header">
+    <strong id="tsp-title">Taille du texte</strong>
+    <button class="tsp-close" onclick="closeTextSizePanel()">×</button>
+  </div>
+  <div class="tsp-list">
+    <button class="tsp-btn" data-text-size-btn="small" onclick="setTextSize('small')">
+      <span>🅰️- <span id="ts-small-label">Petit</span></span>
+      <span class="tsp-label">14px</span>
+    </button>
+    <button class="tsp-btn" data-text-size-btn="normal" onclick="setTextSize('normal')">
+      <span>🅰️ <span id="ts-normal-label">Normal</span></span>
+      <span class="tsp-label">16px</span>
+    </button>
+    <button class="tsp-btn" data-text-size-btn="large" onclick="setTextSize('large')">
+      <span>🅰️+ <span id="ts-large-label">Grand</span></span>
+      <span class="tsp-label">19px</span>
+    </button>
+    <button class="tsp-btn" data-text-size-btn="xlarge" onclick="setTextSize('xlarge')">
+      <span>🅰️++ <span id="ts-xlarge-label">Très grand</span></span>
+      <span class="tsp-label">22px</span>
+    </button>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- HERO -->
 <!-- ============================================ -->
 <section class="hero">
   <div class="logo-3d">🎓</div>
@@ -359,7 +447,7 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
 </section>
 
 <!-- ============================================ -->
-<!-- À PROPOS -->
+<!-- ABOUT -->
 <!-- ============================================ -->
 <section class="about">
   <div class="about-inner">
@@ -385,8 +473,8 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
       <div class="feature"><span class="icon">📴</span><h3 id="f2-title">Hors ligne</h3><p id="f2-desc">Fonctionne sans Internet.</p></div>
       <div class="feature"><span class="icon">🌍</span><h3 id="f3-title">3 langues</h3><p id="f3-desc">FR / AR / EN.</p></div>
       <div class="feature"><span class="icon">🔎</span><h3 id="f4-title">Recherche</h3><p id="f4-desc">Trouvez tout en secondes.</p></div>
-      <div class="feature"><span class="icon">🎨</span><h3 id="f5-title">Thèmes</h3><p id="f5-desc">6 couleurs, mode sombre.</p></div>
-      <div class="feature"><span class="icon">💯</span><h3 id="f6-title">100% gratuit</h3><p id="f6-desc">Par des étudiants.</p></div>
+      <div class="feature"><span class="icon">🎨</span><h3 id="f5-title">9 thèmes</h3><p id="f5-desc">9 couleurs, mode sombre.</p></div>
+      <div class="feature"><span class="icon">🅰️</span><h3 id="f7-title">Taille du texte</h3><p id="f7-desc">Ajustez la lecture.</p></div>
     </div>
   </div>
 </section>
@@ -398,7 +486,7 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
   <div class="gallery-inner">
     <h2 id="gallery-title">📸 Découvrir l'école</h2>
     <div class="gallery-grid">
-      <div class="gallery-item"><img src="enstp-entrance.jpg" loading="lazy" alt="Entrée"><div class="cap" id="cap1">L'entrée</div></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80" loading="lazy" alt="ENSTP"><div class="cap" id="cap1">L'ENSTP</div></div>
       <div class="gallery-item"><img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80" loading="lazy" alt="Étudiants"><div class="cap" id="cap2">Étudiants</div></div>
       <div class="gallery-item"><img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&q=80" loading="lazy" alt="Laboratoires"><div class="cap" id="cap3">Laboratoires</div></div>
       <div class="gallery-item"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&q=80" loading="lazy" alt="TP"><div class="cap" id="cap4">Travaux pratiques</div></div>
@@ -425,7 +513,7 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
     <div class="stats">
       <div class="stat"><b>100%</b><span id="team-stat1">Gratuit</span></div>
       <div class="stat"><b>3</b><span id="team-stat2">Langues</span></div>
-      <div class="stat"><b>13</b><span id="team-stat3">Rubriques</span></div>
+      <div class="stat"><b>14</b><span id="team-stat3">Rubriques</span></div>
     </div>
     <p class="quote" id="team-quote">« Ne jamais rester sans savoir quoi faire. »</p>
   </div>
@@ -444,11 +532,10 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
 
 <footer>
   <p><strong>Guide de survie ENSTP</strong> — Un projet des étudiants de 1ère année Ingénieur,<br>Groupe 2 — Département Infrastructures de Base (منشآت قاعدية) — Promotion 2024/2025.</p>
-  <p style="margin-top:10px">100% gratuit · 3 langues · Bénévole · Hors ligne</p>
-  <p style="margin-top:8px"><a href="guide.html">Accéder au guide →</a></p>
+  <p style="margin-top:.625rem">100% gratuit · 3 langues · Bénévole · Hors ligne</p>
+  <p style="margin-top:.5rem"><a href="guide.html">Accéder au guide →</a></p>
 </footer>
 
-<!-- Install Banner -->
 <div class="install-banner" id="install-banner">
   <span class="ib-icon">📱</span>
   <div class="ib-text">
@@ -460,9 +547,6 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
 </div>
 
 <script>
-// ============================================
-// نصوص 3 لغات
-// ============================================
 const LANG_DATA_INDEX = {
   fr: {
     heroTitle: "École Nationale Supérieure<br>des Travaux Publics",
@@ -478,10 +562,10 @@ const LANG_DATA_INDEX = {
     f2Title: "Hors ligne", f2Desc: "Fonctionne sans Internet.",
     f3Title: "3 langues", f3Desc: "FR / AR / EN.",
     f4Title: "Recherche", f4Desc: "Trouvez tout en secondes.",
-    f5Title: "Thèmes", f5Desc: "6 couleurs, mode sombre.",
-    f6Title: "100% gratuit", f6Desc: "Par des étudiants.",
+    f5Title: "9 thèmes", f5Desc: "9 couleurs, mode sombre.",
+    f7Title: "Taille du texte", f7Desc: "Ajustez la lecture.",
     galleryTitle: "📸 Découvrir l'école",
-    cap1: "L'entrée", cap2: "Étudiants", cap3: "Laboratoires", cap4: "TP",
+    cap1: "L'ENSTP", cap2: "Étudiants", cap3: "Laboratoires", cap4: "TP",
     teamTitle: "👥 Qui sommes-nous ?",
     teamP1: "Guide de survie ENSTP est un projet étudiant, à but non lucratif, né d'un constat simple : chaque année, des centaines de nouveaux étudiants arrivent à l'ENSTP sans savoir où aller.",
     teamP2: "Nous sommes des étudiants de 1ère année Ingénieur — Groupe 2, département Infrastructures de Base (منشآت قاعدية), promotion 2024/2025.",
@@ -491,7 +575,9 @@ const LANG_DATA_INDEX = {
     finalTitle: "Prêt à découvrir ton guide ?",
     finalP: "Tout ce dont tu as besoin pour ton premier jour.",
     finalBtn: "ابدأ",
-    ibTitle: "Installer l'app", ibDesc: "Accès rapide, hors ligne", ibBtn: "Installer"
+    ibTitle: "Installer l'app", ibDesc: "Accès rapide, hors ligne", ibBtn: "Installer",
+    tspTitle: "Taille du texte",
+    tsSmall: "Petit", tsNormal: "Normal", tsLarge: "Grand", tsXLarge: "Très grand"
   },
   ar: {
     heroTitle: "المدرسة الوطنية العليا<br>للأشغال العمومية",
@@ -507,10 +593,10 @@ const LANG_DATA_INDEX = {
     f2Title: "بدون إنترنت", f2Desc: "يعمل بدون إنترنت.",
     f3Title: "3 لغات", f3Desc: "فرنسي، عربي، إنجليزي.",
     f4Title: "بحث ذكي", f4Desc: "جد كل شيء بسرعة.",
-    f5Title: "ألوان", f5Desc: "6 ألوان، وضع ليلي.",
-    f6Title: "مجاني 100%", f6Desc: "من الطلاب.",
+    f5Title: "9 ألوان", f5Desc: "9 ألوان، وضع ليلي.",
+    f7Title: "حجم النص", f7Desc: "اضبط القراءة.",
     galleryTitle: "📸 اكتشف المدرسة",
-    cap1: "المدخل", cap2: "طلاب", cap3: "مخابر", cap4: "تطبيقي",
+    cap1: "المدرسة", cap2: "طلاب", cap3: "مخابر", cap4: "تطبيقي",
     teamTitle: "👥 من نحن؟",
     teamP1: "دليل البقاء ENSTP مشروع طلابي غير ربحي، وُلد من ملاحظة بسيطة: كل سنة، مئات الطلاب الجدد يصلون إلى المدرسة دون معرفة أين يذهبون.",
     teamP2: "نحن طلاب السنة الأولى مهندس — المجموعة 2، قسم المنشآت القاعدية، دفعة 2024/2025.",
@@ -520,7 +606,9 @@ const LANG_DATA_INDEX = {
     finalTitle: "جاهز لاكتشاف دليلك؟",
     finalP: "كل ما تحتاجه ليومك الأول.",
     finalBtn: "ابدأ",
-    ibTitle: "ثبّت التطبيق", ibDesc: "وصول سريع، بدون إنترنت", ibBtn: "تثبيت"
+    ibTitle: "ثبّت التطبيق", ibDesc: "وصول سريع، بدون إنترنت", ibBtn: "تثبيت",
+    tspTitle: "حجم النص",
+    tsSmall: "صغير", tsNormal: "عادي", tsLarge: "كبير", tsXLarge: "كبير جداً"
   },
   en: {
     heroTitle: "National Higher School<br>of Public Works",
@@ -535,4 +623,117 @@ const LANG_DATA_INDEX = {
     f1Title: "Installable", f1Desc: "Install in one click.",
     f2Title: "Offline", f2Desc: "Works without Internet.",
     f3Title: "3 languages", f3Desc: "FR / AR / EN.",
-    f4Title: "Smart search", f4
+    f4Title: "Smart search", f4Desc: "Find anything fast.",
+    f5Title: "9 themes", f5Desc: "9 colors, dark mode.",
+    f7Title: "Text size", f7Desc: "Adjust reading.",
+    galleryTitle: "📸 Discover the school",
+    cap1: "ENSTP", cap2: "Students", cap3: "Labs", cap4: "Practical work",
+    teamTitle: "👥 Who are we?",
+    teamP1: "ENSTP Survival Guide is a student project, non-profit, born from a simple observation: every year, hundreds of new students arrive at ENSTP without knowing where to go.",
+    teamP2: "We are 1st year Engineering students — Group 2, Infrastructures de Base department, promotion 2024/2025.",
+    teamP3: "Our mission: help every new student integrate quickly and never stay alone facing a problem.",
+    teamStat1: "Free", teamStat2: "Languages", teamStat3: "Sections",
+    teamQuote: "\"Never stay without knowing what to do.\"",
+    finalTitle: "Ready to discover your guide?",
+    finalP: "Everything you need for your first day.",
+    finalBtn: "Start",
+    ibTitle: "Install the app", ibDesc: "Fast access, offline", ibBtn: "Install",
+    tspTitle: "Text size",
+    tsSmall: "Small", tsNormal: "Normal", tsLarge: "Large", tsXLarge: "X-Large"
+  }
+};
+
+function setLang(lang) {
+  localStorage.setItem('lang', lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  const d = LANG_DATA_INDEX[lang];
+  if (!d) return;
+
+  const map = {
+    'hero-title': 'heroTitle', 'hero-subtitle': 'heroSubtitle', 'hero-tagline': 'heroTagline',
+    'hero-btn': 'heroBtn', 'install-text-hero': 'installBtn',
+    'about-title': 'aboutTitle', 'about-p1': 'aboutP1', 'about-p2': 'aboutP2',
+    'stat1': 'stat1', 'stat2': 'stat2', 'stat3': 'stat3',
+    'features-title': 'featuresTitle',
+    'f1-title': 'f1Title', 'f1-desc': 'f1Desc',
+    'f2-title': 'f2Title', 'f2-desc': 'f2Desc',
+    'f3-title': 'f3Title', 'f3-desc': 'f3Desc',
+    'f4-title': 'f4Title', 'f4-desc': 'f4Desc',
+    'f5-title': 'f5Title', 'f5-desc': 'f5Desc',
+    'f7-title': 'f7Title', 'f7-desc': 'f7Desc',
+    'gallery-title': 'galleryTitle',
+    'cap1': 'cap1', 'cap2': 'cap2', 'cap3': 'cap3', 'cap4': 'cap4',
+    'team-title': 'teamTitle', 'team-p1': 'teamP1', 'team-p2': 'teamP2', 'team-p3': 'teamP3',
+    'team-stat1': 'teamStat1', 'team-stat2': 'teamStat2', 'team-stat3': 'teamStat3',
+    'team-quote': 'teamQuote',
+    'final-title': 'finalTitle', 'final-p': 'finalP', 'final-btn': 'finalBtn',
+    'ib-title': 'ibTitle', 'ib-desc': 'ibDesc', 'ib-btn': 'ibBtn',
+    'tsp-title': 'tspTitle',
+    'ts-small-label': 'tsSmall', 'ts-normal-label': 'tsNormal',
+    'ts-large-label': 'tsLarge', 'ts-xlarge-label': 'tsXLarge'
+  };
+
+  Object.keys(map).forEach(id => {
+    const el = document.getElementById(id);
+    if (el && d[map[id]]) {
+      if (id === 'hero-title') el.innerHTML = d[map[id]];
+      else el.textContent = d[map[id]];
+    }
+  });
+
+  document.querySelectorAll('[data-lang]').forEach(b => {
+    b.classList.toggle('on', b.dataset.lang === lang);
+  });
+}
+
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('install-btn-hero').classList.add('show');
+  setTimeout(() => {
+    if (!localStorage.getItem('installDismissed') && !isInstalled()) {
+      document.getElementById('install-banner').classList.add('show');
+    }
+  }, 3000);
+});
+
+function installApp() {
+  if (!deferredPrompt) {
+    alert('Pour installer :\n\n• Android : Menu ⋮ → "Installer l\'application"\n• iPhone : Partager 📤 → "Sur l\'écran d\'accueil"');
+    return;
+  }
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then((choice) => {
+    if (choice.outcome === 'accepted') {
+      document.getElementById('install-btn-hero').classList.remove('show');
+      document.getElementById('install-banner').classList.remove('show');
+    }
+    deferredPrompt = null;
+  });
+}
+
+function dismissBanner() {
+  document.getElementById('install-banner').classList.remove('show');
+  localStorage.setItem('installDismissed', '1');
+}
+
+function isInstalled() {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true;
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js', { scope: './' })
+      .then(() => console.log('✅ SW'))
+      .catch((err) => console.log('❌ SW:', err));
+  });
+}
+
+setLang(localStorage.getItem('lang') || 'fr');
+if (typeof applyTextSize === 'function') applyTextSize();
+</script>
+</body>
+</html>
