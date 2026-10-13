@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ENSTP — Accueil</title>
+<style>
+:root{--orange:#f97316;--orange-2:#ea580c;--orange-3:#c2410c;--orange-soft:#fff7ed;--orange-light:#ffedd5;--bg:#f8f9fa;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--shadow-sm:0 1px 2px rgba(15,23,42,.04);--shadow-md:0 12px 32px rgba(15,23,42,.12);--shadow-orange:0 8px 24px rgba(249,115,22,.25);--shadow-orange-lg:0 12px 32px rgba(249,115,22,.35);--radius-full:999px;--radius-l:20px;--transition:all .3s cubic-bezier(.4,0,.2,1);}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;min-height:100vh;-webkit-font-smoothing:antialiased}
+html[dir="rtl"] body{font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}
+img{max-width:100%;height:auto;display:block}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* LANG SWITCH */
+.lang-switch{position:fixed;top:20px;right:20px;z-index:100;display:flex;gap:2px;background:rgba(255,255,255,.95);backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);padding:4px;border-radius:var(--radius-full);border:1px solid rgba(255,255,255,.3);box-shadow:0 4px 20px rgba(0,0,0,.15);animation:fadeInDown .5s ease-out}
+.lang-switch button{background:transparent;color:var(--ink);padding:8px 14px;border-radius:var(--radius-full);font-size:.78rem;font-weight:700;cursor:pointer;transition:var(--transition);font-family:inherit}
+.lang-switch button:hover{background:var(--orange-soft);color:var(--orange)}
+.lang-switch button.on{background:linear-gradient(135deg,var(--orange),var(--orange-2));color:#fff;box-shadow:var(--shadow-orange)}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:100px 24px 60px;text-align:center;background:linear-gradient(180deg,rgba(15,23,42,.55),rgba(15,23,42,.8)),url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80') center/cover no-repeat;background-attachment:fixed;color:#fff;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(249,115,22,.2),transparent 60%);z-index:0}
+.hero>*{position:relative;z-index:1}
+
+.logo{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#fff,#f1f5f9);display:flex;align-items:center;justify-content:center;font-size:3rem;margin-bottom:28px;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:float 4s ease-in-out infinite;flex-shrink:0}
+
+.hero h1{font-size:clamp(1.6rem,5.5vw,3rem);font-weight:900;margin-bottom:14px;line-height:1.15;letter-spacing:-.03em;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.5);max-width:900px;animation:fadeInUp .8s ease-out .1s both}
+.hero .subtitle{font-size:clamp(1rem,3.5vw,1.3rem);opacity:.95;margin-bottom:8px;font-weight:400;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5);animation:fadeInUp .8s ease-out .2s both}
+.hero .tagline{font-size:clamp(.88rem,3vw,1.05rem);opacity:.85;margin-bottom:36px;font-style:italic;max-width:640px;margin-left:auto;margin-right:auto;line-height:1.6;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5);animation:fadeInUp .8s ease-out .3s both}
+
+.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:44px;max-width:760px;margin-left:auto;margin-right:auto;animation:fadeInUp .8s ease-out .4s both}
+.badge{background:rgba(255,255,255,.15);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);padding:8px 16px;border-radius:var(--radius-full);font-size:.8rem;font-weight:600;color:#fff;transition:var(--transition)}
+.badge:hover{background:rgba(255,255,255,.25);transform:translateY(-2px)}
+
+.start-btn{display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--orange-2);padding:18px 52px;border-radius:var(--radius-full);font-size:1.15rem;font-weight:900;text-decoration:none;box-shadow:0 15px 40px rgba(0,0,0,.35),0 4px 12px rgba(0,0,0,.2);transition:var(--transition);border:0;cursor:pointer;font-family:inherit;animation:fadeInUp .8s ease-out .5s both}
+.start-btn:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.45);color:var(--orange-3)}
+.start-btn span{display:inline-block;transition:transform .3s}
+.start-btn:hover span{transform:translateX(6px)}
+html[dir="rtl"] .start-btn span{transform:scaleX(-1)}
+html[dir="rtl"] .start-btn:hover span{transform:scaleX(-1) translateX(6px)}
+
+.scroll-down{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:1.4rem;animation:float 2.5s ease-in-out infinite;z-index:1}
+
+@media(max-width:600px){
+  .hero{background-attachment:scroll;padding:80px 18px 50px}
+  .logo{width:90px;height:90px;font-size:2.5rem}
+  .start-btn{padding:16px 42px;font-size:1.05rem}
+  .lang-switch{top:14px;right:14px}
+  .lang-switch button{padding:6px 10px;font-size:.72rem}
+}
+</style>
+</head>
+<body>
+
+<div class="lang-switch">
+  <button onclick="setLang('fr')" data-lang="fr">🇫🇷 FR</button>
+  <button onclick="setLang('ar')" data-lang="ar">🇩🇿 AR</button>
+  <button onclick="setLang('en')" data-lang="en">🇬🇧 EN</button>
+</div>
+
+<section class="hero">
+  <div class="logo">🎓</div>
+  <h1 id="hero-title">École Nationale Supérieure<br>des Travaux Publics</h1>
+  <p class="subtitle" id="hero-subtitle">ENSTP — Alger, Garidi Kouba</p>
+  <p class="tagline" id="hero-tagline">« Former les ingénieurs qui construisent l'Algérie de demain »</p>
+
+  <div class="badges">
+    <span class="badge">🏗️ Génie Civil</span>
+    <span class="badge">🛣️ Routes</span>
+    <span class="badge">🌉 Ouvrages d'art</span>
+    <span class="badge">🏛️ Infrastructures de Base</span>
+    <span class="badge">🔩 Matériaux & Structures</span>
+  </div>
+
+  <a href="guide.html" class="start-btn">
+    <span id="hero-btn">ابدأ</span> <span>→</span>
+  </a>
+
+  <div class="scroll-down">↓</div>
+</section>
+
+<script>
+const LANG = {
+  fr: {
+    title: "École Nationale Supérieure<br>des Travaux Publics",
+    subtitle: "ENSTP — Alger, Garidi Kouba",
+    tagline: "« Former les ingénieurs qui construisent l'Algérie de demain »",
+    btn: "ابدأ"
+  },
+  ar: {
+    title: "المدرسة الوطنية العليا<br>للأشغال العمومية",
+    subtitle: "ENSTP — الجزائر، قاريدي القبة",
+    tagline: "« نُكوّن المهندسين الذين يبنون جزائر الغد »",
+    btn: "ابدأ"
+  },
+  en: {
+    title: "National Higher School<br>of Public Works",
+    subtitle: "ENSTP — Algiers, Garidi Kouba",
+    tagline: "\"Training the engineers who build tomorrow's Algeria\"",
+    btn: "Start"
+  }
+};
+
+function setLang(lang) {
+  localStorage.setItem('lang', lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  const d = LANG[lang];
+  if (!d) return;
+  document.getElementById('hero-title').innerHTML = d.title;
+  document.getElementById('hero-subtitle').textContent = d.subtitle;
+  document.getElementById('hero-tagline').textContent = d.tagline;
+  document.getElementById('hero-btn').textContent = d.btn;
+  document.querySelectorAll('[data-lang]').forEach(b => {
+    b.classList.toggle('on', b.dataset.lang === lang);
+  });
+}
+
+setLang(localStorage.getItem('lang') || 'fr');
+</script>
+
+</body>
+</html>
