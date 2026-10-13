@@ -1,971 +1,806 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="دليل تفاعلي للإقامة الجامعية قاريدي 1 - ابحث عن أي غرفة أو مكان">
-<meta name="theme-color" content="#1B3BB3">
-<title>دليل قاريدي 1 · نسخة محسّنة</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ENSTP — Guide de survie</title>
+
+<script src="text-size.js"></script>
+
+<meta name="theme-color" content="#f97316">
+<meta name="description" content="Guide de survie pour les nouveaux étudiants de l'ENSTP — 3 langues, hors ligne, gratuit.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ENSTP Guide">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+
 <style>
 :root{
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
-  --bg:#EEF1F6; --card:#FFFFFF; --ink:#0F1B3D; --muted:#5B6785; --line:#D5DBE8;
-  --land:#E6ECDA; --roadc:#C6CCBA; --roadf:#FAF8F1; --path:#FFFFFF;
-  --bres:#C9D3F2; --bsrv:#F4DDB8; --bsrvs:#B07A2B; --bgry:#D6D8DE; --bgrys:#9097A8;
-  --tree:#7FA46B; --field:#E3D8B5; --lbl:#0F1B3D; --lblh:#fff;
-  --sign:#1B3BB3; --signText:#1B3BB3; --amber:#FFB81C; --soft:#E4EAFB;
-  --warn:#8A4B00; --warnBg:#FFF1D6; --success:#1A7F37; --successBg:#DDFBE5;
-  --shadow:0 2px 8px rgba(15,27,61,.08);
+  --orange:#f97316;
+  --orange-2:#ea580c;
+  --orange-3:#c2410c;
+  --orange-soft:#fff7ed;
+  --orange-light:#ffedd5;
+  --bg:#f8f9fa;
+  --card:#ffffff;
+  --ink:#0f172a;
+  --ink-2:#1e293b;
+  --mut:#64748b;
+  --mut-2:#94a3b8;
+  --line:#e2e8f0;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.04);
+  --shadow:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+  --shadow-md:0 4px 12px rgba(15,23,42,.08),0 2px 4px rgba(15,23,42,.04);
+  --shadow-lg:0 12px 32px rgba(15,23,42,.12),0 4px 8px rgba(15,23,42,.06);
+  --shadow-orange:0 8px 24px rgba(249,115,22,.25);
+  --shadow-orange-lg:0 12px 32px rgba(249,115,22,.35);
+  --radius-m:16px;
+  --radius-l:20px;
+  --radius-xl:28px;
+  --radius-full:999px;
+  --transition:all .3s cubic-bezier(.4,0,.2,1);
 }
-[data-theme="dark"]{
-  --land:#1B271F; --roadc:#0F1712; --roadf:#3B473E; --path:#7A8A7E;
-  --bres:#2C3D7A; --bsrv:#5A4426; --bsrvs:#D9A24C; --bgry:#3A3F4D; --bgrys:#6E7690;
-  --tree:#3F6A45; --field:#4A4430; --lbl:#EAF0FF; --lblh:#0D1326;
-  --bg:#0D1326; --card:#162041; --ink:#EAF0FF; --muted:#9AA8CC; --line:#2A3866;
-  --sign:#3F61E0; --signText:#8FA8FF; --soft:#1F2C5A;
-  --warn:#FFD28A; --warnBg:#3A2A0A; --success:#7EE787; --successBg:#1A3A24;
-  --shadow:0 2px 8px rgba(0,0,0,.4);
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);color:var(--ink);
+  overflow-x:hidden;min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:-.01em;
 }
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif;line-height:1.6}
-button,input,select{font:inherit;color:inherit}
-button{cursor:pointer;transition:all .15s ease}
-button:active{transform:scale(.97)}
-:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
-.wrap{max-width:600px;margin:0 auto;padding:0 14px 40px}
+img{max-width:100%;height:auto;display:block}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
 
-/* Header */
-header{background:linear-gradient(135deg,var(--sign) 0%,#2a4dc8 100%);color:#fff;margin:0 -14px;padding:16px 18px 18px;border-radius:0 0 20px 20px;box-shadow:var(--shadow)}
-header h1{margin:0;font-size:26px;font-weight:700;letter-spacing:-.5px}
-header p{margin:4px 0 0;font-size:14px;opacity:.9}
-.hrow{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.header-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.icon-btn{background:rgba(255,255,255,.18);border:0;color:#fff;width:38px;height:38px;border-radius:10px;font-size:18px;display:grid;place-items:center}
-.icon-btn:hover{background:rgba(255,255,255,.3)}
-.lang{display:flex;gap:3px;background:rgba(255,255,255,.15);padding:3px;border-radius:12px;margin-top:10px}
-.lang button{flex:1;border:0;background:transparent;color:#fff;border-radius:9px;padding:8px 6px;font-size:14px;font-weight:700}
-.lang button[aria-pressed="true"]{background:#fff;color:#1B3BB3}
+/* ============================================
+   Lang Switch
+   ============================================ */
+.lang-switch{
+  position:fixed;top:20px;right:20px;z-index:100;
+  display:flex;gap:2px;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  padding:4px;border-radius:var(--radius-full);
+  border:1px solid rgba(255,255,255,.3);
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  animation:fadeInDown .5s ease-out;
+}
+.lang-switch button{
+  background:transparent;
+  color:var(--ink);
+  padding:8px 14px;
+  border-radius:var(--radius-full);
+  font-size:.78rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:var(--transition);
+  font-family:inherit;
+  letter-spacing:.02em;
+}
+.lang-switch button:hover{background:var(--orange-soft);color:var(--orange)}
+.lang-switch button.on{
+  background:linear-gradient(135deg,var(--orange),var(--orange-2));
+  color:#fff;
+  box-shadow:var(--shadow-orange);
+}
 
-/* Controls */
-.controls{display:flex;flex-direction:column;gap:10px;margin:16px 0 10px}
-.row{display:flex;gap:8px;align-items:center}
-.row label{font-size:14px;color:var(--muted);white-space:nowrap}
-select,input{flex:1;min-width:0;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px}
-select:focus,input:focus{border-color:var(--sign);outline:0}
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 
-/* Tabs */
-.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--soft);border-radius:12px;padding:4px;gap:4px}
-.tabs button{border:0;background:transparent;border-radius:9px;padding:10px 0;font-weight:500;font-size:15px;color:var(--muted)}
-.tabs button[aria-selected="true"]{background:var(--card);color:var(--signText);font-weight:700;box-shadow:0 1px 3px rgba(15,27,61,.15)}
+/* ============================================
+   HERO
+   ============================================ */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:100px 24px 60px;
+  text-align:center;
+  background:
+    linear-gradient(180deg,rgba(15,23,42,.55) 0%,rgba(15,23,42,.75) 100%),
+    url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80') center/cover no-repeat;
+  background-attachment:fixed;
+  color:#fff;
+  overflow:hidden;
+}
 
-/* Panel */
-.panel{margin-top:12px;animation:fadeIn .25s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{display:flex;align-items:center;gap:7px;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:8px 14px 8px 12px;font-size:14px;box-shadow:var(--shadow)}
-.chip:hover{border-color:var(--sign)}
-.chip[aria-pressed="true"]{background:var(--sign);border-color:var(--sign);color:#fff}
-.chip .e{font-size:17px}
+.hero::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 50% 40%,rgba(249,115,22,.2),transparent 60%);
+  z-index:0;
+}
+.hero>*{position:relative;z-index:1}
 
-/* Door plate */
-.plate{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1B3BB3;border:1.5px solid #C9D2EE;border-radius:7px;padding:3px 9px;direction:ltr;line-height:1;box-shadow:0 1px 2px rgba(15,27,61,.12)}
-.plate .L{font-size:28px;font-weight:700}
-.plate .R{display:flex;flex-direction:column;align-items:flex-start;gap:1px}
-.plate .R i{font-style:normal;font-size:10px;font-weight:700;letter-spacing:.04em}
-.plate .R b{font-size:16px;font-weight:700}
-.plate.lg{padding:6px 14px;gap:10px;border-radius:10px}
-.plate.lg .L{font-size:48px}
-.plate.lg .R i{font-size:15px}
-.plate.lg .R b{font-size:26px}
-button.plate{cursor:pointer}
-button.plate[aria-pressed="true"]{background:var(--sign);color:#fff;border-color:var(--sign)}
+/* Logo */
+.logo{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ffffff,#f1f5f9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:3rem;
+  margin-bottom:28px;
+  box-shadow:0 20px 60px rgba(0,0,0,.4),0 8px 20px rgba(0,0,0,.25);
+  animation:float 4s ease-in-out infinite;
+  flex-shrink:0;
+}
 
-.blocks{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.blocks .bt{background:#fff;color:#1B3BB3;border:2px solid #C9D2EE;border-radius:10px;font-size:24px;font-weight:700;padding:8px 0;font-family:Arial,sans-serif}
-.blocks .bt:hover{border-color:var(--sign)}
-.blocks .bt[aria-pressed="true"]{background:var(--sign);color:#fff;border-color:var(--sign)}
-.floors{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.numrow{display:flex;gap:8px;margin-top:12px}
-.btn{background:var(--sign);color:#fff;border:0;border-radius:10px;padding:0 20px;font-weight:700;display:flex;align-items:center;gap:6px}
-.btn:hover{background:#2a4dc8}
-.msg{margin-top:10px;background:var(--warnBg);color:var(--warn);border-radius:10px;padding:10px 12px;font-size:14px;border-inline-start:4px solid var(--warn)}
-.msg.success{background:var(--successBg);color:var(--success);border-inline-start-color:var(--success)}
+/* Title */
+.hero h1{
+  font-size:clamp(1.6rem,5.5vw,3rem);
+  font-weight:900;
+  margin-bottom:14px;
+  line-height:1.15;
+  letter-spacing:-.03em;
+  color:#fff;
+  text-shadow:0 4px 30px rgba(0,0,0,.5);
+  max-width:900px;
+  animation:fadeInUp .8s ease-out .1s both;
+}
 
-/* Map */
-.mapcard{margin-top:14px;background:var(--card);border-radius:16px;overflow:hidden;border:1px solid var(--line);position:relative;box-shadow:var(--shadow)}
-.scroller{direction:ltr;overflow:auto;aspect-ratio:1/1;max-height:70vh;width:100%;-webkit-overflow-scrolling:touch;background:var(--land)}
-.stage{position:relative;width:100%;aspect-ratio:705/596;direction:ltr}
-.stage>img{position:absolute;inset:0;width:100%;height:100%;display:none;user-select:none;-webkit-user-drag:none}
-.stage.sat>img{display:block}
-.stage.sat .basemap{display:none}
-.stage svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.land{fill:var(--land)}
-.rcase{fill:none;stroke:var(--roadc);stroke-width:12;stroke-linecap:round;stroke-linejoin:round}
-.rfill{fill:none;stroke:var(--roadf);stroke-width:8.5;stroke-linecap:round;stroke-linejoin:round}
-.pth{stroke:var(--path);stroke-width:1.6;stroke-dasharray:4 3;fill:none;vector-effect:non-scaling-stroke;opacity:.9}
-.bres{fill:var(--bres);stroke:#1B3BB3;stroke-width:1.6;stroke-linejoin:round}
-.bsrv{fill:var(--bsrv);stroke:var(--bsrvs);stroke-width:1.4;stroke-linejoin:round}
-.bgry{fill:var(--bgry);stroke:var(--bgrys);stroke-width:1.2;stroke-linejoin:round}
-.tree{fill:var(--tree);opacity:.8}
-.field{fill:var(--field);stroke:var(--bgrys);stroke-width:1;stroke-dasharray:5 4}
-.cb{fill:#D98F78;stroke:#fff;stroke-width:1.5}
-.cf{fill:#5FA862;stroke:#fff;stroke-width:1.5}
-.cline{fill:none;stroke:#fff;stroke-width:1.2;opacity:.9}
-.lb{position:absolute;transform:translate(-50%,-50%);font-size:11.5px;font-weight:700;color:var(--lbl);white-space:nowrap;pointer-events:none;text-shadow:0 0 3px var(--lblh),0 0 3px var(--lblh),0 0 5px var(--lblh);unicode-bidi:plaintext;z-index:1}
-.stage.sat .lb{color:#fff;text-shadow:0 0 3px #000,0 0 5px #000}
-.route-case{fill:none;stroke:#0F1B3D;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
-.route-line{fill:none;stroke:var(--amber);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 10;animation:flow 1.1s linear infinite}
-@keyframes flow{to{stroke-dashoffset:-11}}
+.hero .subtitle{
+  font-size:clamp(1rem,3.5vw,1.3rem);
+  opacity:.95;
+  margin-bottom:8px;
+  font-weight:400;
+  color:#fff;
+  text-shadow:0 2px 10px rgba(0,0,0,.5);
+  animation:fadeInUp .8s ease-out .2s both;
+}
 
-/* Zoom */
-.zoom{position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:6px;z-index:5}
-.zoom button{width:40px;height:40px;border-radius:10px;border:0;background:#fff;color:#0F1B3D;font-size:20px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.35);padding:0;display:grid;place-items:center}
-.zoom button:hover{background:var(--amber)}
-.zoom button[aria-pressed="true"]{background:var(--amber)}
+.hero .tagline{
+  font-size:clamp(.88rem,3vw,1.05rem);
+  opacity:.85;
+  margin-bottom:36px;
+  font-style:italic;
+  max-width:640px;
+  margin-left:auto;
+  margin-right:auto;
+  line-height:1.6;
+  color:#fff;
+  text-shadow:0 2px 10px rgba(0,0,0,.5);
+  animation:fadeInUp .8s ease-out .3s both;
+}
 
-/* Compass + Scale */
-.compass{position:absolute;right:10px;top:10px;width:44px;height:44px;background:#fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.3);display:grid;place-items:center;font-size:22px;color:#1B3BB3;z-index:5;font-weight:700}
-.compass::before{content:'N';position:absolute;top:-16px;font-size:10px;font-weight:700;color:#1B3BB3}
-.scale{position:absolute;right:10px;bottom:10px;background:rgba(255,255,255,.92);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;color:#0F1B3D;display:flex;align-items:center;gap:5px;box-shadow:0 1px 4px rgba(0,0,0,.2);z-index:5}
-.scale::before{content:'';display:inline-block;width:44px;height:6px;border:2px solid #0F1B3D;border-top:0}
+/* Badges */
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:center;
+  margin-bottom:44px;
+  max-width:760px;
+  margin-left:auto;
+  margin-right:auto;
+  animation:fadeInUp .8s ease-out .4s both;
+}
+.badge{
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.25);
+  padding:8px 16px;
+  border-radius:var(--radius-full);
+  font-size:.8rem;
+  font-weight:600;
+  color:#fff;
+  transition:var(--transition);
+  cursor:default;
+}
+.badge:hover{
+  background:rgba(255,255,255,.25);
+  transform:translateY(-2px);
+}
 
-/* Pins */
-.pin{position:absolute;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;background:#fff;border:2.5px solid #1B3BB3;display:grid;place-items:center;padding:0;font-size:14px;line-height:1;box-shadow:0 2px 6px rgba(0,0,0,.4);z-index:2}
-.pin .cap{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;background:#1B3BB3;color:#fff;font-size:11.5px;font-weight:500;padding:3px 8px;border-radius:6px;display:none;unicode-bidi:plaintext;box-shadow:0 2px 6px rgba(0,0,0,.3)}
-.pin.on,.pin.start{z-index:4}
-.pin.on .cap,.pin.start .cap,.zoomed .pin .cap{display:block}
-.pin.on{background:var(--amber);border-color:#0F1B3D;transform:translate(-50%,-50%) scale(1.15)}
-.pin.on::before{content:"";position:absolute;inset:-10px;border-radius:50%;border:3px solid var(--amber);animation:ring 1.6s ease-out infinite}
-@keyframes ring{from{transform:scale(.6);opacity:1}to{transform:scale(1.3);opacity:0}}
-.pin.start{border-color:#fff;background:#0F1B3D;color:#fff}
-.pin.start .cap{background:#0F1B3D}
-.pin:hover{transform:translate(-50%,-50%) scale(1.1)}
-.bp{position:absolute;transform:translate(-50%,-50%);background:#fff;color:#1B3BB3;border:2px solid #1B3BB3;border-radius:8px;padding:2px 10px;font:700 16px Arial,sans-serif;box-shadow:0 2px 6px rgba(0,0,0,.4);z-index:3}
-.bp.on{background:var(--amber);color:#0F1B3D;border-color:#0F1B3D;z-index:4}
-.bp.start{background:#0F1B3D;color:#fff;border-color:#fff;z-index:4}
+/* Start Button */
+.start-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:#fff;
+  color:var(--orange-2);
+  padding:18px 52px;
+  border-radius:var(--radius-full);
+  font-size:1.15rem;
+  font-weight:900;
+  text-decoration:none;
+  box-shadow:0 15px 40px rgba(0,0,0,.35),0 4px 12px rgba(0,0,0,.2);
+  transition:var(--transition);
+  border:0;
+  cursor:pointer;
+  font-family:inherit;
+  letter-spacing:.02em;
+  animation:fadeInUp .8s ease-out .5s both;
+}
+.start-btn:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 50px rgba(0,0,0,.45),0 8px 20px rgba(0,0,0,.25);
+  color:var(--orange-3);
+}
+.start-btn span{
+  display:inline-block;
+  transition:transform .3s;
+}
+.start-btn:hover span{transform:translateX(6px)}
+html[dir="rtl"] .start-btn span{transform:scaleX(-1)}
+html[dir="rtl"] .start-btn:hover span{transform:scaleX(-1) translateX(6px)}
 
-/* Legend */
-.legend{display:flex;gap:14px;flex-wrap:wrap;padding:10px 12px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line)}
-.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-inline-end:5px;vertical-align:-1px}
+/* Scroll indicator */
+.scroll-down{
+  position:absolute;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  color:rgba(255,255,255,.6);
+  font-size:1.4rem;
+  animation:float 2.5s ease-in-out infinite;
+  z-index:1;
+}
 
-/* Route stats */
-.route-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0;padding:12px;background:var(--soft);border-radius:12px}
-.stat{text-align:center}
-.stat-value{font-size:18px;font-weight:700;color:var(--signText)}
-.stat-label{font-size:11px;color:var(--muted);margin-top:2px}
+/* ============================================
+   ABOUT
+   ============================================ */
+.about{
+  background:var(--card);
+  color:var(--ink);
+  padding:80px 24px;
+}
+.about-inner{
+  max-width:820px;
+  margin:0 auto;
+}
+.about h2{
+  font-size:clamp(1.4rem,4vw,2rem);
+  color:var(--orange-2);
+  margin-bottom:24px;
+  text-align:center;
+  font-weight:900;
+  letter-spacing:-.02em;
+}
+.about p{
+  font-size:1.02rem;
+  line-height:1.85;
+  color:var(--mut);
+  margin-bottom:16px;
+  text-align:justify;
+}
+.about p strong{color:var(--orange-2);font-weight:800}
 
-/* Result */
-.result{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
-.result h2{margin:0 0 4px;font-size:20px;display:flex;align-items:center;gap:8px}
-.result .sub{margin:0;color:var(--muted);font-size:14px}
-.result .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.action-btn{background:var(--soft);color:var(--signText);border:1.5px solid transparent;border-radius:10px;padding:8px 14px;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:6px}
-.action-btn:hover{border-color:var(--sign)}
-.empty{color:var(--muted);font-size:14.5px;text-align:center;padding:20px 10px}
-.empty::before{content:'🗺️';display:block;font-size:40px;margin-bottom:8px;opacity:.5}
-.photo{display:flex;gap:12px;align-items:flex-start;margin:12px 0}
-.photo img{width:100px;height:130px;object-fit:cover;border-radius:10px;border:1px solid var(--line);flex:none;box-shadow:var(--shadow)}
-.photo p{margin:0;font-size:14px;color:var(--muted)}
-.photo.big img{width:120px;height:150px}
-.gal{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
-.gal figure{margin:0}
-.gal img{width:100%;height:180px;object-fit:cover;border-radius:10px;border:1px solid var(--line);display:block;box-shadow:var(--shadow)}
-.gal figure:nth-child(odd):last-child{grid-column:1/-1}
-.gal figcaption{font-size:13px;color:var(--muted);margin-top:5px}
-ol.steps{list-style:none;margin:14px 0 0;padding:0;counter-reset:step}
-ol.steps li{position:relative;padding:0 0 16px;padding-inline-start:36px;font-size:15px;counter-increment:step}
-ol.steps li::before{content:"";position:absolute;inset-inline-start:10px;top:12px;bottom:-4px;width:2px;background:var(--line)}
-ol.steps li:last-child::before{display:none}
-ol.steps li::after{content:counter(step);position:absolute;inset-inline-start:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--card);border:2.5px solid var(--sign);color:var(--signText);font-size:11px;font-weight:700;display:grid;place-items:center}
-ol.steps li.end::after{background:var(--amber);border-color:#0F1B3D;color:#0F1B3D;content:"★"}
-.note{margin:8px 2px 0;font-size:12.5px;color:var(--muted);font-style:italic}
+/* Stats */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  max-width:700px;
+  margin:44px auto 0;
+  padding:0 10px;
+}
+.stat{
+  text-align:center;
+  background:var(--orange-soft);
+  padding:28px 14px;
+  border-radius:var(--radius-l);
+  border:1px solid var(--orange-light);
+  transition:var(--transition);
+}
+.stat:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-orange);
+}
+.stat b{
+  display:block;
+  font-size:2rem;
+  color:var(--orange-2);
+  font-weight:900;
+  margin-bottom:6px;
+  letter-spacing:-.03em;
+}
+.stat span{
+  font-size:.82rem;
+  color:var(--mut);
+  font-weight:600;
+}
 
-/* Language Gate */
-#langgate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px}
-#langgate[hidden]{display:none}
-#langgate .box{width:100%;max-width:400px;text-align:center}
-#langgate h1{margin:0 0 4px;font-size:32px;color:var(--signText)}
-#langgate p{margin:12px 0 24px;color:var(--muted);font-size:15px;line-height:1.9}
-#langgate button{display:block;width:100%;margin-top:12px;padding:18px;border-radius:16px;border:2px solid var(--line);background:var(--card);font-size:22px;font-weight:700;color:var(--ink);transition:all .2s}
-#langgate button:hover{border-color:var(--sign);color:var(--signText);transform:translateY(-2px);box-shadow:var(--shadow)}
+/* ============================================
+   FEATURES
+   ============================================ */
+.features{
+  background:var(--bg);
+  padding:80px 24px;
+}
+.features-inner{
+  max-width:1000px;
+  margin:0 auto;
+}
+.features h2{
+  font-size:clamp(1.4rem,4vw,2rem);
+  color:var(--orange-2);
+  margin-bottom:40px;
+  text-align:center;
+  font-weight:900;
+  letter-spacing:-.02em;
+}
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+}
+.feature{
+  background:var(--card);
+  padding:28px 22px;
+  border-radius:var(--radius-l);
+  box-shadow:var(--shadow-sm);
+  text-align:center;
+  border:1px solid var(--line);
+  transition:var(--transition);
+}
+.feature:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-md);
+  border-color:var(--orange-light);
+}
+.feature .icon{
+  width:64px;
+  height:64px;
+  margin:0 auto 16px;
+  border-radius:20px;
+  background:var(--orange-soft);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2rem;
+  transition:var(--transition);
+}
+.feature:hover .icon{
+  background:linear-gradient(135deg,var(--orange),var(--orange-2));
+  transform:scale(1.08) rotate(-5deg);
+}
+.feature h3{
+  color:var(--ink);
+  margin-bottom:8px;
+  font-size:1.05rem;
+  font-weight:800;
+  letter-spacing:-.01em;
+}
+.feature p{
+  color:var(--mut);
+  font-size:.9rem;
+  line-height:1.6;
+}
 
-/* Emergency */
-.emergency{margin-top:14px;background:var(--card);border:1.5px solid #E53E3E;border-radius:16px;padding:14px;box-shadow:var(--shadow)}
-.emergency h3{margin:0 0 10px;font-size:15px;color:#E53E3E;display:flex;align-items:center;gap:6px}
-.emergency-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.emergency a{display:flex;align-items:center;gap:6px;padding:10px;background:var(--soft);border-radius:10px;text-decoration:none;color:var(--ink);font-size:13px;font-weight:600;border:1.5px solid transparent}
-.emergency a:hover{border-color:#E53E3E;background:#FFF5F5}
+/* ============================================
+   GALLERY
+   ============================================ */
+.gallery{
+  background:var(--card);
+  padding:80px 24px;
+}
+.gallery-inner{
+  max-width:1000px;
+  margin:0 auto;
+}
+.gallery h2{
+  font-size:clamp(1.4rem,4vw,2rem);
+  color:var(--orange-2);
+  margin-bottom:40px;
+  text-align:center;
+  font-weight:900;
+  letter-spacing:-.02em;
+}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+.gallery-item{
+  border-radius:var(--radius-l);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  aspect-ratio:4/3;
+  background:var(--bg);
+  position:relative;
+  transition:var(--transition);
+}
+.gallery-item:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:var(--shadow-lg);
+}
+.gallery-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .6s;
+}
+.gallery-item:hover img{transform:scale(1.08)}
+.gallery-item .cap{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  background:linear-gradient(transparent,rgba(15,23,42,.9));
+  color:#fff;
+  padding:30px 16px 14px;
+  font-size:.9rem;
+  font-weight:700;
+}
 
-/* Toast */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;z-index:200;transition:transform .3s;box-shadow:0 4px 20px rgba(0,0,0,.3)}
-.toast.show{transform:translateX(-50%) translateY(0)}
+/* ============================================
+   TEAM
+   ============================================ */
+.team{
+  background:linear-gradient(135deg,var(--orange-soft),#ffffff);
+  padding:80px 24px;
+}
+.team-inner{
+  max-width:820px;
+  margin:0 auto;
+}
+.team h2{
+  font-size:clamp(1.4rem,4vw,2rem);
+  color:var(--orange-2);
+  margin-bottom:24px;
+  text-align:center;
+  font-weight:900;
+  letter-spacing:-.02em;
+}
+.team p{
+  font-size:1.02rem;
+  line-height:1.85;
+  color:var(--mut);
+  margin-bottom:16px;
+  text-align:justify;
+}
+.team p strong{color:var(--orange-2);font-weight:800}
 
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media print{.zoom,.lang,.header-actions,.actions,.emergency{display:none!important}.mapcard{break-inside:avoid}}
+.values{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin:32px 0;
+}
+.value{
+  background:#fff;
+  border:1.5px solid var(--orange-light);
+  padding:10px 22px;
+  border-radius:var(--radius-full);
+  font-size:.88rem;
+  font-weight:700;
+  color:var(--orange-2);
+  box-shadow:var(--shadow-sm);
+  transition:var(--transition);
+}
+.value:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow-orange);
+}
+
+.quote{
+  text-align:center;
+  margin-top:32px;
+  font-style:italic;
+  color:var(--mut-2);
+  font-size:1.02rem;
+}
+
+/* ============================================
+   FINAL CTA
+   ============================================ */
+.final-cta{
+  background:linear-gradient(135deg,var(--orange),var(--orange-3));
+  text-align:center;
+  color:#fff;
+  padding:80px 24px;
+}
+.final-cta h2{
+  font-size:clamp(1.3rem,4vw,1.8rem);
+  margin-bottom:14px;
+  font-weight:900;
+  letter-spacing:-.02em;
+}
+.final-cta p{
+  opacity:.95;
+  margin-bottom:32px;
+  max-width:600px;
+  margin-left:auto;
+  margin-right:auto;
+  font-size:1rem;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer{
+  background:#0f172a;
+  color:#94a3b8;
+  text-align:center;
+  padding:40px 24px;
+  font-size:.88rem;
+  line-height:1.7;
+}
+footer strong{color:#fff;font-weight:800}
+footer a{color:var(--orange);font-weight:700;text-decoration:none;transition:var(--transition)}
+footer a:hover{color:var(--orange-2);text-decoration:underline}
+
+@media(max-width:600px){
+  .hero{background-attachment:scroll;padding:80px 18px 50px}
+  .logo{width:90px;height:90px;font-size:2.5rem}
+  .start-btn{padding:16px 42px;font-size:1.05rem}
+  .stats{grid-template-columns:1fr;gap:12px}
+  .about,.features,.gallery,.team,.final-cta{padding:60px 18px}
+  .lang-switch{top:14px;right:14px}
+  .lang-switch button{padding:6px 10px;font-size:.72rem}
+}
 </style>
 </head>
 <body>
 
-<!-- Language gate -->
-<div id="langgate" role="dialog" aria-modal="true" aria-label="Language">
-  <div class="box">
-    <h1 lang="ar">قاريدي 1</h1>
-    <h1 lang="en" style="margin-top:-2px;font-size:24px">Garidi 1</h1>
-    <p>اختر لغتك<br>Choisissez votre langue<br>Choose your language</p>
-    <button data-lang="ar" lang="ar">العربية</button>
-    <button data-lang="fr" lang="fr">Français</button>
-    <button data-lang="en" lang="en">English</button>
-  </div>
+<!-- Lang Switch -->
+<div class="lang-switch">
+  <button onclick="setLang('fr')" data-lang="fr">🇫🇷 FR</button>
+  <button onclick="setLang('ar')" data-lang="ar">🇩🇿 AR</button>
+  <button onclick="setLang('en')" data-lang="en">🇬🇧 EN</button>
 </div>
 
-<div class="wrap">
-  <header>
-    <div class="hrow">
-      <div>
-        <h1 data-i18n="title">قاريدي 1</h1>
-        <p data-i18n="sub">اختر وجهتك أو رقم غرفتك، ونرسم لك الطريق</p>
-      </div>
-      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="تبديل الوضع الليلي">🌙</button>
-    </div>
-    <div class="lang" role="group">
-      <button data-lang="ar" aria-pressed="true" lang="ar">العربية</button>
-      <button data-lang="fr" aria-pressed="false" lang="fr">Français</button>
-      <button data-lang="en" aria-pressed="false" lang="en">English</button>
-    </div>
-  </header>
+<!-- HERO -->
+<section class="hero">
+  <div class="logo" id="app-logo">🎓</div>
+  <h1 id="hero-title">École Nationale Supérieure<br>des Travaux Publics</h1>
+  <p class="subtitle" id="hero-subtitle">ENSTP — Alger, Garidi Kouba</p>
+  <p class="tagline" id="hero-tagline">« Former les ingénieurs qui construisent l'Algérie de demain »</p>
 
-  <div class="controls">
-    <div class="row">
-      <label for="start" data-i18n="startLabel">أنا الآن عند</label>
-      <select id="start"></select>
-    </div>
-    <div class="row">
-      <input id="quickSearch" type="search" placeholder="🔍 ابحث عن مكان أو غرفة..." aria-label="Search">
-    </div>
+  <div class="badges">
+    <span class="badge">🏗️ Génie Civil</span>
+    <span class="badge">🛣️ Routes</span>
+    <span class="badge">🌉 Ouvrages d'art</span>
+    <span class="badge">🏛️ Infrastructures de Base</span>
+    <span class="badge">🔩 Matériaux & Structures</span>
+    <span class="badge">💧 Hydraulique</span>
+    <span class="badge">📐 Topographie</span>
   </div>
 
-  <div class="tabs" role="tablist">
-    <button role="tab" id="tab-places" aria-selected="true" data-i18n="tabPlaces">أماكن</button>
-    <button role="tab" id="tab-rooms" aria-selected="false" data-i18n="tabRooms">غرف</button>
-  </div>
+  <a href="guide.html" class="start-btn">
+    <span id="hero-btn">ابدأ</span> <span>→</span>
+  </a>
 
-  <div class="panel" id="panel-places">
-    <div class="chips" id="chips"></div>
-  </div>
+  <div class="scroll-down">↓</div>
+</section>
 
-  <div class="panel" id="panel-rooms" hidden>
-    <div class="blocks" id="blocks"></div>
-    <div class="floors" id="floors"></div>
-    <div class="numrow">
-      <input id="num" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="رقم الغرفة، مثال: 52">
-      <button class="btn" id="go">🔍 <span data-i18n="go">ابحث</span></button>
-    </div>
-    <div id="msg"></div>
+<!-- ABOUT -->
+<section class="about">
+  <div class="about-inner">
+    <h2 id="about-title">🏫 À propos de l'ENSTP</h2>
+    <p id="about-p1">L'École Nationale Supérieure des Travaux Publics (ENSTP) est un établissement public algérien d'enseignement supérieur et de recherche, placé sous la tutelle du Ministère des Travaux Publics. Située à Garidi, Kouba (Alger), elle forme depuis des décennies des ingénieurs d'État spécialisés dans les domaines stratégiques des travaux publics.</p>
+    <p id="about-p2">L'école assure une formation d'excellence à travers un cycle préparatoire intégré suivi d'un cycle ingénieur, couvrant des spécialités telles que les routes, les ouvrages d'art, la géotechnique, l'hydraulique et la topographie.</p>
   </div>
+  <div class="stats">
+    <div class="stat"><b>1967</b><span id="stat1">Année de création</span></div>
+    <div class="stat"><b>+5000</b><span id="stat2">Ingénieurs diplômés</span></div>
+    <div class="stat"><b>5</b><span id="stat3">Spécialités</span></div>
+  </div>
+</section>
 
-  <div class="mapcard">
-    <div class="zoom">
-      <button id="zin" aria-label="تكبير">+</button>
-      <button id="zout" aria-label="تصغير">−</button>
-      <button id="zhome" aria-label="العودة للوسط">⌂</button>
-      <button id="tsat" aria-pressed="false" aria-label="صورة جوية">🛰️</button>
-      <button id="gps" aria-label="موقعي">📍</button>
-    </div>
-    <div class="compass" aria-hidden="true">↑</div>
-    <div class="scale" aria-hidden="true">50 م</div>
-    <div class="scroller" id="scroller">
-      <div class="stage" id="stage">
-        <img id="sat" alt="صورة جوية">
-        <svg class="basemap" viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true">
-          <rect class="land" width="705" height="596"/>
-          <polygon class="field" points="318,432 535,426 540,520 450,560 330,540"/>
-          <polygon class="field" points="100,38 168,34 172,148 104,150"/>
-          <g id="trees"></g>
-          <polygon class="bgry" points="0,188 88,182 132,300 132,372 0,372"/>
-          <circle cx="38" cy="262" r="15" fill="#EEF3F0" stroke="#9097A8"/>
-          <circle cx="68" cy="256" r="15" fill="#EEF3F0" stroke="#9097A8"/>
-          <circle cx="76" cy="290" r="15" fill="#EEF3F0" stroke="#9097A8"/>
-          <circle cx="46" cy="296" r="15" fill="#EEF3F0" stroke="#9097A8"/>
-          <polygon class="bgry" points="0,0 48,0 62,140 0,162"/>
-          <polygon class="bgry" points="600,335 698,333 698,408 612,412"/>
-          <rect class="bgry" x="667" y="517" width="15" height="13"/>
-          <polygon class="bgry" points="536,398 588,398 588,484 536,484" style="opacity:.8"/>
-          <g id="roads">
-            <path class="rcase" d="M22,330 C40,420 90,480 190,535 L236,562"/>
-            <path class="rfill" d="M22,330 C40,420 90,480 190,535 L236,562"/>
-            <path class="rcase" d="M692,580 L655,548 L640,495 L618,440 L602,395"/>
-            <path class="rfill" d="M692,580 L655,548 L640,495 L618,440 L602,395"/>
-            <path class="rcase" d="M602,392 L545,392 L480,396 L432,398 L352,404 L296,408"/>
-            <path class="rfill" d="M602,392 L545,392 L480,396 L432,398 L352,404 L296,408"/>
-            <path class="rcase" d="M296,408 L278,445 L252,485 L228,525"/>
-            <path class="rfill" d="M296,408 L278,445 L252,485 L228,525"/>
-          </g>
-          <g id="paths"></g>
-          <polygon class="cb" points="140,188 205,172 238,262 178,293"/>
-          <polygon class="cf" points="182,305 250,288 292,400 232,432"/>
-          <line class="cline" x1="165" y1="240" x2="222" y2="228"/>
-          <line class="cline" x1="214" y1="360" x2="262" y2="346"/>
-          <polygon class="bres" points="316,365 392,303 418,319 352,396 322,390"/>
-          <polygon class="bres" points="312,120 352,106 430,268 405,290 385,286"/>
-          <polygon class="bres" points="335,22 392,12 418,30 412,75 355,108 322,92"/>
-          <polygon class="bres" points="207,68 298,66 305,115 210,92"/>
-          <circle class="bres" cx="322" cy="98" r="14"/>
-          <polygon class="bres" points="420,284 535,291 537,335 432,333"/>
-          <circle class="bres" cx="400" cy="298" r="17"/>
-          <polygon class="bsrv" points="418,45 458,40 462,85 425,90"/>
-          <polygon class="bsrv" points="452,118 495,128 500,176 462,176"/>
-          <circle class="bsrv" cx="552" cy="75" r="46"/>
-          <circle class="bsrv" cx="552" cy="75" r="30" style="opacity:.55"/>
-          <polygon class="bsrv" points="548,112 612,100 622,162 562,192"/>
-        </svg>
-        <svg viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true">
-          <polyline id="rcase" class="route-case" vector-effect="non-scaling-stroke" points=""/>
-          <polyline id="rline" class="route-line" vector-effect="non-scaling-stroke" points=""/>
-        </svg>
-      </div>
-    </div>
-    <div class="legend">
-      <span><i style="background:#0F1B3D"></i>أنت هنا</span>
-      <span><i style="background:#FFB81C;border:2px solid #0F1B3D"></i>الوجهة</span>
-      <span>المس أي رمز لاختياره · 🛰️ الصورة الجوية</span>
+<!-- FEATURES -->
+<section class="features">
+  <div class="features-inner">
+    <h2 id="features-title">✨ Pourquoi cette app ?</h2>
+    <div class="features-grid">
+      <div class="feature"><div class="icon">📱</div><h3 id="f1-title">Installable</h3><p id="f1-desc">Installez l'app en un clic.</p></div>
+      <div class="feature"><div class="icon">📴</div><h3 id="f2-title">Hors ligne</h3><p id="f2-desc">Fonctionne sans Internet.</p></div>
+      <div class="feature"><div class="icon">🌍</div><h3 id="f3-title">3 langues</h3><p id="f3-desc">FR / AR / EN.</p></div>
+      <div class="feature"><div class="icon">🔎</div><h3 id="f4-title">Recherche IA</h3><p id="f4-desc">Assistant intelligent.</p></div>
+      <div class="feature"><div class="icon">🎨</div><h3 id="f5-title">9 thèmes</h3><p id="f5-desc">9 couleurs, mode sombre.</p></div>
+      <div class="feature"><div class="icon">💯</div><h3 id="f6-title">100% gratuit</h3><p id="f6-desc">Par des étudiants.</p></div>
     </div>
   </div>
+</section>
 
-  <div class="result" id="result" aria-live="polite"></div>
-
-  <div class="emergency">
-    <h3>🚨 أرقام الطوارئ</h3>
-    <div class="emergency-grid">
-      <a href="tel:1548">🚑 الحماية المدنية: 14</a>
-      <a href="tel:17">👮 الشرطة: 17</a>
-      <a href="tel:1021">🚔 الدرك: 1055</a>
-      <a href="tel:021">⚡ سونلغاز: 3020</a>
+<!-- GALLERY -->
+<section class="gallery">
+  <div class="gallery-inner">
+    <h2 id="gallery-title">📸 Découvrir l'école</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80" loading="lazy" alt="ENSTP"><div class="cap" id="cap1">L'ENSTP</div></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80" loading="lazy" alt="Étudiants"><div class="cap" id="cap2">Étudiants</div></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&q=80" loading="lazy" alt="Laboratoires"><div class="cap" id="cap3">Laboratoires</div></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&q=80" loading="lazy" alt="TP"><div class="cap" id="cap4">Travaux pratiques</div></div>
     </div>
   </div>
+</section>
 
-  <p class="note" style="margin-top:20px;text-align:center">
-    المسارات تقريبية ومرسومة على رسم مبسّط للمكان، وقد تختلف الممرات الفعلية قليلاً.
-  </p>
-</div>
+<!-- TEAM -->
+<section class="team">
+  <div class="team-inner">
+    <h2 id="team-title">👥 Qui sommes-nous ?</h2>
+    <p id="team-p1"><strong>Guide de survie ENSTP</strong> est un projet étudiant, à but non lucratif, né d'un constat simple : chaque année, des centaines de nouveaux étudiants arrivent à l'ENSTP sans savoir où aller.</p>
+    <p id="team-p2">Nous sommes <strong>des étudiants de 1ère année Ingénieur — Groupe 2, département Infrastructures de Base (منشآت قاعدية), promotion 2024/2025</strong> à l'ENSTP.</p>
+    <p id="team-p3">Notre mission : <strong>aider chaque nouvel étudiant à s'intégrer rapidement</strong> et à ne jamais rester seul face à un problème.</p>
+    <div class="values">
+      <span class="value">🤝 Entraide</span>
+      <span class="value">💯 Gratuité</span>
+      <span class="value">🎯 Respect</span>
+      <span class="value">🔍 Transparence</span>
+      <span class="value">💛 Confiance</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>100%</b><span id="team-stat1">Gratuit</span></div>
+      <div class="stat"><b>3</b><span id="team-stat2">Langues</span></div>
+      <div class="stat"><b>15</b><span id="team-stat3">Rubriques</span></div>
+    </div>
+    <p class="quote" id="team-quote">« Ne jamais rester sans savoir quoi faire. »</p>
+  </div>
+</section>
 
-<div class="toast" id="toast"></div>
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2 id="final-title">Prêt à découvrir ton guide ?</h2>
+  <p id="final-p">Tout ce dont tu as besoin pour ton premier jour à l'ENSTP.</p>
+  <a href="guide.html" class="start-btn">
+    <span id="final-btn">ابدأ</span> <span>→</span>
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Guide de survie ENSTP</strong> — Un projet des étudiants de 1ère année Ingénieur,<br>Groupe 2 — Département Infrastructures de Base (منشآت قاعدية) — Promotion 2024/2025.</p>
+  <p style="margin-top:12px">100% gratuit · 3 langues · Bénévole · Hors ligne</p>
+  <p style="margin-top:10px"><a href="guide.html">Accéder au guide →</a></p>
+</footer>
 
 <script>
-/* ---------- Image data (compressed) ---------- */
-// ملاحظة: احتفظ بنفس مصفوفة IMG من الكود الأصلي هنا
-// لتوفير المساحة، أنسخ المصفوفة كاملة من الملف الأصلي
-const IMG = { /* ... الصق كامل مصفوفة IMG من الملف الأصلي ... */ };
-
-const W = 705, H = 596;
-const NS = 'http://www.w3.org/2000/svg';
-
-/* ---------- Graph nodes ---------- */
-const N = {
-  gate:{x:655,y:548,l:1}, gd:{x:674,y:524}, g2:{x:640,y:495}, g3:{x:618,y:440,l:1},
-  re:{x:602,y:395}, rm:{x:545,y:392}, rde:{x:480,y:396,l:1},
-  rc:{x:432,y:398,l:1}, rb:{x:352,y:404,l:1}, rw:{x:300,y:408,l:1},
-  pk:{x:562,y:432}, n1:{x:428,y:356}, td:{x:413,y:314,l:1}, c2:{x:420,y:282},
-  cd:{x:408,y:245,l:1}, adm:{x:456,y:198}, act:{x:452,y:238},
-  clinic:{x:474,y:266,l:1}, c3:{x:428,y:200}, c4:{x:416,y:150},
-  ab:{x:318,y:106}, ae:{x:380,y:112,l:1}, wk:{x:445,y:98},
-  cl:{x:486,y:182}, e3:{x:540,y:200}, e2:{x:546,y:270,l:1},
-  e1:{x:548,y:345}, rest:{x:548,y:122}, bn1:{x:268,y:300},
-  bn2:{x:250,y:255}, bn3:{x:228,y:175}, bd:{x:256,y:124,l:1},
-  bk:{x:215,y:258}, f1:{x:290,y:395}, foot:{x:275,y:368},
-  sw1:{x:278,y:445}, sw:{x:254,y:480}
-};
-
-const E = [
-  ['gate','gd'],['gate','g2'],['g2','g3'],['g3','re'],['re','rm'],['rm','rde'],
-  ['rde','rc'],['rc','rb'],['rb','rw'],['rm','pk'],
-  ['n1','td'],['e2','clinic'],['td','c2'],['c2','cd'],['c2','clinic'],
-  ['adm','cl'],['adm','c3'],['cd','act'],['cd','c3'],['c3','c4'],
-  ['c4','ae'],['ae','ab'],['c4','wk'],['c3','cl'],
-  ['rm','e1'],['e1','e2'],['e2','e3'],['e3','rest'],
-  ['rw','f1'],['f1','foot'],['rw','sw1'],['sw1','sw'],
-  ['rw','bn1'],['bn1','bn2'],['bn2','bn3'],['bn3','bd'],['bn2','bk']
-];
-
-const adj = {};
-E.forEach(([a,b]) => {
-  const d = Math.hypot(N[a].x-N[b].x, N[a].y-N[b].y);
-  (adj[a]=adj[a]||[]).push([b,d]);
-  (adj[b]=adj[b]||[]).push([a,d]);
-});
-
-/* ---------- Dijkstra with distance ---------- */
-function pathInfo(from, to){
-  const dist={}, prev={}, q=new Set(Object.keys(N));
-  Object.keys(N).forEach(k => dist[k]=Infinity);
-  dist[from]=0;
-  while(q.size){
-    let u=null;
-    q.forEach(k => { if(u===null || dist[k]<dist[u]) u=k; });
-    if(u===to || dist[u]===Infinity) break;
-    q.delete(u);
-    (adj[u]||[]).forEach(([v,d]) => {
-      if(dist[u]+d < dist[v]){ dist[v]=dist[u]+d; prev[v]=u; }
-    });
-  }
-  const p=[];
-  let c=to;
-  while(c){ p.unshift(c); c=prev[c]; }
-  return p[0]===from ? {path:p, dist:dist[to]} : {path:[from,to], dist:Infinity};
-}
-
-/* ---------- Base map decoration ---------- */
-(function(){
-  const pg = document.getElementById('paths');
-  E.forEach(([a,b]) => {
-    const l = document.createElementNS(NS,'line');
-    l.setAttribute('x1',N[a].x); l.setAttribute('y1',N[a].y);
-    l.setAttribute('x2',N[b].x); l.setAttribute('y2',N[b].y);
-    l.setAttribute('class','pth');
-    pg.appendChild(l);
-  });
-  let s=7;
-  const rnd = () => { s|=0; s=s+0x6D2B79F5|0; let t=Math.imul(s^s>>>15,1|s); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; };
-  const zones = [
-    [120,235,34,14],[145,330,30,12],[195,440,34,10],[112,160,26,8],[165,100,22,5],
-    [545,190,38,13],[515,115,26,8],[598,245,34,10],[430,372,22,6],[330,230,32,9],
-    [290,160,20,5],[580,60,16,4],[460,215,16,4],[470,350,22,6],[640,200,30,8],[300,470,40,8]
-  ];
-  const tg = document.getElementById('trees');
-  zones.forEach(([cx,cy,r,n]) => {
-    for(let i=0;i<n;i++){
-      const a=rnd()*6.283, d=Math.sqrt(rnd())*r;
-      const c=document.createElementNS(NS,'circle');
-      c.setAttribute('cx',(cx+Math.cos(a)*d).toFixed(1));
-      c.setAttribute('cy',(cy+Math.sin(a)*d).toFixed(1));
-      c.setAttribute('r',(4+rnd()*5).toFixed(1));
-      c.setAttribute('class','tree');
-      tg.appendChild(c);
-    }
-  });
-})();
-
-/* ---------- Translations ---------- */
-const DIR = {ar:'rtl', fr:'ltr', en:'ltr'};
-const TX = {
-  ar: {
-    title:'قاريدي 1', sub:'اختر وجهتك أو رقم غرفتك، ونرسم لك الطريق',
-    startLabel:'أنا الآن عند', tabPlaces:'أماكن', tabRooms:'غرف',
-    go:'ابحث', ph:'رقم الغرفة، مثال: 52',
-    quickSearch:'ابحث عن مكان أو غرفة...',
-    here:'أنت هنا', dest:'الوجهة',
-    emptyPlaces:'اختر وجهة من الأعلى أو المس رمزاً على الخريطة.',
-    emptyRooms:'اختر الجناح ثم اكتب رقم غرفتك.',
-    pickBlock:'اختر الجناح أولاً.', enterNum:'اكتب رقم الغرفة.',
-    nfMsg:(n,b)=>`الغرفة ${n} غير موجودة في الجناح ${b}.`,
-    distance:'المسافة', time:'الوقت', steps:'خطوات',
-    share:'مشاركة', copy:'نسخ الرابط', print:'طباعة',
-    copied:'✓ تم النسخ', gpsDenied:'❌ تم رفض الوصول للموقع',
-    gpsNotSupported:'❌ المتصفح لا يدعم GPS',
-    youAreNear:(name)=>`📍 أنت قريب من: ${name}`,
-    FL:['الطابق الأرضي','الطابق الأول','الطابق الثاني','الطابق الثالث']
-  },
+// ============================================
+// نصوص 3 لغات
+// ============================================
+const LANG_DATA_INDEX = {
   fr: {
-    title:'Garidi 1', sub:'Choisissez une destination et nous traçons le chemin',
-    startLabel:'Je suis à', tabPlaces:'Lieux', tabRooms:'Chambres',
-    go:'Chercher', ph:'N° de chambre, ex: 52',
-    quickSearch:'Rechercher un lieu ou une chambre...',
-    here:'Vous êtes ici', dest:'Destination',
-    emptyPlaces:'Choisissez une destination ci-dessus.',
-    emptyRooms:'Choisissez l\'aile puis saisissez votre chambre.',
-    pickBlock:'Choisissez d\'abord l\'aile.', enterNum:'Saisissez le numéro.',
-    nfMsg:(n,b)=>`La chambre ${n} n'existe pas dans l'aile ${b}.`,
-    distance:'Distance', time:'Temps', steps:'Étapes',
-    share:'Partager', copy:'Copier', print:'Imprimer',
-    copied:'✓ Copié', gpsDenied:'❌ Accès refusé',
-    gpsNotSupported:'❌ GPS non supporté',
-    youAreNear:(name)=>`📍 Vous êtes près de : ${name}`,
-    FL:['Rez-de-chaussée','1er étage','2e étage','3e étage']
+    heroTitle: "École Nationale Supérieure<br>des Travaux Publics",
+    heroSubtitle: "ENSTP — Alger, Garidi Kouba",
+    heroTagline: "« Former les ingénieurs qui construisent l'Algérie de demain »",
+    heroBtn: "ابدأ",
+    aboutTitle: "🏫 À propos de l'ENSTP",
+    aboutP1: "L'École Nationale Supérieure des Travaux Publics (ENSTP) est un établissement public algérien d'enseignement supérieur et de recherche, placé sous la tutelle du Ministère des Travaux Publics. Située à Garidi, Kouba (Alger), elle forme depuis des décennies des ingénieurs d'État spécialisés dans les domaines stratégiques des travaux publics.",
+    aboutP2: "L'école assure une formation d'excellence à travers un cycle préparatoire intégré suivi d'un cycle ingénieur, couvrant des spécialités telles que les routes, les ouvrages d'art, la géotechnique, l'hydraulique et la topographie.",
+    stat1: "Année de création", stat2: "Ingénieurs diplômés", stat3: "Spécialités",
+    featuresTitle: "✨ Pourquoi cette app ?",
+    f1Title: "Installable", f1Desc: "Installez l'app en un clic.",
+    f2Title: "Hors ligne", f2Desc: "Fonctionne sans Internet.",
+    f3Title: "3 langues", f3Desc: "FR / AR / EN.",
+    f4Title: "Recherche IA", f4Desc: "Assistant intelligent.",
+    f5Title: "9 thèmes", f5Desc: "9 couleurs, mode sombre.",
+    f6Title: "100% gratuit", f6Desc: "Par des étudiants.",
+    galleryTitle: "📸 Découvrir l'école",
+    cap1: "L'ENSTP", cap2: "Étudiants", cap3: "Laboratoires", cap4: "TP",
+    teamTitle: "👥 Qui sommes-nous ?",
+    teamP1: "Guide de survie ENSTP est un projet étudiant, à but non lucratif, né d'un constat simple : chaque année, des centaines de nouveaux étudiants arrivent à l'ENSTP sans savoir où aller.",
+    teamP2: "Nous sommes des étudiants de 1ère année Ingénieur — Groupe 2, département Infrastructures de Base (منشآت قاعدية), promotion 2024/2025.",
+    teamP3: "Notre mission : aider chaque nouvel étudiant à s'intégrer rapidement et à ne jamais rester seul face à un problème.",
+    teamStat1: "Gratuit", teamStat2: "Langues", teamStat3: "Rubriques",
+    teamQuote: "« Ne jamais rester sans savoir quoi faire. »",
+    finalTitle: "Prêt à découvrir ton guide ?",
+    finalP: "Tout ce dont tu as besoin pour ton premier jour à l'ENSTP.",
+    finalBtn: "ابدأ"
+  },
+  ar: {
+    heroTitle: "المدرسة الوطنية العليا<br>للأشغال العمومية",
+    heroSubtitle: "ENSTP — الجزائر، قاريدي القبة",
+    heroTagline: "« نُكوّن المهندسين الذين يبنون جزائر الغد »",
+    heroBtn: "ابدأ",
+    aboutTitle: "🏫 عن المدرسة",
+    aboutP1: "المدرسة الوطنية العليا للأشغال العمومية (ENSTP) مؤسسة عمومية جزائرية للتعليم العالي والبحث العلمي، تحت وصاية وزارة الأشغال العمومية. تقع في قاريدي، القبة (الجزائر العاصمة).",
+    aboutP2: "توفّر المدرسة تكويناً متميزاً عبر طور تحضيري مدمج يتبعه طور مهندس، يشمل تخصصات مثل الطرق، المنشآت الفنية، الجيوتقنية، الهيدروليك والطبوغرافيا.",
+    stat1: "سنة التأسيس", stat2: "مهندس متخرج", stat3: "تخصصات",
+    featuresTitle: "✨ لماذا هذا التطبيق؟",
+    f1Title: "قابل للتثبيت", f1Desc: "ثبّت التطبيق بضغطة.",
+    f2Title: "بدون إنترنت", f2Desc: "يعمل بدون إنترنت.",
+    f3Title: "3 لغات", f3Desc: "فرنسي، عربي، إنجليزي.",
+    f4Title: "بحث ذكي", f4Desc: "مساعد ذكي.",
+    f5Title: "9 ألوان", f5Desc: "9 ألوان، وضع ليلي.",
+    f6Title: "مجاني 100%", f6Desc: "من الطلاب.",
+    galleryTitle: "📸 اكتشف المدرسة",
+    cap1: "المدرسة", cap2: "طلاب", cap3: "مخابر", cap4: "تطبيقي",
+    teamTitle: "👥 من نحن؟",
+    teamP1: "دليل البقاء ENSTP مشروع طلابي غير ربحي، وُلد من ملاحظة بسيطة: كل سنة، مئات الطلاب الجدد يصلون إلى المدرسة دون معرفة أين يذهبون.",
+    teamP2: "نحن طلاب السنة الأولى مهندس — المجموعة 2، قسم المنشآت القاعدية، دفعة 2024/2025.",
+    teamP3: "مهمتنا: مساعدة كل طالب جديد على الاندماج بسرعة وعدم البقاء وحيداً أمام أي مشكلة.",
+    teamStat1: "مجاني", teamStat2: "لغات", teamStat3: "أقسام",
+    teamQuote: "« لا تبقَ أبداً دون أن تعرف ماذا تفعل. »",
+    finalTitle: "جاهز لاكتشاف دليلك؟",
+    finalP: "كل ما تحتاجه ليومك الأول.",
+    finalBtn: "ابدأ"
   },
   en: {
-    title:'Garidi 1', sub:'Pick a destination and we\'ll draw the way',
-    startLabel:'I am at', tabPlaces:'Places', tabRooms:'Rooms',
-    go:'Search', ph:'Room number, e.g. 52',
-    quickSearch:'Search for a place or room...',
-    here:'You are here', dest:'Destination',
-    emptyPlaces:'Pick a destination above or tap a marker.',
-    emptyRooms:'Pick the wing, then type your room number.',
-    pickBlock:'Pick the wing first.', enterNum:'Type the room number.',
-    nfMsg:(n,b)=>`Room ${n} isn't in Wing ${b}.`,
-    distance:'Distance', time:'Time', steps:'Steps',
-    share:'Share', copy:'Copy link', print:'Print',
-    copied:'✓ Copied', gpsDenied:'❌ Location denied',
-    gpsNotSupported:'❌ GPS not supported',
-    youAreNear:(name)=>`📍 You are near: ${name}`,
-    FL:['Ground floor','1st floor','2nd floor','3rd floor']
+    heroTitle: "National Higher School<br>of Public Works",
+    heroSubtitle: "ENSTP — Algiers, Garidi Kouba",
+    heroTagline: "\"Training the engineers who build tomorrow's Algeria\"",
+    heroBtn: "Start",
+    aboutTitle: "🏫 About ENSTP",
+    aboutP1: "The National Higher School of Public Works (ENSTP) is an Algerian public institution for higher education and research, under the supervision of the Ministry of Public Works. Located in Garidi, Kouba (Algiers).",
+    aboutP2: "The school provides excellent training through an integrated preparatory cycle followed by an engineering cycle, covering specialties such as roads, bridges, geotechnics, hydraulics and topography.",
+    stat1: "Year of creation", stat2: "Graduate engineers", stat3: "Specialties",
+    featuresTitle: "✨ Why this app?",
+    f1Title: "Installable", f1Desc: "Install the app in one click.",
+    f2Title: "Offline", f2Desc: "Works without Internet.",
+    f3Title: "3 languages", f3Desc: "FR / AR / EN.",
+    f4Title: "AI Search", f4Desc: "Smart assistant.",
+    f5Title: "9 themes", f5Desc: "9 colors, dark mode.",
+    f6Title: "100% free", f6Desc: "By students.",
+    galleryTitle: "📸 Discover the school",
+    cap1: "ENSTP", cap2: "Students", cap3: "Labs", cap4: "Practical work",
+    teamTitle: "👥 Who are we?",
+    teamP1: "ENSTP Survival Guide is a student project, non-profit, born from a simple observation: every year, hundreds of new students arrive at ENSTP without knowing where to go.",
+    teamP2: "We are 1st year Engineering students — Group 2, Infrastructures de Base department, promotion 2024/2025.",
+    teamP3: "Our mission: help every new student integrate quickly and never stay alone facing a problem.",
+    teamStat1: "Free", teamStat2: "Languages", teamStat3: "Sections",
+    teamQuote: "\"Never stay without knowing what to do.\"",
+    finalTitle: "Ready to discover your guide?",
+    finalP: "Everything you need for your first day at ENSTP.",
+    finalBtn: "Start"
   }
 };
 
-let LANG='ar', CHOSEN=false;
-try{ const s=localStorage.getItem('garidi_lang'); if(s && TX[s]){ LANG=s; CHOSEN=true; } }catch(e){}
-const t = (k, ...a) => { const v = TX[LANG][k] ?? TX.ar[k]; return typeof v==='function' ? v(...a) : v; };
-const L = o => o[LANG] || o.ar;
+function setLang(lang) {
+  localStorage.setItem('lang', lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  const d = LANG_DATA_INDEX[lang];
+  if (!d) return;
 
-/* ---------- Places data ---------- */
-const PLACES = {
-  gate:{n:{ar:'المدخل الرئيسي',fr:'Entrée principale',en:'Main entrance'},node:'gate',emoji:'🚪',nochip:true},
-  guard:{n:{ar:'مركز الحراسة',fr:'Poste de garde',en:'Guard post'},node:'gd',emoji:'🛡️'},
-  adm:{n:{ar:'الإدارة',fr:'Administration',en:'Administration'},node:'adm',emoji:'🏢',img:'ADM'},
-  act:{n:{ar:'مصلحة النشاطات',fr:'Service des activités',en:'Activities Service'},node:'act',emoji:'🩺',img:'ACT'},
-  clinic:{n:{ar:'العيادة',fr:'Infirmerie',en:'Clinic'},node:'clinic',emoji:'🏥',img:'CLINIC'},
-  rest:{n:{ar:'المطعم',fr:'Restaurant',en:'Restaurant'},node:'rest',emoji:'🍽️',
-    imgs:[['REST2',{ar:'قاعة الإطعام',fr:'Salle de restauration',en:'Dining hall'}],
-          ['REST1',{ar:'باب الدخول',fr:'Porte d\'entrée',en:'Entrance door'}],
-          ['REST3',{ar:'شحن البطاقات',fr:'Rechargement',en:'Card top-up'}]]},
-  club:{n:{ar:'النادي',fr:'Club',en:'Club'},node:'cl',emoji:'☕',img:'CLUB'},
-  work:{n:{ar:'المرش',fr:'Douches',en:'Showers'},node:'wk',emoji:'🚿'},
-  foot:{n:{ar:'ملعب كرة القدم',fr:'Terrain de football',en:'Football pitch'},node:'foot',emoji:'⚽'},
-  basket:{n:{ar:'ملعب كرة السلة',fr:'Terrain de basket',en:'Basketball'},node:'bk',emoji:'🏀'},
-  park:{n:{ar:'موقف السيارات',fr:'Parking',en:'Parking'},node:'pk',emoji:'🅿️'},
-  mosalla:{n:{ar:'مصلى الفضيل الورتلاني',fr:'Salle de prière',en:'Prayer room'},node:'ab',emoji:'🕌'},
-  sw:{n:{ar:'Street Workout',fr:'Street Workout',en:'Street Workout'},node:'sw',emoji:'🏋️'}
-};
+  const map = {
+    'hero-title': 'heroTitle', 'hero-subtitle': 'heroSubtitle', 'hero-tagline': 'heroTagline',
+    'hero-btn': 'heroBtn',
+    'about-title': 'aboutTitle', 'about-p1': 'aboutP1', 'about-p2': 'aboutP2',
+    'stat1': 'stat1', 'stat2': 'stat2', 'stat3': 'stat3',
+    'features-title': 'featuresTitle',
+    'f1-title': 'f1Title', 'f1-desc': 'f1Desc',
+    'f2-title': 'f2Title', 'f2-desc': 'f2Desc',
+    'f3-title': 'f3Title', 'f3-desc': 'f3Desc',
+    'f4-title': 'f4Title', 'f4-desc': 'f4Desc',
+    'f5-title': 'f5Title', 'f5-desc': 'f5Desc',
+    'f6-title': 'f6Title', 'f6-desc': 'f6Desc',
+    'gallery-title': 'galleryTitle',
+    'cap1': 'cap1', 'cap2': 'cap2', 'cap3': 'cap3', 'cap4': 'cap4',
+    'team-title': 'teamTitle', 'team-p1': 'teamP1', 'team-p2': 'teamP2', 'team-p3': 'teamP3',
+    'team-stat1': 'teamStat1', 'team-stat2': 'teamStat2', 'team-stat3': 'teamStat3',
+    'team-quote': 'teamQuote',
+    'final-title': 'finalTitle', 'final-p': 'finalP', 'final-btn': 'finalBtn'
+  };
 
-const BLOCKS = {
-  A:{node:'ab',x:370,y:58,f:{0:[1,11],1:[12,22]},partial:true},
-  B:{node:'ab',x:255,y:92,f:{0:[1,11],1:[12,22],2:[23,33],3:[34,44]}},
-  C:{node:'cd',x:360,y:205,f:{0:[1,17],1:[22,43],2:[44,65],3:[66,87]},gap:[18,21]},
-  D:{node:'td',x:480,y:313,f:{1:[1,13],2:[14,26],3:[27,39]}},
-  E:{node:'td',x:352,y:350,f:{1:[1,11],2:[12,22],3:[23,33]}}
-};
-
-const pname = id => L(PLACES[id].n);
-const pad = n => String(n).padStart(2,'0');
-const sign = f => f===0 ? 'RDC' : f+' ETAGE';
-const plate = (b,f,cls='') => {
-  const r = BLOCKS[b].f[f];
-  return `<span class="plate ${cls}"><span class="L">${b}</span><span class="R"><i>${sign(f)}</i><b>${pad(r[0])}-${pad(r[1])}</b></span></span>`;
-};
-
-/* ---------- State ---------- */
-const S = {tab:'places', start:'gate', dest:null, block:null, floor:null, num:null, zoom:1, msg:null};
-const $ = id => document.getElementById(id);
-let startOpts = [];
-
-/* ---------- Theme ---------- */
-function initTheme(){
-  const saved = localStorage.getItem('garidi_theme');
-  if(saved) document.documentElement.setAttribute('data-theme', saved);
-  else if(window.matchMedia('(prefers-color-scheme: dark)').matches)
-    document.documentElement.setAttribute('data-theme', 'dark');
-  updateThemeIcon();
-}
-function updateThemeIcon(){
-  const isDark = document.documentElement.getAttribute('data-theme')==='dark';
-  $('themeBtn').textContent = isDark ? '☀️' : '🌙';
-}
-$('themeBtn').onclick = () => {
-  const cur = document.documentElement.getAttribute('data-theme');
-  const next = cur==='dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('garidi_theme', next);
-  updateThemeIcon();
-};
-initTheme();
-
-/* ---------- Markers ---------- */
-const stage = $('stage');
-const pct = (x,y) => `left:${x/W*100}%;top:${y/H*100}%`;
-
-Object.entries(PLACES).forEach(([id,p]) => {
-  const n = N[p.node];
-  const b = document.createElement('button');
-  b.className = 'pin';
-  b.dataset.id = id;
-  b.dataset.kind = 'p';
-  b.style.cssText = pct(n.x, n.y);
-  b.innerHTML = `${p.emoji}<span class="cap"></span>`;
-  b.onclick = () => { S.tab='places'; S.dest=id; S.msg=null; render(true); };
-  stage.appendChild(b);
-});
-
-Object.entries(BLOCKS).forEach(([id,bl]) => {
-  const b = document.createElement('button');
-  b.className = 'bp';
-  b.dataset.id = id;
-  b.dataset.kind = 'b';
-  b.style.cssText = pct(bl.x, bl.y);
-  b.textContent = id;
-  b.onclick = () => { S.tab='rooms'; S.block=id; S.floor=null; S.num=null; S.msg=null; render(true); };
-  stage.appendChild(b);
-});
-
-/* ---------- Apply static translations ---------- */
-function applyStatic(){
-  document.documentElement.lang = LANG;
-  document.documentElement.dir = DIR[LANG];
-  document.title = t('title') + ' · دليل';
-  document.querySelectorAll('[data-i18n]').forEach(e => e.textContent = t(e.dataset.i18n));
-  document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang===LANG));
-  $('num').placeholder = t('ph');
-  $('quickSearch').placeholder = t('quickSearch');
-  startOpts = Object.keys(PLACES).map(id => [id, pname(id)])
-    .concat(Object.keys(BLOCKS).map(b => [b, 'الجناح '+b]));
-  $('start').innerHTML = startOpts.map(([v,x]) => `<option value="${v}">${x}</option>`).join('');
-  stage.querySelectorAll('.pin').forEach(el => el.setAttribute('aria-label', pname(el.dataset.id)));
-  stage.querySelectorAll('.bp').forEach(el => el.setAttribute('aria-label', 'الجناح '+el.dataset.id));
-}
-
-/* ---------- Language buttons ---------- */
-document.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => {
-  LANG = b.dataset.lang;
-  try{ localStorage.setItem('garidi_lang', LANG); }catch(e){}
-  $('langgate').hidden = true;
-  applyStatic();
-  render();
-});
-$('langgate').hidden = CHOSEN;
-
-/* ---------- Start selector ---------- */
-$('start').onchange = e => { S.start = e.target.value; render(); };
-
-/* ---------- Tabs ---------- */
-$('tab-places').onclick = () => { S.tab='places'; render(); };
-$('tab-rooms').onclick = () => { S.tab='rooms'; render(); };
-
-/* ---------- Quick search ---------- */
-$('quickSearch').addEventListener('input', e => {
-  const q = e.target.value.trim().toLowerCase();
-  if(!q) return;
-  // ابحث عن غرفة
-  const numMatch = q.match(/\d+/);
-  if(numMatch){
-    const n = parseInt(numMatch[0]);
-    for(const [b, bl] of Object.entries(BLOCKS)){
-      for(const f in bl.f){
-        const r = bl.f[f];
-        if(n>=r[0] && n<=r[1]){
-          S.tab='rooms'; S.block=b; S.floor=+f; S.num=n;
-          $('num').value = n;
-          render(true); return;
-        }
-      }
+  Object.keys(map).forEach(id => {
+    const el = document.getElementById(id);
+    if (el && d[map[id]]) {
+      if (id === 'hero-title') el.innerHTML = d[map[id]];
+      else el.textContent = d[map[id]];
     }
-  }
-  // ابحث عن مكان
-  for(const [id, p] of Object.entries(PLACES)){
-    const names = Object.values(p.n).join(' ').toLowerCase();
-    if(names.includes(q)){
-      S.tab='places'; S.dest=id;
-      render(true); return;
-    }
-  }
-});
-
-/* ---------- Zoom ---------- */
-function setZoom(z){
-  S.zoom = Math.max(1, Math.min(4, z));
-  stage.style.width = (S.zoom*100) + '%';
-  stage.classList.toggle('zoomed', S.zoom>=2.6);
-}
-function home(){
-  setZoom(1.8);
-  requestAnimationFrame(() => {
-    const sc = $('scroller'), w = sc.clientWidth, h = sc.clientHeight, z = S.zoom;
-    sc.scrollTo({
-      left: 410/W*w*z - w/2,
-      top: 240/H*(w*H/W)*z - h/2,
-      behavior: 'smooth'
-    });
-  });
-}
-$('zin').onclick = () => setZoom(S.zoom + .5);
-$('zout').onclick = () => setZoom(S.zoom - .5);
-$('zhome').onclick = home;
-$('tsat').onclick = e => {
-  const on = stage.classList.toggle('sat');
-  e.currentTarget.setAttribute('aria-pressed', on);
-};
-
-/* ---------- GPS ---------- */
-$('gps').onclick = () => {
-  if(!navigator.geolocation){
-    showToast(t('gpsNotSupported'));
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      // البحث عن أقرب نقطة
-      let nearest = null, minD = Infinity;
-      Object.entries(N).forEach(([k,n]) => {
-        const d = Math.hypot(n.x-pos.coords.longitude*0, n.y-pos.coords.latitude*0);
-        // في الواقع نحتاج معايرة، هنا نكتفي بتقريب
-      });
-      // محاكاة: نضع العلامة على المدخل الرئيسي
-      S.start = 'gate';
-      showToast('📍 ' + t('here') + ': ' + pname('gate'));
-      render(true);
-    },
-    err => showToast(t('gpsDenied')),
-    {timeout: 5000}
-  );
-};
-
-/* ---------- Toast ---------- */
-function showToast(msg){
-  const el = $('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove('show'), 2500);
-}
-
-/* ---------- Room search ---------- */
-function findRoom(b, n){
-  const bl = BLOCKS[b];
-  for(const f in bl.f){
-    const r = bl.f[f];
-    if(n>=r[0] && n<=r[1]) return +f;
-  }
-  return null;
-}
-function search(){
-  const raw = $('num').value.trim();
-  const n = parseInt(raw, 10);
-  if(!S.block){ S.msg = () => t('pickBlock'); return render(); }
-  if(!raw || isNaN(n)){ S.msg = () => t('enterNum'); return render(); }
-  const f = findRoom(S.block, n);
-  if(f===null){
-    S.msg = () => t('nfMsg', n, S.block);
-    S.floor=null; S.num=null;
-    return render();
-  }
-  S.msg = () => '✓ ' + pname('gate') + ' → ' + S.block + ' · ' + n;
-  S.msgSuccess = true;
-  S.floor = f; S.num = n;
-  render(true);
-}
-$('go').onclick = search;
-$('num').addEventListener('keydown', e => {
-  if(e.key==='Enter'){ e.preventDefault(); search(); }
-});
-
-/* ---------- Render ---------- */
-function curDest(){
-  if(S.tab==='places' && S.dest) return {node:PLACES[S.dest].node, id:S.dest, kind:'p'};
-  if(S.tab==='rooms' && S.block) return {node:BLOCKS[S.block].node, id:S.block, kind:'b'};
-  return null;
-}
-function startNode(){
-  return PLACES[S.start] ? PLACES[S.start].node : BLOCKS[S.start].node;
-}
-function startName(){
-  return startOpts.find(o => o[0]===S.start)[1];
-}
-
-function render(focusMap){
-  $('tab-places').setAttribute('aria-selected', S.tab==='places');
-  $('tab-rooms').setAttribute('aria-selected', S.tab==='rooms');
-  $('panel-places').hidden = S.tab!=='places';
-  $('panel-rooms').hidden = S.tab!=='rooms';
-  $('start').value = S.start;
-  const FL = t('FL');
-
-  // Chips
-  $('chips').innerHTML = Object.entries(PLACES)
-    .filter(([,p]) => !p.nochip)
-    .map(([id,p]) => `<button class="chip" data-id="${id}" aria-pressed="${S.dest===id}"><span class="e">${p.emoji}</span>${pname(id)}</button>`)
-    .join('');
-  $('chips').querySelectorAll('.chip').forEach(b => b.onclick = () => { S.dest=b.dataset.id; render(true); });
-
-  // Blocks
-  $('blocks').innerHTML = Object.keys(BLOCKS).map(b =>
-    `<button class="bt" data-b="${b}" aria-pressed="${S.block===b}" aria-label="الجناح ${b}">${b}</button>`
-  ).join('');
-  $('blocks').querySelectorAll('.bt').forEach(b => b.onclick = () => {
-    S.block=b.dataset.b; S.floor=null; S.num=null; S.msg=null;
-    render(true);
   });
 
-  // Floors
-  $('floors').innerHTML = S.block ? Object.keys(BLOCKS[S.block].f).map(f => {
-    const r = BLOCKS[S.block].f[f];
-    return `<button class="plate" data-f="${f}" aria-pressed="${S.floor==f && S.num===null}"><span class="L">${S.block}</span><span class="R"><i>${sign(+f)}</i><b>${pad(r[0])}-${pad(r[1])}</b></span></button>`;
-  }).join('') : '';
-  $('floors').querySelectorAll('button').forEach(b => b.onclick = () => {
-    S.floor = +b.dataset.f; S.num=null; S.msg=null;
-    $('num').value = '';
-    render(true);
+  document.querySelectorAll('[data-lang]').forEach(b => {
+    b.classList.toggle('on', b.dataset.lang === lang);
   });
-
-  // Message
-  const msgEl = $('msg');
-  if(S.msg){
-    msgEl.innerHTML = `<div class="msg ${S.msgSuccess?'success':''}">${S.msg()}</div>`;
-    S.msgSuccess = false;
-  } else msgEl.innerHTML = '';
-
-  // Update markers
-  const d = curDest(), sn = startNode();
-  stage.querySelectorAll('.pin,.bp').forEach(el => {
-    const id = el.dataset.id, kind = el.dataset.kind;
-    const isStart = S.start===id;
-    const isDest = d && d.kind===kind && d.id===id;
-    el.classList.toggle('on', isDest && !isStart);
-    el.classList.toggle('start', isStart);
-    const cap = el.querySelector('.cap');
-    if(cap) cap.textContent = isStart ? t('here') : pname(id);
-  });
-
-  drawRoute(d, sn, focusMap);
-  renderResult(d, sn);
 }
 
-/* ---------- Draw route ---------- */
-let currentDist = 0;
-function drawRoute(d, sn, focus){
-  if(!d || sn===d.node){
-    $('rline').setAttribute('points','');
-    $('rcase').setAttribute('points','');
-    currentDist = 0;
-    return;
-  }
-  const info = pathInfo(sn, d.node);
-  const p = info.path;
-  const pts = p.map(k => `${N[k].x},${N[k].y}`).join(' ');
-  $('rline').setAttribute('points', pts);
-  $('rcase').setAttribute('points', pts);
-  currentDist = info.dist;
-
-  if(focus){
-    const xs = p.map(k => N[k].x), ys = p.map(k => N[k].y);
-    const minx = Math.min(...xs), maxx = Math.max(...xs);
-    const miny = Math.min(...ys), maxy = Math.max(...ys);
-    const sc = $('scroller'), w = sc.clientWidth, h = sc.clientHeight;
-    const bw = Math.max(60, (maxx-minx)/W*w);
-    const bh = Math.max(60, (maxy-miny)/W*w);
-    let z = Math.min(w/(bw*1.5), h/(bh*1.5));
-    z = Math.max(1.2, Math.min(3, Math.round(z*2)/2));
-    setZoom(z);
-    requestAnimationFrame(() => {
-      const cx = (minx+maxx)/2/W*w*z - w/2;
-      const cy = (miny+maxy)/2/H*(w*H/W)*z - h/2;
-      sc.scrollTo({left:cx, top:cy, behavior:'smooth'});
-    });
-  }
-}
-
-/* ---------- Result panel ---------- */
-function routeSteps(d, sn, destHTML, isEnd=true){
-  if(sn===d.node) return `<li${isEnd?' class="end"':''}>✓ ${pname('gate')}</li>`;
-  const p = pathInfo(sn, d.node).path;
-  const mids = p.slice(1,-1).filter(k => N[k].l);
-  let h = `<li>🚶 ابدأ من <b>${startName()}</b></li>`;
-  mids.forEach(k => { h += `<li>➡️ مرّ على <b>${k}</b></li>`; });
-  h += `<li${isEnd?' class="end"':''}>${destHTML}</li>`;
-  return h;
-}
-
-function renderResult(d, sn){
-  const r = $('result'), FL = t('FL');
-  if(!d){
-    r.innerHTML = `<p class="empty">${S.tab==='places'?t('emptyPlaces'):t('emptyRooms')}</p>`;
-    return;
-  }
-
-  // إحصائيات المسار
-  const distMeters = Math.round(currentDist * 0.5); // معايرة تقريبية
-  const walkTime = Math.max(1, Math.round(distMeters / 80)); // 80 متر/دقيقة
-  const stepsCount = Math.round(distMeters / 0.7); // 70 سم لكل خطوة
-
-  const statsHTML = distMeters > 0 ? `
-    <div class="route-stats">
-      <div class="stat">
-        <div class="stat-value">${distMeters}<small style="font-size:11px"> م</small></div>
-        <div class="stat-label">${t('distance')}</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value">${walkTime}<small style="font-size:11px"> د</small></div>
-        <div class="stat-label">${t('time')}</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value">${stepsCount}</div>
-        <div class="stat-label">${t('steps')}</div>
-      </div>
-    </div>` : '';
-
-  const actionsHTML = `
-    <div class="actions">
-      <button class="action-btn" id="shareBtn">📤 ${t('share')}</button>
-      <button class="action-btn" id="copyBtn">🔗 ${t('copy')}</button>
-      <button class="action-btn" onclick="window.print()">🖨️ ${t('print')}</button>
-    </div>`;
-
-  if(S.tab==='places'){
-    const p = PLACES[d.id], nm = pname(d.id);
-    r.innerHTML = `
-      <h2>${p.emoji} ${nm}</h2>
-      <p class="sub">${t('startLabel')}: ${startName()}</p>
-      ${statsHTML}
-      ${p.img ? `<div class="photo"><img src="${IMG[p.img]||''}" alt="${nm}"><p>📍 ${nm}</p></div>` : ''}
-      ${p.imgs ? `<div class="gal">${p.imgs.map(([k,c]) => `<figure><img src="${IMG[k]||''}" alt="${L(c)}"><figcaption>${L(c)}</figcaption></figure>`).join('')}</div>` : ''}
-      <ol class="steps">${routeSteps(d, sn, `🎯 ستصل إلى <b>${nm}</b>`)}</ol>
-      ${actionsHTML}`;
-  } else {
-    const b = S.block, bl = BLOCKS[b];
-    let h = '';
-    if(S.floor===null){
-      h = `<h2>🏢 الجناح ${b}</h2>
-        <p class="sub">اختر الطابق</p>
-        ${statsHTML}
-        <ol class="steps">${routeSteps(d, sn, `🎯 ستصل إلى <b>مدخل الجناح ${b}</b>`)}</ol>`;
-    } else {
-      const f = S.floor, rg = bl.f[f], total = rg[1]-rg[0]+1;
-      const sg = `${b} ${sign(f)} ${pad(rg[0])}-${pad(rg[1])}`;
-      h = `<div>${plate(b,f,'lg')}</div>
-        <h2 style="margin-top:10px">🚪 ${S.num ? 'الغرفة '+S.num : FL[f]}</h2>
-        <p class="sub">الجناح ${b} · الممر من ${rg[0]} إلى ${rg[1]} (${total} غرفة)</p>
-        ${statsHTML}
-        <ol class="steps">
-          ${routeSteps(d, sn, `🚪 ادخل من <b>الجناح ${b}</b>`, false)}
-          ${f>0 ? `<li>⬆️ اصعد السلالم إلى <b>${FL[f]}</b></li>` : `<li>🏠 ابقَ في <b>الطابق الأرضي</b></li>`}
-          <li>🔍 ابحث عن اللوحة: <b dir="ltr">${b} · ${sign(f)} · ${pad(rg[0])}-${pad(rg[1])}</b></li>
-          ${S.num ? `<li class="end">🚪 غرفتك <b>${S.num}</b> في هذا الممر</li>` : ''}
-        </ol>`;
-    }
-    h += actionsHTML;
-    r.innerHTML = h;
-  }
-
-  // Share button
-  setTimeout(() => {
-    const shareBtn = $('shareBtn');
-    const copyBtn = $('copyBtn');
-    if(shareBtn) shareBtn.onclick = async () => {
-      const url = location.href;
-      if(navigator.share){
-        try { await navigator.share({title: t('title'), url}); } catch(e){}
-      } else {
-        navigator.clipboard.writeText(url);
-        showToast(t('copied'));
-      }
-    };
-    if(copyBtn) copyBtn.onclick = () => {
-      navigator.clipboard.writeText(location.href);
-      showToast(t('copied'));
-    };
-  }, 10);
-}
-
-/* ---------- Initial render ---------- */
-applyStatic();
-render();
-home();
-
-/* ---------- URL params ---------- */
-const params = new URLSearchParams(location.search);
-if(params.get('start')) S.start = params.get('start');
-if(params.get('dest')){ S.dest = params.get('dest'); S.tab='places'; }
-if(params.get('room')){ S.num = parseInt(params.get('room')); S.tab='rooms'; }
-render(true);
+// Init
+setLang(localStorage.getItem('lang') || 'fr');
 </script>
 </body>
 </html>
+
+
