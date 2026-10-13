@@ -5,7 +5,7 @@
 // ============================================
 
 // ⚠️ ضع مفتاح Gemini هنا
-const GEMINI_API_KEY = 'AQ.Ab8RN6K3LFO36tHk6AxfHMWmf3U2ogE5fbN4aBe-R1XMj2V-vA ';
+const GEMINI_API_KEY = 'AQ.Ab8RN6LbEF26WGPXsddXUtP0Yfn94FNDiBAONIMuUki1swa_HQ ';
 
 const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
 
