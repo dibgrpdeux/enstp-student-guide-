@@ -17,6 +17,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="garidi-map.css">
 
 <style>
 .loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .4s ease,visibility .4s ease}
@@ -171,9 +172,6 @@ html[dir="rtl"] .feedback-float{right:auto;left:20px}
   <p id="tagline" style="margin:4px 0 0;opacity:.9;font-size:.9rem">Ton premier jour, dans ta poche.</p>
 </header>
 
-<!-- ============================================ -->
-<!-- ✅ Search Container (corrigé - une seule fois) -->
-<!-- ============================================ -->
 <div class="search-container">
   <div class="search-inner">
     <input id="q" placeholder="🔎 Chercher…" oninput="doSearch(this.value)">
@@ -240,9 +238,6 @@ try {
 
 <script src="lang.js"></script>
 
-<!-- ============================================ -->
-<!-- Data sections (alger ajouté) -->
-<!-- ============================================ -->
 <script src="data/config.js"></script>
 <script src="data/ecole.js"></script>
 <script src="data/admin.js"></script>
@@ -253,7 +248,7 @@ try {
 <script src="data/transport.js"></script>
 <script src="data/metro.js"></script>
 <script src="data/sport.js"></script>
-<script src="data/alger.js"></script>  <!-- ✅ NOUVEAU -->
+<script src="data/alger.js"></script>
 <script src="data/podcast.js"></script>
 <script src="data/courses.js"></script>
 <script src="data/green.js"></script>
@@ -264,18 +259,13 @@ try {
 
 <script src="search.js"></script>
 <script src="ai-search.js"></script>
+<script src="garidi-map.js"></script>
 
 <script>
-// ============================================
-// المتغيرات
-// ============================================
 let LANG = localStorage.getItem('lang') || 'fr';
 let CURRENT_SECTION = null;
 let CURRENT_CATEGORY = null;
 
-// ============================================
-// Loading
-// ============================================
 function hideLoading() {
   const el = document.getElementById('loadingScreen');
   if (el) {
@@ -296,9 +286,6 @@ function showProgress() {
   }, 1200);
 }
 
-// ============================================
-// Langue
-// ============================================
 function setLang(lang) {
   LANG = lang;
   localStorage.setItem('lang', lang);
@@ -378,9 +365,6 @@ function setLang(lang) {
   }
 }
 
-// ============================================
-// Home
-// ============================================
 function renderHome() {
   CURRENT_SECTION = null;
   CURRENT_CATEGORY = null;
@@ -409,9 +393,6 @@ function renderHome() {
   setupScrollAnimations();
 }
 
-// ============================================
-// Open Section
-// ============================================
 function openSection(id) {
   showProgress();
   CURRENT_SECTION = id;
@@ -437,9 +418,6 @@ function openSection(id) {
   if (s.buildings) { renderMap(s); return; }
 }
 
-// ============================================
-// Categories List (مع الخريطة)
-// ============================================
 function renderCategoriesList(sectionId) {
   const s = window.SECTIONS.find(x => x.id === sectionId);
   if (!s || !s.categories) return;
@@ -452,7 +430,6 @@ function renderCategoriesList(sectionId) {
   html += '<h2>' + s.icon + ' ' + title + '</h2>';
   html += '<p style="color:var(--mut);margin-bottom:16px">' + intro + '</p>';
   
-  // خريطة Google My Maps
   if (s.mapEmbed) {
     html += '<div class="map-wrapper">';
     html += '<div class="map-header">';
@@ -503,13 +480,127 @@ function renderCategory(sectionId, categoryId) {
   app.classList.add('section-change');
   setTimeout(() => app.classList.remove('section-change'), 500);
   
+  // ✅ جديد: الخريطة التفاعلية
+  if (c.type === 'garidi-map') {
+    renderGaridiMap(s, c);
+    return;
+  }
+  
   if (c.type === 'map' && c.buildings) { renderMap(s, c); return; }
   if (c.items) { renderItems(s, c.items, c); return; }
 }
 
 // ============================================
-// Render Items
+// ✅ خريطة قاريدي التفاعلية
 // ============================================
+function renderGaridiMap(section, category) {
+  const app = document.getElementById('app');
+  const LANG = window.LANG || localStorage.getItem('lang') || 'ar';
+  
+  let html = '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', LANG) + '</button>';
+  html += '<h2>' + (category.icon || '🗺️') + ' ' + window.t(category.titleKey, LANG) + '</h2>';
+  
+  const catIntro = (typeof category.intro === 'object') 
+    ? (category.intro[LANG] || category.intro.fr) 
+    : (category.descKey ? window.t(category.descKey, LANG) : '');
+  if (catIntro) {
+    html += '<p style="color:var(--mut);margin-bottom:16px;line-height:1.7">' + catIntro + '</p>';
+  }
+  
+  html += `
+    <div class="gm-container" id="garidi-map-container">
+      
+      <div class="gm-startrow">
+        <label data-gm="startLabel" for="gm-start">أنا الآن عند</label>
+        <select id="gm-start"></select>
+      </div>
+      
+      <div class="gm-tabs">
+        <button id="gm-tab-places" class="on" data-gm="tabPlaces">أماكن</button>
+        <button id="gm-tab-rooms" data-gm="tabRooms">غرف</button>
+      </div>
+      
+      <div id="gm-panel-places">
+        <div class="gm-chips" id="gm-chips"></div>
+      </div>
+      
+      <div id="gm-panel-rooms" hidden>
+        <div class="gm-blocks" id="gm-blocks"></div>
+        <div class="gm-floors" id="gm-floors"></div>
+        <div class="gm-numrow">
+          <input id="gm-num" type="text" inputmode="numeric" pattern="[0-9]*">
+          <button id="gm-go" data-gm="go">ابحث</button>
+        </div>
+        <div id="gm-msg"></div>
+      </div>
+      
+      <div class="gm-mapcard">
+        <div class="gm-zoom">
+          <button id="gm-zin">+</button>
+          <button id="gm-zout">−</button>
+          <button id="gm-zhome">⌂</button>
+          <button id="gm-tsat" aria-pressed="false">🛰️</button>
+        </div>
+        <div class="gm-scroller" id="gm-scroller">
+          <div class="gm-stage" id="gm-stage">
+            <img id="gm-sat" alt="" style="display:none">
+            <svg class="gm-basemap" viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true">
+              <rect class="gm-land" width="705" height="596"/>
+              <polygon class="gm-field" points="318,432 535,426 540,520 450,560 330,540"/>
+              <polygon class="gm-field" points="100,38 168,34 172,148 104,150"/>
+              <polygon class="gm-bgry" points="0,188 88,182 132,300 132,372 0,372"/>
+              <polygon class="gm-bgry" points="0,0 48,0 62,140 0,162"/>
+              <polygon class="gm-bgry" points="600,335 698,333 698,408 612,412"/>
+              <rect class="gm-bgry" x="667" y="517" width="15" height="13"/>
+              <polygon class="gm-bgry" points="536,398 588,398 588,484 536,484" style="opacity:.8"/>
+              <g>
+                <path class="gm-rcase" d="M22,330 C40,420 90,480 190,535 L236,562"/>
+                <path class="gm-rfill" d="M22,330 C40,420 90,480 190,535 L236,562"/>
+                <path class="gm-rcase" d="M692,580 L655,548 L640,495 L618,440 L602,395"/>
+                <path class="gm-rfill" d="M692,580 L655,548 L640,495 L618,440 L602,395"/>
+                <path class="gm-rcase" d="M602,392 L545,392 L480,396 L432,398 L352,404 L296,408"/>
+                <path class="gm-rfill" d="M602,392 L545,392 L480,396 L432,398 L352,404 L296,408"/>
+                <path class="gm-rcase" d="M296,408 L278,445 L252,485 L228,525"/>
+                <path class="gm-rfill" d="M296,408 L278,445 L252,485 L228,525"/>
+              </g>
+              <polygon class="gm-bres" points="316,365 392,303 418,319 352,396 322,390"/>
+              <polygon class="gm-bres" points="312,120 352,106 430,268 405,290 385,286"/>
+              <polygon class="gm-bres" points="335,22 392,12 418,30 412,75 355,108 322,92"/>
+              <polygon class="gm-bres" points="207,68 298,66 305,115 210,92"/>
+              <polygon class="gm-bres" points="420,284 535,291 537,335 432,333"/>
+              <polygon class="gm-bsrv" points="418,45 458,40 462,85 425,90"/>
+              <polygon class="gm-bsrv" points="452,118 495,128 500,176 462,176"/>
+              <circle class="gm-bsrv" cx="552" cy="75" r="46"/>
+              <circle class="gm-bsrv" cx="552" cy="75" r="30" style="opacity:.55"/>
+              <polygon class="gm-bsrv" points="548,112 612,100 622,162 562,192"/>
+            </svg>
+            <svg viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true">
+              <polyline id="gm-rcase" class="gm-route-case" vector-effect="non-scaling-stroke" points=""/>
+              <polyline id="gm-rline" class="gm-route-line" vector-effect="non-scaling-stroke" points=""/>
+            </svg>
+          </div>
+        </div>
+        <div class="gm-legend">
+          <span><i style="background:#0F1B3D"></i><span data-gm="here"></span></span>
+          <span><i style="background:#FFB81C;border:2px solid #0F1B3D"></i><span data-gm="dest"></span></span>
+          <span data-gm="tap"></span>
+        </div>
+      </div>
+      
+      <div class="gm-result" id="gm-result" aria-live="polite"></div>
+      <p class="gm-note" data-gm="foot"></p>
+      
+    </div>
+  `;
+  
+  app.innerHTML = html;
+  window.scrollTo(0, 0);
+  
+  if (window.garidiMap && window.garidiMap.init) {
+    window.garidiMap.init();
+  }
+}
+
 function renderItems(section, items, category) {
   const app = document.getElementById('app');
   
@@ -608,9 +699,6 @@ function renderSection(id) {
   else if (s.buildings) renderMap(s);
 }
 
-// ============================================
-// Render Map SVG
-// ============================================
 function renderMap(section, category) {
   const app = document.getElementById('app');
   const buildings = (category ? category.buildings : section.buildings) || [];
@@ -677,9 +765,6 @@ function showPlace(sectionId, buildingId, categoryId) {
   document.body.appendChild(overlay);
 }
 
-// ============================================
-// Metro Map
-// ============================================
 function renderMetroMap(section) {
   const app = document.getElementById('app');
   let html = '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
@@ -763,9 +848,6 @@ function openStationMaps(query) {
   if (o) o.remove();
 }
 
-// ============================================
-// QR
-// ============================================
 function renderQR(section) {
   const app = document.getElementById('app');
   let html = '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
@@ -827,9 +909,6 @@ function showQR(sectionId, itemIndex, categoryId) {
   }, 50);
 }
 
-// ============================================
-// Search
-// ============================================
 function doSearch(q) {
   q = q.trim();
   if (!q) { renderHome(); return; }
@@ -870,9 +949,6 @@ function doSearch(q) {
   app.innerHTML = html;
 }
 
-// ============================================
-// AI Search
-// ============================================
 function openAISearch() {
   const modal = document.getElementById('aiSearchModal');
   if (!modal) return;
@@ -945,9 +1021,6 @@ function escapeHtmlAI(text) {
   return div.innerHTML;
 }
 
-// ============================================
-// Toast
-// ============================================
 function showToast(message, duration = 3000) {
   const existing = document.getElementById('custom-toast');
   if (existing) existing.remove();
@@ -962,9 +1035,6 @@ function showToast(message, duration = 3000) {
   }, duration);
 }
 
-// ============================================
-// PWA
-// ============================================
 let deferredPrompt = null;
 
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -1013,9 +1083,6 @@ window.addEventListener('appinstalled', () => {
   localStorage.setItem('installDismissed', '1');
 });
 
-// ============================================
-// Scroll Animations
-// ============================================
 function setupScrollAnimations() {
   const els = document.querySelectorAll('.scroll-anim');
   if (!els.length) return;
@@ -1034,9 +1101,6 @@ function setupScrollAnimations() {
   }
 }
 
-// ============================================
-// Back to Top
-// ============================================
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1046,9 +1110,6 @@ window.addEventListener('scroll', () => {
   if (btn) btn.classList.toggle('show', window.scrollY > 300);
 });
 
-// ============================================
-// Ripple
-// ============================================
 document.addEventListener('click', (e) => {
   const target = e.target.closest('.ripple');
   if (!target) return;
@@ -1064,9 +1125,6 @@ document.addEventListener('click', (e) => {
   setTimeout(() => ripple.remove(), 600);
 });
 
-// ============================================
-// Hash
-// ============================================
 function handleHash() {
   const h = location.hash.slice(1);
   if (h && window.SECTIONS.find(s => s.id === h)) openSection(h);
@@ -1074,9 +1132,6 @@ function handleHash() {
 }
 window.addEventListener('hashchange', handleHash);
 
-// ============================================
-// Offline
-// ============================================
 function updateOnlineStatus() {
   document.body.classList.toggle('offline', !navigator.onLine);
 }
@@ -1084,9 +1139,6 @@ window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);
 updateOnlineStatus();
 
-// ============================================
-// Service Worker
-// ============================================
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js', { scope: './' })
@@ -1105,9 +1157,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// ============================================
-// Keyboard shortcuts
-// ============================================
 document.addEventListener('keydown', (e) => {
   if (e.ctrlKey && e.key === '/') {
     e.preventDefault();
@@ -1131,9 +1180,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ============================================
-// Init
-// ============================================
 (function init() {
   if (typeof applyTheme === 'function') applyTheme();
   if (typeof applyTextSize === 'function') applyTextSize();
@@ -1145,7 +1191,6 @@ document.addEventListener('keydown', (e) => {
   }, 300);
 })();
 
-// Exports
 window.openSection = openSection;
 window.renderHome = renderHome;
 window.renderCategory = renderCategory;
@@ -1164,15 +1209,10 @@ window.submitAIQuestion = submitAIQuestion;
 window.installPWA = installPWA;
 window.dismissInstallBanner = dismissInstallBanner;
 window.showToast = showToast;
+window.renderGaridiMap = renderGaridiMap;
 </script>
 
-<!-- ============================================ -->
-<!-- 🎓 قسم أساتذتي — Direct (inline) -->
-<!-- ============================================ -->
 <script>
-// ============================================
-// Profs — الأساتذة
-// ============================================
 (function() {
   let SECTIONS_ARRAY = null;
   
@@ -1274,285 +1314,5 @@ window.showToast = showToast;
   }
 })();
 </script>
-  <!-- ============================================ -->
-<!-- 🍽️ Shopping — rendu personnalisé -->
-<!-- ============================================ -->
-<script>
-(function() {
-  // Attendre que SECTIONS soit prêt
-  function init() {
-    if (typeof window.SECTIONS === 'undefined') {
-      return setTimeout(init, 100);
-    }
-
-    // Vérifier si le type 'shops' existe
-    const shopSection = window.SECTIONS.find(s => s.id === 'shopping');
-    if (!shopSection || shopSection.type !== 'shops') return;
-
-    // Remplacer openSection pour gérer le type 'shops'
-    const originalOpenSection = window.openSection;
-    window.openSection = function(id) {
-      const s = window.SECTIONS.find(x => x.id === id);
-      if (s && s.type === 'shops') {
-        return renderShopHome(s);
-      }
-      return originalOpenSection(id);
-    };
-
-    // ---------- Helpers ----------
-    function minToStr(m) {
-      const h = Math.floor(m / 60);
-      return h + 'h' + (m % 60 === 0 ? '' : (m % 60).toString().padStart(2, '0'));
-    }
-    function toMin(s) { const a = s.split(':'); return +a[0] * 60 + +a[1]; }
-    function getRanges(shop, day) {
-      return shop.x[day] !== undefined ? shop.x[day] : shop.h;
-    }
-    function isOpen(shop, date) {
-      if (!shop.h.length) return 'u';
-      const t = date.getHours() * 60 + date.getMinutes();
-      const ranges = getRanges(shop, date.getDay());
-      for (const r of ranges) {
-        const o = toMin(r[0]), c = toMin(r[1]);
-        if (c > o ? (t >= o && t < c) : (t >= o || t < c)) return 'o';
-      }
-      return 'c';
-    }
-    function dist(shop) {
-      const g = shop.g;
-      const R = 6371000, r = Math.PI / 180;
-      const a = Math.sin((g[0] - 36.7255818) * r / 2);
-      const b = Math.sin((g[1] - 3.0695956) * r / 2);
-      const d = 2 * R * Math.asin(Math.sqrt(a * a + Math.cos(36.7255818 * r) * Math.cos(g[0] * r) * b * b));
-      return Math.max(1, Math.round(d * 1.3 / 80));
-    }
-    function catOf(shop) {
-      return window.SHOP_DATA.cats[shop.c];
-    }
-    function catColor(cat) {
-      const colors = {
-        manger: '#f97316', cafe: '#a16207', courses: '#16a34a',
-        pharma: '#dc2626', copie: '#0891b2', sport: '#7c3aed',
-        beaute: '#db2777', tel: '#2563eb', vetements: '#9333ea',
-        services: '#475569'
-      };
-      return colors[cat] || '#f97316';
-    }
-
-    // ---------- Rendu principal ----------
-    let currentCat = 'all';
-    let currentTerm = '';
-    let filterOpen = false;
-    let filterCheap = false;
-    let filterFav = false;
-
-    function getFav() {
-      try { return JSON.parse(localStorage.getItem('shopFav') || '{}'); }
-      catch (e) { return {}; }
-    }
-    function setFav(i) {
-      const f = getFav();
-      if (f[i]) delete f[i]; else f[i] = 1;
-      localStorage.setItem('shopFav', JSON.stringify(f));
-    }
-
-    function renderShopHome(section) {
-      const app = document.getElementById('app');
-      const LANG = window.LANG || localStorage.getItem('lang') || 'fr';
-      const T = k => (window.t ? window.t(k, LANG) : k);
-
-      // Statut
-      const now = new Date();
-      const items = window.SHOP_DATA.items;
-      const fav = getFav();
-
-      // Filtrer
-      let list = items.filter(s => {
-        if (currentCat !== 'all' && s.c !== currentCat) return false;
-        if (currentTerm && s.n.toLowerCase().indexOf(currentTerm) === -1) return false;
-        if (filterOpen && isOpen(s, now) !== 'o') return false;
-        if (filterCheap && s.p !== 1) return false;
-        if (filterFav && !fav[s.i]) return false;
-        return true;
-      });
-      // Trier : ouverts d'abord, puis note
-      list.sort((a, b) => {
-        const oa = isOpen(a, now) === 'o' ? 0 : 1;
-        const ob = isOpen(b, now) === 'o' ? 0 : 1;
-        if (oa !== ob) return oa - ob;
-        return b.r - a.r;
-      });
-
-      let html = '<button class="back" onclick="renderHome()">← ' + (T('back') || 'Retour') + '</button>';
-      html += '<h2>' + section.icon + ' ' + T('sectionShopping') + '</h2>';
-      html += '<p style="color:var(--mut);margin-bottom:14px">' + T('shoppingIntro') + '</p>';
-
-      // Barre de recherche
-      html += '<input id="shopSearch" placeholder="' + T('shopSearch') + '" value="' + currentTerm.replace(/"/g, '&quot;') + '" style="width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font-size:1rem;outline:none;margin-bottom:12px;font-family:inherit">';
-
-      // Chips filtres
-      html += '<div class="shop-filters">';
-      html += '<button class="shop-chip' + (currentCat === 'all' ? ' on' : '') + '" onclick="__shopSetCat(\'all\')">' + T('shopAll') + '</button>';
-      section.categories.forEach(c => {
-        html += '<button class="shop-chip' + (currentCat === c.id ? ' on' : '') + '" onclick="__shopSetCat(\'' + c.id + '\')">' + c.icon + ' ' + T(c.titleKey) + '</button>';
-      });
-      html += '<button class="shop-chip' + (filterOpen ? ' on' : '') + '" onclick="__shopToggleOpen()">' + T('shopFilterOpen') + '</button>';
-      html += '<button class="shop-chip' + (filterCheap ? ' on' : '') + '" onclick="__shopToggleCheap()">' + T('shopFilterCheap') + '</button>';
-      html += '<button class="shop-chip' + (filterFav ? ' on' : '') + '" onclick="__shopToggleFav()">' + T('shopFilterFav') + '</button>';
-      html += '</div>';
-
-      // Liste
-      if (list.length === 0) {
-        html += '<div style="text-align:center;padding:40px;color:var(--mut)">' + T('shopNoResult') + '</div>';
-      } else {
-        list.forEach(s => {
-          const st = isOpen(s, now);
-          const stCls = st === 'o' ? 'open' : st === 'c' ? 'closed' : 'unknown';
-          const stTxt = st === 'o' ? T('shopOpen') : st === 'c' ? T('shopClosed') : T('shopUnknown');
-          const cat = catOf(s);
-          const catName = cat ? cat[LANG] || cat.fr : '';
-          const color = catColor(s.c);
-          const walk = dist(s);
-          const price = s.p > 0 ? ['', '€', '€€', '€€€'][s.p] : '';
-          const favIcon = fav[s.i] ? '❤️' : '🤍';
-
-          html += '<div class="shop-card" onclick="__shopOpen(' + s.i + ')">';
-          html += '<div class="shop-emoji" style="background:linear-gradient(135deg,' + color + ',' + color + 'dd);color:#fff">' + (cat ? cat.icon : '🏪') + '</div>';
-          html += '<div class="shop-info">';
-          html += '<div class="shop-name">' + s.n + '</div>';
-          html += '<div class="shop-meta">';
-          html += '<span>⭐ ' + s.r + '</span>';
-          if (price) html += '<span>· ' + price + '</span>';
-          html += '<span>· ' + catName + '</span>';
-          html += '<span>· 🚶 ' + walk + ' ' + T('shopMinWalk') + '</span>';
-          html += '</div></div>';
-          html += '<span class="shop-status ' + stCls + '">' + stTxt + '</span>';
-          html += '</div>';
-        });
-      }
-
-      app.innerHTML = html;
-      window.scrollTo(0, 0);
-
-      // Bind search
-      const sInput = document.getElementById('shopSearch');
-      if (sInput) {
-        sInput.addEventListener('input', e => {
-          currentTerm = e.target.value.toLowerCase();
-          const pos = e.target.selectionStart;
-          renderShopHome(section);
-          const newInput = document.getElementById('shopSearch');
-          if (newInput) {
-            newInput.focus();
-            newInput.setSelectionRange(pos, pos);
-          }
-        });
-      }
-    }
-
-    // ---------- Modale détail ----------
-    function openShopDetail(i) {
-      const LANG = window.LANG || localStorage.getItem('lang') || 'fr';
-      const T = k => (window.t ? window.t(k, LANG) : k);
-      const s = window.SHOP_DATA.items.find(x => x.i === i);
-      if (!s) return;
-      const now = new Date();
-      const st = isOpen(s, now);
-      const cat = catOf(s);
-      const catName = cat ? cat[LANG] || cat.fr : '';
-      const color = catColor(s.c);
-      const walk = dist(s);
-      const price = s.p > 0 ? ['', '€', '€€', '€€€'][s.p] : '';
-
-      const days = LANG === 'ar'
-        ? ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت']
-        : LANG === 'en'
-        ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-        : ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
-
-      const today = now.getDay();
-
-      let rows = '';
-      for (let k = 0; k < 7; k++) {
-        const d = (k + 1) % 7;
-        const ranges = getRanges(s, d);
-        const txt = ranges.length ? ranges.map(r => minToStr(toMin(r[0])) + ' – ' + minToStr(toMin(r[1]))).join(', ') : '—';
-        rows += '<tr' + (d === today ? ' class="today"' : '') + '><td>' + days[d] + '</td><td>' + txt + '</td></tr>';
-      }
-
-      const mapUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + s.g[0] + ',' + s.g[1] + '&travelmode=walking';
-      const searchMap = 'https://www.google.com/maps/search/?api=1&query=' + s.g[0] + ',' + s.g[1];
-
-      const stTxt = st === 'o' ? T('shopOpenNow') : st === 'c' ? T('shopClosedNow') : T('shopUnknown');
-      const stColor = st === 'o' ? '#067647' : st === 'c' ? '#b42318' : '#667085';
-      const stBg = st === 'o' ? '#dcfae6' : st === 'c' ? '#fee4e2' : '#f1f5f9';
-
-      const fav = getFav();
-      const favTxt = fav[i] ? '❤️' : '🤍';
-
-      let socials = '';
-      if (s.l.ig) socials += '<a href="' + s.l.ig + '" target="_blank" rel="noopener">📸 Instagram</a>';
-      if (s.l.fb) socials += '<a href="' + s.l.fb + '" target="_blank" rel="noopener">👍 Facebook</a>';
-      if (s.l.web) socials += '<a href="' + s.l.web + '" target="_blank" rel="noopener">🌐 Site</a>';
-      if (!socials) socials = '<a href="https://www.google.com/search?q=' + encodeURIComponent(s.n + ' Kouba Alger') + '" target="_blank" rel="noopener">🔎 ' + (LANG === 'ar' ? 'ابحث' : LANG === 'en' ? 'Search' : 'Rechercher') + '</a>';
-
-      const overlay = document.createElement('div');
-      overlay.className = 'shop-modal-overlay';
-      overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
-      overlay.innerHTML =
-        '<div class="shop-modal">' +
-          '<button class="shop-close" onclick="this.closest(\'.shop-modal-overlay\').remove()">✕</button>' +
-          '<div class="shop-emoji" style="background:linear-gradient(135deg,' + color + ',' + color + 'dd);color:#fff;width:64px;height:64px;font-size:2rem;margin-bottom:10px">' + (cat ? cat.icon : '🏪') + '</div>' +
-          '<span class="shop-badge">' + catName + '</span>' +
-          '<h2>' + s.n + '</h2>' +
-          '<div style="color:var(--mut);font-size:.9rem;margin-bottom:10px">⭐ ' + s.r + (price ? ' · ' + price : '') + ' · 🚶 ' + walk + ' ' + T('shopMinWalk') + '</div>' +
-          '<span style="display:inline-block;background:' + stBg + ';color:' + stColor + ';padding:5px 14px;border-radius:999px;font-size:.78rem;font-weight:700;margin-bottom:8px">' + stTxt + '</span>' +
-          (s.note ? '<p style="color:var(--mut);font-size:.9rem;margin:10px 0">' + s.note + '</p>' : '') +
-          '<h3 style="color:var(--acc);font-size:.95rem;margin:16px 0 6px">🕐 ' + T('shopHours') + '</h3>' +
-          '<table>' + rows + '</table>' +
-          '<div class="shop-actions">' +
-            '<a class="primary" href="' + mapUrl + '" target="_blank" rel="noopener">' + T('shopGo') + '</a>' +
-            (s.t ? '<a href="tel:' + s.t + '">' + T('shopCall') + '</a>' : '') +
-            '<button onclick="__shopToggleFav(' + i + ',this)">' + favTxt + '</button>' +
-            '<button onclick="__shopShare(' + i + ')">' + T('shopShare') + '</button>' +
-          '</div>' +
-          '<h3 style="color:var(--acc);font-size:.95rem;margin:16px 0 6px">🔗</h3>' +
-          '<div class="shop-actions">' + socials + '</div>' +
-          '<p style="font-size:.72rem;color:var(--mut-2);margin-top:14px;text-align:center">' +
-            (LANG === 'ar' ? 'المعلومات من Google Maps — للتأكيد' : LANG === 'en' ? 'Data from Google Maps — to confirm' : 'Données Google Maps — à confirmer') +
-          '</p>' +
-        '</div>';
-      document.body.appendChild(overlay);
-    }
-
-    // ---------- Actions globales ----------
-    window.__shopSetCat = c => { currentCat = c; renderShopHome(window.SECTIONS.find(s => s.id === 'shopping')); };
-    window.__shopToggleOpen = () => { filterOpen = !filterOpen; renderShopHome(window.SECTIONS.find(s => s.id === 'shopping')); };
-    window.__shopToggleCheap = () => { filterCheap = !filterCheap; renderShopHome(window.SECTIONS.find(s => s.id === 'shopping')); };
-    window.__shopToggleFav = () => { filterFav = !filterFav; renderShopHome(window.SECTIONS.find(s => s.id === 'shopping')); };
-    window.__shopOpen = i => openShopDetail(i);
-    window.__shopToggleFav = (i, btn) => {
-      setFav(i);
-      const fav = getFav();
-      if (btn) btn.textContent = fav[i] ? '❤️' : '🤍';
-    };
-    window.__shopShare = i => {
-      const s = window.SHOP_DATA.items.find(x => x.i === i);
-      if (!s) return;
-      const txt = s.n + ' — ' + (catOf(s) ? catOf(s).fr : '') + ' (Kouba, Alger)';
-      if (navigator.share) {
-        navigator.share({ title: s.n, text: txt, url: location.href }).catch(() => {});
-      } else {
-        navigator.clipboard.writeText(txt + ' ' + location.href);
-        if (window.showToast) window.showToast('✅ Copié !');
-      }
-    };
-
-    console.log('✅ Rendu Shopping personnalisé activé');
-  }
-  init();
-})();
-</script>
 </body>
 </html>
-  
