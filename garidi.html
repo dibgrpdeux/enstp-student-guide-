@@ -2,53 +2,140 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>خريطة قاريدي 1</title>
-<meta name="theme-color" content="#1B3BB3">
+<meta name="theme-color" content="#c2410c">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="garidi.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --acc:#c2410c; --acc2:#9a3412; --acc-soft:#fde8dc;
+  --bg:#f8f9fa; --card:#ffffff; --ink:#0f172a; --mut:#64748b; --line:#e2e8f0;
+  --land:#E6ECDA; --roadc:#C6CCBA; --roadf:#FAF8F1; --path:#FFFFFF;
+  --bres:#fed7aa; --bsrv:#F4DDB8; --bsrvs:#B07A2B;
+  --bgry:#D6D8DE; --bgrys:#9097A8; --tree:#7FA46B; --field:#E3D8B5;
+  --lbl:#0f172a; --lblh:#fff;
+  --amber:#fbbf24;
+}
+:root[data-mode="dark"]{
+  --bg:#0f172a; --card:#1e293b; --ink:#f8fafc; --mut:#94a3b8; --line:#334155;
+  --land:#1B271F; --roadc:#0F1712; --roadf:#3B473E; --path:#7A8A7E;
+  --bres:#3a2a20; --bsrv:#5A4426; --bsrvs:#D9A24C;
+  --bgry:#3A3F4D; --bgrys:#6E7690; --tree:#3F6A45; --field:#4A4430;
+  --lbl:#EAF0FF; --lblh:#0D1326;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif;line-height:1.6;-webkit-text-size-adjust:100%}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{max-width:560px;margin:0 auto;padding:0 14px 28px}
+header{background:var(--acc);color:#fff;margin:0 -14px;padding:14px 18px 16px}
+header h1{margin:0;font-size:24px;font-weight:700}
+header p{margin:2px 0 0;font-size:14px;opacity:.88}
+.lang{display:flex;gap:3px;background:rgba(255,255,255,.18);padding:3px;border-radius:12px;margin-top:12px}
+.lang button{flex:1;border:0;background:transparent;color:#fff;border-radius:9px;padding:8px 6px;font-size:15px;font-weight:700}
+.lang button[aria-pressed="true"]{background:#fff;color:var(--acc)}
+.startrow{display:flex;align-items:center;gap:10px;margin:14px 0 10px}
+.startrow label{font-size:14px;color:var(--mut);white-space:nowrap}
+select{flex:1;min-width:0;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:9px 10px;font-size:15px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--acc-soft);border-radius:12px;padding:4px;gap:4px}
+.tabs button{border:0;background:transparent;border-radius:9px;padding:9px 0;font-weight:500;font-size:15px;color:var(--mut)}
+.tabs button[aria-selected="true"]{background:var(--card);color:var(--acc);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.panel{margin-top:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:flex;align-items:center;gap:7px;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:8px 14px 8px 12px;font-size:14.5px}
+.chip[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.chip span.e{font-size:17px}
+.plate{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--acc);border:1.5px solid var(--acc-soft);border-radius:7px;padding:3px 9px 3px 8px;direction:ltr;line-height:1;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.plate .L{font-size:30px;font-weight:700}
+.plate .R{display:flex;flex-direction:column;align-items:flex-start;gap:1px}
+.plate .R i{font-style:normal;font-size:11px;font-weight:700}
+.plate .R b{font-size:17px;font-weight:700}
+.plate.lg{padding:6px 14px 6px 12px;gap:10px;border-radius:10px}
+.plate.lg .L{font-size:52px}
+.plate.lg .R i{font-size:16px}
+.plate.lg .R b{font-size:28px}
+button.plate{cursor:pointer}
+button.plate[aria-pressed="true"]{background:var(--acc);color:#fff;border-color:var(--acc)}
+.blocks{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.blocks .bt{background:#fff;color:var(--acc);border:2px solid var(--acc-soft);border-radius:10px;font-size:26px;font-weight:700;padding:6px 0}
+.blocks .bt[aria-pressed="true"]{background:var(--acc);color:#fff;border-color:var(--acc)}
+.floors{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.numrow{display:flex;gap:8px;margin-top:12px}
+.numrow input{flex:1;min-width:0;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:16px}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:0 20px;font-weight:700}
+.msg{margin-top:10px;background:var(--acc-soft);color:var(--acc);border-radius:10px;padding:9px 12px;font-size:14px}
+.mapcard{margin-top:14px;background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line);position:relative}
+.scroller{direction:ltr;overflow:auto;aspect-ratio:1/1;max-height:68vh;width:100%;-webkit-overflow-scrolling:touch;background:var(--land)}
+.stage{position:relative;width:100%;aspect-ratio:705/596;direction:ltr}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.land{fill:var(--land)}
+.rcase{fill:none;stroke:var(--roadc);stroke-width:12;stroke-linecap:round;stroke-linejoin:round}
+.rfill{fill:none;stroke:var(--roadf);stroke-width:8.5;stroke-linecap:round;stroke-linejoin:round}
+.pth{stroke:var(--path);stroke-width:1.6;stroke-dasharray:4 3;fill:none;vector-effect:non-scaling-stroke;opacity:.9}
+.bres{fill:var(--bres);stroke:var(--acc);stroke-width:1.6;stroke-linejoin:round}
+.bsrv{fill:var(--bsrv);stroke:var(--bsrvs);stroke-width:1.4;stroke-linejoin:round}
+.bgry{fill:var(--bgry);stroke:var(--bgrys);stroke-width:1.2;stroke-linejoin:round}
+.tree{fill:var(--tree);opacity:.8}
+.field{fill:var(--field);stroke:var(--bgrys);stroke-width:1;stroke-dasharray:5 4}
+.lb{position:absolute;transform:translate(-50%,-50%);font-size:11.5px;font-weight:700;color:var(--lbl);white-space:nowrap;pointer-events:none;text-shadow:0 0 3px var(--lblh),0 0 3px var(--lblh),0 0 5px var(--lblh);z-index:1}
+.route-case{fill:none;stroke:var(--ink);stroke-width:8;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.route-line{fill:none;stroke:var(--amber);stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 9;animation:flow 1.1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-10}}
+.zoom{position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:6px;z-index:5}
+.zoom button{width:38px;height:38px;border-radius:10px;border:0;background:var(--card);color:var(--ink);font-size:21px;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.35);padding:0}
+.pin{position:absolute;transform:translate(-50%,-50%);width:27px;height:27px;border-radius:50%;background:var(--card);border:2.5px solid var(--acc);display:grid;place-items:center;padding:0;font-size:13.5px;line-height:1;box-shadow:0 2px 5px rgba(0,0,0,.4);z-index:2}
+.pin .cap{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--acc);color:#fff;font-size:11.5px;font-weight:500;padding:2px 7px;border-radius:6px;display:none}
+.pin.on,.pin.start{z-index:4}
+.pin.on .cap,.pin.start .cap{display:block}
+.pin.on{background:var(--amber);border-color:var(--ink)}
+.pin.on::before{content:"";position:absolute;inset:-9px;border-radius:50%;border:3px solid var(--amber);animation:ring 1.6s ease-out infinite}
+@keyframes ring{from{transform:scale(.6);opacity:1}to{transform:scale(1.25);opacity:0}}
+.pin.start{border-color:#fff;background:var(--ink);color:#fff}
+.pin.start .cap{background:var(--ink)}
+.bp{position:absolute;transform:translate(-50%,-50%);background:#fff;color:var(--acc);border:2px solid var(--acc);border-radius:7px;padding:0 9px;font:700 17px Arial,sans-serif;box-shadow:0 2px 5px rgba(0,0,0,.4);z-index:3}
+.bp.on{background:var(--amber);color:var(--ink);border-color:var(--ink);z-index:4}
+.bp.start{background:var(--ink);color:#fff;border-color:#fff;z-index:4}
+.legend{display:flex;gap:14px;flex-wrap:wrap;padding:8px 12px;font-size:12.5px;color:var(--mut);border-top:1px solid var(--line)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-inline-end:5px;vertical-align:-1px}
+.result{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.result h2{margin:0 0 4px;font-size:19px}
+.result .sub{margin:0;color:var(--mut);font-size:14px}
+.empty{color:var(--mut);font-size:14.5px;text-align:center;padding:20px}
+ol.steps{list-style:none;margin:12px 0 0;padding:0}
+ol.steps li{position:relative;padding:0 0 14px;padding-inline-start:30px;font-size:15px}
+ol.steps li::before{content:"";position:absolute;inset-inline-start:8px;top:9px;bottom:-4px;width:2px;background:var(--line)}
+ol.steps li:last-child::before{display:none}
+ol.steps li::after{content:"";position:absolute;inset-inline-start:3px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--card);border:3px solid var(--acc)}
+ol.steps li.end::after{background:var(--amber);border-color:var(--ink)}
+.note{margin:6px 2px 0;font-size:12px;color:var(--mut)}
+.back-btn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;z-index:200;background:var(--card);color:var(--ink);width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:1.2rem;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,.2);border:1px solid var(--line)}
+.back-btn:hover{transform:translateY(-2px)}
+</style>
 </head>
 <body>
 
-<!-- شاشة اختيار اللغة -->
-<div id="langgate" role="dialog" aria-modal="true" aria-label="اللغة · Langue · Language" hidden>
-  <div class="box">
-    <h1 lang="ar">قاريدي 1</h1>
-    <h1 lang="en" style="margin-top:-2px;font-size:24px">Garidi 1</h1>
-    <p>اختر لغتك<br>Choisissez votre langue<br>Choose your language</p>
-    <button data-lang="ar" lang="ar">العربية</button>
-    <button data-lang="fr" lang="fr">Français</button>
-    <button data-lang="en" lang="en">English</button>
-  </div>
-</div>
+<a href="guide.html" class="back-btn">←</a>
 
 <div class="wrap">
   <header>
-    <div class="hrow">
-      <div>
-        <h1 data-i18n="title"></h1>
-        <p data-i18n="sub"></p>
-      </div>
-    </div>
-    <div class="lang" role="group" aria-label="اللغة · Langue · Language">
-      <button data-lang="ar" aria-pressed="true" lang="ar">العربية</button>
-      <button data-lang="fr" aria-pressed="false" lang="fr">Français</button>
-      <button data-lang="en" aria-pressed="false" lang="en">English</button>
+    <h1>قاريدي 1</h1>
+    <p id="sub">اختر وجهتك، ونرسم لك الطريق من الباب الرئيسي</p>
+    <div class="lang">
+      <button data-lang="ar" aria-pressed="true">العربية</button>
+      <button data-lang="fr" aria-pressed="false">Français</button>
+      <button data-lang="en" aria-pressed="false">English</button>
     </div>
   </header>
 
   <div class="startrow">
-    <label for="start" data-i18n="startLabel"></label>
+    <label>أنا الآن عند</label>
     <select id="start"></select>
   </div>
 
-  <div class="tabs" role="tablist">
-    <button role="tab" id="tab-places" aria-selected="true" data-i18n="tabPlaces"></button>
-    <button role="tab" id="tab-rooms" aria-selected="false" data-i18n="tabRooms"></button>
+  <div class="tabs">
+    <button id="tab-places" aria-selected="true">📍 أماكن</button>
+    <button id="tab-rooms" aria-selected="false">🚪 غرف</button>
   </div>
 
   <div class="panel" id="panel-places">
@@ -59,37 +146,30 @@
     <div class="blocks" id="blocks"></div>
     <div class="floors" id="floors"></div>
     <div class="numrow">
-      <input id="num" type="text" inputmode="numeric" pattern="[0-9]*" data-i18n-aria="phAria">
-      <button class="btn" id="go" data-i18n="go"></button>
+      <input id="num" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="رقم الغرفة، مثال: 52">
+      <button class="btn" id="go">ابحث</button>
     </div>
     <div id="msg"></div>
   </div>
 
   <div class="mapcard">
     <div class="zoom">
-      <button id="zin" data-i18n-aria="zin">+</button>
-      <button id="zout" data-i18n-aria="zout">−</button>
-      <button id="zhome" data-i18n-aria="zhome">⌂</button>
-      <button id="tsat" aria-pressed="false" data-i18n-aria="tsat">🛰️</button>
+      <button id="zin">+</button>
+      <button id="zout">−</button>
+      <button id="zhome">⌂</button>
     </div>
     <div class="scroller" id="scroller">
       <div class="stage" id="stage">
-        <img id="sat" alt="">
-        <svg class="basemap" viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true">
+        <svg viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true">
           <rect class="land" width="705" height="596"/>
           <polygon class="field" points="318,432 535,426 540,520 450,560 330,540"/>
           <polygon class="field" points="100,38 168,34 172,148 104,150"/>
-          <g id="trees"></g>
           <polygon class="bgry" points="0,188 88,182 132,300 132,372 0,372"/>
-          <circle cx="38" cy="262" r="15" fill="#EEF3F0" stroke="#9097A8"/>
-          <circle cx="68" cy="256" r="15" fill="#EEF3F0" stroke="#9097A8"/>
-          <circle cx="76" cy="290" r="15" fill="#EEF3F0" stroke="#9097A8"/>
-          <circle cx="46" cy="296" r="15" fill="#EEF3F0" stroke="#9097A8"/>
           <polygon class="bgry" points="0,0 48,0 62,140 0,162"/>
           <polygon class="bgry" points="600,335 698,333 698,408 612,412"/>
           <rect class="bgry" x="667" y="517" width="15" height="13"/>
           <polygon class="bgry" points="536,398 588,398 588,484 536,484" style="opacity:.8"/>
-          <g id="roads">
+          <g>
             <path class="rcase" d="M22,330 C40,420 90,480 190,535 L236,562"/>
             <path class="rfill" d="M22,330 C40,420 90,480 190,535 L236,562"/>
             <path class="rcase" d="M692,580 L655,548 L640,495 L618,440 L602,395"/>
@@ -100,17 +180,11 @@
             <path class="rfill" d="M296,408 L278,445 L252,485 L228,525"/>
           </g>
           <g id="paths"></g>
-          <polygon class="cb" points="140,188 205,172 238,262 178,293"/>
-          <polygon class="cf" points="182,305 250,288 292,400 232,432"/>
-          <line class="cline" x1="165" y1="240" x2="222" y2="228"/>
-          <line class="cline" x1="214" y1="360" x2="262" y2="346"/>
           <polygon class="bres" points="316,365 392,303 418,319 352,396 322,390"/>
           <polygon class="bres" points="312,120 352,106 430,268 405,290 385,286"/>
           <polygon class="bres" points="335,22 392,12 418,30 412,75 355,108 322,92"/>
           <polygon class="bres" points="207,68 298,66 305,115 210,92"/>
-          <circle class="bres" cx="322" cy="98" r="14"/>
           <polygon class="bres" points="420,284 535,291 537,335 432,333"/>
-          <circle class="bres" cx="400" cy="298" r="17"/>
           <polygon class="bsrv" points="418,45 458,40 462,85 425,90"/>
           <polygon class="bsrv" points="452,118 495,128 500,176 462,176"/>
           <circle class="bsrv" cx="552" cy="75" r="46"/>
@@ -124,18 +198,319 @@
       </div>
     </div>
     <div class="legend">
-      <span><i style="background:#0F1B3D"></i><span data-i18n="here"></span></span>
-      <span><i style="background:#FFB81C;border:2px solid #0F1B3D"></i><span data-i18n="dest"></span></span>
-      <span data-i18n="tap"></span>
+      <span><i style="background:#0F1B3D"></i>أنت هنا</span>
+      <span><i style="background:var(--amber);border:2px solid #0F1B3D"></i>الوجهة</span>
+      <span>المس أي رمز لاختياره</span>
     </div>
   </div>
 
-  <div class="result" id="result" aria-live="polite"></div>
-  <p class="note" data-i18n="foot"></p>
+  <div class="result" id="result"></div>
+  <p class="note">المسارات تقريبية ومرسومة على رسم مبسّط.</p>
 </div>
 
-<a href="guide.html" class="back-btn" id="backBtn">←</a>
+<script>
+/* ============ الإحداثيات والعقد ============ */
+const W = 705, H = 596;
 
-<script src="garidi.js"></script>
+const N = {
+  gate:{x:655,y:548,l:1}, gd:{x:674,y:524}, g2:{x:640,y:495}, g3:{x:618,y:440,l:1},
+  re:{x:602,y:395}, rm:{x:545,y:392}, rde:{x:480,y:396,l:1},
+  rc:{x:432,y:398,l:1}, rb:{x:352,y:404,l:1}, rw:{x:300,y:408,l:1},
+  pk:{x:562,y:432},
+  n1:{x:428,y:356}, td:{x:413,y:314,l:1}, c2:{x:420,y:282}, cd:{x:408,y:245,l:1},
+  adm:{x:456,y:198}, act:{x:452,y:238}, clinic:{x:474,y:266,l:1},
+  c3:{x:428,y:200}, c4:{x:416,y:150}, ab:{x:318,y:106}, ae:{x:380,y:112,l:1}, wk:{x:445,y:98}, cl:{x:486,y:182},
+  e3:{x:540,y:200}, e2:{x:546,y:270,l:1}, e1:{x:548,y:345}, rest:{x:548,y:122},
+  bn1:{x:268,y:300}, bn2:{x:250,y:255}, bn3:{x:228,y:175}, bd:{x:256,y:124,l:1}, bk:{x:215,y:258},
+  f1:{x:290,y:395}, foot:{x:275,y:368}, sw1:{x:278,y:445}, sw:{x:254,y:480}
+};
+
+const E = [
+  ['gate','gd'],['gate','g2'],['g2','g3'],['g3','re'],['re','rm'],['rm','rde'],['rde','rc'],['rc','rb'],['rb','rw'],['rm','pk'],
+  ['n1','td'],['e2','clinic'],['td','c2'],['c2','cd'],['c2','clinic'],['adm','cl'],['adm','c3'],['cd','act'],
+  ['cd','c3'],['c3','c4'],['c4','ae'],['ae','ab'],['c4','wk'],['c3','cl'],
+  ['rm','e1'],['e1','e2'],['e2','e3'],['e3','rest'],
+  ['rw','f1'],['f1','foot'],['rw','sw1'],['sw1','sw'],
+  ['rw','bn1'],['bn1','bn2'],['bn2','bn3'],['bn3','bd'],['bn2','bk']
+];
+
+/* ============ بناء الرسم البياني ============ */
+const adj = {};
+E.forEach(([a,b]) => {
+  const d = Math.hypot(N[a].x-N[b].x, N[a].y-N[b].y);
+  (adj[a] = adj[a] || []).push([b, d]);
+  (adj[b] = adj[b] || []).push([a, d]);
+});
+
+/* ============ Dijkstra ============ */
+function path(from, to) {
+  const dist = {}, prev = {}, q = new Set(Object.keys(N));
+  Object.keys(N).forEach(k => dist[k] = Infinity);
+  dist[from] = 0;
+  while (q.size) {
+    let u = null;
+    q.forEach(k => { if (u === null || dist[k] < dist[u]) u = k; });
+    if (u === to || dist[u] === Infinity) break;
+    q.delete(u);
+    (adj[u] || []).forEach(([v,d]) => {
+      if (dist[u]+d < dist[v]) { dist[v] = dist[u]+d; prev[v] = u; }
+    });
+  }
+  const p = [];
+  let c = to;
+  while (c) { p.unshift(c); c = prev[c]; }
+  return p[0] === from ? p : [from, to];
+}
+
+/* ============ الأماكن ============ */
+const PLACES = {
+  gate:{n:'المدخل الرئيسي', node:'gate', emoji:'🚪', nochip:true},
+  guard:{n:'مركز الحراسة', node:'gd', emoji:'🛡️'},
+  adm:{n:'الإدارة', node:'adm', emoji:'🏢'},
+  act:{n:'مصلحة النشاطات', node:'act', emoji:'🩺'},
+  clinic:{n:'العيادة', node:'clinic', emoji:'🏥'},
+  rest:{n:'المطعم', node:'rest', emoji:'🍽️'},
+  club:{n:'النادي', node:'cl', emoji:'☕'},
+  work:{n:'المرش', node:'wk', emoji:'🚿'},
+  foot:{n:'ملعب كرة القدم', node:'foot', emoji:'⚽'},
+  basket:{n:'ملعب كرة السلة', node:'bk', emoji:'🏀'},
+  park:{n:'موقف السيارات', node:'pk', emoji:'🅿️'},
+  mosalla:{n:'مصلى الفضيل الورتلاني', node:'ab', emoji:'🕌'},
+  sw:{n:'Street Workout', node:'sw', emoji:'🏋️'}
+};
+
+/* ============ الأجنحة ============ */
+const BLOCKS = {
+  A:{node:'ab',x:370,y:58,f:{0:[1,11],1:[12,22]}},
+  B:{node:'ab',x:255,y:92,f:{0:[1,11],1:[12,22],2:[23,33],3:[34,44]}},
+  C:{node:'cd',x:360,y:205,f:{0:[1,17],1:[22,43],2:[44,65],3:[66,87]},gap:[18,21]},
+  D:{node:'td',x:480,y:313,f:{1:[1,13],2:[14,26],3:[27,39]}},
+  E:{node:'td',x:352,y:350,f:{1:[1,11],2:[12,22],3:[23,33]}}
+};
+
+/* ============ الحالة ============ */
+const S = {tab:'places', start:'gate', dest:null, block:null, floor:null, num:null, zoom:1, msg:null};
+let startOpts = [];
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,'0');
+const pct = (x,y) => `left:${x/W*100}%;top:${y/H*100}%`;
+
+/* ============ بناء العلامات ============ */
+const stage = $('stage');
+
+Object.entries(PLACES).forEach(([id, p]) => {
+  const n = N[p.node];
+  const b = document.createElement('button');
+  b.className = 'pin';
+  b.dataset.id = id;
+  b.dataset.kind = 'p';
+  b.style.cssText = pct(n.x, n.y);
+  b.innerHTML = `${p.emoji}<span class="cap"></span>`;
+  b.onclick = () => { S.tab = 'places'; S.dest = id; S.msg = null; render(true); };
+  stage.appendChild(b);
+});
+
+Object.entries(BLOCKS).forEach(([id, bl]) => {
+  const b = document.createElement('button');
+  b.className = 'bp';
+  b.dataset.id = id;
+  b.dataset.kind = 'b';
+  b.style.cssText = pct(bl.x, bl.y);
+  b.textContent = id;
+  b.onclick = () => { S.tab = 'rooms'; S.block = id; S.floor = null; S.num = null; S.msg = null; render(true); };
+  stage.appendChild(b);
+});
+
+/* ============ قائمة "أنا الآن عند" ============ */
+startOpts = Object.keys(PLACES).map(id => [id, PLACES[id].n])
+  .concat(Object.keys(BLOCKS).map(b => [b, 'الجناح ' + b]));
+$('start').innerHTML = startOpts.map(([v,x]) => `<option value="${v}">${x}</option>`).join('');
+$('start').value = S.start;
+$('start').onchange = e => { S.start = e.target.value; render(); };
+
+/* ============ التبويبات ============ */
+$('tab-places').onclick = () => { S.tab = 'places'; render(); };
+$('tab-rooms').onclick = () => { S.tab = 'rooms'; render(); };
+
+/* ============ التكبير ============ */
+function setZoom(z) {
+  S.zoom = Math.max(1, Math.min(4, z));
+  stage.style.width = (S.zoom * 100) + '%';
+}
+$('zin').onclick = () => setZoom(S.zoom + .5);
+$('zout').onclick = () => setZoom(S.zoom - .5);
+$('zhome').onclick = () => {
+  setZoom(1);
+  $('scroller').scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+};
+
+/* ============ البحث عن غرفة ============ */
+function findRoom(b, n) {
+  const bl = BLOCKS[b];
+  for (const f in bl.f) {
+    const r = bl.f[f];
+    if (n >= r[0] && n <= r[1]) return +f;
+  }
+  return null;
+}
+
+$('go').onclick = () => {
+  const raw = $('num').value.trim();
+  const n = parseInt(raw, 10);
+  if (!S.block) { S.msg = 'اختر الجناح أولاً.'; return render(); }
+  if (!raw || isNaN(n)) { S.msg = 'اكتب رقم الغرفة بالأرقام.'; return render(); }
+  const bl = BLOCKS[S.block], b = S.block;
+  const f = findRoom(b, n);
+  if (f === null) {
+    const mx = Math.max(...Object.values(bl.f).map(r => r[1]));
+    if (bl.gap && n >= bl.gap[0] && n <= bl.gap[1]) S.msg = `الغرف ${bl.gap[0]} إلى ${bl.gap[1]} في الجناح C غير ظاهرة.`;
+    else if (n > mx) S.msg = `أكبر رقم غرفة في الجناح ${b} هو ${mx}.`;
+    else S.msg = `الغرفة ${n} غير موجودة في الجناح ${b}.`;
+    S.floor = null; S.num = null; return render();
+  }
+  S.msg = null; S.floor = f; S.num = n; render(true);
+};
+
+/* ============ الرسم ============ */
+function curDest() {
+  if (S.tab === 'places' && S.dest) return { node: PLACES[S.dest].node, id: S.dest, kind: 'p' };
+  if (S.tab === 'rooms' && S.block) return { node: BLOCKS[S.block].node, id: S.block, kind: 'b' };
+  return null;
+}
+function startNode() {
+  const s = S.start;
+  return PLACES[s] ? PLACES[s].node : BLOCKS[s].node;
+}
+function startName() {
+  return startOpts.find(o => o[0] === S.start)[1];
+}
+
+function render(focusMap) {
+  $('tab-places').setAttribute('aria-selected', S.tab === 'places');
+  $('tab-rooms').setAttribute('aria-selected', S.tab === 'rooms');
+  $('panel-places').hidden = S.tab !== 'places';
+  $('panel-rooms').hidden = S.tab !== 'rooms';
+
+  /* chips */
+  $('chips').innerHTML = Object.entries(PLACES).filter(([,p]) => !p.nochip).map(([id,p]) =>
+    `<button class="chip" data-id="${id}" aria-pressed="${S.dest === id}"><span class="e">${p.emoji}</span>${p.n}</button>`
+  ).join('');
+  $('chips').querySelectorAll('.chip').forEach(b => b.onclick = () => { S.dest = b.dataset.id; render(true); });
+
+  /* blocks + floors */
+  $('blocks').innerHTML = Object.keys(BLOCKS).map(b =>
+    `<button class="bt" data-b="${b}" aria-pressed="${S.block === b}">${b}</button>`
+  ).join('');
+  $('blocks').querySelectorAll('.bt').forEach(b => b.onclick = () => { S.block = b.dataset.b; S.floor = null; S.num = null; S.msg = null; render(true); });
+
+  const FL = ['الطابق الأرضي','الطابق الأول','الطابق الثاني','الطابق الثالث'];
+  $('floors').innerHTML = S.block ? Object.keys(BLOCKS[S.block].f).map(f => {
+    const r = BLOCKS[S.block].f[f];
+    return `<button class="plate" data-f="${f}" aria-pressed="${S.floor == f && S.num === null}"><span class="L">${S.block}</span><span class="R"><i>${f===0?'RDC':f+' ETAGE'}</i><b>${pad(r[0])}-${pad(r[1])}</b></span></button>`;
+  }).join('') : '';
+  $('floors').querySelectorAll('button').forEach(b => b.onclick = () => { S.floor = +b.dataset.f; S.num = null; S.msg = null; $('num').value = ''; render(true); });
+
+  $('msg').innerHTML = S.msg ? `<div class="msg">${S.msg}</div>` : '';
+
+  /* تظليل العلامات */
+  const d = curDest(), sn = startNode();
+  stage.querySelectorAll('.pin,.bp').forEach(el => {
+    const id = el.dataset.id, kind = el.dataset.kind;
+    const isStart = S.start === id, isDest = !!d && d.kind === kind && d.id === id;
+    el.classList.toggle('on', isDest && !isStart);
+    el.classList.toggle('start', isStart);
+    const cap = el.querySelector('.cap');
+    if (cap) cap.textContent = isStart ? 'أنت هنا' : PLACES[id] ? PLACES[id].n : '';
+  });
+
+  drawRoute(d, sn, focusMap);
+  renderResult(d, sn);
+}
+
+function drawRoute(d, sn, focus) {
+  if (!d || sn === d.node) { $('rline').setAttribute('points',''); $('rcase').setAttribute('points',''); return; }
+  const p = path(sn, d.node);
+  const pts = p.map(k => `${N[k].x},${N[k].y}`).join(' ');
+  $('rline').setAttribute('points', pts);
+  $('rcase').setAttribute('points', pts);
+  if (focus) {
+    const xs = p.map(k => N[k].x), ys = p.map(k => N[k].y);
+    const minx = Math.min(...xs), maxx = Math.max(...xs), miny = Math.min(...ys), maxy = Math.max(...ys);
+    const sc = $('scroller'), w = sc.clientWidth, h = sc.clientHeight;
+    const bw = Math.max(60, (maxx-minx)/W*w), bh = Math.max(60, (maxy-miny)/W*w);
+    let z = Math.min(w/(bw*1.5), h/(bh*1.5));
+    z = Math.max(1.2, Math.min(3, Math.round(z*2)/2));
+    setZoom(z);
+    requestAnimationFrame(() => {
+      const cx = (minx+maxx)/2/W*w*z - w/2, cy = (miny+maxy)/2/H*(w*H/W)*z - h/2;
+      sc.scrollTo({ left: cx, top: cy, behavior: 'smooth' });
+    });
+  }
+}
+
+function renderResult(d, sn) {
+  const r = $('result');
+  if (!d) {
+    r.innerHTML = `<p class="empty">${S.tab === 'places' ? 'اختر وجهة من الأعلى أو المس رمزاً على الخريطة.' : 'اختر الجناح ثم اكتب رقم غرفتك.'}</p>`;
+    return;
+  }
+
+  if (S.tab === 'places') {
+    const p = PLACES[d.id];
+    r.innerHTML = `<h2>${p.emoji} ${p.n}</h2>
+      <p class="sub">الطريق من ${startName()}</p>
+      <ol class="steps">${routeSteps(d, sn, `ستصل إلى <b>${p.n}</b>`)}</ol>`;
+    return;
+  }
+
+  const b = S.block, bl = BLOCKS[b];
+  const FL = ['الطابق الأرضي','الطابق الأول','الطابق الثاني','الطابق الثالث'];
+  let h = '';
+  const wing = {A:'A B', B:'A B', D:'D E', E:'D E'}[b];
+  const other = {A:'B', B:'A', D:'E', E:'D'}[b];
+
+  if (S.floor === null) {
+    h = `<h2>الجناح ${b}</h2>
+      <p class="sub">${wing ? `تشترك مع ${other} في مدخل واحد: «الجناح ${wing}»` : 'اختر الطابق أو اكتب رقم الغرفة.'}</p>
+      <ol class="steps">${routeSteps(d, sn, `ستصل إلى <b>مدخل الجناح ${b}</b>`)}</ol>`;
+    r.innerHTML = h;
+    return;
+  }
+
+  const f = S.floor, rg = bl.f[f], total = rg[1] - rg[0] + 1;
+  h = `<h2>الغرفة ${S.num !== null ? S.num : ''} · ${FL[f]}</h2>
+    <p class="sub">الجناح ${b} · الممر من ${rg[0]} إلى ${rg[1]} (${total} غرفة)</p>
+    <ol class="steps">${routeSteps(d, sn, `ستصل إلى <b>مدخل الجناح ${b}</b>`, false)}`;
+  if (wing) h += `<li>ادخل من <b>الجناح ${wing}</b></li>`;
+  h += f > 0 ? `<li>اصعد إلى <b>${FL[f]}</b></li>` : `<li>ابقَ في <b>الطابق الأرضي</b></li>`;
+  h += `<li${S.num === null ? ' class="end"' : ''}>ابحث فوق الباب عن اللوحة <b>${b} · ${f===0?'RDC':f+' ETAGE'} · ${pad(rg[0])}-${pad(rg[1])}</b></li>`;
+  if (S.num !== null) h += `<li class="end">غرفتك <b>${S.num}</b> داخل هذا الممر</li>`;
+  h += `</ol>`;
+  r.innerHTML = h;
+}
+
+function routeSteps(d, sn, destHTML, isEnd = true) {
+  if (sn === d.node) return `<li${isEnd ? ' class="end"' : ''}>أنت قريب من الوجهة بالفعل.</li>`;
+  const p = path(sn, d.node);
+  const mids = p.slice(1, -1).filter(k => N[k].l);
+  let h = `<li>انطلق من <b>${startName()}</b></li>`;
+  mids.forEach(k => { h += `<li>مرّ على <b>${getNodeName(k)}</b></li>`; });
+  h += `<li${isEnd ? ' class="end"' : ''}>${destHTML}</li>`;
+  return h;
+}
+
+function getNodeName(k) {
+  const names = {
+    gate:'المدخل الرئيسي', g3:'الطريق بمحاذاة الموقف',
+    td:'البرج المركزي (D وE)', cd:'شرق الجناح C',
+    e2:'شرق الجناح D', rw:'آخر الطريق غرب الجناح E'
+  };
+  return names[k] || k;
+}
+
+/* ============ التشغيل ============ */
+render();
+</script>
 </body>
 </html>
+
