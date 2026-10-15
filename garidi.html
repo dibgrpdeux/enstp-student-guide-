@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>خريطة قاريدي 1</title>
+<meta name="theme-color" content="#1B3BB3">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="garidi.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- شاشة اختيار اللغة -->
+<div id="langgate" role="dialog" aria-modal="true" aria-label="اللغة · Langue · Language" hidden>
+  <div class="box">
+    <h1 lang="ar">قاريدي 1</h1>
+    <h1 lang="en" style="margin-top:-2px;font-size:24px">Garidi 1</h1>
+    <p>اختر لغتك<br>Choisissez votre langue<br>Choose your language</p>
+    <button data-lang="ar" lang="ar">العربية</button>
+    <button data-lang="fr" lang="fr">Français</button>
+    <button data-lang="en" lang="en">English</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="hrow">
+      <div>
+        <h1 data-i18n="title"></h1>
+        <p data-i18n="sub"></p>
+      </div>
+    </div>
+    <div class="lang" role="group" aria-label="اللغة · Langue · Language">
+      <button data-lang="ar" aria-pressed="true" lang="ar">العربية</button>
+      <button data-lang="fr" aria-pressed="false" lang="fr">Français</button>
+      <button data-lang="en" aria-pressed="false" lang="en">English</button>
+    </div>
+  </header>
+
+  <div class="startrow">
+    <label for="start" data-i18n="startLabel"></label>
+    <select id="start"></select>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-places" aria-selected="true" data-i18n="tabPlaces"></button>
+    <button role="tab" id="tab-rooms" aria-selected="false" data-i18n="tabRooms"></button>
+  </div>
+
+  <div class="panel" id="panel-places">
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div class="panel" id="panel-rooms" hidden>
+    <div class="blocks" id="blocks"></div>
+    <div class="floors" id="floors"></div>
+    <div class="numrow">
+      <input id="num" type="text" inputmode="numeric" pattern="[0-9]*" data-i18n-aria="phAria">
+      <button class="btn" id="go" data-i18n="go"></button>
+    </div>
+    <div id="msg"></div>
+  </div>
+
+  <div class="mapcard">
+    <div class="zoom">
+      <button id="zin" data-i18n-aria="zin">+</button>
+      <button id="zout" data-i18n-aria="zout">−</button>
+      <button id="zhome" data-i18n-aria="zhome">⌂</button>
+      <button id="tsat" aria-pressed="false" data-i18n-aria="tsat">🛰️</button>
+    </div>
+    <div class="scroller" id="scroller">
+      <div class="stage" id="stage">
+        <img id="sat" alt="">
+        <svg class="basemap" viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true">
+          <rect class="land" width="705" height="596"/>
+          <polygon class="field" points="318,432 535,426 540,520 450,560 330,540"/>
+          <polygon class="field" points="100,38 168,34 172,148 104,150"/>
+          <g id="trees"></g>
+          <polygon class="bgry" points="0,188 88,182 132,300 132,372 0,372"/>
+          <circle cx="38" cy="262" r="15" fill="#EEF3F0" stroke="#9097A8"/>
+          <circle cx="68" cy="256" r="15" fill="#EEF3F0" stroke="#9097A8"/>
+          <circle cx="76" cy="290" r="15" fill="#EEF3F0" stroke="#9097A8"/>
+          <circle cx="46" cy="296" r="15" fill="#EEF3F0" stroke="#9097A8"/>
+          <polygon class="bgry" points="0,0 48,0 62,140 0,162"/>
+          <polygon class="bgry" points="600,335 698,333 698,408 612,412"/>
+          <rect class="bgry" x="667" y="517" width="15" height="13"/>
+          <polygon class="bgry" points="536,398 588,398 588,484 536,484" style="opacity:.8"/>
+          <g id="roads">
+            <path class="rcase" d="M22,330 C40,420 90,480 190,535 L236,562"/>
+            <path class="rfill" d="M22,330 C40,420 90,480 190,535 L236,562"/>
+            <path class="rcase" d="M692,580 L655,548 L640,495 L618,440 L602,395"/>
+            <path class="rfill" d="M692,580 L655,548 L640,495 L618,440 L602,395"/>
+            <path class="rcase" d="M602,392 L545,392 L480,396 L432,398 L352,404 L296,408"/>
+            <path class="rfill" d="M602,392 L545,392 L480,396 L432,398 L352,404 L296,408"/>
+            <path class="rcase" d="M296,408 L278,445 L252,485 L228,525"/>
+            <path class="rfill" d="M296,408 L278,445 L252,485 L228,525"/>
+          </g>
+          <g id="paths"></g>
+          <polygon class="cb" points="140,188 205,172 238,262 178,293"/>
+          <polygon class="cf" points="182,305 250,288 292,400 232,432"/>
+          <line class="cline" x1="165" y1="240" x2="222" y2="228"/>
+          <line class="cline" x1="214" y1="360" x2="262" y2="346"/>
+          <polygon class="bres" points="316,365 392,303 418,319 352,396 322,390"/>
+          <polygon class="bres" points="312,120 352,106 430,268 405,290 385,286"/>
+          <polygon class="bres" points="335,22 392,12 418,30 412,75 355,108 322,92"/>
+          <polygon class="bres" points="207,68 298,66 305,115 210,92"/>
+          <circle class="bres" cx="322" cy="98" r="14"/>
+          <polygon class="bres" points="420,284 535,291 537,335 432,333"/>
+          <circle class="bres" cx="400" cy="298" r="17"/>
+          <polygon class="bsrv" points="418,45 458,40 462,85 425,90"/>
+          <polygon class="bsrv" points="452,118 495,128 500,176 462,176"/>
+          <circle class="bsrv" cx="552" cy="75" r="46"/>
+          <circle class="bsrv" cx="552" cy="75" r="30" style="opacity:.55"/>
+          <polygon class="bsrv" points="548,112 612,100 622,162 562,192"/>
+        </svg>
+        <svg viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true">
+          <polyline id="rcase" class="route-case" vector-effect="non-scaling-stroke" points=""/>
+          <polyline id="rline" class="route-line" vector-effect="non-scaling-stroke" points=""/>
+        </svg>
+      </div>
+    </div>
+    <div class="legend">
+      <span><i style="background:#0F1B3D"></i><span data-i18n="here"></span></span>
+      <span><i style="background:#FFB81C;border:2px solid #0F1B3D"></i><span data-i18n="dest"></span></span>
+      <span data-i18n="tap"></span>
+    </div>
+  </div>
+
+  <div class="result" id="result" aria-live="polite"></div>
+  <p class="note" data-i18n="foot"></p>
+</div>
+
+<a href="guide.html" class="back-btn" id="backBtn">←</a>
+
+<script src="garidi.js"></script>
+</body>
+</html>
