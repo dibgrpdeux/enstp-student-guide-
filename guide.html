@@ -18,6 +18,7 @@
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="garidi-map.css">
+<link rel="stylesheet" href="profs-card.css">
 
 <style>
 .loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .4s ease,visibility .4s ease}
@@ -411,11 +412,254 @@ function openSection(id) {
     return;
   }
   
+  // ✅ قسم أساتذتي الجديد
+  if (s.type === 'profs-custom') {
+    renderProfsTabs(s);
+    return;
+  }
+  
   if (s.type === 'metro-map') { renderMetroMap(s); return; }
   if (s.type === 'qr') { renderQR(s); return; }
   if (s.categories && s.categories.length > 0) { renderCategoriesList(id); return; }
   if (s.items && s.items.length > 0) { renderItems(s, s.items); return; }
   if (s.buildings) { renderMap(s); return; }
+}
+
+// ============================================
+// ✅ قسم أساتذتي — تبويبات + بطاقات
+// ============================================
+async function renderProfsTabs(section) {
+  const app = document.getElementById('app');
+  const L = window.LANG || localStorage.getItem('lang') || 'ar';
+  const FL = {
+    fr: { y1: "1ère année Préparatoire", y2: "2ème année Préparatoire", choose: "Choisissez une matière", chooseProf: "Choisissez un enseignant", loading: "Chargement..." },
+    ar: { y1: "السنة الأولى تحضيري", y2: "السنة الثانية تحضيري", choose: "اختر مادة", chooseProf: "اختر الأستاذ", loading: "جاري التحميل..." },
+    en: { y1: "1st year Preparatory", y2: "2nd year Preparatory", choose: "Choose a subject", chooseProf: "Choose a teacher", loading: "Loading..." }
+  };
+  const T = FL[L] || FL.ar;
+
+  app.innerHTML = `
+    <button class="back" onclick="renderHome()">${window.t ? window.t('back', L) : '←'}</button>
+    <h2>${section.icon} ${window.t ? window.t(section.titleKey, L) : 'أساتذتي'}</h2>
+    <div style="text-align:center;padding:40px;color:var(--mut)">
+      <div style="width:30px;height:30px;border:3px solid var(--acc-soft);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px"></div>
+      ${T.loading}
+    </div>
+  `;
+
+  if (typeof window.loadProfsData !== 'function') {
+    app.innerHTML = '<p style="text-align:center;padding:40px;color:var(--mut)">Erreur : profs.js non chargé</p>';
+    return;
+  }
+  const data = await window.loadProfsData();
+  if (!data) {
+    app.innerHTML = '<p style="text-align:center;padding:40px;color:var(--mut)">Erreur de chargement des données</p>';
+    return;
+  }
+
+  window.__PROFS_DATA__ = data;
+
+  let html = `<button class="back" onclick="renderHome()">${window.t ? window.t('back', L) : '←'}</button>`;
+  html += `<h2>${section.icon} ${window.t ? window.t(section.titleKey, L) : 'أساتذتي'}</h2>`;
+  html += `<div class="profs-tabs" style="display:grid;grid-template-columns:1fr 1fr;background:var(--acc-soft);border-radius:12px;padding:4px;gap:4px;margin:14px 0">`;
+  html += `<button class="profs-tab on" data-year="1acp" onclick="switchProfsYear('1acp')" style="border:0;background:var(--card);color:var(--acc);font-weight:700;padding:9px 0;border-radius:9px;font-family:inherit;cursor:pointer">📘 ${T.y1}</button>`;
+  html += `<button class="profs-tab" data-year="2acp" onclick="switchProfsYear('2acp')" style="border:0;background:transparent;color:var(--mut);font-weight:500;padding:9px 0;border-radius:9px;font-family:inherit;cursor:pointer">📗 ${T.y2}</button>`;
+  html += `</div>`;
+  html += `<div id="profs-content"></div>`;
+
+  app.innerHTML = html;
+  window.scrollTo(0, 0);
+
+  renderProfsSubjects('1acp');
+}
+
+function switchProfsYear(yearId) {
+  document.querySelectorAll('.profs-tab').forEach(t => {
+    const isActive = t.dataset.year === yearId;
+    t.classList.toggle('on', isActive);
+    t.style.background = isActive ? 'var(--card)' : 'transparent';
+    t.style.color = isActive ? 'var(--acc)' : 'var(--mut)';
+    t.style.fontWeight = isActive ? '700' : '500';
+  });
+  renderProfsSubjects(yearId);
+}
+
+function renderProfsSubjects(yearId) {
+  const L = window.LANG || localStorage.getItem('lang') || 'ar';
+  const data = window.__PROFS_DATA__;
+  if (!data) return;
+
+  const year = data.years[yearId];
+  if (!year) return;
+
+  const content = document.getElementById('profs-content');
+  const T = { fr: "Choisissez une matière", ar: "اختر مادة", en: "Choose a subject" };
+
+  let html = `<p style="color:var(--mut);font-size:.9rem;margin-bottom:12px;text-align:center">${T[L] || T.ar}</p>`;
+  html += `<div class="tile-grid">`;
+
+  year.subjects.forEach(subj => {
+    const title = (typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title;
+    const count = subj.profs.length;
+    html += `<button class="tile-3d ripple" onclick="renderProfsList('${yearId}', '${subj.id}')" style="position:relative">`;
+    html += `<span class="tile-icon">${subj.icon || '📚'}</span>`;
+    html += `<span class="tile-label">${title}</span>`;
+    html += `<span style="position:absolute;top:10px;inset-inline-end:10px;background:var(--acc-soft);color:var(--acc);font-size:.7rem;font-weight:800;padding:3px 10px;border-radius:999px">${count} 👤</span>`;
+    html += `</button>`;
+  });
+
+  html += `</div>`;
+  content.innerHTML = html;
+  window.scrollTo(0, 0);
+}
+
+function renderProfsList(yearId, subjectId) {
+  const L = window.LANG || localStorage.getItem('lang') || 'ar';
+  const data = window.__PROFS_DATA__;
+  if (!data) return;
+
+  const year = data.years[yearId];
+  if (!year) return;
+  const subj = year.subjects.find(s => s.id === subjectId);
+  if (!subj) return;
+
+  const app = document.getElementById('app');
+  const title = (typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title;
+  const T = { fr: "Choisissez un enseignant", ar: "اختر الأستاذ", en: "Choose a teacher" };
+
+  let html = `<button class="back" onclick="renderProfsTabs(window.SECTIONS.find(s => s.id === 'profs'))">${window.t ? window.t('back', L) : '←'}</button>`;
+  html += `<h2>${subj.icon || ''} ${title}</h2>`;
+  html += `<p style="color:var(--mut);margin-bottom:16px;text-align:center">${T[L] || T.ar}</p>`;
+  html += `<div style="display:flex;flex-direction:column;gap:10px">`;
+
+  subj.profs.forEach(prof => {
+    const initial = prof.name.charAt(0);
+    const avatar = prof.photo
+      ? `<img src="${prof.photo}" alt="${prof.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--acc-soft),var(--acc));color:#fff;font-size:1.4rem;font-weight:700">${initial}</div>`
+      : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--acc-soft),var(--acc));color:#fff;font-size:1.4rem;font-weight:700">${initial}</div>`;
+
+    html += `
+      <button onclick="renderProfCard('${yearId}', '${subjectId}', '${prof.id}')" style="display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:${L === 'ar' ? 'right' : 'left'};cursor:pointer;font-family:inherit;color:var(--ink);transition:all .3s;width:100%" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 20px rgba(0,0,0,.1)';this.style.borderColor='var(--acc)'" onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='var(--line)'">
+        <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--acc)">${avatar}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${prof.name}</div>
+          <div style="font-size:.8rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${prof.email || ''}</div>
+          ${prof.vacataire ? '<span style="display:inline-block;background:#fef3c7;color:#92400e;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:999px;margin-top:4px">Vacataire</span>' : ''}
+        </div>
+        <span style="font-size:1.2rem;color:var(--acc);flex-shrink:0">›</span>
+      </button>
+    `;
+  });
+
+  html += `</div>`;
+  app.innerHTML = html;
+  window.scrollTo(0, 0);
+}
+
+function renderProfCard(yearId, subjectId, profId) {
+  const L = window.LANG || localStorage.getItem('lang') || 'ar';
+  const data = window.__PROFS_DATA__;
+  if (!data) return;
+
+  const year = data.years[yearId];
+  const subj = year.subjects.find(s => s.id === subjectId);
+  const prof = subj.profs.find(p => p.id === profId);
+  if (!prof) return;
+
+  const app = document.getElementById('app');
+
+  let html = `<button class="back" onclick="renderProfsList('${yearId}', '${subjectId}')">${window.t ? window.t('back', L) : '←'}</button>`;
+  html += `<h2 style="margin-bottom:14px">${subj.icon} ${(typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title}</h2>`;
+
+  if (!prof.full) {
+    html += `<div class="prof-card-wrapper"><div class="prof-card prof-simple-card">`;
+    html += `<div class="prof-simple-name">${prof.name}</div>`;
+    html += `<div class="prof-simple-module">${(typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title}</div>`;
+    if (prof.email) {
+      html += `<a href="mailto:${prof.email}" class="prof-simple-email">📧 ${prof.email}</a>`;
+    } else {
+      html += `<div class="prof-simple-no-email">📧 ${L === 'ar' ? 'البريد غير متوفر' : L === 'en' ? 'Email not available' : 'Email non disponible'}</div>`;
+    }
+    if (prof.vacataire) {
+      html += `<div><span class="prof-badge-vacataire">${L === 'ar' ? 'متطوع' : 'Vacataire'}</span></div>`;
+    }
+    html += `</div></div>`;
+    app.innerHTML = html;
+    window.scrollTo(0, 0);
+    return;
+  }
+
+  html += `<div class="prof-card-wrapper">`;
+
+  const initial = prof.name.charAt(0);
+  const photoHtml = prof.photo
+    ? `<img src="${prof.photo}" alt="${prof.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none" class="prof-avatar-fallback">${initial}</div>`
+    : `<div class="prof-avatar-fallback">${initial}</div>`;
+
+  html += `<div class="prof-card prof-id-card">`;
+  html += `<div class="prof-photo">${photoHtml}</div>`;
+  html += `<div class="prof-id-info">`;
+  html += `<div class="prof-name">${prof.name}</div>`;
+  html += `<div class="prof-title-line">`;
+  html += `<span class="prof-role">PROFESSOR</span>`;
+  html += `<span class="prof-location">ALGERIA</span>`;
+  html += `</div>`;
+  if (prof.status) {
+    html += `<div class="prof-status">${prof.status[L] || prof.status.fr}</div>`;
+  }
+  html += `</div></div>`;
+
+  if (prof.email) {
+    html += `<div class="prof-card prof-email-card">`;
+    html += `<div class="prof-section-title">${L === 'ar' ? 'البريد الإلكتروني' : L === 'en' ? 'Professional email' : 'e-mail'}</div>`;
+    html += `<div class="prof-section-subtitle">${L === 'ar' ? 'المهني' : 'professionnel'}</div>`;
+    html += `<a href="mailto:${prof.email}" class="prof-email-link">${prof.email}</a>`;
+    html += `</div>`;
+  }
+
+  if (prof.modules || prof.year) {
+    html += `<div class="prof-card prof-modules-card">`;
+    if (prof.modules) {
+      html += `<div class="prof-section-title">${L === 'ar' ? 'الوحدات المدرَّسة' : L === 'en' ? 'Modules taught' : 'Module enseigner'}</div>`;
+      html += `<ul class="prof-modules-list">`;
+      prof.modules.forEach(m => { html += `<li>${m}</li>`; });
+      html += `</ul>`;
+    }
+    if (prof.year) {
+      html += `<div class="prof-year-title">${L === 'ar' ? 'السنة المدرَّسة' : L === 'en' ? 'Year taught' : 'Année enseigner'}</div>`;
+      html += `<ul class="prof-modules-list"><li>${prof.year[L] || prof.year.fr}</li></ul>`;
+    }
+    html += `</div>`;
+  }
+
+  if (prof.advice) {
+    html += `<div class="prof-card prof-advice-card">`;
+    html += `<div class="prof-section-title">${L === 'ar' ? 'نصيحة للطلبة' : L === 'en' ? 'Advice to students' : 'Un conseil aux étudiants'}</div>`;
+    html += `<div class="prof-advice-text">${prof.advice[L] || prof.advice.fr}</div>`;
+    html += `</div>`;
+  }
+
+  if (prof.research) {
+    html += `<div class="prof-card prof-research-card">`;
+    html += `<div class="prof-section-title">${L === 'ar' ? 'البحث' : L === 'en' ? 'Research' : 'Recherche'}</div>`;
+    html += `<div class="prof-research-text">${prof.research[L] || prof.research.fr}</div>`;
+    html += `</div>`;
+  }
+
+  if (prof.links && prof.links.length) {
+    html += `<div class="prof-card prof-links-card">`;
+    html += `<div class="prof-section-title">${L === 'ar' ? 'الروابط' : L === 'en' ? 'Links' : 'Liens'}</div>`;
+    html += `<div class="prof-links-list">`;
+    prof.links.forEach(l => {
+      html += `<a href="${l.url}" target="_blank" rel="noopener" class="prof-link"><span class="prof-link-icon">${l.icon || '🔗'}</span><span>${l.name}</span></a>`;
+    });
+    html += `</div></div>`;
+  }
+
+  html += `</div>`;
+
+  app.innerHTML = html;
+  window.scrollTo(0, 0);
 }
 
 function renderCategoriesList(sectionId) {
@@ -480,7 +724,6 @@ function renderCategory(sectionId, categoryId) {
   app.classList.add('section-change');
   setTimeout(() => app.classList.remove('section-change'), 500);
   
-  // ✅ جديد: الخريطة التفاعلية
   if (c.type === 'garidi-map') {
     renderGaridiMap(s, c);
     return;
@@ -490,40 +733,33 @@ function renderCategory(sectionId, categoryId) {
   if (c.items) { renderItems(s, c.items, c); return; }
 }
 
-// ============================================
-// ✅ خريطة قاريدي التفاعلية
-// ============================================
 function renderGaridiMap(section, category) {
   const app = document.getElementById('app');
-  const LANG = window.LANG || localStorage.getItem('lang') || 'ar';
+  const L = window.LANG || localStorage.getItem('lang') || 'ar';
   
-  let html = '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', LANG) + '</button>';
-  html += '<h2>' + (category.icon || '🗺️') + ' ' + window.t(category.titleKey, LANG) + '</h2>';
+  let html = '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', L) + '</button>';
+  html += '<h2>' + (category.icon || '🗺️') + ' ' + window.t(category.titleKey, L) + '</h2>';
   
   const catIntro = (typeof category.intro === 'object') 
-    ? (category.intro[LANG] || category.intro.fr) 
-    : (category.descKey ? window.t(category.descKey, LANG) : '');
+    ? (category.intro[L] || category.intro.fr) 
+    : (category.descKey ? window.t(category.descKey, L) : '');
   if (catIntro) {
     html += '<p style="color:var(--mut);margin-bottom:16px;line-height:1.7">' + catIntro + '</p>';
   }
   
   html += `
     <div class="gm-container" id="garidi-map-container">
-      
       <div class="gm-startrow">
         <label data-gm="startLabel" for="gm-start">أنا الآن عند</label>
         <select id="gm-start"></select>
       </div>
-      
       <div class="gm-tabs">
         <button id="gm-tab-places" class="on" data-gm="tabPlaces">أماكن</button>
         <button id="gm-tab-rooms" data-gm="tabRooms">غرف</button>
       </div>
-      
       <div id="gm-panel-places">
         <div class="gm-chips" id="gm-chips"></div>
       </div>
-      
       <div id="gm-panel-rooms" hidden>
         <div class="gm-blocks" id="gm-blocks"></div>
         <div class="gm-floors" id="gm-floors"></div>
@@ -533,7 +769,6 @@ function renderGaridiMap(section, category) {
         </div>
         <div id="gm-msg"></div>
       </div>
-      
       <div class="gm-mapcard">
         <div class="gm-zoom">
           <button id="gm-zin">+</button>
@@ -586,10 +821,8 @@ function renderGaridiMap(section, category) {
           <span data-gm="tap"></span>
         </div>
       </div>
-      
       <div class="gm-result" id="gm-result" aria-live="polite"></div>
       <p class="gm-note" data-gm="foot"></p>
-      
     </div>
   `;
   
@@ -646,6 +879,18 @@ function renderItems(section, items, category) {
     if (item.budget) html += '<p style="margin:6px 0;font-size:.9rem"><b>💰 ' + window.t('labelBudget', LANG) + ':</b> ' + item.budget + '</p>';
     if (item.extra) html += '<p style="margin:6px 0;font-size:.9rem;color:var(--acc)"><b>' + item.extra + '</b></p>';
     
+    if (item.files && item.files.length) {
+      html += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">';
+      html += '<p style="margin:0 0 8px;font-weight:700;color:var(--acc);font-size:.9rem">📁 ' + (LANG === 'ar' ? 'الملفات' : LANG === 'en' ? 'Files' : 'Fichiers') + ' (' + item.files.length + ')</p>';
+      html += '<div style="display:flex;flex-wrap:wrap;gap:8px">';
+      item.files.forEach(f => {
+        const fname = f.name[LANG] || f.name.fr;
+        const isDisabled = !f.url || f.url === '#';
+        html += '<a href="' + f.url + '" ' + (isDisabled ? 'onclick="event.preventDefault();showToast(\'⚠️ ' + (LANG === 'ar' ? 'الملف غير متوفر بعد' : LANG === 'en' ? 'File not available yet' : 'Fichier non disponible') + '\');return false;"' : 'target="_blank" rel="noopener"') + ' style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--acc-soft);color:var(--acc);border-radius:20px;text-decoration:none;font-size:.85rem;font-weight:600;transition:all .3s">' + '<span>' + f.icon + '</span><span>' + fname + '</span></a>';
+      });
+      html += '</div></div>';
+    }
+    
     if (item.services && item.services.length) {
       html += '<p style="margin:10px 0 6px;font-weight:600;color:var(--acc)">' + window.t('labelServices', LANG) + ':</p>';
       html += '<ul style="padding-' + (LANG === 'ar' ? 'right' : 'left') + ':20px;color:var(--mut);font-size:.9rem">';
@@ -661,12 +906,12 @@ function renderItems(section, items, category) {
     }
     
     if (item.link) {
-      html += '<a href="' + item.link + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 18px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.9rem;font-weight:600;transition:all .3s" onmouseover="this.style.transform=\'translateY(-3px)\'" onmouseout="this.style.transform=\'none\'">📥 ' + window.t('download', LANG) + '</a>';
+      html += '<a href="' + item.link + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 18px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.9rem;font-weight:600;transition:all .3s">📥 ' + window.t('download', LANG) + '</a>';
     }
     
     if (item.map) {
       const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.map);
-      html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:8px 14px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.9rem;transition:all .3s" onmouseover="this.style.transform=\'translateY(-3px)\'" onmouseout="this.style.transform=\'none\'">' + window.t('viewMap', LANG) + '</a>';
+      html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:8px 14px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.9rem;transition:all .3s">' + window.t('viewMap', LANG) + '</a>';
     }
     
     html += '</div>';
@@ -692,6 +937,7 @@ function renderSection(id) {
     return;
   }
   
+  if (s.type === 'profs-custom') { renderProfsTabs(s); return; }
   if (s.type === 'metro-map') renderMetroMap(s);
   else if (s.categories && s.categories.length > 0) renderCategoriesList(id);
   else if (s.type === 'qr') renderQR(s);
@@ -1210,110 +1456,12 @@ window.installPWA = installPWA;
 window.dismissInstallBanner = dismissInstallBanner;
 window.showToast = showToast;
 window.renderGaridiMap = renderGaridiMap;
+window.renderProfsTabs = renderProfsTabs;
+window.renderProfsSubjects = renderProfsSubjects;
+window.renderProfsList = renderProfsList;
+window.renderProfCard = renderProfCard;
+window.switchProfsYear = switchProfsYear;
 </script>
 
-<script>
-(function() {
-  let SECTIONS_ARRAY = null;
-  
-  if (typeof window.SECTIONS !== 'undefined' && Array.isArray(window.SECTIONS)) {
-    SECTIONS_ARRAY = window.SECTIONS;
-  } else if (typeof SECTIONS !== 'undefined' && Array.isArray(SECTIONS)) {
-    SECTIONS_ARRAY = SECTIONS;
-  } else {
-    console.error('❌ SECTIONS غير موجود!');
-    return;
-  }
-  
-  for (let i = SECTIONS_ARRAY.length - 1; i >= 0; i--) {
-    if (SECTIONS_ARRAY[i].id === 'profs') {
-      SECTIONS_ARRAY.splice(i, 1);
-    }
-  }
-  
-  SECTIONS_ARRAY.push({
-    id: "profs",
-    icon: "👨‍🏫",
-    titleKey: "sectionProfs",
-    introKey: "profsIntro",
-    type: "services",
-    categories: [
-      {
-        id: "prep1",
-        icon: "📘",
-        titleKey: "profsPrep1",
-        title: "1ère année Préparatoire",
-        intro: {
-          fr: "Enseignants de la 1ère année du cycle préparatoire.",
-          ar: "أساتذة السنة الأولى من الطور التحضيري.",
-          en: "1st year Preparatory teachers."
-        },
-        items: [
-          { title: { fr: "🔢 Algèbre", ar: "🔢 الجبر", en: "🔢 Algebra" }, icon: "🔢", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Algèbre" },
-          { title: { fr: "📐 Analyse", ar: "📐 التحليل", en: "📐 Analysis" }, icon: "📐", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Analyse" },
-          { title: { fr: "🧪 Chimie", ar: "🧪 الكيمياء", en: "🧪 Chemistry" }, icon: "🧪", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Chimie" },
-          { title: { fr: "⚛️ Physique", ar: "⚛️ الفيزياء", en: "⚛️ Physics" }, icon: "⚛️", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Physique" },
-          { title: { fr: "💹 Économie", ar: "💹 الاقتصاد", en: "💹 Economics" }, icon: "💹", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Économie" },
-          { title: { fr: "📏 Dessin Technique", ar: "📏 الرسم التقني", en: "📏 Technical Drawing" }, icon: "📏", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Dessin" },
-          { title: { fr: "🇫🇷 Français", ar: "🇫🇷 الفرنسية", en: "🇫🇷 French" }, icon: "🇫🇷", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Français" },
-          { title: { fr: "📊 Statistiques", ar: "📊 الإحصاء", en: "📊 Statistics" }, icon: "📊", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Statistiques" },
-          { title: { fr: "💻 Informatique", ar: "💻 الإعلام الآلي", en: "💻 Computer Science" }, icon: "💻", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Informatique" },
-          { title: { fr: "🇬🇧 Anglais", ar: "🇬🇧 الإنجليزية", en: "🇬🇧 English" }, icon: "🇬🇧", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Anglais" },
-          { title: { fr: "🤝 Génie Humain", ar: "🤝 الهندسة البشرية", en: "🤝 Human Engineering" }, icon: "🤝", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Génie Humain" }
-        ]
-      },
-      {
-        id: "prep2",
-        icon: "📗",
-        titleKey: "profsPrep2",
-        title: "2ème année Préparatoire",
-        intro: {
-          fr: "Enseignants de la 2ème année du cycle préparatoire.",
-          ar: "أساتذة السنة الثانية من الطور التحضيري.",
-          en: "2nd year Preparatory teachers."
-        },
-        items: [
-          { title: { fr: "⚛️ Physique", ar: "⚛️ الفيزياء", en: "⚛️ Physics" }, icon: "⚛️", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Physique" },
-          { title: { fr: "🧪 Chimie", ar: "🧪 الكيمياء", en: "🧪 Chemistry" }, icon: "🧪", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Chimie" },
-          { title: { fr: "📐 Analyse", ar: "📐 التحليل", en: "📐 Analysis" }, icon: "📐", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Analyse" },
-          { title: { fr: "💻 Informatique", ar: "💻 الإعلام الآلي", en: "💻 Computer Science" }, icon: "💻", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Informatique" },
-          { title: { fr: "💧 Mécanique des Fluides", ar: "💧 ميكانيك الموائع", en: "💧 Fluid Mechanics" }, icon: "💧", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Méca Fluides" },
-          { title: { fr: "🔩 Mécanique des Solides", ar: "🔩 ميكانيك الصلب", en: "🔩 Solid Mechanics" }, icon: "🔩", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Méca Solides" },
-          { title: { fr: "🇬🇧 Anglais", ar: "🇬🇧 الإنجليزية", en: "🇬🇧 English" }, icon: "🇬🇧", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Anglais" },
-          { title: { fr: "💬 Techniques de Communication", ar: "💬 تقنيات التواصل", en: "💬 Communication" }, icon: "💬", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Communication" },
-          { title: { fr: "📐 Géométrie", ar: "📐 الهندسة", en: "📐 Geometry" }, icon: "📐", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Géométrie" },
-          { title: { fr: "🔧 Résistance des Matériaux", ar: "🔧 مقاومة المواد", en: "🔧 Strength of Materials" }, icon: "🔧", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 RDM" },
-          { title: { fr: "🔢 Analyse Numérique", ar: "🔢 التحليل الرقمي", en: "🔢 Numerical Analysis" }, icon: "🔢", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Analyse Num." },
-          { title: { fr: "⚡ Électricité & Électronique", ar: "⚡ الكهرباء والإلكترونيك", en: "⚡ Electricity & Electronics" }, icon: "⚡", desc: { fr: "Prof. À compléter", ar: "الأستاذ: يُكمل", en: "Prof. To complete" }, extra: "📚 Élec." }
-        ]
-      }
-    ]
-  });
-  
-  if (typeof LANG_DATA !== 'undefined') {
-    if (LANG_DATA.fr) {
-      if (!LANG_DATA.fr.profsPrep1) LANG_DATA.fr.profsPrep1 = "1ère année Préparatoire";
-      if (!LANG_DATA.fr.profsPrep2) LANG_DATA.fr.profsPrep2 = "2ème année Préparatoire";
-    }
-    if (LANG_DATA.ar) {
-      if (!LANG_DATA.ar.profsPrep1) LANG_DATA.ar.profsPrep1 = "السنة الأولى تحضيري";
-      if (!LANG_DATA.ar.profsPrep2) LANG_DATA.ar.profsPrep2 = "السنة الثانية تحضيري";
-    }
-    if (LANG_DATA.en) {
-      if (!LANG_DATA.en.profsPrep1) LANG_DATA.en.profsPrep1 = "1st year Preparatory";
-      if (!LANG_DATA.en.profsPrep2) LANG_DATA.en.profsPrep2 = "2nd year Preparatory";
-    }
-  }
-  
-  console.log('✅ Profs ajouté en direct. Total sections:', SECTIONS_ARRAY.length);
-  
-  if (typeof renderHome === 'function' && typeof CURRENT_SECTION !== 'undefined' && !CURRENT_SECTION) {
-    setTimeout(() => {
-      try { renderHome(); } catch(e) {}
-    }, 100);
-  }
-})();
-</script>
 </body>
-  <a href="garidi.html" style="position:absolute;top:18px;right:90px;color:#fff;text-decoration:none;font-size:.85rem;opacity:.9;font-weight:600;background:rgba(255,255,255,.15);padding:5px 12px;border-radius:999px">🗺️ Carte</a>
 </html>
