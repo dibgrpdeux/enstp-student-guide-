@@ -1,0 +1,385 @@
+/* ============================================
+   garidi-map.css — تنسيقات الخريطة التفاعلية
+   متوافقة مع ثيمات الموقع (var(--acc))
+   ============================================ */
+
+/* ========== الحاوية ========== */
+.gm-container{
+  --gm-land:var(--bg-3, #e6ecda);
+  --gm-roadc:#C6CCBA;
+  --gm-roadf:var(--card, #faf8f1);
+  --gm-path:var(--mut-3, #ffffff);
+  --gm-bres:var(--acc-soft, #c9d3f2);
+  --gm-bsrv:#F4DDB8;
+  --gm-bsrvs:#B07A2B;
+  --gm-bgry:var(--bg-3, #d6d8de);
+  --gm-bgrys:var(--mut-2, #9097a8);
+  --gm-tree:#7FA46B;
+  --gm-field:#E3D8B5;
+  --gm-lbl:var(--ink, #0F1B3D);
+  --gm-lblh:var(--card, #fff);
+  --gm-amber:#FFB81C;
+  --gm-route:#0F1B3D;
+  margin-top:14px;
+}
+:root[data-mode="dark"] .gm-container{
+  --gm-land:#1B271F;
+  --gm-roadc:#0F1712;
+  --gm-roadf:#3B473E;
+  --gm-path:#7A8A7E;
+  --gm-bres:var(--acc-soft, #2C3D7A);
+  --gm-bsrv:#5A4426;
+  --gm-bsrvs:#D9A24C;
+  --gm-bgry:#3A3F4D;
+  --gm-bgrys:#6E7690;
+  --gm-tree:#3F6A45;
+  --gm-field:#4A4430;
+  --gm-lbl:#EAF0FF;
+  --gm-lblh:#0D1326;
+  --gm-route:#EAF0FF;
+}
+
+/* ========== شريط الانطلاق ========== */
+.gm-startrow{
+  display:flex;align-items:center;gap:10px;margin:14px 0 10px;
+}
+.gm-startrow label{
+  font-size:14px;color:var(--mut);white-space:nowrap;
+}
+.gm-startrow select{
+  flex:1;min-width:0;
+  background:var(--card);
+  border:1.5px solid var(--line);
+  border-radius:10px;
+  padding:9px 10px;
+  font-size:15px;
+  color:var(--ink);
+}
+
+/* ========== التبويبات ========== */
+.gm-tabs{
+  display:grid;grid-template-columns:1fr 1fr;
+  background:var(--bg-3);
+  border-radius:12px;
+  padding:4px;
+  gap:4px;
+  margin-top:10px;
+}
+.gm-tabs button{
+  border:0;background:transparent;
+  border-radius:9px;padding:9px 0;
+  font-weight:500;font-size:15px;
+  color:var(--mut);
+  font-family:inherit;
+  cursor:pointer;
+  transition:var(--transition);
+}
+.gm-tabs button.on{
+  background:var(--card);
+  color:var(--acc);
+  font-weight:700;
+  box-shadow:0 1px 3px rgba(15,27,61,.18);
+}
+
+/* ========== chips الأماكن ========== */
+.gm-chips{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;
+}
+.gm-chip{
+  display:flex;align-items:center;gap:7px;
+  background:var(--card);
+  border:1.5px solid var(--line);
+  border-radius:var(--radius-full, 999px);
+  padding:8px 14px 8px 12px;
+  font-size:.9rem;
+  color:var(--ink);
+  cursor:pointer;
+  font-family:inherit;
+  transition:var(--transition);
+}
+.gm-chip:hover{border-color:var(--acc)}
+.gm-chip.on{
+  background:var(--acc);
+  border-color:var(--acc);
+  color:#fff;
+}
+
+/* ========== الأجنحة ========== */
+.gm-blocks{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px;
+}
+.gm-blocks button{
+  background:var(--card);
+  color:var(--acc);
+  border:2px solid var(--acc-soft);
+  border-radius:10px;
+  font-size:1.5rem;
+  font-weight:700;
+  padding:6px 0;
+  cursor:pointer;
+  font-family:inherit;
+  transition:var(--transition);
+}
+.gm-blocks button.on{
+  background:var(--acc);
+  color:#fff;
+  border-color:var(--acc);
+}
+
+/* ========== الطوابق ========== */
+.gm-floors{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;
+}
+.gm-plate{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--card);
+  color:var(--acc);
+  border:1.5px solid var(--acc-soft);
+  border-radius:7px;
+  padding:3px 9px 3px 8px;
+  direction:ltr;
+  font-family:inherit;
+  line-height:1;
+  cursor:pointer;
+  transition:var(--transition);
+}
+.gm-plate:hover{border-color:var(--acc)}
+.gm-plate.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.gm-plate .gm-L{font-size:1.8rem;font-weight:700}
+.gm-plate .gm-R{display:flex;flex-direction:column;align-items:flex-start;gap:1px}
+.gm-plate .gm-R i{font-style:normal;font-size:.7rem;font-weight:700;letter-spacing:.04em}
+.gm-plate .gm-R b{font-size:1rem;font-weight:700}
+
+/* ========== البحث عن غرفة ========== */
+.gm-numrow{display:flex;gap:8px;margin-top:12px}
+.gm-numrow input{
+  flex:1;min-width:0;
+  background:var(--card);
+  border:1.5px solid var(--line);
+  border-radius:10px;
+  padding:10px 12px;
+  font-size:16px;
+  color:var(--ink);
+  font-family:inherit;
+  outline:none;
+}
+.gm-numrow input:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+.gm-numrow button{
+  background:var(--acc);
+  color:#fff;
+  border:0;
+  border-radius:10px;
+  padding:0 20px;
+  font-weight:700;
+  font-family:inherit;
+  cursor:pointer;
+  transition:var(--transition);
+}
+.gm-numrow button:hover{background:var(--acc2,var(--acc))}
+
+.gm-msg{
+  margin-top:10px;
+  background:var(--acc-soft);
+  color:var(--acc);
+  border-radius:10px;
+  padding:9px 12px;
+  font-size:.9rem;
+}
+
+/* ========== بطاقة الخريطة ========== */
+.gm-mapcard{
+  margin-top:14px;
+  background:var(--card);
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  position:relative;
+}
+.gm-scroller{
+  direction:ltr;
+  overflow:auto;
+  aspect-ratio:1/1;
+  max-height:68vh;
+  width:100%;
+  -webkit-overflow-scrolling:touch;
+  background:var(--gm-land);
+}
+.gm-stage{
+  position:relative;
+  width:100%;
+  aspect-ratio:705/596;
+  direction:ltr;
+}
+.gm-stage>img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  display:none;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.gm-stage.sat>img{display:block}
+.gm-stage.sat .gm-basemap{display:none}
+.gm-stage svg{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  pointer-events:none;
+}
+.gm-land{fill:var(--gm-land)}
+.gm-rcase{fill:none;stroke:var(--gm-roadc);stroke-width:12;stroke-linecap:round;stroke-linejoin:round}
+.gm-rfill{fill:none;stroke:var(--gm-roadf);stroke-width:8.5;stroke-linecap:round;stroke-linejoin:round}
+.gm-pth{stroke:var(--gm-path);stroke-width:1.6;stroke-dasharray:4 3;fill:none;vector-effect:non-scaling-stroke;opacity:.9}
+.gm-bres{fill:var(--gm-bres);stroke:var(--acc);stroke-width:1.6;stroke-linejoin:round}
+.gm-bsrv{fill:var(--gm-bsrv);stroke:var(--gm-bsrvs);stroke-width:1.4;stroke-linejoin:round}
+.gm-bgry{fill:var(--gm-bgry);stroke:var(--gm-bgrys);stroke-width:1.2;stroke-linejoin:round}
+.gm-tree{fill:var(--gm-tree);opacity:.8}
+.gm-field{fill:var(--gm-field);stroke:var(--gm-bgrys);stroke-width:1;stroke-dasharray:5 4}
+.gm-lb{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  font-size:11.5px;font-weight:700;
+  color:var(--gm-lbl);
+  white-space:nowrap;
+  pointer-events:none;
+  text-shadow:0 0 3px var(--gm-lblh),0 0 3px var(--gm-lblh),0 0 5px var(--gm-lblh);
+  z-index:1;
+}
+.gm-route-case{
+  fill:none;stroke:var(--gm-route);
+  stroke-width:8;stroke-linecap:round;stroke-linejoin:round;opacity:.85;
+}
+.gm-route-line{
+  fill:none;stroke:var(--gm-amber);
+  stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:1 9;
+  animation:gmFlow 1.1s linear infinite;
+}
+@keyframes gmFlow{to{stroke-dashoffset:-10}}
+
+/* ========== أزرار التكبير ========== */
+.gm-zoom{
+  position:absolute;left:10px;top:10px;
+  display:flex;flex-direction:column;gap:6px;z-index:5;
+}
+.gm-zoom button{
+  width:38px;height:38px;border-radius:10px;border:0;
+  background:var(--card);color:var(--ink);
+  font-size:1.3rem;font-weight:700;
+  box-shadow:0 1px 4px rgba(0,0,0,.35);
+  padding:0;cursor:pointer;font-family:inherit;
+  transition:var(--transition);
+}
+.gm-zoom button.on{background:var(--gm-amber)}
+
+/* ========== العلامات (pins) ========== */
+.gm-pin{
+  position:absolute;transform:translate(-50%,-50%);
+  width:27px;height:27px;border-radius:50%;
+  background:var(--card);
+  border:2.5px solid var(--acc);
+  display:grid;place-items:center;
+  padding:0;font-size:13.5px;line-height:1;
+  box-shadow:0 2px 5px rgba(0,0,0,.4);
+  z-index:2;cursor:pointer;
+  transition:var(--transition);
+}
+.gm-pin .gm-cap{
+  position:absolute;top:calc(100% + 4px);left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  background:var(--acc);color:#fff;
+  font-size:11.5px;font-weight:500;
+  padding:2px 7px;border-radius:6px;
+  display:none;
+}
+.gm-pin.on,.gm-pin.start{z-index:4}
+.gm-pin.on .gm-cap,.gm-pin.start .gm-cap,.gm-zoomed .gm-pin .gm-cap{display:block}
+.gm-pin.on{background:var(--gm-amber);border-color:var(--ink)}
+.gm-pin.on::before{
+  content:"";position:absolute;inset:-9px;border-radius:50%;
+  border:3px solid var(--gm-amber);
+  animation:gmRing 1.6s ease-out infinite;
+}
+@keyframes gmRing{from{transform:scale(.6);opacity:1}to{transform:scale(1.25);opacity:0}}
+.gm-pin.start{border-color:var(--card);background:var(--ink);color:var(--card)}
+.gm-pin.start .gm-cap{background:var(--ink)}
+
+/* ========== بطاقات الأجنحة ========== */
+.gm-bp{
+  position:absolute;transform:translate(-50%,-50%);
+  background:var(--card);color:var(--acc);
+  border:2px solid var(--acc);
+  border-radius:7px;padding:0 9px;
+  font:700 17px Arial,sans-serif;
+  box-shadow:0 2px 5px rgba(0,0,0,.4);
+  z-index:3;cursor:pointer;
+  transition:var(--transition);
+}
+.gm-bp.on{background:var(--gm-amber);color:var(--ink);border-color:var(--ink);z-index:4}
+.gm-bp.start{background:var(--ink);color:var(--card);border-color:var(--card);z-index:4}
+
+/* ========== المفتاح ========== */
+.gm-legend{
+  display:flex;gap:14px;flex-wrap:wrap;
+  padding:8px 12px;font-size:.78rem;
+  color:var(--mut);
+  border-top:1px solid var(--line);
+}
+.gm-legend i{
+  display:inline-block;width:11px;height:11px;border-radius:50%;
+  margin-inline-end:5px;vertical-align:-1px;
+}
+
+/* ========== النتيجة ========== */
+.gm-result{
+  margin-top:14px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  animation:fadeInUp .4s ease-out;
+}
+.gm-result h2{margin:0 0 4px;font-size:1.15rem;color:var(--ink)}
+.gm-result .gm-sub{margin:0;color:var(--mut);font-size:.88rem}
+.gm-empty{color:var(--mut);font-size:.9rem;text-align:center;padding:20px}
+.gm-photo{display:flex;gap:12px;align-items:flex-start;margin:12px 0}
+.gm-photo img{
+  width:96px;height:128px;object-fit:cover;
+  border-radius:10px;border:1px solid var(--line);flex:none;
+}
+.gm-photo p{margin:0;font-size:.88rem;color:var(--mut);line-height:1.6}
+.gm-gal{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.gm-gal figure{margin:0}
+.gm-gal img{
+  width:100%;height:180px;object-fit:cover;
+  border-radius:10px;border:1px solid var(--line);display:block;
+}
+.gm-gal figure:nth-child(odd):last-child{grid-column:1/-1}
+.gm-gal figcaption{font-size:.8rem;color:var(--mut);margin-top:4px}
+
+/* ========== خطوات المسار ========== */
+.gm-steps{list-style:none;margin:12px 0 0;padding:0}
+.gm-steps li{
+  position:relative;padding:0 0 14px;
+  padding-inline-start:30px;
+  font-size:.95rem;
+}
+.gm-steps li::before{
+  content:"";position:absolute;inset-inline-start:8px;top:9px;bottom:-4px;
+  width:2px;background:var(--line);
+}
+.gm-steps li:last-child::before{display:none}
+.gm-steps li::after{
+  content:"";position:absolute;inset-inline-start:3px;top:7px;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--card);border:3px solid var(--acc);
+}
+.gm-steps li.end::after{background:var(--gm-amber);border-color:var(--ink)}
+
+.gm-note{margin:6px 2px 0;font-size:.75rem;color:var(--mut)}
+
+@media(max-width:600px){
+  .gm-plate .gm-L{font-size:1.5rem}
+  .gm-plate .gm-R b{font-size:.85rem}
+  .gm-blocks button{font-size:1.2rem}
+  .gm-photo img{width:80px;height:110px}
+}
