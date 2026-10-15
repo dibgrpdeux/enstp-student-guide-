@@ -1,0 +1,473 @@
+{
+  "version": "1.0",
+  "years": {
+    "1acp": {
+      "icon": "📘",
+      "title": { "fr": "1ère année Préparatoire", "ar": "السنة الأولى تحضيري", "en": "1st year Preparatory" },
+      "subjects": [
+        {
+          "id": "algebre1",
+          "icon": "🔢",
+          "title": { "fr": "Algèbre 1", "ar": "الجبر 1", "en": "Algebra 1" },
+          "profs": [
+            {
+              "id": "hebbache",
+              "name": "Zineb HEBBACHE",
+              "photo": "prof-images/hebbache.jpg",
+              "full": true,
+              "email": "zinebhebache@gmail.com",
+              "altEmail": "z.hebbache@enstp.edu.dz",
+              "modules": ["Algèbre 1"],
+              "year": { "fr": "1ère année préparatoire", "ar": "السنة الأولى تحضيري", "en": "1st year preparatory" },
+              "status": { "fr": "Enseignante permanente", "ar": "أستاذة دائمة", "en": "Permanent teacher" },
+              "advice": {
+                "fr": "Improve yourselves and don't waste your time.",
+                "ar": "طوّروا أنفسكم ولا تضيّعوا وقتكم.",
+                "en": "Improve yourselves and don't waste your time."
+              },
+              "research": {
+                "fr": "Codes over skew rings",
+                "ar": "الأكواد على الحلقات الملتوية",
+                "en": "Codes over skew rings"
+              },
+              "links": [
+                { "icon": "🎓", "name": "Google Scholar", "url": "https://share.google/TvrLY2iAfZWaqEcJZ" }
+              ]
+            },
+            {
+              "id": "makhfi",
+              "name": "Mr Makhfi",
+              "photo": "",
+              "full": false,
+              "email": "m.makhfi@enstp.edu.dz",
+              "modules": ["Algèbre 1"]
+            }
+          ]
+        },
+        {
+          "id": "analyse1",
+          "icon": "📐",
+          "title": { "fr": "Analyse 1", "ar": "تحليل 1", "en": "Analysis 1" },
+          "profs": [
+            { "id": "bellal", "name": "Mme Bellal", "photo": "", "full": false, "email": "r.bellal@enstp.edu.dz", "modules": ["Analyse 1"] },
+            { "id": "kechiche", "name": "Mme Kechiche", "photo": "", "full": false, "email": "k.kerchouche@enstp.edu.dz", "modules": ["Analyse 1"] },
+            { "id": "benahmed", "name": "Mr Benahmed", "photo": "", "full": false, "email": "a.benahmed@enstp.edu.dz", "modules": ["Analyse 1"] }
+          ]
+        },
+        {
+          "id": "probastat",
+          "icon": "📊",
+          "title": { "fr": "Probabilité & Statistiques", "ar": "احتمالات وإحصاء", "en": "Probability & Statistics" },
+          "profs": [
+            { "id": "chouchaoui", "name": "Mme Chouchaoui", "photo": "", "full": false, "email": "s.chouchaoui@enstp.edu.dz", "modules": ["Proba Stat", "Economie Générale"] },
+            { "id": "masrour", "name": "Mme Masrour", "photo": "", "full": false, "email": "r.masrour@enstp.edu.dz", "modules": ["Proba Stat"] }
+          ]
+        },
+        {
+          "id": "chimie1",
+          "icon": "🧪",
+          "title": { "fr": "Chimie 1", "ar": "كيمياء 1", "en": "Chemistry 1" },
+          "profs": [
+            { "id": "bali", "name": "Mme Bali", "photo": "", "full": false, "email": "n.bali@enstp.edu.dz", "modules": ["Chimie 1"] },
+            { "id": "benaissa", "name": "Mme Benaissa", "photo": "", "full": false, "email": "s.benaissa@enstp.edu.dz", "modules": ["Chimie 1"] },
+            { "id": "ferhat", "name": "Mlle Ferhat", "photo": "", "full": false, "email": "a.ferhat@enstp.edu.dz", "modules": ["Chimie 1"], "vacataire": true },
+            { "id": "bouchama", "name": "Mlle Bouchama", "photo": "", "full": false, "email": "a.bouchama@enstp.edu.dz", "modules": ["Chimie 1"], "vacataire": true },
+            { "id": "boudiaf", "name": "Mme Boudiaf", "photo": "", "full": false, "email": "h.boudiaf@enstp.edu.dz", "modules": ["Chimie 1"], "vacataire": true }
+          ]
+        },
+        {
+          "id": "physique1",
+          "icon": "⚛️",
+          "title": { "fr": "Physique 1", "ar": "فيزياء 1", "en": "Physics 1" },
+          "profs": [
+            {
+              "id": "haddouche",
+              "name": "Haddouche Abdelslam",
+              "photo": "prof-images/haddouche.jpg",
+              "full": true,
+              "email": "a.haddouche@enstp.edu.dz",
+              "modules": ["Physics 1", "Physics 2", "Electromagnetism", "Optics"],
+              "year": { "fr": "1ère année préparatoire", "ar": "السنة الأولى تحضيري", "en": "1st year preparatory" },
+              "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" },
+              "advice": {
+                "fr": "Time management + self confidence.",
+                "ar": "تنظيم الوقت + الثقة بالنفس.",
+                "en": "Time management + self confidence."
+              },
+              "research": {
+                "fr": "Quantum Supersymmetry, Theoretical Nuclear Structure",
+                "ar": "التناظر الفائق الكمومي، البنية النووية النظرية",
+                "en": "Quantum Supersymmetry, Theoretical Nuclear Structure"
+              },
+              "links": [
+                { "icon": "🔗", "name": "LinkedIn", "url": "https://www.linkedin.com/in/abdeslam-haddouche-46a420a6" }
+              ]
+            },
+            {
+              "id": "zikem",
+              "name": "Mme ZIKEM",
+              "photo": "prof-images/zikem.jpg",
+              "full": true,
+              "email": "a.zikem@enstp.edu.dz",
+              "modules": ["Physique 1", "Physique 2"],
+              "year": { "fr": "1ère année préparatoire", "ar": "السنة الأولى تحضيري", "en": "1st year preparatory" },
+              "status": { "fr": "Enseignante permanente", "ar": "أستاذة دائمة", "en": "Permanent teacher" },
+              "advice": {
+                "fr": "À l'université, vous allez parfois rencontrer des difficultés, avoir de mauvaises notes ou vous sentir dépassés par la quantité de travail. Mais ne laissez pas ces moments vous faire douter de vos capacités. Vous n'avez pas besoin d'être excellents dès le départ. Vous avez besoin d'être réguliers, curieux et persévérants.",
+                "ar": "في الجامعة، ستواجهون أحياناً صعوبات، أو تحصلون على نقاط سيئة، أو تشعرون بالإرهاق من كثرة العمل. لكن لا تدعوا هذه اللحظات تجعلكم تشكّون في قدراتكم. لا تحتاجون أن تكونوا ممتازين من البداية. تحتاجون أن تكونوا منتظمين، فضوليين ومثابرين.",
+                "en": "At university, you will sometimes face difficulties, get bad grades, or feel overwhelmed by the workload. But don't let these moments make you doubt your abilities. You don't need to be excellent from the start. You need to be consistent, curious, and persistent."
+              },
+              "research": {
+                "fr": "Contribution to the study of the physical properties of some double perovskite crystals via first principles methods",
+                "ar": "مساهمة في دراسة الخصائص الفيزيائية لبعض بلورات البيروفسكايت المزدوجة",
+                "en": "Contribution to the study of the physical properties of some double perovskite crystals via first principles methods"
+              },
+              "links": []
+            },
+            { "id": "kias", "name": "Mlle Kias", "photo": "", "full": false, "email": "r.kias@enstp.edu.dz", "modules": ["Physique 1", "Physique 3"] },
+            { "id": "benyettou-1", "name": "Benyettou Fethi", "photo": "prof-images/benyettou.jpg", "full": true, "email": "f.benyettou@enstp.edu.dz", "modules": ["Électricité/Électronique", "Physique 1"], "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Cherchez, vous trouvez.", "ar": "ابحثوا، تجدوا.", "en": "Search, you will find." }, "research": { "fr": "Modélisation et simulation des nano-structures BQs, PQs et NFs pour le photovoltaïque", "ar": "نمذجة ومحاكاة البنى النانوية للخلايا الكهروضوئية", "en": "Modeling and simulation of BQs, PQs, and NFs nanostructures for photovoltaics" }, "links": [{ "icon": "🎓", "name": "ResearchGate", "url": "https://www.researchgate.net/profile/Benyettou-Fethi-2" }] },
+            { "id": "ouanoufi", "name": "Mme Ouanoufi", "photo": "", "full": false, "email": "s.ouanoufi@enstp.edu.dz", "modules": ["Physique 1"] }
+          ]
+        },
+        {
+          "id": "info1",
+          "icon": "💻",
+          "title": { "fr": "Informatique 1", "ar": "إعلام آلي 1", "en": "Computer Science 1" },
+          "profs": [
+            { "id": "bader", "name": "Mme Bader", "photo": "", "full": false, "email": "a.bader@enstp.edu.dz", "modules": ["Info 1"] },
+            { "id": "rezgui", "name": "Mr Rezgui", "photo": "", "full": false, "email": "r.rezgui@enstp.edu.dz", "modules": ["Info 1"], "vacataire": true },
+            { "id": "rouibah", "name": "Mr Rouibah", "photo": "", "full": false, "email": "a.rouibah@enstp.edu.dz", "modules": ["Info 1"], "vacataire": true }
+          ]
+        },
+        {
+          "id": "ingenierie-humaine1",
+          "icon": "🤝",
+          "title": { "fr": "Ingénierie Humaine 1", "ar": "هندسة بشرية 1", "en": "Human Engineering 1" },
+          "profs": [
+            { "id": "mahrez", "name": "Mr Mahrez", "photo": "", "full": false, "email": "a.mahrez@enstp.edu.dz", "modules": ["Ingenierie Humaine 1"] }
+          ]
+        },
+        {
+          "id": "economie",
+          "icon": "💹",
+          "title": { "fr": "Économie Générale", "ar": "اقتصاد عام", "en": "General Economics" },
+          "profs": [
+            { "id": "chouchaoui-eco", "name": "Mme Chouchaoui", "photo": "", "full": false, "email": "s.chouchaoui@enstp.edu.dz", "modules": ["Economie Générale"] }
+          ]
+        },
+        {
+          "id": "anglais1",
+          "icon": "🇬🇧",
+          "title": { "fr": "Anglais 1", "ar": "إنجليزية 1", "en": "English 1" },
+          "profs": [
+            {
+              "id": "yala",
+              "name": "Yala Ahmed",
+              "photo": "prof-images/yala.jpg",
+              "full": true,
+              "email": "a.yala@enstp.edu.dz",
+              "modules": ["English for Engineering"],
+              "year": { "fr": "1ère et 2ème année", "ar": "السنة الأولى والثانية", "en": "1st and 2nd year" },
+              "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" },
+              "advice": {
+                "fr": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems.",
+                "ar": "لا تدرسوا الهندسة فقط لاجتياز الامتحانات؛ ادرسوها لتصبحوا أشخاصاً قادرين على حل المشاكل الحقيقية في الحياة.",
+                "en": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems."
+              },
+              "research": {
+                "fr": "The Use of Mobile Assisted Language Learning to Foster Students' EFL Sentence Writing",
+                "ar": "استخدام تعلم اللغة بمساعدة الجوال لتعزيز كتابة الجمل باللغة الإنجليزية",
+                "en": "The Use of Mobile Assisted Language Learning to Foster Students' EFL Sentence Writing"
+              },
+              "links": [
+                { "icon": "🎓", "name": "Google Scholar", "url": "https://scholar.google.com/citations?user=fVI2fEUAAAAAJ&hl=fr" }
+              ]
+            },
+            { "id": "khalfi", "name": "Mlle Khalfi", "photo": "", "full": false, "email": "a.khalfi@enstp.edu.dz", "modules": ["Anglais 1"] },
+            { "id": "hassaine", "name": "Mr Hassaine", "photo": "", "full": false, "email": "a.hassaine@enstp.edu.dz", "modules": ["Anglais 1"] }
+          ]
+        },
+        {
+          "id": "francais1",
+          "icon": "🇫🇷",
+          "title": { "fr": "Français 1", "ar": "فرنسية 1", "en": "French 1" },
+          "profs": [
+            { "id": "belhadj", "name": "Mme Belhadj", "photo": "", "full": false, "email": "f.belhadj@enstp.edu.dz", "modules": ["Français 1"] },
+            { "id": "ouslimane", "name": "Mme Ouslimane", "photo": "", "full": false, "email": "s.ouslimane@enstp.edu.dz", "modules": ["Français 1"], "vacataire": true }
+          ]
+        },
+        {
+          "id": "dessin-technique",
+          "icon": "📏",
+          "title": { "fr": "Dessin Technique", "ar": "رسم تقني", "en": "Technical Drawing" },
+          "profs": [
+            { "id": "benkraled", "name": "Mr Benkraled", "photo": "", "full": false, "email": "a.benkraled@enstp.edu.dz", "modules": ["Dessin Technique"], "vacataire": true },
+            { "id": "azzouz", "name": "Mlle Azzouz", "photo": "", "full": false, "email": "l.azzouz@enstp.edu.dz", "modules": ["Dessin Technique"], "vacataire": true },
+            { "id": "nasri", "name": "Mme Nasri", "photo": "", "full": false, "email": "s.nasri@enstp.edu.dz", "modules": ["Dessin Technique"], "vacataire": true },
+            { "id": "boubidi", "name": "Mme Boubidi", "photo": "", "full": false, "email": "h.boubidi@enstp.edu.dz", "modules": ["Dessin Technique"], "vacataire": true }
+          ]
+        }
+      ]
+    },
+    "2acp": {
+      "icon": "📗",
+      "title": { "fr": "2ème année Préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year Preparatory" },
+      "subjects": [
+        {
+          "id": "analyse3",
+          "icon": "📐",
+          "title": { "fr": "Analyse 3", "ar": "تحليل 3", "en": "Analysis 3" },
+          "profs": [
+            { "id": "brahmi", "name": "Mr Brahmi", "photo": "", "full": false, "email": "m.brahmi@enstp.edu.dz", "modules": ["Analyse 3"] },
+            { "id": "dehimi", "name": "Mme Dehimi", "photo": "", "full": false, "email": "l.dehimi@enstp.edu.dz", "modules": ["Analyse 3"] },
+            { "id": "benahmed-2", "name": "Mr Benahmed", "photo": "", "full": false, "email": "a.benahmed@enstp.edu.dz", "modules": ["Analyse 3"] },
+            { "id": "boulatiour", "name": "Mr Boulatiour", "photo": "", "full": false, "email": "k.boulatiour@enstp.edu.dz", "modules": ["Analyse 3"], "vacataire": true }
+          ]
+        },
+        {
+          "id": "analyse-num2",
+          "icon": "🔢",
+          "title": { "fr": "Analyse Numérique 2", "ar": "تحليل رقمي 2", "en": "Numerical Analysis 2" },
+          "profs": [
+            {
+              "id": "hamadi",
+              "name": "HAMADI Ahmed",
+              "photo": "prof-images/hamadi.jpg",
+              "full": true,
+              "email": "a.hamadi@enstp.edu.dz",
+              "modules": ["Analyse Numérique"],
+              "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" },
+              "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" },
+              "advice": {
+                "fr": "Il faut suivre tous vos cours et TD sans aucune absence pour assurer vos succès.",
+                "ar": "يجب متابعة جميع الدروس والأعمال الموجهة دون أي غياب لضمان النجاح.",
+                "en": "You must attend all your courses and tutorials without any absence to ensure your success."
+              },
+              "research": {
+                "fr": "Structure Algorithmique de graphes parfaits",
+                "ar": "البنية الخوارزمية للرسوم البيانية المثالية",
+                "en": "Algorithmic Structure of Perfect Graphs"
+              },
+              "links": []
+            },
+            { "id": "kiouche", "name": "Mme Kiouche", "photo": "", "full": false, "email": "s.khouche@enstp.edu.dz", "modules": ["Analyse Numérique 2"] }
+          ]
+        },
+        {
+          "id": "chimie3",
+          "icon": "🧪",
+          "title": { "fr": "Chimie 3", "ar": "كيمياء 3", "en": "Chemistry 3" },
+          "profs": [
+            {
+              "id": "bendada",
+              "name": "BENDADA",
+              "photo": "prof-images/bendada.jpg",
+              "full": true,
+              "email": "k.bendada@enstp.edu.dz",
+              "modules": ["Chimie des solutions", "Chimie organique"],
+              "year": { "fr": "2ème année", "ar": "السنة الثانية", "en": "2nd year" },
+              "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" },
+              "advice": {
+                "fr": "Je conseille aux étudiants de développer leur curiosité scientifique, de ne pas hésiter à poser des questions et de toujours chercher à comprendre plutôt qu'à simplement mémoriser.",
+                "ar": "أنصح الطلبة بتطوير فضولهم العلمي، وعدم التردد في طرح الأسئلة، والسعي دائماً إلى الفهم بدلاً من الحفظ فقط.",
+                "en": "I advise students to develop their scientific curiosity, not hesitate to ask questions, and always seek to understand rather than simply memorize."
+              },
+              "research": {
+                "fr": "Caractérisation des paramètres thermodynamiques de surface des roches réservoirs pétroliers par CGI. Remédiation des sols par électropermédiation.",
+                "ar": "توصيف المعايير الثرموديناميكية لسطح صخور المكامن النفطية. معالجة التربة بالترحيل الكهربائي.",
+                "en": "Characterization of surface thermodynamic parameters of petroleum reservoir rocks by IGC. Soil remediation by electroremediation."
+              },
+              "links": [
+                { "icon": "🎓", "name": "Google Scholar", "url": "https://scholar.google.com/citations?hl=fr&user=Oy0kr_UAAAAJ" }
+              ]
+            },
+            { "id": "dib", "name": "Mme Dib", "photo": "", "full": false, "email": "k.dib@enstp.edu.dz", "modules": ["Chimie 3"] },
+            { "id": "haouchine", "name": "Mr Haouchine", "photo": "", "full": false, "email": "m.haouchine@enstp.edu.dz", "modules": ["Chimie 3"] },
+            { "id": "boudiaf-2", "name": "Mlle Boudiaf", "photo": "", "full": false, "email": "h.boudiaf@enstp.edu.dz", "modules": ["Chimie 3"], "vacataire": true },
+            {
+              "id": "bouhara",
+              "name": "Bouhara Safia",
+              "photo": "prof-images/bouhara.jpg",
+              "full": true,
+              "email": "s.bouhara@enstp.edu.dz",
+              "modules": ["Chimie"],
+              "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" },
+              "status": { "fr": "Enseignante permanente", "ar": "أستاذة دائمة", "en": "Permanent teacher" },
+              "advice": {
+                "fr": "Je conseille les étudiants d'être respectueux, patients et ne pas se décourager. Aussi je les incite à travailler pendant les séances de TD.",
+                "ar": "أنصح الطلبة بأن يكونوا محترمين، صبورين، ولا يستسلموا. كما أحثهم على العمل خلال حصص الأعمال الموجهة.",
+                "en": "I advise students to be respectful, patient, and not to get discouraged. I also encourage them to work during tutorial sessions."
+              },
+              "research": {
+                "fr": "Adsorption du glyphosate (herbicide) sur les nanotubes de carbone et bore azote : Étude théorique",
+                "ar": "امتزاز الغليفوسات على أنابيب الكربون النانوية والبورون-نيتروجين: دراسة نظرية",
+                "en": "Adsorption of glyphosate (herbicide) on carbon and boron-nitrogen nanotubes: Theoretical study"
+              },
+              "links": [
+                { "icon": "🎓", "name": "Google Scholar", "url": "https://scholar.google.com/citations?user=AK2HZyYAAAAJ&hl=fr" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "physique3",
+          "icon": "⚛️",
+          "title": { "fr": "Physique 3", "ar": "فيزياء 3", "en": "Physics 3" },
+          "profs": [
+            {
+              "id": "berroudji",
+              "name": "Sid-Ahmed BERROUDJI",
+              "photo": "prof-images/berroudji.jpg",
+              "full": true,
+              "email": "s.berroudji@enstp.edu.dz",
+              "modules": ["Physics 3", "Physics 4", "Fluids mechanics"],
+              "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" },
+              "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" },
+              "advice": {
+                "fr": "Travaillez régulièrement, ne laissez pas les choses s'accumuler. La physique demande de la pratique quotidienne.",
+                "ar": "اعملوا بانتظام، لا تدعوا الأمور تتراكم. الفيزياء تتطلب ممارسة يومية.",
+                "en": "Work regularly, don't let things pile up. Physics requires daily practice."
+              },
+              "links": [
+                { "icon": "🔗", "name": "LinkedIn", "url": "https://www.linkedin.com/in/sid-ahmed-berroudji/" }
+              ]
+            },
+            { "id": "toumi", "name": "Mme Toumi", "photo": "", "full": false, "email": "s.toumi@enstp.edu.dz", "modules": ["Physique 3"] },
+            { "id": "kellou", "name": "Mr Kellou", "photo": "", "full": false, "email": "h.kellou@enstp.edu.dz", "modules": ["Physique 3", "MDF"] },
+            { "id": "kias-3", "name": "Mlle Kias", "photo": "", "full": false, "email": "r.kias@enstp.edu.dz", "modules": ["Physique 3"] },
+            { "id": "meddah", "name": "Mme Meddah", "photo": "", "full": false, "email": "a.meddah@enstp.edu.dz", "modules": ["Physique 3"], "vacataire": true },
+            { "id": "taibi", "name": "Mlle Taibi", "photo": "", "full": false, "email": "h.taibi@enstp.edu.dz", "modules": ["Physique 3"], "vacataire": true }
+          ]
+        },
+        {
+          "id": "info3",
+          "icon": "💻",
+          "title": { "fr": "Informatique 3", "ar": "إعلام آلي 3", "en": "Computer Science 3" },
+          "profs": [
+            { "id": "ould-kaddour", "name": "Mr Ould Kaddour", "photo": "", "full": false, "email": "m.ouldkaddour@enstp.edu.dz", "modules": ["Info 3"] },
+            { "id": "lhaddad", "name": "Mr Lhaddad", "photo": "", "full": false, "email": "s.lhaddad@enstp.edu.dz", "modules": ["Info 3"] },
+            { "id": "larbi", "name": "Mlle Larbi", "photo": "", "full": false, "email": "b.larbi@enstp.edu.dz", "modules": ["Info 3"], "vacataire": true }
+          ]
+        },
+        {
+          "id": "mdf",
+          "icon": "💧",
+          "title": { "fr": "Mécanique des Fluides", "ar": "ميكانيك الموائع", "en": "Fluid Mechanics" },
+          "profs": [
+            { "id": "kellou-mdf", "name": "Mr Kellou", "photo": "", "full": false, "email": "h.kellou@enstp.edu.dz", "modules": ["MDF"] },
+            { "id": "bensaibi", "name": "Mlle Bensaibi", "photo": "", "full": false, "email": "a.bensaibi@enstp.edu.dz", "modules": ["MDF"], "vacataire": true }
+          ]
+        },
+        {
+          "id": "electricite",
+          "icon": "⚡",
+          "title": { "fr": "Électricité Générale", "ar": "كهرباء عامة", "en": "General Electricity" },
+          "profs": [
+            {
+              "id": "rahoui",
+              "name": "Rahoui Adel",
+              "photo": "prof-images/rahoui.jpg",
+              "full": true,
+              "email": "a.rahoui@enstp.edu.dz",
+              "modules": ["Électricité Générale S3", "Électronique Générale S4"],
+              "year": { "fr": "2ème année", "ar": "السنة الثانية", "en": "2nd year" },
+              "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" },
+              "advice": {
+                "fr": "Soyez réguliers et curieux. L'électricité demande de la pratique et de la rigueur.",
+                "ar": "كونوا منتظمين وفضوليين. الكهرباء تتطلب الممارسة والصرامة.",
+                "en": "Be consistent and curious. Electricity requires practice and rigor."
+              },
+              "research": {
+                "fr": "Commande, observation et synchronisation avancées des convertisseurs d'électronique de puissance connectés au réseau électrique, avec application aux énergies renouvelables.",
+                "ar": "التحكم والمراقبة والمزامنة المتقدمة لمحولات الإلكترونيات القدرة المتصلة بالشبكة الكهربائية، مع تطبيق على الطاقات المتجددة.",
+                "en": "Advanced control, observation and synchronization of power electronics converters connected to the electrical grid, with application to renewable energies."
+              },
+              "links": [
+                { "icon": "🔗", "name": "LinkedIn", "url": "https://www.linkedin.com/in/adelrahoui" },
+                { "icon": "🎓", "name": "ResearchGate", "url": "https://www.researchgate.net/profile/Adel_Rahoui" },
+                { "icon": "📚", "name": "Google Scholar", "url": "https://scholar.google.fr/citations?user=28i_t1EAAAAJ&hl=fr&oi=ao" }
+              ]
+            },
+            { "id": "benyettou-elec", "name": "Benyettou Fethi", "photo": "prof-images/benyettou.jpg", "full": true, "email": "f.benyettou@enstp.edu.dz", "modules": ["Électricité/Électronique"], "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Cherchez, vous trouvez.", "ar": "ابحثوا، تجدوا.", "en": "Search, you will find." }, "research": { "fr": "Modélisation et simulation des nano-structures pour le photovoltaïque", "ar": "نمذجة ومحاكاة البنى النانوية للخلايا الكهروضوئية", "en": "Modeling and simulation of nanostructures for photovoltaics" }, "links": [{ "icon": "🎓", "name": "ResearchGate", "url": "https://www.researchgate.net/profile/Benyettou-Fethi-2" }] },
+            {
+              "id": "boudina",
+              "name": "Boudina Nour El Houda",
+              "photo": "prof-images/boudina.jpg",
+              "full": true,
+              "email": "nourelhouda.boudina@enstp.edu.dz",
+              "modules": ["Électricité générale"],
+              "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" },
+              "status": { "fr": "Enseignante vacataire", "ar": "أستاذة متعاقدة", "en": "Contract teacher" },
+              "advice": {
+                "fr": "Ne cessez jamais d'apprendre et de croire en vous. Construisez votre carrière professionnelle sur les bases théoriques acquises durant vos études.",
+                "ar": "لا تتوقفوا أبداً عن التعلم والثقة بأنفسكم. ابنوا مساركم المهني على الأسس النظرية المكتسبة خلال دراستكم.",
+                "en": "Never stop learning and believing in yourself. Build your professional career on the theoretical foundations acquired during your studies."
+              },
+              "links": [
+                { "icon": "🔗", "name": "LinkedIn", "url": "https://www.linkedin.com/in/nour-el-houda-boudina-93215b2b5" }
+              ]
+            },
+            { "id": "nemouchi", "name": "Mr Nemouchi", "photo": "", "full": false, "email": "a.nemouchi@enstp.edu.dz", "modules": ["Électricité Générale"], "vacataire": true }
+          ]
+        },
+        {
+          "id": "meca-rat1",
+          "icon": "🔩",
+          "title": { "fr": "Mécanique Rationnelle 1", "ar": "ميكانيك عقلاني 1", "en": "Rational Mechanics 1" },
+          "profs": [
+            { "id": "zouadi", "name": "Mme Zouadi", "photo": "", "full": false, "email": "n.zouadi@enstp.edu.dz", "modules": ["Mécanique Rationnelle 1"], "vacataire": true },
+            { "id": "guerbas", "name": "Mr Guerbas", "photo": "", "full": false, "email": "a.guerbas@enstp.edu.dz", "modules": ["Mécanique Rationnelle 1"], "vacataire": true },
+            { "id": "mezrag", "name": "Mr Mezrag", "photo": "", "full": false, "email": "a.mezrag@enstp.edu.dz", "modules": ["Mécanique Rationnelle 1"], "vacataire": true }
+          ]
+        },
+        {
+          "id": "ingenierie1-2acp",
+          "icon": "🤝",
+          "title": { "fr": "Ingénierie 1", "ar": "هندسة 1", "en": "Engineering 1" },
+          "profs": [
+            {
+              "id": "chiali",
+              "name": "CHIALI Soumiya",
+              "photo": "prof-images/chiali.jpg",
+              "full": true,
+              "email": "s.chiali@enstp.edu.dz",
+              "modules": ["Ingénierie"],
+              "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" },
+              "status": { "fr": "Enseignante permanente", "ar": "أستاذة دائمة", "en": "Permanent teacher" },
+              "advice": {
+                "fr": "Lorsqu'on entreprend un travail, il faut le faire avec soin et le mener à la perfection.",
+                "ar": "عندما تبدأ عملاً، يجب أن تفعله بعناية وتصل به إلى الكمال.",
+                "en": "When you undertake a task, do it carefully and carry it through to perfection."
+              },
+              "research": {
+                "fr": "Valorisation des vases de barrage en technique routière",
+                "ar": "تثمين أوحال السدود في التقنية الطرقية",
+                "en": "Valorization of dam sludge in road technique"
+              },
+              "links": []
+            },
+            { "id": "oumoussa", "name": "Mme Oumoussa", "photo": "", "full": false, "email": "a.oumoussa@enstp.edu.dz", "modules": ["Ingénierie 1"], "vacataire": true }
+          ]
+        },
+        {
+          "id": "anglais3",
+          "icon": "🇬🇧",
+          "title": { "fr": "Anglais 3", "ar": "إنجليزية 3", "en": "English 3" },
+          "profs": [
+            { "id": "yala-3", "name": "Yala Ahmed", "photo": "prof-images/yala.jpg", "full": true, "email": "a.yala@enstp.edu.dz", "modules": ["English for Engineering"], "year": { "fr": "1ère et 2ème année", "ar": "السنة الأولى والثانية", "en": "1st and 2nd year" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems.", "ar": "لا تدرسوا الهندسة فقط لاجتياز الامتحانات؛ ادرسوها لتصبحوا أشخاصاً قادرين على حل المشاكل الحقيقية في الحياة.", "en": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems." }, "research": { "fr": "The Use of Mobile Assisted Language Learning to Foster Students' EFL Sentence Writing", "ar": "استخدام تعلم اللغة بمساعدة الجوال لتعزيز كتابة الجمل باللغة الإنجليزية", "en": "The Use of Mobile Assisted Language Learning to Foster Students' EFL Sentence Writing" }, "links": [{ "icon": "🎓", "name": "Google Scholar", "url": "https://scholar.google.com/citations?user=fVI2fEUAAAAAJ&hl=fr" }] },
+            { "id": "azzi", "name": "Mr Azzi", "photo": "", "full": false, "email": "a.azzi@enstp.edu.dz", "modules": ["Anglais 3"] },
+            { "id": "bellabes", "name": "Mr Bellabes Omar", "photo": "", "full": false, "email": "o.bellabes@enstp.edu.dz", "modules": ["Anglais 3"] }
+          ]
+        },
+        {
+          "id": "tech-expression",
+          "icon": "💬",
+          "title": { "fr": "Technique d'expression", "ar": "تقنيات التعبير", "en": "Expression Techniques" },
+          "profs": [
+            { "id": "benyettou-tech", "name": "Benyettou Fethi", "photo": "prof-images/benyettou.jpg", "full": true, "email": "f.benyettou@enstp.edu.dz", "modules": ["Technique d'expression"], "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Cherchez, vous trouvez.", "ar": "ابحثوا، تجدوا.", "en": "Search, you will find." }, "research": { "fr": "Modélisation et simulation des nano-structures pour le photovoltaïque", "ar": "نمذجة ومحاكاة البنى النانوية للخلايا الكهروضوئية", "en": "Modeling and simulation of nanostructures for photovoltaics" }, "links": [] }
+          ]
+        }
+      ]
+    }
+  }
+}
