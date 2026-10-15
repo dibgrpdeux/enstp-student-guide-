@@ -997,3 +997,21 @@ if (typeof window !== 'undefined') {
   window.getCurrentLang = getCurrentLang;
   window.setCurrentLang = setCurrentLang;
 }
+
+// ============================================
+// ترجمات الخريطة التفاعلية
+// ============================================
+window.LANG_DATA = window.LANG_DATA || {};
+window.LANG_DATA.fr = window.LANG_DATA.fr || {};
+window.LANG_DATA.ar = window.LANG_DATA.ar || {};
+window.LANG_DATA.en = window.LANG_DATA.en || {};
+
+// عنوان الفئة
+window.LANG_DATA.fr.ecoleInteractiveMap = "Carte interactive de la cité";
+window.LANG_DATA.ar.ecoleInteractiveMap = "خريطة الإقامة التفاعلية";
+window.LANG_DATA.en.ecoleInteractiveMap = "Interactive residence map";
+
+// وصف الفئة
+window.LANG_DATA.fr.ecoleInteractiveMapDesc = "Trouvez votre chambre et votre itinéraire dans la cité universitaire Garidi 1";
+window.LANG_DATA.ar.ecoleInteractiveMapDesc = "ابحث عن غرفتك ومسارك في الإقامة الجامعية قاريدي 1";
+window.LANG_DATA.en.ecoleInteractiveMapDesc = "Find your room and route in the Garidi 1 university residence";
