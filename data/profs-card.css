@@ -1,0 +1,449 @@
+/* ============================================
+   profs-card.css — تصميم بطاقات الأساتذة
+   Guide de survie ENSTP
+   طبق الأصل عن تصميم "قاريدي 1"
+   ============================================ */
+
+/* ============================================
+   حاوية البطاقة — الخلفية البنية الداكنة
+   ============================================ */
+.prof-card-wrapper{
+  background: #6B1414;
+  padding: 24px 16px;
+  border-radius: 12px;
+  margin: 16px 0;
+  position: relative;
+  overflow: hidden;
+  font-family: "IBM Plex Sans Arabic", Georgia, "Times New Roman", serif;
+  color: #1a1a1a;
+  box-shadow: 0 10px 40px rgba(0,0,0,.3);
+}
+
+/* زخرفة خطية أعلى البطاقة */
+.prof-card-wrapper::before{
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #B8860B, #D4AF37, #B8860B, transparent);
+}
+
+/* ============================================
+   البطاقة الأساسية (بيج/عاجي)
+   ============================================ */
+.prof-card{
+  background: #FDF6E3;
+  border: 2px solid #E8D9A8;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 16px;
+  position: relative;
+  box-shadow:
+    3px 3px 0 rgba(0,0,0,.15),
+    5px 5px 15px rgba(0,0,0,.25);
+  transform: rotate(-0.3deg);
+  transition: transform 0.3s ease;
+}
+.prof-card:nth-child(even){
+  transform: rotate(0.3deg);
+}
+
+/* دبوس ذهبي في أعلى البطاقة */
+.prof-card::before{
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFE066, #D4AF37 40%, #8B6914 80%, #6B4F0F);
+  box-shadow:
+    0 3px 6px rgba(0,0,0,.4),
+    inset -2px -2px 4px rgba(0,0,0,.3),
+    inset 2px 2px 4px rgba(255,255,255,.5);
+  z-index: 10;
+}
+
+/* ============================================
+   بطاقة الهوية (الصورة + الاسم)
+   ============================================ */
+.prof-id-card{
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.prof-photo{
+  width: 100px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #E8D9A8;
+  background: #fff;
+  overflow: hidden;
+  border-radius: 3px;
+}
+.prof-photo img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.prof-photo .prof-avatar-fallback{
+  font-size: 3rem;
+  color: #8B6914;
+  font-weight: 700;
+  font-family: Georgia, serif;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FDF6E3, #E8D9A8);
+}
+
+.prof-id-info{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.prof-name{
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  word-break: break-word;
+}
+
+.prof-title-line{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.prof-role{
+  font-family: Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.prof-location{
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: #1a1a1a;
+  font-weight: 600;
+  margin-left: 4px;
+}
+.prof-location::before{
+  content: '📍';
+  font-size: 0.9rem;
+}
+
+.prof-status{
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ============================================
+   بطاقة البريد الإلكتروني
+   ============================================ */
+.prof-email-card{
+  text-align: center;
+  padding: 20px 16px;
+}
+.prof-email-card .prof-section-title{
+  font-family: Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+.prof-email-card .prof-section-subtitle{
+  font-family: Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+.prof-email-link{
+  display: inline-block;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  text-decoration: underline;
+  text-decoration-color: #8B6914;
+  text-underline-offset: 3px;
+  font-family: Georgia, serif;
+  word-break: break-all;
+  transition: color 0.2s;
+}
+.prof-email-link:hover{
+  color: #6B1414;
+}
+
+/* ============================================
+   بطاقة Modules / Année
+   ============================================ */
+.prof-modules-card{
+  padding: 20px 18px;
+}
+.prof-modules-card .prof-section-title{
+  font-family: Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+.prof-modules-list{
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+}
+.prof-modules-list li{
+  font-family: Georgia, serif;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  padding: 3px 0;
+  padding-inline-start: 16px;
+  position: relative;
+}
+.prof-modules-list li::before{
+  content: '•';
+  position: absolute;
+  inset-inline-start: 0;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+.prof-year-title{
+  font-family: Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 12px 0 8px;
+}
+
+/* ============================================
+   بطاقة النصيحة
+   ============================================ */
+.prof-advice-card{
+  padding: 20px 18px;
+}
+.prof-advice-card .prof-section-title{
+  font-family: Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.prof-advice-text{
+  font-family: Georgia, serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #2a2a2a;
+  line-height: 1.65;
+  text-align: center;
+  position: relative;
+  padding: 0 8px;
+}
+.prof-advice-text::before{
+  content: '"';
+  font-size: 1.8rem;
+  color: #8B6914;
+  font-family: Georgia, serif;
+  position: absolute;
+  top: -8px;
+  inset-inline-start: 0;
+  line-height: 1;
+}
+.prof-advice-text::after{
+  content: '"';
+  font-size: 1.8rem;
+  color: #8B6914;
+  font-family: Georgia, serif;
+  position: absolute;
+  bottom: -22px;
+  inset-inline-end: 0;
+  line-height: 1;
+}
+
+/* ============================================
+   بطاقة البحث (Research)
+   ============================================ */
+.prof-research-card{
+  padding: 20px 18px;
+}
+.prof-research-card .prof-section-title{
+  font-family: Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.prof-research-text{
+  font-family: Georgia, serif;
+  font-size: 0.88rem;
+  color: #2a2a2a;
+  line-height: 1.65;
+  text-align: center;
+}
+
+/* ============================================
+   بطاقة الروابط
+   ============================================ */
+.prof-links-card{
+  padding: 20px 18px;
+}
+.prof-links-card .prof-section-title{
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+.prof-links-list{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.prof-link{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: Georgia, serif;
+  font-size: 0.88rem;
+  color: #1a1a1a;
+  text-decoration: underline;
+  text-decoration-color: #8B6914;
+  text-underline-offset: 3px;
+  word-break: break-all;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+.prof-link:hover{
+  color: #6B1414;
+}
+.prof-link .prof-link-icon{
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
+/* ============================================
+   بطاقة مبسّطة (الأساتذة بدون full data)
+   ============================================ */
+.prof-simple-card{
+  padding: 16px;
+  text-align: center;
+}
+.prof-simple-card .prof-simple-name{
+  font-family: Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+}
+.prof-simple-card .prof-simple-module{
+  font-family: Georgia, serif;
+  font-size: 0.85rem;
+  color: #4a4a4a;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+.prof-simple-card .prof-simple-email{
+  display: inline-block;
+  font-size: 0.82rem;
+  color: #1a1a1a;
+  text-decoration: underline;
+  text-decoration-color: #8B6914;
+  word-break: break-all;
+  font-family: Georgia, serif;
+}
+.prof-simple-card .prof-simple-email:hover{
+  color: #6B1414;
+}
+.prof-simple-card .prof-simple-no-email{
+  font-size: 0.8rem;
+  color: #8a8a8a;
+  font-style: italic;
+}
+
+/* بادج "متطوع" */
+.prof-badge-vacataire{
+  display: inline-block;
+  background: #F4DDB8;
+  color: #6B4F0F;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   تصميم متجاوب
+   ============================================ */
+@media (max-width: 480px){
+  .prof-card-wrapper{
+    padding: 16px 10px;
+  }
+  .prof-name{
+    font-size: 1.15rem;
+  }
+  .prof-photo{
+    width: 80px;
+  }
+  .prof-modules-card .prof-section-title,
+  .prof-year-title{
+    font-size: 1.05rem;
+  }
+  .prof-email-card .prof-section-title{
+    font-size: 1rem;
+  }
+  .prof-advice-text{
+    font-size: 0.82rem;
+  }
+  .prof-links-card .prof-section-title{
+    font-size: 1.1rem;
+  }
+}
+
+/* ============================================
+   دعم RTL (العربية)
+   ============================================ */
+html[dir="rtl"] .prof-card{
+  transform: rotate(0.3deg);
+}
+html[dir="rtl"] .prof-card:nth-child(even){
+  transform: rotate(-0.3deg);
+}
+html[dir="rtl"] .prof-advice-text::before{
+  inset-inline-start: 0;
+}
+html[dir="rtl"] .prof-advice-text::after{
+  inset-inline-end: 0;
+}
