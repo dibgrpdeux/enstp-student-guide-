@@ -1110,3 +1110,199 @@ input:focus-visible{
   outline:2px solid var(--orange);
   outline-offset:2px;
 }
+/* ============================================
+   Shopping — Cartes de commerces
+   ============================================ */
+.shop-card{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius-m);
+  padding:14px;
+  margin-bottom:10px;
+  transition:var(--transition);
+  animation:fadeInUp .4s ease-out both;
+  cursor:pointer;
+}
+.shop-card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow-md);
+  border-color:var(--acc);
+}
+.shop-emoji{
+  flex:none;
+  width:52px;height:52px;
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;
+  box-shadow:var(--shadow-sm);
+}
+.shop-info{flex:1;min-width:0}
+.shop-name{
+  font-weight:700;
+  color:var(--ink);
+  font-size:1rem;
+  margin-bottom:3px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.shop-meta{
+  font-size:.78rem;
+  color:var(--mut);
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  align-items:center;
+}
+.shop-status{
+  flex:none;
+  font-size:.7rem;
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:var(--radius-full);
+  letter-spacing:.02em;
+}
+.shop-status.open{background:#dcfae6;color:#067647}
+.shop-status.closed{background:#fee4e2;color:#b42318}
+.shop-status.unknown{background:var(--bg-3);color:var(--mut)}
+:root[data-mode="dark"] .shop-status.open{background:#0b3a24;color:#75e0a7}
+:root[data-mode="dark"] .shop-status.closed{background:#3a1515;color:#fda29b}
+
+/* Filtres */
+.shop-filters{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:10px 0;
+  margin-bottom:8px;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.shop-filters::-webkit-scrollbar{display:none}
+.shop-chip{
+  flex:none;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--ink-2);
+  border-radius:var(--radius-full);
+  padding:8px 14px;
+  font-size:.82rem;
+  font-weight:600;
+  cursor:pointer;
+  font-family:inherit;
+  transition:var(--transition);
+  white-space:nowrap;
+}
+.shop-chip:hover{border-color:var(--acc);color:var(--acc)}
+.shop-chip.on{
+  background:var(--acc);
+  color:#fff;
+  border-color:var(--acc);
+  box-shadow:var(--shadow-orange);
+}
+
+/* Modale fiche commerce */
+.shop-modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  z-index:9999;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  animation:fadeIn .3s ease-out;
+}
+.shop-modal{
+  background:var(--card);
+  color:var(--ink);
+  width:100%;
+  max-width:560px;
+  max-height:92vh;
+  overflow-y:auto;
+  border-radius:24px 24px 0 0;
+  padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));
+  animation:slideInBottom .35s cubic-bezier(.2,.8,.2,1);
+}
+.shop-modal .shop-close{
+  float:right;
+  background:var(--bg-3);
+  border:0;
+  width:36px;height:36px;
+  border-radius:50%;
+  font-size:1.1rem;
+  cursor:pointer;
+  color:var(--ink);
+  font-family:inherit;
+}
+.shop-modal h2{
+  margin:6px 0 6px;
+  font-size:1.3rem;
+  color:var(--ink);
+}
+.shop-modal .shop-badge{
+  display:inline-block;
+  background:var(--acc-soft);
+  color:var(--acc);
+  padding:4px 12px;
+  border-radius:var(--radius-full);
+  font-size:.78rem;
+  font-weight:700;
+  margin-bottom:12px;
+}
+.shop-modal table{
+  width:100%;
+  font-size:.85rem;
+  border-collapse:collapse;
+  margin-top:8px;
+}
+.shop-modal td{
+  padding:6px 0;
+  border-bottom:1px solid var(--line-2);
+}
+.shop-modal td:last-child{
+  text-align:right;
+  color:var(--mut);
+}
+.shop-modal td.today{
+  font-weight:700;
+  color:var(--acc);
+}
+.shop-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:16px;
+}
+.shop-actions a,
+.shop-actions button{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:10px 16px;
+  border-radius:var(--radius-full);
+  font-size:.85rem;
+  font-weight:700;
+  text-decoration:none;
+  cursor:pointer;
+  font-family:inherit;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--ink);
+  transition:var(--transition);
+}
+.shop-actions a.primary,
+.shop-actions button.primary{
+  background:var(--acc);
+  color:#fff;
+  border-color:var(--acc);
+  box-shadow:var(--shadow-orange);
+}
+.shop-actions a:hover,
+.shop-actions button:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-md);
+}
