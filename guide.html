@@ -1274,6 +1274,285 @@ window.showToast = showToast;
   }
 })();
 </script>
+  <!-- ============================================ -->
+<!-- 🍽️ Shopping — rendu personnalisé -->
+<!-- ============================================ -->
+<script>
+(function() {
+  // Attendre que SECTIONS soit prêt
+  function init() {
+    if (typeof window.SECTIONS === 'undefined') {
+      return setTimeout(init, 100);
+    }
+
+    // Vérifier si le type 'shops' existe
+    const shopSection = window.SECTIONS.find(s => s.id === 'shopping');
+    if (!shopSection || shopSection.type !== 'shops') return;
+
+    // Remplacer openSection pour gérer le type 'shops'
+    const originalOpenSection = window.openSection;
+    window.openSection = function(id) {
+      const s = window.SECTIONS.find(x => x.id === id);
+      if (s && s.type === 'shops') {
+        return renderShopHome(s);
+      }
+      return originalOpenSection(id);
+    };
+
+    // ---------- Helpers ----------
+    function minToStr(m) {
+      const h = Math.floor(m / 60);
+      return h + 'h' + (m % 60 === 0 ? '' : (m % 60).toString().padStart(2, '0'));
+    }
+    function toMin(s) { const a = s.split(':'); return +a[0] * 60 + +a[1]; }
+    function getRanges(shop, day) {
+      return shop.x[day] !== undefined ? shop.x[day] : shop.h;
+    }
+    function isOpen(shop, date) {
+      if (!shop.h.length) return 'u';
+      const t = date.getHours() * 60 + date.getMinutes();
+      const ranges = getRanges(shop, date.getDay());
+      for (const r of ranges) {
+        const o = toMin(r[0]), c = toMin(r[1]);
+        if (c > o ? (t >= o && t < c) : (t >= o || t < c)) return 'o';
+      }
+      return 'c';
+    }
+    function dist(shop) {
+      const g = shop.g;
+      const R = 6371000, r = Math.PI / 180;
+      const a = Math.sin((g[0] - 36.7255818) * r / 2);
+      const b = Math.sin((g[1] - 3.0695956) * r / 2);
+      const d = 2 * R * Math.asin(Math.sqrt(a * a + Math.cos(36.7255818 * r) * Math.cos(g[0] * r) * b * b));
+      return Math.max(1, Math.round(d * 1.3 / 80));
+    }
+    function catOf(shop) {
+      return window.SHOP_DATA.cats[shop.c];
+    }
+    function catColor(cat) {
+      const colors = {
+        manger: '#f97316', cafe: '#a16207', courses: '#16a34a',
+        pharma: '#dc2626', copie: '#0891b2', sport: '#7c3aed',
+        beaute: '#db2777', tel: '#2563eb', vetements: '#9333ea',
+        services: '#475569'
+      };
+      return colors[cat] || '#f97316';
+    }
+
+    // ---------- Rendu principal ----------
+    let currentCat = 'all';
+    let currentTerm = '';
+    let filterOpen = false;
+    let filterCheap = false;
+    let filterFav = false;
+
+    function getFav() {
+      try { return JSON.parse(localStorage.getItem('shopFav') || '{}'); }
+      catch (e) { return {}; }
+    }
+    function setFav(i) {
+      const f = getFav();
+      if (f[i]) delete f[i]; else f[i] = 1;
+      localStorage.setItem('shopFav', JSON.stringify(f));
+    }
+
+    function renderShopHome(section) {
+      const app = document.getElementById('app');
+      const LANG = window.LANG || localStorage.getItem('lang') || 'fr';
+      const T = k => (window.t ? window.t(k, LANG) : k);
+
+      // Statut
+      const now = new Date();
+      const items = window.SHOP_DATA.items;
+      const fav = getFav();
+
+      // Filtrer
+      let list = items.filter(s => {
+        if (currentCat !== 'all' && s.c !== currentCat) return false;
+        if (currentTerm && s.n.toLowerCase().indexOf(currentTerm) === -1) return false;
+        if (filterOpen && isOpen(s, now) !== 'o') return false;
+        if (filterCheap && s.p !== 1) return false;
+        if (filterFav && !fav[s.i]) return false;
+        return true;
+      });
+      // Trier : ouverts d'abord, puis note
+      list.sort((a, b) => {
+        const oa = isOpen(a, now) === 'o' ? 0 : 1;
+        const ob = isOpen(b, now) === 'o' ? 0 : 1;
+        if (oa !== ob) return oa - ob;
+        return b.r - a.r;
+      });
+
+      let html = '<button class="back" onclick="renderHome()">← ' + (T('back') || 'Retour') + '</button>';
+      html += '<h2>' + section.icon + ' ' + T('sectionShopping') + '</h2>';
+      html += '<p style="color:var(--mut);margin-bottom:14px">' + T('shoppingIntro') + '</p>';
+
+      // Barre de recherche
+      html += '<input id="shopSearch" placeholder="' + T('shopSearch') + '" value="' + currentTerm.replace(/"/g, '&quot;') + '" style="width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font-size:1rem;outline:none;margin-bottom:12px;font-family:inherit">';
+
+      // Chips filtres
+      html += '<div class="shop-filters">';
+      html += '<button class="shop-chip' + (currentCat === 'all' ? ' on' : '') + '" onclick="__shopSetCat(\'all\')">' + T('shopAll') + '</button>';
+      section.categories.forEach(c => {
+        html += '<button class="shop-chip' + (currentCat === c.id ? ' on' : '') + '" onclick="__shopSetCat(\'' + c.id + '\')">' + c.icon + ' ' + T(c.titleKey) + '</button>';
+      });
+      html += '<button class="shop-chip' + (filterOpen ? ' on' : '') + '" onclick="__shopToggleOpen()">' + T('shopFilterOpen') + '</button>';
+      html += '<button class="shop-chip' + (filterCheap ? ' on' : '') + '" onclick="__shopToggleCheap()">' + T('shopFilterCheap') + '</button>';
+      html += '<button class="shop-chip' + (filterFav ? ' on' : '') + '" onclick="__shopToggleFav()">' + T('shopFilterFav') + '</button>';
+      html += '</div>';
+
+      // Liste
+      if (list.length === 0) {
+        html += '<div style="text-align:center;padding:40px;color:var(--mut)">' + T('shopNoResult') + '</div>';
+      } else {
+        list.forEach(s => {
+          const st = isOpen(s, now);
+          const stCls = st === 'o' ? 'open' : st === 'c' ? 'closed' : 'unknown';
+          const stTxt = st === 'o' ? T('shopOpen') : st === 'c' ? T('shopClosed') : T('shopUnknown');
+          const cat = catOf(s);
+          const catName = cat ? cat[LANG] || cat.fr : '';
+          const color = catColor(s.c);
+          const walk = dist(s);
+          const price = s.p > 0 ? ['', '€', '€€', '€€€'][s.p] : '';
+          const favIcon = fav[s.i] ? '❤️' : '🤍';
+
+          html += '<div class="shop-card" onclick="__shopOpen(' + s.i + ')">';
+          html += '<div class="shop-emoji" style="background:linear-gradient(135deg,' + color + ',' + color + 'dd);color:#fff">' + (cat ? cat.icon : '🏪') + '</div>';
+          html += '<div class="shop-info">';
+          html += '<div class="shop-name">' + s.n + '</div>';
+          html += '<div class="shop-meta">';
+          html += '<span>⭐ ' + s.r + '</span>';
+          if (price) html += '<span>· ' + price + '</span>';
+          html += '<span>· ' + catName + '</span>';
+          html += '<span>· 🚶 ' + walk + ' ' + T('shopMinWalk') + '</span>';
+          html += '</div></div>';
+          html += '<span class="shop-status ' + stCls + '">' + stTxt + '</span>';
+          html += '</div>';
+        });
+      }
+
+      app.innerHTML = html;
+      window.scrollTo(0, 0);
+
+      // Bind search
+      const sInput = document.getElementById('shopSearch');
+      if (sInput) {
+        sInput.addEventListener('input', e => {
+          currentTerm = e.target.value.toLowerCase();
+          const pos = e.target.selectionStart;
+          renderShopHome(section);
+          const newInput = document.getElementById('shopSearch');
+          if (newInput) {
+            newInput.focus();
+            newInput.setSelectionRange(pos, pos);
+          }
+        });
+      }
+    }
+
+    // ---------- Modale détail ----------
+    function openShopDetail(i) {
+      const LANG = window.LANG || localStorage.getItem('lang') || 'fr';
+      const T = k => (window.t ? window.t(k, LANG) : k);
+      const s = window.SHOP_DATA.items.find(x => x.i === i);
+      if (!s) return;
+      const now = new Date();
+      const st = isOpen(s, now);
+      const cat = catOf(s);
+      const catName = cat ? cat[LANG] || cat.fr : '';
+      const color = catColor(s.c);
+      const walk = dist(s);
+      const price = s.p > 0 ? ['', '€', '€€', '€€€'][s.p] : '';
+
+      const days = LANG === 'ar'
+        ? ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت']
+        : LANG === 'en'
+        ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        : ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+
+      const today = now.getDay();
+
+      let rows = '';
+      for (let k = 0; k < 7; k++) {
+        const d = (k + 1) % 7;
+        const ranges = getRanges(s, d);
+        const txt = ranges.length ? ranges.map(r => minToStr(toMin(r[0])) + ' – ' + minToStr(toMin(r[1]))).join(', ') : '—';
+        rows += '<tr' + (d === today ? ' class="today"' : '') + '><td>' + days[d] + '</td><td>' + txt + '</td></tr>';
+      }
+
+      const mapUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + s.g[0] + ',' + s.g[1] + '&travelmode=walking';
+      const searchMap = 'https://www.google.com/maps/search/?api=1&query=' + s.g[0] + ',' + s.g[1];
+
+      const stTxt = st === 'o' ? T('shopOpenNow') : st === 'c' ? T('shopClosedNow') : T('shopUnknown');
+      const stColor = st === 'o' ? '#067647' : st === 'c' ? '#b42318' : '#667085';
+      const stBg = st === 'o' ? '#dcfae6' : st === 'c' ? '#fee4e2' : '#f1f5f9';
+
+      const fav = getFav();
+      const favTxt = fav[i] ? '❤️' : '🤍';
+
+      let socials = '';
+      if (s.l.ig) socials += '<a href="' + s.l.ig + '" target="_blank" rel="noopener">📸 Instagram</a>';
+      if (s.l.fb) socials += '<a href="' + s.l.fb + '" target="_blank" rel="noopener">👍 Facebook</a>';
+      if (s.l.web) socials += '<a href="' + s.l.web + '" target="_blank" rel="noopener">🌐 Site</a>';
+      if (!socials) socials = '<a href="https://www.google.com/search?q=' + encodeURIComponent(s.n + ' Kouba Alger') + '" target="_blank" rel="noopener">🔎 ' + (LANG === 'ar' ? 'ابحث' : LANG === 'en' ? 'Search' : 'Rechercher') + '</a>';
+
+      const overlay = document.createElement('div');
+      overlay.className = 'shop-modal-overlay';
+      overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+      overlay.innerHTML =
+        '<div class="shop-modal">' +
+          '<button class="shop-close" onclick="this.closest(\'.shop-modal-overlay\').remove()">✕</button>' +
+          '<div class="shop-emoji" style="background:linear-gradient(135deg,' + color + ',' + color + 'dd);color:#fff;width:64px;height:64px;font-size:2rem;margin-bottom:10px">' + (cat ? cat.icon : '🏪') + '</div>' +
+          '<span class="shop-badge">' + catName + '</span>' +
+          '<h2>' + s.n + '</h2>' +
+          '<div style="color:var(--mut);font-size:.9rem;margin-bottom:10px">⭐ ' + s.r + (price ? ' · ' + price : '') + ' · 🚶 ' + walk + ' ' + T('shopMinWalk') + '</div>' +
+          '<span style="display:inline-block;background:' + stBg + ';color:' + stColor + ';padding:5px 14px;border-radius:999px;font-size:.78rem;font-weight:700;margin-bottom:8px">' + stTxt + '</span>' +
+          (s.note ? '<p style="color:var(--mut);font-size:.9rem;margin:10px 0">' + s.note + '</p>' : '') +
+          '<h3 style="color:var(--acc);font-size:.95rem;margin:16px 0 6px">🕐 ' + T('shopHours') + '</h3>' +
+          '<table>' + rows + '</table>' +
+          '<div class="shop-actions">' +
+            '<a class="primary" href="' + mapUrl + '" target="_blank" rel="noopener">' + T('shopGo') + '</a>' +
+            (s.t ? '<a href="tel:' + s.t + '">' + T('shopCall') + '</a>' : '') +
+            '<button onclick="__shopToggleFav(' + i + ',this)">' + favTxt + '</button>' +
+            '<button onclick="__shopShare(' + i + ')">' + T('shopShare') + '</button>' +
+          '</div>' +
+          '<h3 style="color:var(--acc);font-size:.95rem;margin:16px 0 6px">🔗</h3>' +
+          '<div class="shop-actions">' + socials + '</div>' +
+          '<p style="font-size:.72rem;color:var(--mut-2);margin-top:14px;text-align:center">' +
+            (LANG === 'ar' ? 'المعلومات من Google Maps — للتأكيد' : LANG === 'en' ? 'Data from Google Maps — to confirm' : 'Données Google Maps — à confirmer') +
+          '</p>' +
+        '</div>';
+      document.body.appendChild(overlay);
+    }
+
+    // ---------- Actions globales ----------
+    window.__shopSetCat = c => { currentCat = c; renderShopHome(window.SECTIONS.find(s => s.id === 'shopping')); };
+    window.__shopToggleOpen = () => { filterOpen = !filterOpen; renderShopHome(window.SECTIONS.find(s => s.id === 'shopping')); };
+    window.__shopToggleCheap = () => { filterCheap = !filterCheap; renderShopHome(window.SECTIONS.find(s => s.id === 'shopping')); };
+    window.__shopToggleFav = () => { filterFav = !filterFav; renderShopHome(window.SECTIONS.find(s => s.id === 'shopping')); };
+    window.__shopOpen = i => openShopDetail(i);
+    window.__shopToggleFav = (i, btn) => {
+      setFav(i);
+      const fav = getFav();
+      if (btn) btn.textContent = fav[i] ? '❤️' : '🤍';
+    };
+    window.__shopShare = i => {
+      const s = window.SHOP_DATA.items.find(x => x.i === i);
+      if (!s) return;
+      const txt = s.n + ' — ' + (catOf(s) ? catOf(s).fr : '') + ' (Kouba, Alger)';
+      if (navigator.share) {
+        navigator.share({ title: s.n, text: txt, url: location.href }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(txt + ' ' + location.href);
+        if (window.showToast) window.showToast('✅ Copié !');
+      }
+    };
+
+    console.log('✅ Rendu Shopping personnalisé activé');
+  }
+  init();
+})();
+</script>
 </body>
 </html>
   
