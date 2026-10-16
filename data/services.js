@@ -18,9 +18,10 @@ window.SECTIONS.push({
       titleKey: "srvSecu",
       icon: "💼",
       descKey: "srvSecuDesc",
-      location: "Bureau de la sécurité sociale — à l'intérieur de l'ENSTP, en face de l'incubateur et du foyer des étudiants, juste à côté du bureau du médecin.",
-      procedure: "📄 Dossier à préparer :\n• Extrait de naissance\n• Certificat de résidence\n• Photocopie de la carte nationale d'identité biométrique\n• Photocopie du certificat de scolarité\n• Chèque postal barré",
-      delay: "🗓️ Jours de réception : Lundi, Mardi et Jeudi"
+      images: ["cnas.png"],
+      location: "📍 Bureau de la sécurité sociale — à l'intérieur de l'ENSTP, en face de l'incubateur et du foyer des étudiants, juste à côté du bureau du médecin.",
+      procedure: "📄 **الملف المطلوب :**\n• Extrait de naissance (شهادة الميلاد)\n• Certificat de résidence (شهادة الإقامة)\n• Photocopie de la carte nationale d'identité biométrique (نسخة من بطاقة التعريف البيومترية)\n• Photocopie du certificat de scolarité (نسخة من شهادة مدرسية)\n• Chèque postal barré (صك بريدي مشطوب)",
+      delay: "📝 **الخطوات :**\n1. préparer le dossier complet.\n2. Se présenter au bureau de la sécurité sociale à l'ENSTP.\n3. Déposer le dossier.\n4. Attendre l'obtention du numéro de sécurité sociale.\n\n🗓️ **Jours de réception :** Lundi, Mardi et Jeudi"
     },
 
     // ========== 2. التسجيل على منصة EL HANAA ==========
@@ -34,106 +35,20 @@ window.SECTIONS.push({
       link: "https://elhanaa.cnas.dz/inscription.xhtml"
     },
 
-    // ========== 3. الانضمام للمكتبة ==========
+    // ========== 3. الانضمام للمكتبة (كامل) ==========
     {
       titleKey: "srvBiblio",
       icon: "📖",
       descKey: "srvBiblioDesc",
-      location: "Bibliothèque de l'ENSTP",
-      procedure: "📄 Documents requis :\n• Attestation de scolarité\n• Photo d'identité récente\n• Formulaire d'inscription électronique (via QR Code devant la bibliothèque)",
-      delay: "🕐 Horaires :\n• Matin : 09:00 → 11:45\n• Après-midi : 13:00 → 15:00"
-    },
-
-    // ========== 4. قواعد المكتبة ==========
-    {
-      titleKey: "srvBiblioRules",
-      icon: "📋",
-      descKey: "srvBiblioRulesDesc",
-      location: "Bibliothèque de l'ENSTP",
-      procedure: "🚫 Règles :\n• Silence obligatoire.\n• Interdiction de manger ou boire (sauf l'eau).\n• Respect du mobilier et propreté du lieu.",
-      delay: ""
-    },
-
-    // ========== 5. الانضمام إلى نادٍ ==========
-    {
-      titleKey: "srvClub",
-      icon: "🎭",
-      descKey: "srvClubDesc",
-      location: "Selon le club",
-      procedure: "Contacter le responsable du club",
-      delay: "Variable"
-    },
-
-    // ========== 6. منصة اقرأ ==========
-    {
-      titleKey: "srvIqra",
-      icon: "📱",
-      descKey: "srvIqraDesc",
-      location: "🌐 En ligne",
-      procedure: "Inscription via la plateforme",
-      delay: "Immédiat",
-      link: "https://iqra.dz"
-    },
-
-    // ========== 7. تبرير الغياب ==========
-    {
-      titleKey: "srvAbsence",
-      icon: "📅",
-      descKey: "srvAbsenceDesc",
-      location: "Département / Scolarité",
-      procedure: "Justificatif médical sous 3 jours",
-      delay: "48-72h"
-    },
-
-    // ========== 8. بطاقة الطالب ==========
-    {
-      titleKey: "srvCarte",
-      icon: "💳",
-      descKey: "srvCarteDesc",
-      location: "Scolarité",
-      procedure: "Après inscription définitive",
-      delay: "Quelques jours"
-    },
-
-    // ========== 9. ضياع بطاقة الطالب ==========
-    {
-      titleKey: "srvCartePerdue",
-      icon: "🆘",
-      descKey: "srvCartePerdueDesc",
-      location: "Scolarité",
-      procedure: "Déclaration de perte + 2 photos d'identité",
-      delay: "1-2 semaines"
-    },
-
-    // ========== 10. شهادة مدرسية ==========
-    {
-      titleKey: "srvAttestation",
-      icon: "📜",
-      descKey: "srvAttestationDesc",
-      location: "Scolarité",
-      procedure: "Demande écrite (formulaire)",
-      delay: "2-3 jours"
-    },
-
-    // ========== 11. كشف النقاط ==========
-    {
-      titleKey: "srvReleve",
-      icon: "📊",
-      descKey: "srvReleveDesc",
-      location: "Scolarité",
-      procedure: "Demande écrite",
-      delay: "2-3 jours"
-    },
-
-    // ========== 12. Progress ==========
-    {
-      titleKey: "srvProgress",
-      icon: "💻",
-      descKey: "srvProgressDesc",
-      location: "🌐 En ligne",
-      procedure: "Identifiant fourni par la scolarité",
-      delay: "Immédiat",
-      link: "https://progress.enstp.dz"
+      images: ["library1.png", "library2.png", "library3.png"],
+      
+      location: "📍 Bibliothèque de l'ENSTP",
+      
+      procedure: "🕐 **Horaires d'ouverture :**\n• Session du matin : de 09:00 à 11:45\n• Session de l'après-midi : de 13:00 à 15:00\n\n📚 **Services disponibles :**\n• Prêt de livres (استعارة الكتب) : possibilité d'emprunter des références scientifiques et d'ingénierie.\n• Salle de lecture (قاعة المطالعة) : environnement calme et équipé pour l'étude individuelle et collective.\n\n💻 **Bibliothèque numérique :**\n• Plateforme électronique de recherche et de cours (Bibliothèque de l'ingénieur TP).\n• Contient des vidéos et des cours pour tous les niveaux de l'école.",
+      
+      delay: "📝 **Procédure d'inscription :**\n• Scanner le QR Code affiché dans l'annonce de la bibliothèque.\n• Ou cliquer directement sur le lien de la plateforme.\n\n📄 **Documents requis :**\n• Attestation de scolarité (شهادة مدرسية)\n• Photo d'identité récente (صورة شخصية حديثة)\n• Remplir le formulaire d'inscription électronique (استمارة التسجيل الإلكترونية)\n\n🚫 **Règles internes :**\n• Silence obligatoire (منع الصوت العالي)\n• Interdiction de manger ou boire sauf l'eau (منع الأكل والشرب إلا الماء)\n• Respect du mobilier et propreté du lieu (الحفاظ على النظافة والأثاث)",
+      
+      link: ""
     }
   ]
 });
