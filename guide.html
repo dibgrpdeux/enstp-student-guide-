@@ -412,7 +412,6 @@ function openSection(id) {
     return;
   }
   
-  // ✅ قسم أساتذتي الجديد
   if (s.type === 'profs-custom') {
     renderProfsTabs(s);
     return;
@@ -426,15 +425,15 @@ function openSection(id) {
 }
 
 // ============================================
-// ✅ قسم أساتذتي — تبويبات + بطاقات
+// قسم أساتذتي
 // ============================================
 async function renderProfsTabs(section) {
   const app = document.getElementById('app');
   const L = window.LANG || localStorage.getItem('lang') || 'ar';
   const FL = {
-    fr: { y1: "1ère année Préparatoire", y2: "2ème année Préparatoire", choose: "Choisissez une matière", chooseProf: "Choisissez un enseignant", loading: "Chargement..." },
-    ar: { y1: "السنة الأولى تحضيري", y2: "السنة الثانية تحضيري", choose: "اختر مادة", chooseProf: "اختر الأستاذ", loading: "جاري التحميل..." },
-    en: { y1: "1st year Preparatory", y2: "2nd year Preparatory", choose: "Choose a subject", chooseProf: "Choose a teacher", loading: "Loading..." }
+    fr: { y1: "1ère année Préparatoire", y2: "2ème année Préparatoire", loading: "Chargement..." },
+    ar: { y1: "السنة الأولى تحضيري", y2: "السنة الثانية تحضيري", loading: "جاري التحميل..." },
+    en: { y1: "1st year Preparatory", y2: "2nd year Preparatory", loading: "Loading..." }
   };
   const T = FL[L] || FL.ar;
 
@@ -539,7 +538,7 @@ function renderProfsList(yearId, subjectId) {
       : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--acc-soft),var(--acc));color:#fff;font-size:1.4rem;font-weight:700">${initial}</div>`;
 
     html += `
-      <button onclick="renderProfCard('${yearId}', '${subjectId}', '${prof.id}')" style="display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:${L === 'ar' ? 'right' : 'left'};cursor:pointer;font-family:inherit;color:var(--ink);transition:all .3s;width:100%" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 20px rgba(0,0,0,.1)';this.style.borderColor='var(--acc)'" onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='var(--line)'">
+      <button onclick="renderProfCard('${yearId}', '${subjectId}', '${prof.id}')" style="display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:${L === 'ar' ? 'right' : 'left'};cursor:pointer;font-family:inherit;color:var(--ink);transition:all .3s;width:100%">
         <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--acc)">${avatar}</div>
         <div style="flex:1;min-width:0">
           <div style="font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${prof.name}</div>
@@ -866,9 +865,40 @@ function renderItems(section, items, category) {
     html += '<button onclick="showQR(\'' + section.id + '\',' + idx + ',\'' + (category ? category.id : '') + '\')" style="background:var(--acc-soft);border:0;color:var(--acc);padding:6px 10px;border-radius:10px;cursor:pointer;font-size:1rem;transition:all .3s">📱</button>';
     html += '</div>';
     
+    // ====== الصور ======
+    if (item.images && item.images.length > 0) {
+      html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0">';
+      item.images.forEach(function(imgUrl) {
+        html += '<div onclick="openImageViewer(\'' + imgUrl.replace(/'/g, "\\'") + '\')" style="cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg-3);transition:transform .3s">';
+        html += '<img src="' + imgUrl + '" style="width:100%;height:100%;object-fit:cover" loading="lazy" alt="" onerror="this.parentElement.style.display=\'none\'">';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+    
+    // ====== الصورة القديمة (توافق) ======
     if (item.img) html += '<img src="' + item.img + '" style="width:100%;border-radius:10px;margin:10px 0" loading="lazy" alt="">';
     
-    if (item.video) {
+    // ====== الفيديوهات ======
+    if (item.videos && item.videos.length > 0) {
+      item.videos.forEach(function(vid) {
+        if (vid.type === 'youtube') {
+          html += '<div style="margin:10px 0">';
+          if (vid.title) {
+            var vt = (typeof vid.title === 'object') ? (vid.title[LANG] || vid.title.fr) : vid.title;
+            html += '<p style="margin:0 0 6px;font-size:.9rem;font-weight:600;color:var(--acc)">🎬 ' + vt + '</p>';
+          }
+          html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden">';
+          html += '<iframe src="https://www.youtube.com/embed/' + vid.id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
+          html += '</div></div>';
+        } else if (vid.type === 'file') {
+          html += '<div style="margin:10px 0"><video controls style="width:100%;border-radius:10px;display:block"><source src="' + vid.url + '" type="video/mp4"></video></div>';
+        }
+      });
+    }
+    
+    // ====== الفيديو القديم (توافق) ======
+    if (item.video && typeof item.video === 'string') {
       html += '<div style="position:relative;padding-bottom:56.25%;height:0;margin:10px 0;border-radius:10px;overflow:hidden">';
       html += '<iframe src="https://www.youtube.com/embed/' + item.video + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
       html += '</div>';
@@ -1390,14 +1420,6 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js', { scope: './' })
       .then((reg) => {
         console.log('✅ SW registered');
-        reg.addEventListener('updatefound', () => {
-          const newWorker = reg.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              showToast('🔄 Nouvelle version disponible ! Rechargez.');
-            }
-          });
-        });
       })
       .catch((err) => console.log('❌ SW error:', err));
   });
@@ -1408,23 +1430,28 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     document.getElementById('q')?.focus();
   }
-  if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
-    e.preventDefault();
-    openAISearch();
-  }
   if (e.key === 'Escape') {
     const modal = document.getElementById('aiSearchModal');
     if (modal && modal.classList.contains('show')) closeAISearch();
     else if (CURRENT_SECTION) renderHome();
   }
-  if (e.ctrlKey && e.key === 'Enter') {
-    const modal = document.getElementById('aiSearchModal');
-    if (modal && modal.classList.contains('show')) {
-      e.preventDefault();
-      submitAIQuestion();
-    }
-  }
 });
+
+// ============================================
+// عارض الصور
+// ============================================
+function openImageViewer(src) {
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.style.background = 'rgba(0,0,0,.95)';
+  overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+  overlay.innerHTML = 
+    '<div style="position:relative;max-width:95vw;max-height:95vh">' +
+      '<img src="' + src + '" style="max-width:95vw;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.8)" alt="">' +
+      '<button onclick="this.closest(\'.modal-overlay\').remove()" style="position:absolute;top:-40px;right:0;background:#fff;color:#000;border:0;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;font-family:inherit">✕</button>' +
+    '</div>';
+  document.body.appendChild(overlay);
+}
 
 (function init() {
   if (typeof applyTheme === 'function') applyTheme();
@@ -1461,7 +1488,9 @@ window.renderProfsSubjects = renderProfsSubjects;
 window.renderProfsList = renderProfsList;
 window.renderProfCard = renderProfCard;
 window.switchProfsYear = switchProfsYear;
+window.openImageViewer = openImageViewer;
 </script>
 
 </body>
 </html>
+
