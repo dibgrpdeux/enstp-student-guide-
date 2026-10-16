@@ -2,11 +2,16 @@
 // data/cite.js — قسم الإقامة الجامعية
 // Guide de survie ENSTP
 // ============================================
-// يحتوي على: إقامة قاريدي، سعيد حمدين، رويسو،
-//            المطعم الجامعي، قاعات الدراسة
+// يحتوي على: إقامة قاريدي، سعيد حمدين، رويسو
+// مع فيديوهات YouTube وخرائط Google
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
+
+// حذف أي نسخة قديمة
+for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
+  if (window.SECTIONS[i].id === 'cite') window.SECTIONS.splice(i, 1);
+}
 
 window.SECTIONS.push({
   id: "cite",
@@ -21,13 +26,14 @@ window.SECTIONS.push({
       titleKey: "citeGaridi", 
       icon: "🏠", 
       descKey: "citeGaridiDesc",
-      location: "Garidi, Kouba",
-      distance: "5 min à pied de l'ENSTP",
-      capacity: "À compléter",
-      services: "Restaurant, laverie, salles d'étude",
+      location: "📍 Garidi, Kouba, Alger",
+      distance: "🚶 5 min à pied de l'ENSTP",
+      capacity: "👥 À compléter",
+      services: "🍽️ Restaurant · 🧺 Laverie · 📚 Salles d'étude",
       map: "Cité universitaire Garidi Kouba Alger",
-      img: "",
-      video: ""
+      video: "cxKbbBfWCCw",
+      videoTitle: "🎥 Visite de la résidence Garidi",
+      img: ""
     },
     
     // ========== 2. إقامة سعيد حمدين ==========
@@ -35,13 +41,14 @@ window.SECTIONS.push({
       titleKey: "citeSaid", 
       icon: "🏠", 
       descKey: "citeSaidDesc",
-      location: "Saïd Hamdine, Alger",
-      distance: "15 min en bus",
-      capacity: "À compléter",
-      services: "Restaurant, laverie, salles d'étude",
+      location: "📍 Saïd Hamdine, Alger",
+      distance: "🚌 15 min en bus",
+      capacity: "👥 À compléter",
+      services: "🍽️ Restaurant · 🧺 Laverie · 📚 Salles d'étude",
       map: "Cité universitaire Saïd Hamdine Alger",
-      img: "",
-      video: ""
+      video: "hZg4e6hpkns",
+      videoTitle: "🎥 Visite de la résidence Saïd Hamdine",
+      img: ""
     },
     
     // ========== 3. إقامة رويسو ==========
@@ -49,37 +56,15 @@ window.SECTIONS.push({
       titleKey: "citeRouiba", 
       icon: "🏠", 
       descKey: "citeRouibaDesc",
-      location: "Rouiba, Alger",
-      distance: "45 min en transport",
-      capacity: "À compléter",
-      services: "Restaurant, laverie, salles d'étude",
+      location: "📍 Rouiba, Alger",
+      distance: "🚌 45 min en transport",
+      capacity: "👥 À compléter",
+      services: "🍽️ Restaurant · 🧺 Laverie · 📚 Salles d'étude",
       map: "Cité universitaire Rouiba Alger",
-      img: "",
-      video: ""
-    },
-    
-    // ========== 4. المطعم الجامعي ==========
-    { 
-      titleKey: "citeResto", 
-      icon: "🍽️", 
-      descKey: "citeRestoDesc",
-      location: "Dans chaque résidence",
-      hours: "Matin / Midi / Soir",
-      services: "Repas à tarif étudiant",
-      img: "",
-      video: ""
-    },
-    
-    // ========== 5. قاعات الدراسة ==========
-    { 
-      titleKey: "citeEtude", 
-      icon: "📚", 
-      descKey: "citeEtudeDesc",
-      location: "Dans chaque résidence",
-      hours: "Jusqu'à 22h",
-      services: "Espaces calmes pour réviser",
-      img: "",
-      video: ""
+      video: "t1BCRwvmZyo",
+      videoTitle: "🎥 Visite de la résidence Rouiba",
+      videoShort: "agTlVSQ8760",
+      img: ""
     }
   ]
 });
