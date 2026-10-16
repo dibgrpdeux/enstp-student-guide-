@@ -431,9 +431,9 @@ async function renderProfsTabs(section) {
   const app = document.getElementById('app');
   const L = window.LANG || localStorage.getItem('lang') || 'ar';
   const FL = {
-    fr: { y1: "1ère année Préparatoire", y2: "2ème année Préparatoire", loading: "Chargement..." },
-    ar: { y1: "السنة الأولى تحضيري", y2: "السنة الثانية تحضيري", loading: "جاري التحميل..." },
-    en: { y1: "1st year Preparatory", y2: "2nd year Preparatory", loading: "Loading..." }
+    fr: { y1: "1ère année Préparatoire", y2: "2ème année Préparatoire", y3: "1ère année Ingénieur", y4: "2ème année Ingénieur", y5: "3ème année Ingénieur", loading: "Chargement..." },
+    ar: { y1: "السنة الأولى تحضيري", y2: "السنة الثانية تحضيري", y3: "السنة الأولى مهندس", y4: "السنة الثانية مهندس", y5: "السنة الثالثة مهندس", loading: "جاري التحميل..." },
+    en: { y1: "1st year Preparatory", y2: "2nd year Preparatory", y3: "1st year Engineering", y4: "2nd year Engineering", y5: "3rd year Engineering", loading: "Loading..." }
   };
   const T = FL[L] || FL.ar;
 
@@ -460,9 +460,12 @@ async function renderProfsTabs(section) {
 
   let html = `<button class="back" onclick="renderHome()">${window.t ? window.t('back', L) : '←'}</button>`;
   html += `<h2>${section.icon} ${window.t ? window.t(section.titleKey, L) : 'أساتذتي'}</h2>`;
-  html += `<div class="profs-tabs" style="display:grid;grid-template-columns:1fr 1fr;background:var(--acc-soft);border-radius:12px;padding:4px;gap:4px;margin:14px 0">`;
-  html += `<button class="profs-tab on" data-year="1acp" onclick="switchProfsYear('1acp')" style="border:0;background:var(--card);color:var(--acc);font-weight:700;padding:9px 0;border-radius:9px;font-family:inherit;cursor:pointer">📘 ${T.y1}</button>`;
-  html += `<button class="profs-tab" data-year="2acp" onclick="switchProfsYear('2acp')" style="border:0;background:transparent;color:var(--mut);font-weight:500;padding:9px 0;border-radius:9px;font-family:inherit;cursor:pointer">📗 ${T.y2}</button>`;
+  html += `<div class="profs-tabs-years">`;
+  html += `<button class="profs-tab on" data-year="1acp" onclick="switchProfsYear('1acp')">📘 ${T.y1}</button>`;
+  html += `<button class="profs-tab" data-year="2acp" onclick="switchProfsYear('2acp')">📗 ${T.y2}</button>`;
+  html += `<button class="profs-tab" data-year="1ing" onclick="switchProfsYear('1ing')" style="grid-column:1/-1">🎓 ${T.y3}</button>`;
+  html += `<button class="profs-tab" data-year="2ing" onclick="switchProfsYear('2ing')" style="grid-column:1/-1">🎓 ${T.y4}</button>`;
+  html += `<button class="profs-tab" data-year="3ing" onclick="switchProfsYear('3ing')" style="grid-column:1/-1">🎓 ${T.y5}</button>`;
   html += `</div>`;
   html += `<div id="profs-content"></div>`;
 
@@ -474,11 +477,7 @@ async function renderProfsTabs(section) {
 
 function switchProfsYear(yearId) {
   document.querySelectorAll('.profs-tab').forEach(t => {
-    const isActive = t.dataset.year === yearId;
-    t.classList.toggle('on', isActive);
-    t.style.background = isActive ? 'var(--card)' : 'transparent';
-    t.style.color = isActive ? 'var(--acc)' : 'var(--mut)';
-    t.style.fontWeight = isActive ? '700' : '500';
+    t.classList.toggle('on', t.dataset.year === yearId);
   });
   renderProfsSubjects(yearId);
 }
@@ -489,21 +488,32 @@ function renderProfsSubjects(yearId) {
   if (!data) return;
 
   const year = data.years[yearId];
-  if (!year) return;
+  if (!year) {
+    document.getElementById('profs-content').innerHTML = 
+      '<div style="text-align:center;padding:40px;color:var(--mut)"><b style="font-size:3rem;display:block;margin-bottom:10px">⏳</b>قيد الإعداد</div>';
+    return;
+  }
 
   const content = document.getElementById('profs-content');
   const T = { fr: "Choisissez une matière", ar: "اختر مادة", en: "Choose a subject" };
+
+  if (!year.subjects || year.subjects.length === 0) {
+    content.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mut)"><b style="font-size:3rem;display:block;margin-bottom:10px">⏳</b>قيد الإعداد</div>';
+    return;
+  }
 
   let html = `<p style="color:var(--mut);font-size:.9rem;margin-bottom:12px;text-align:center">${T[L] || T.ar}</p>`;
   html += `<div class="tile-grid">`;
 
   year.subjects.forEach(subj => {
     const title = (typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title;
-    const count = subj.profs.length;
+    const count = subj.profs ? subj.profs.length : 0;
     html += `<button class="tile-3d ripple" onclick="renderProfsList('${yearId}', '${subj.id}')" style="position:relative">`;
     html += `<span class="tile-icon">${subj.icon || '📚'}</span>`;
     html += `<span class="tile-label">${title}</span>`;
-    html += `<span style="position:absolute;top:10px;inset-inline-end:10px;background:var(--acc-soft);color:var(--acc);font-size:.7rem;font-weight:800;padding:3px 10px;border-radius:999px">${count} 👤</span>`;
+    if (count > 0) {
+      html += `<span style="position:absolute;top:10px;inset-inline-end:10px;background:var(--acc-soft);color:var(--acc);font-size:.7rem;font-weight:800;padding:3px 10px;border-radius:999px">${count} 👤</span>`;
+    }
     html += `</button>`;
   });
 
@@ -533,19 +543,24 @@ function renderProfsList(yearId, subjectId) {
 
   subj.profs.forEach(prof => {
     const initial = prof.name.charAt(0);
-    const avatar = prof.photo
-      ? `<img src="${prof.photo}" alt="${prof.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--acc-soft),var(--acc));color:#fff;font-size:1.4rem;font-weight:700">${initial}</div>`
-      : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--acc-soft),var(--acc));color:#fff;font-size:1.4rem;font-weight:700">${initial}</div>`;
+    const photoPath = prof.photo && prof.photo.trim() !== '' ? prof.photo : '';
+    
+    let avatarHtml;
+    if (photoPath) {
+      avatarHtml = `<div class="profs-list-avatar"><img src="${photoPath}" alt="${prof.name}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'prof-avatar-fallback\'>${initial}</div>'"></div>`;
+    } else {
+      avatarHtml = `<div class="profs-list-avatar"><div class="prof-avatar-fallback">${initial}</div></div>`;
+    }
 
     html += `
-      <button onclick="renderProfCard('${yearId}', '${subjectId}', '${prof.id}')" style="display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:${L === 'ar' ? 'right' : 'left'};cursor:pointer;font-family:inherit;color:var(--ink);transition:all .3s;width:100%">
-        <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--acc)">${avatar}</div>
+      <button class="profs-list-item" onclick="renderProfCard('${yearId}', '${subjectId}', '${prof.id}')">
+        ${avatarHtml}
         <div style="flex:1;min-width:0">
-          <div style="font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${prof.name}</div>
-          <div style="font-size:.8rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${prof.email || ''}</div>
-          ${prof.vacataire ? '<span style="display:inline-block;background:#fef3c7;color:#92400e;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:999px;margin-top:4px">Vacataire</span>' : ''}
+          <div style="font-weight:700;font-size:1.05rem;color:var(--ink);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${prof.name}</div>
+          <div style="font-size:.82rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${prof.email || ''}</div>
+          ${prof.vacataire ? '<span style="display:inline-block;background:#fef3c7;color:#92400e;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:999px;margin-top:6px">Vacataire</span>' : ''}
         </div>
-        <span style="font-size:1.2rem;color:var(--acc);flex-shrink:0">›</span>
+        <span style="font-size:1.4rem;color:var(--acc);flex-shrink:0">›</span>
       </button>
     `;
   });
@@ -577,7 +592,7 @@ function renderProfCard(yearId, subjectId, profId) {
     if (prof.email) {
       html += `<a href="mailto:${prof.email}" class="prof-simple-email">📧 ${prof.email}</a>`;
     } else {
-      html += `<div class="prof-simple-no-email">📧 ${L === 'ar' ? 'البريد غير متوفر' : L === 'en' ? 'Email not available' : 'Email non disponible'}</div>`;
+      html += `<div class="prof-simple-no-email">📧 ${L === 'ar' ? 'البريد غير متوفر' : 'Email non disponible'}</div>`;
     }
     if (prof.vacataire) {
       html += `<div><span class="prof-badge-vacataire">${L === 'ar' ? 'متطوع' : 'Vacataire'}</span></div>`;
@@ -591,9 +606,13 @@ function renderProfCard(yearId, subjectId, profId) {
   html += `<div class="prof-card-wrapper">`;
 
   const initial = prof.name.charAt(0);
-  const photoHtml = prof.photo
-    ? `<img src="${prof.photo}" alt="${prof.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none" class="prof-avatar-fallback">${initial}</div>`
-    : `<div class="prof-avatar-fallback">${initial}</div>`;
+  const photoPath = prof.photo && prof.photo.trim() !== '' ? prof.photo : '';
+  let photoHtml;
+  if (photoPath) {
+    photoHtml = `<img src="${photoPath}" alt="${prof.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none" class="prof-avatar-fallback">${initial}</div>`;
+  } else {
+    photoHtml = `<div class="prof-avatar-fallback">${initial}</div>`;
+  }
 
   html += `<div class="prof-card prof-id-card">`;
   html += `<div class="prof-photo">${photoHtml}</div>`;
@@ -610,7 +629,7 @@ function renderProfCard(yearId, subjectId, profId) {
 
   if (prof.email) {
     html += `<div class="prof-card prof-email-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'البريد الإلكتروني' : L === 'en' ? 'Professional email' : 'e-mail'}</div>`;
+    html += `<div class="prof-section-title">${L === 'ar' ? 'البريد الإلكتروني' : 'e-mail'}</div>`;
     html += `<div class="prof-section-subtitle">${L === 'ar' ? 'المهني' : 'professionnel'}</div>`;
     html += `<a href="mailto:${prof.email}" class="prof-email-link">${prof.email}</a>`;
     html += `</div>`;
@@ -619,13 +638,13 @@ function renderProfCard(yearId, subjectId, profId) {
   if (prof.modules || prof.year) {
     html += `<div class="prof-card prof-modules-card">`;
     if (prof.modules) {
-      html += `<div class="prof-section-title">${L === 'ar' ? 'الوحدات المدرَّسة' : L === 'en' ? 'Modules taught' : 'Module enseigner'}</div>`;
+      html += `<div class="prof-section-title">${L === 'ar' ? 'الوحدات المدرَّسة' : 'Module enseigner'}</div>`;
       html += `<ul class="prof-modules-list">`;
       prof.modules.forEach(m => { html += `<li>${m}</li>`; });
       html += `</ul>`;
     }
     if (prof.year) {
-      html += `<div class="prof-year-title">${L === 'ar' ? 'السنة المدرَّسة' : L === 'en' ? 'Year taught' : 'Année enseigner'}</div>`;
+      html += `<div class="prof-year-title">${L === 'ar' ? 'السنة المدرَّسة' : 'Année enseigner'}</div>`;
       html += `<ul class="prof-modules-list"><li>${prof.year[L] || prof.year.fr}</li></ul>`;
     }
     html += `</div>`;
@@ -633,21 +652,21 @@ function renderProfCard(yearId, subjectId, profId) {
 
   if (prof.advice) {
     html += `<div class="prof-card prof-advice-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'نصيحة للطلبة' : L === 'en' ? 'Advice to students' : 'Un conseil aux étudiants'}</div>`;
+    html += `<div class="prof-section-title">${L === 'ar' ? 'نصيحة للطلبة' : 'Un conseil aux étudiants'}</div>`;
     html += `<div class="prof-advice-text">${prof.advice[L] || prof.advice.fr}</div>`;
     html += `</div>`;
   }
 
   if (prof.research) {
     html += `<div class="prof-card prof-research-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'البحث' : L === 'en' ? 'Research' : 'Recherche'}</div>`;
+    html += `<div class="prof-section-title">${L === 'ar' ? 'البحث' : 'Recherche'}</div>`;
     html += `<div class="prof-research-text">${prof.research[L] || prof.research.fr}</div>`;
     html += `</div>`;
   }
 
   if (prof.links && prof.links.length) {
     html += `<div class="prof-card prof-links-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'الروابط' : L === 'en' ? 'Links' : 'Liens'}</div>`;
+    html += `<div class="prof-section-title">${L === 'ar' ? 'الروابط' : 'Liens'}</div>`;
     html += `<div class="prof-links-list">`;
     prof.links.forEach(l => {
       html += `<a href="${l.url}" target="_blank" rel="noopener" class="prof-link"><span class="prof-link-icon">${l.icon || '🔗'}</span><span>${l.name}</span></a>`;
@@ -680,14 +699,14 @@ function renderCategoriesList(sectionId) {
     html += '<div class="map-info">';
     const mapTitleText = s.mapTitle ? (typeof s.mapTitle === 'object' ? (s.mapTitle[LANG] || s.mapTitle.fr) : s.mapTitle) : 'Carte interactive';
     html += '<div class="map-title">' + mapTitleText + '</div>';
-    const mapSubText = LANG === 'ar' ? 'اضغط على العلامات لرؤية التفاصيل' : LANG === 'en' ? 'Click markers for details' : 'Cliquez sur les marqueurs pour les détails';
+    const mapSubText = LANG === 'ar' ? 'اضغط على العلامات لرؤية التفاصيل' : 'Cliquez sur les marqueurs pour les détails';
     html += '<div class="map-sub">' + mapSubText + '</div>';
     html += '</div>';
     html += '</div>';
     html += '<iframe class="map-iframe" src="' + s.mapEmbed + '" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
     html += '<div class="map-footer">';
     html += '<a href="' + (s.mapLink || s.mapEmbed) + '" target="_blank" rel="noopener" class="map-btn">';
-    const btnText = LANG === 'ar' ? '📍 افتح في Google Maps' : LANG === 'en' ? '📍 Open in Google Maps' : '📍 Ouvrir dans Google Maps';
+    const btnText = LANG === 'ar' ? '📍 افتح في Google Maps' : '📍 Ouvrir dans Google Maps';
     html += btnText;
     html += '</a>';
     html += '</div>';
@@ -857,7 +876,6 @@ function renderServiceItems(section, items, category) {
     const desc = item.descKey ? window.t(item.descKey, L) : '';
     
     html += '<div class="card-3d scroll-anim" style="margin-bottom:14px;padding:16px">';
-    
     html += '<h3 style="margin:0 0 12px;color:var(--acc);font-size:1.1rem">' + (item.icon || '') + ' ' + title + '</h3>';
     
     if (desc) {
@@ -909,135 +927,8 @@ function renderServiceItems(section, items, category) {
   if (typeof setupScrollAnimations === 'function') setupScrollAnimations();
 }
 
-function renderItems(section, items, category) {
-  // ✅ حالة خاصة: قسم الخدمات (services)
-  if (section.id === 'services') {
-    return renderServiceItems(section, items, category);
-  }
-  
-  // ✅ حالة خاصة: قسم التسوق والأكل (shopping)
-  if (section.id === 'shopping' || (items[0] && items[0].n !== undefined && items[0].title === undefined)) {
-    return renderShoppingItems(section, items, category);
-  }
-  
-  const app = document.getElementById('app');
-  
-  let html = '';
-  if (category) {
-    html += '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', LANG) + '</button>';
-    const ct = category.titleKey ? window.t(category.titleKey, LANG) : (category.title || '');
-    html += '<h2>' + (category.icon || '') + ' ' + ct + '</h2>';
-    if (category.intro) {
-      const catIntro = (typeof category.intro === 'object') ? (category.intro[LANG] || category.intro.fr) : category.intro;
-      html += '<p style="color:var(--mut);margin-bottom:16px;line-height:1.7">' + catIntro + '</p>';
-    }
-  } else {
-    html += '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-    html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, LANG) + '</h2>';
-    html += '<p style="color:var(--mut);margin-bottom:16px">' + window.t(section.introKey, LANG) + '</p>';
-  }
-  
-  html += '<div class="items-list">';
-  
-  items.forEach((item, idx) => {
-    const title = (typeof item.title === 'object') ? (item.title[LANG] || item.title.fr) : window.t(item.titleKey, LANG);
-    const desc = item.desc 
-      ? ((typeof item.desc === 'object') ? (item.desc[LANG] || item.desc.fr) : item.desc)
-      : (item.descKey ? window.t(item.descKey, LANG) : '');
-    
-    html += '<div class="card-3d scroll-anim" style="margin-bottom:14px">';
-    html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">';
-    html += '<h3 style="margin:0;color:var(--acc);font-size:1.1rem">' + (item.icon || '') + ' ' + title + '</h3>';
-    html += '<button onclick="showQR(\'' + section.id + '\',' + idx + ',\'' + (category ? category.id : '') + '\')" style="background:var(--acc-soft);border:0;color:var(--acc);padding:6px 10px;border-radius:10px;cursor:pointer;font-size:1rem;transition:all .3s">📱</button>';
-    html += '</div>';
-    
-    if (item.images && item.images.length > 0) {
-      html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0">';
-      item.images.forEach(function(imgUrl) {
-        html += '<div onclick="openImageViewer(\'' + imgUrl.replace(/'/g, "\\'") + '\')" style="cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg-3);transition:transform .3s">';
-        html += '<img src="' + imgUrl + '" style="width:100%;height:100%;object-fit:cover" loading="lazy" alt="" onerror="this.parentElement.style.display=\'none\'">';
-        html += '</div>';
-      });
-      html += '</div>';
-    }
-    
-    if (item.img) html += '<img src="' + item.img + '" style="width:100%;border-radius:10px;margin:10px 0" loading="lazy" alt="">';
-    
-    if (item.videos && item.videos.length > 0) {
-      item.videos.forEach(function(vid) {
-        if (vid.type === 'youtube') {
-          html += '<div style="margin:10px 0">';
-          if (vid.title) {
-            var vt = (typeof vid.title === 'object') ? (vid.title[LANG] || vid.title.fr) : vid.title;
-            html += '<p style="margin:0 0 6px;font-size:.9rem;font-weight:600;color:var(--acc)">🎬 ' + vt + '</p>';
-          }
-          html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden">';
-          html += '<iframe src="https://www.youtube.com/embed/' + vid.id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
-          html += '</div></div>';
-        } else if (vid.type === 'file') {
-          html += '<div style="margin:10px 0"><video controls style="width:100%;border-radius:10px;display:block"><source src="' + vid.url + '" type="video/mp4"></video></div>';
-        }
-      });
-    }
-    
-    if (item.video && typeof item.video === 'string') {
-      html += '<div style="position:relative;padding-bottom:56.25%;height:0;margin:10px 0;border-radius:10px;overflow:hidden">';
-      html += '<iframe src="https://www.youtube.com/embed/' + item.video + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
-      html += '</div>';
-    }
-    
-    if (desc) html += '<p style="color:var(--mut);margin:8px 0;font-size:.95rem;line-height:1.6;white-space:pre-line">' + desc + '</p>';
-    if (item.hours) html += '<p style="margin:6px 0;font-size:.9rem"><b>🕐 ' + window.t('labelHours', LANG) + ':</b> ' + item.hours + '</p>';
-    if (item.budget) html += '<p style="margin:6px 0;font-size:.9rem"><b>💰 ' + window.t('labelBudget', LANG) + ':</b> ' + item.budget + '</p>';
-    if (item.extra) html += '<p style="margin:6px 0;font-size:.9rem;color:var(--acc)"><b>' + item.extra + '</b></p>';
-    
-    if (item.files && item.files.length) {
-      html += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">';
-      html += '<p style="margin:0 0 8px;font-weight:700;color:var(--acc);font-size:.9rem">📁 ' + (LANG === 'ar' ? 'الملفات' : LANG === 'en' ? 'Files' : 'Fichiers') + ' (' + item.files.length + ')</p>';
-      html += '<div style="display:flex;flex-wrap:wrap;gap:8px">';
-      item.files.forEach(f => {
-        const fname = f.name[LANG] || f.name.fr;
-        const isDisabled = !f.url || f.url === '#';
-        html += '<a href="' + f.url + '" ' + (isDisabled ? 'onclick="event.preventDefault();showToast(\'⚠️ ' + (LANG === 'ar' ? 'الملف غير متوفر بعد' : LANG === 'en' ? 'File not available yet' : 'Fichier non disponible') + '\');return false;"' : 'target="_blank" rel="noopener"') + ' style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--acc-soft);color:var(--acc);border-radius:20px;text-decoration:none;font-size:.85rem;font-weight:600;transition:all .3s">' + '<span>' + f.icon + '</span><span>' + fname + '</span></a>';
-      });
-      html += '</div></div>';
-    }
-    
-    if (item.services && item.services.length) {
-      html += '<p style="margin:10px 0 6px;font-weight:600;color:var(--acc)">' + window.t('labelServices', LANG) + ':</p>';
-      html += '<ul style="padding-' + (LANG === 'ar' ? 'right' : 'left') + ':20px;color:var(--mut);font-size:.9rem">';
-      item.services.forEach(srv => { html += '<li>' + (srv[LANG] || srv.fr) + '</li>'; });
-      html += '</ul>';
-    }
-    
-    if (item.steps && item.steps.length) {
-      html += '<details style="margin-top:10px"><summary style="cursor:pointer;color:var(--acc);font-weight:600;font-size:.9rem">📋 ' + window.t('labelSteps', LANG) + '</summary>';
-      html += '<ol style="padding-' + (LANG === 'ar' ? 'right' : 'left') + ':20px;margin-top:8px;color:var(--mut);font-size:.9rem;line-height:1.7">';
-      item.steps.forEach(step => { html += '<li>' + (step[LANG] || step.fr) + '</li>'; });
-      html += '</ol></details>';
-    }
-    
-    if (item.link) {
-      html += '<a href="' + item.link + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 18px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.9rem;font-weight:600;transition:all .3s">📥 ' + window.t('download', LANG) + '</a>';
-    }
-    
-    if (item.map) {
-      const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.map);
-      html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:8px 14px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.9rem;transition:all .3s">' + window.t('viewMap', LANG) + '</a>';
-    }
-    
-    html += '</div>';
-  });
-  
-  html += '</div>';
-  
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setupScrollAnimations();
-}
-
 // ============================================
-// ✅ دالة خاصة لعرض عناصر التسوق والأكل (shopping)
+// ✅ دالة خاصة لعرض عناصر التسوق (shopping)
 // ============================================
 function renderShoppingItems(section, items, category) {
   const app = document.getElementById('app');
@@ -1099,7 +990,6 @@ function renderShoppingItems(section, items, category) {
     }
     
     html += '<div class="card-3d scroll-anim" style="margin-bottom:14px;padding:16px">';
-    
     html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px">';
     html += '<h3 style="margin:0;color:var(--acc);font-size:1.1rem;flex:1">🍽️ ' + name + '</h3>';
     if (rating > 0) {
@@ -1107,30 +997,18 @@ function renderShoppingItems(section, items, category) {
     }
     html += '</div>';
     
-    if (starsHtml) {
-      html += '<div style="margin-bottom:8px">' + starsHtml + '</div>';
-    }
-    
-    if (note) {
-      html += '<p style="color:var(--mut);margin:8px 0;font-size:.9rem;line-height:1.6">' + note + '</p>';
-    }
-    
-    if (hoursText) {
-      html += '<p style="margin:6px 0;font-size:.85rem;color:var(--mut)"><b>🕐 ' + T.hours + ':</b> ' + hoursText + '</p>';
-    }
+    if (starsHtml) html += '<div style="margin-bottom:8px">' + starsHtml + '</div>';
+    if (note) html += '<p style="color:var(--mut);margin:8px 0;font-size:.9rem;line-height:1.6">' + note + '</p>';
+    if (hoursText) html += '<p style="margin:6px 0;font-size:.85rem;color:var(--mut)"><b>🕐 ' + T.hours + ':</b> ' + hoursText + '</p>';
     
     html += '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">';
-    
     if (telUrl) {
       html += '<a href="' + telUrl + '" style="flex:1;min-width:120px;padding:10px 16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-radius:12px;text-decoration:none;font-size:.85rem;font-weight:600;text-align:center;transition:all .3s">' + T.call + '</a>';
     }
-    
     if (mapUrl) {
       html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="flex:1;min-width:120px;padding:10px 16px;background:var(--acc-soft);color:var(--acc);border-radius:12px;text-decoration:none;font-size:.85rem;font-weight:600;text-align:center;transition:all .3s">' + T.go + '</a>';
     }
-    
-    html += '</div>';
-    html += '</div>';
+    html += '</div></div>';
   });
   
   html += '</div>';
@@ -1138,6 +1016,148 @@ function renderShoppingItems(section, items, category) {
   app.innerHTML = html;
   window.scrollTo(0, 0);
   if (typeof setupScrollAnimations === 'function') setupScrollAnimations();
+}
+
+// ============================================
+// ✅ دالة عامة لعرض العناصر (items)
+// ============================================
+function renderItems(section, items, category) {
+  // حالة خاصة: قسم الخدمات
+  if (section.id === 'services') {
+    return renderServiceItems(section, items, category);
+  }
+  
+  // حالة خاصة: قسم التسوق
+  if (section.id === 'shopping' || (items[0] && items[0].n !== undefined && items[0].title === undefined)) {
+    return renderShoppingItems(section, items, category);
+  }
+  
+  const app = document.getElementById('app');
+  
+  let html = '';
+  if (category) {
+    html += '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', LANG) + '</button>';
+    const ct = category.titleKey ? window.t(category.titleKey, LANG) : (category.title || '');
+    html += '<h2>' + (category.icon || '') + ' ' + ct + '</h2>';
+    if (category.intro) {
+      const catIntro = (typeof category.intro === 'object') ? (category.intro[LANG] || category.intro.fr) : category.intro;
+      html += '<p style="color:var(--mut);margin-bottom:16px;line-height:1.7">' + catIntro + '</p>';
+    }
+  } else {
+    html += '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
+    html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, LANG) + '</h2>';
+    html += '<p style="color:var(--mut);margin-bottom:16px">' + window.t(section.introKey, LANG) + '</p>';
+  }
+  
+  html += '<div class="items-list">';
+  
+  items.forEach((item, idx) => {
+    const title = (typeof item.title === 'object') ? (item.title[LANG] || item.title.fr) : window.t(item.titleKey, LANG);
+    const desc = item.desc 
+      ? ((typeof item.desc === 'object') ? (item.desc[LANG] || item.desc.fr) : item.desc)
+      : (item.descKey ? window.t(item.descKey, LANG) : '');
+    
+    html += '<div class="card-3d scroll-anim" style="margin-bottom:14px">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">';
+    html += '<h3 style="margin:0;color:var(--acc);font-size:1.1rem">' + (item.icon || '') + ' ' + title + '</h3>';
+    html += '<button onclick="showQR(\'' + section.id + '\',' + idx + ',\'' + (category ? category.id : '') + '\')" style="background:var(--acc-soft);border:0;color:var(--acc);padding:6px 10px;border-radius:10px;cursor:pointer;font-size:1rem;transition:all .3s">📱</button>';
+    html += '</div>';
+    
+    if (item.images && item.images.length > 0) {
+      html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0">';
+      item.images.forEach(function(imgUrl) {
+        html += '<div onclick="openImageViewer(\'' + imgUrl.replace(/'/g, "\\'") + '\')" style="cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg-3);transition:transform .3s">';
+        html += '<img src="' + imgUrl + '" style="width:100%;height:100%;object-fit:cover" loading="lazy" alt="" onerror="this.parentElement.style.display=\'none\'">';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+    
+    if (item.img) html += '<img src="' + item.img + '" style="width:100%;border-radius:10px;margin:10px 0" loading="lazy" alt="">';
+    
+    if (item.videos && item.videos.length > 0) {
+      item.videos.forEach(function(vid) {
+        if (vid.type === 'youtube') {
+          html += '<div style="margin:10px 0">';
+          if (vid.title) {
+            var vt = (typeof vid.title === 'object') ? (vid.title[LANG] || vid.title.fr) : vid.title;
+            html += '<p style="margin:0 0 6px;font-size:.9rem;font-weight:600;color:var(--acc)">🎬 ' + vt + '</p>';
+          }
+          html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden">';
+          html += '<iframe src="https://www.youtube.com/embed/' + vid.id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
+          html += '</div></div>';
+        }
+      });
+    }
+    
+    if (item.video && typeof item.video === 'string') {
+      html += '<div style="margin:14px 0">';
+      if (item.videoTitle) {
+        html += '<p style="margin:0 0 8px;font-size:.9rem;font-weight:700;color:var(--acc)">' + item.videoTitle + '</p>';
+      }
+      html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
+      html += '<iframe src="https://www.youtube.com/embed/' + item.video + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
+      html += '</div></div>';
+    }
+    
+    if (item.videoShort && typeof item.videoShort === 'string') {
+      html += '<div style="margin:14px 0">';
+      html += '<p style="margin:0 0 8px;font-size:.9rem;font-weight:700;color:var(--acc)">📱 Vidéo courte</p>';
+      html += '<div style="max-width:320px;margin:0 auto">';
+      html += '<div style="position:relative;padding-bottom:177.78%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
+      html += '<iframe src="https://www.youtube.com/embed/' + item.videoShort + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
+      html += '</div></div></div>';
+    }
+    
+    if (desc) html += '<p style="color:var(--mut);margin:8px 0;font-size:.95rem;line-height:1.6;white-space:pre-line">' + desc + '</p>';
+    if (item.location) html += '<p style="margin:6px 0;font-size:.9rem">📍 ' + item.location + '</p>';
+    if (item.distance) html += '<p style="margin:6px 0;font-size:.9rem">' + item.distance + '</p>';
+    if (item.capacity) html += '<p style="margin:6px 0;font-size:.9rem">' + item.capacity + '</p>';
+    if (item.hours) html += '<p style="margin:6px 0;font-size:.9rem">🕐 ' + item.hours + '</p>';
+    if (item.services) html += '<p style="margin:6px 0;font-size:.9rem">' + item.services + '</p>';
+    if (item.extra) html += '<p style="margin:6px 0;font-size:.9rem;color:var(--acc)"><b>' + item.extra + '</b></p>';
+    
+    // ============ الأماكن القريبة ============
+    if (item.nearby && Array.isArray(item.nearby) && item.nearby.length > 0) {
+      html += '<div style="margin-top:16px;padding:14px;background:linear-gradient(135deg,rgba(194,65,12,.05),rgba(154,52,18,.05));border-radius:14px;border-left:4px solid var(--acc)">';
+      html += '<p style="margin:0 0 12px;font-weight:800;color:var(--acc);font-size:.95rem">📍 Lieux à proximité</p>';
+      html += '<div style="display:flex;flex-direction:column;gap:8px">';
+      
+      item.nearby.forEach(place => {
+        const placeName = (LANG === 'ar') ? place.name : (place.nameFr || place.name);
+        const placeDesc = place.desc || '';
+        const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(place.map || placeName);
+        
+        html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;border-radius:12px;text-decoration:none;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.06);transition:all .3s;border:1px solid var(--line)">';
+        html += '<span style="font-size:1.6rem;flex-shrink:0">' + place.icon + '</span>';
+        html += '<div style="flex:1;min-width:0">';
+        html += '<div style="font-weight:700;color:var(--acc);font-size:.95rem;margin-bottom:2px">' + placeName + '</div>';
+        if (placeDesc) html += '<div style="font-size:.82rem;color:var(--mut);line-height:1.4">' + placeDesc + '</div>';
+        html += '</div>';
+        html += '<span style="font-size:1.2rem;color:var(--acc);flex-shrink:0">🗺️</span>';
+        html += '</a>';
+      });
+      
+      html += '</div></div>';
+    }
+    
+    if (item.map) {
+      const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.map);
+      html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 16px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.88rem;font-weight:600">🗺️ Voir sur la carte</a>';
+    }
+    
+    if (item.link) {
+      html += '<a href="' + item.link + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 18px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.9rem;font-weight:600">🔗 Ouvrir</a>';
+    }
+    
+    html += '</div>';
+  });
+  
+  html += '</div>';
+  
+  app.innerHTML = html;
+  window.scrollTo(0, 0);
+  setupScrollAnimations();
 }
 
 function renderSection(id) {
@@ -1178,20 +1198,18 @@ function renderMap(section, category) {
   const desc = (category && category.descKey) ? window.t(category.descKey, LANG) : window.t(section.introKey, LANG);
   html += '<p style="color:var(--mut);margin-bottom:16px">' + desc + '</p>';
   
-  html += '<div style="position:relative;width:100%;aspect-ratio:1;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:12px 0;animation:scaleIn .6s ease-out">';
+  html += '<div style="position:relative;width:100%;aspect-ratio:1;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:12px 0">';
   html += '<div style="position:relative;width:100%;height:100%;background:linear-gradient(135deg,var(--acc-soft),var(--card))">';
   
   buildings.forEach((b, i) => {
     const name = b.nameKey ? window.t(b.nameKey, LANG) : (b.name || '');
-    const delay = i * 0.05;
-    html += '<button onclick="showPlace(\'' + section.id + '\',\'' + b.id + '\',\'' + (category ? category.id : '') + '\')" style="position:absolute;left:' + b.x + '%;top:' + b.y + '%;transform:translate(-50%,-50%);background:var(--card);border:2px solid var(--acc);border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:0;transition:all .3s;animation:bounceIn .5s ease-out ' + delay + 's both" title="' + name + '">' + b.icon + '</button>';
+    html += '<button onclick="showPlace(\'' + section.id + '\',\'' + b.id + '\',\'' + (category ? category.id : '') + '\')" style="position:absolute;left:' + b.x + '%;top:' + b.y + '%;transform:translate(-50%,-50%);background:var(--card);border:2px solid var(--acc);border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0">' + b.icon + '</button>';
   });
   
   html += '</div></div>';
-  html += '<h3 style="color:var(--acc);margin:20px 0 12px">📍 ' + (window.t('mapPlaces', LANG) || 'Lieux') + '</h3>';
   buildings.forEach(b => {
     const name = b.nameKey ? window.t(b.nameKey, LANG) : (b.name || '');
-    html += '<button class="scroll-anim" style="width:100%;text-align:left;margin-bottom:10px;cursor:pointer;padding:14px;display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--ink);font-family:inherit;font-size:1rem;transition:all .3s" onclick="showPlace(\'' + section.id + '\',\'' + b.id + '\',\'' + (category ? category.id : '') + '\')">';
+    html += '<button class="scroll-anim" style="width:100%;text-align:left;margin-bottom:10px;cursor:pointer;padding:14px;display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--ink);font-family:inherit;font-size:1rem" onclick="showPlace(\'' + section.id + '\',\'' + b.id + '\',\'' + (category ? category.id : '') + '\')">';
     html += '<span style="font-size:1.5rem">' + b.icon + '</span>';
     html += '<span style="font-weight:600">' + name + '</span>';
     html += '</button>';
@@ -1261,16 +1279,13 @@ function showMetroType(type) {
     const isKey = s.key;
     const size = isKey ? '1.5rem' : '1rem';
     const border = isKey ? '3px' : '2px';
-    const delay = i * 0.03;
-    html += '<button class="metro-station' + (isKey ? ' key' : '') + '" style="left:' + s.x + '%;top:50%;--station-color:' + color + ';--station-size:' + size + ';--station-border:' + border + ';animation-delay:' + delay + 's" onclick="showStation(\'' + type + '\',' + i + ')" title="' + s[LANG] + '"></button>';
+    html += '<button class="metro-station' + (isKey ? ' key' : '') + '" style="left:' + s.x + '%;top:50%;--station-color:' + color + ';--station-size:' + size + ';--station-border:' + border + '" onclick="showStation(\'' + type + '\',' + i + ')" title="' + s[LANG] + '"></button>';
   });
   html += '</div>';
-  html += '<h3 style="color:' + color + ';margin:20px 0 12px;font-size:1.15rem;display:flex;align-items:center;gap:8px">';
-  html += '<span style="font-size:1.4rem">' + icon + '</span><span>' + title + ' — ' + stations.length + ' stations</span></h3>';
+  html += '<h3 style="color:' + color + ';margin:20px 0 12px;font-size:1.15rem">' + icon + ' ' + title + ' — ' + stations.length + ' stations</h3>';
   html += '<div class="metro-stations-list">';
   stations.forEach((s, i) => {
-    const delay = i * 0.03;
-    html += '<button class="metro-station-card' + (s.key ? ' key' : '') + '" style="--station-color:' + color + ';animation-delay:' + delay + 's" onclick="showStation(\'' + type + '\',' + i + ')">';
+    html += '<button class="metro-station-card' + (s.key ? ' key' : '') + '" style="--station-color:' + color + '" onclick="showStation(\'' + type + '\',' + i + ')">';
     html += '<div class="msc-num">' + (i + 1) + '</div>';
     html += '<div class="msc-info"><div class="msc-name">' + s[LANG] + '</div><div class="msc-zone">📍 ' + s.zone + '</div></div>';
     if (s.key) html += '<div class="msc-badge">⭐</div>';
@@ -1293,21 +1308,12 @@ function showStation(type, index) {
   overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
   overlay.innerHTML = '<div class="modal-box">' +
     '<div style="font-size:3rem;margin-bottom:12px">' + icon + '</div>' +
-    '<div style="display:inline-block;background:' + color + ';color:#fff;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700;margin-bottom:12px">' + typeName + '</div>' +
     '<h3 style="margin:0 0 8px;color:#1d2433;font-size:1.3rem;font-weight:800">' + s[LANG] + '</h3>' +
     '<p style="margin:0 0 6px;color:#667085;font-size:.9rem">📍 ' + s.zone + '</p>' +
-    '<p style="margin:12px 0;color:#94a3b8;font-size:.8rem">Station n° ' + (index + 1) + ' / ' + stations.length + '</p>' +
     '<div style="display:flex;gap:8px;margin-top:16px">' +
-      '<button onclick="this.closest(\'.modal-overlay\').remove()" style="flex:1;padding:12px;background:' + color + ';color:#fff;border:0;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit">' + (window.t('close') || 'Fermer') + '</button>' +
-      '<button onclick="openStationMaps(\'' + encodeURIComponent(s.fr + ' ' + typeName + ' Alger') + '\')" style="flex:1;padding:12px;background:#f1f5f9;color:#1d2433;border:0;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit">📍 Maps</button>' +
+      '<button onclick="this.closest(\'.modal-overlay\').remove()" style="flex:1;padding:12px;background:' + color + ';color:#fff;border:0;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit">Fermer</button>' +
     '</div></div>';
   document.body.appendChild(overlay);
-}
-
-function openStationMaps(query) {
-  window.open('https://www.google.com/maps/search/?api=1&query=' + query, '_blank');
-  const o = document.querySelector('.modal-overlay');
-  if (o) o.remove();
 }
 
 function renderQR(section) {
@@ -1326,7 +1332,7 @@ function renderQR(section) {
     window.SECTIONS.filter(x => x.id !== 'qr').forEach((sec, i) => {
       const title = window.t(sec.titleKey, LANG);
       const div = document.createElement('div');
-      div.style.cssText = 'background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;animation:bounceIn .4s ease-out ' + (i * 0.05) + 's both';
+      div.style.cssText = 'background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center';
       const qrId = 'qrc-' + sec.id;
       div.innerHTML = '<div style="background:#fff;padding:8px;display:inline-block;border-radius:8px;margin-bottom:8px" id="' + qrId + '"></div><div style="font-size:.85rem;font-weight:600">' + sec.icon + ' ' + title + '</div>';
       grid.appendChild(div);
@@ -1355,10 +1361,9 @@ function showQR(sectionId, itemIndex, categoryId) {
   overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
   overlay.innerHTML = '<div class="modal-box">' +
     '<h3 style="margin:0 0 8px;color:var(--acc);font-size:1.1rem">📱 ' + title + '</h3>' +
-    '<p style="margin:0 0 16px;color:#667085;font-size:.85rem">' + window.t('qrScan', LANG) + '</p>' +
     '<div id="qr-popup-box" style="background:#fff;padding:12px;display:inline-block;border-radius:12px;border:1px solid #e5e1d8"></div>' +
     '<p style="margin:16px 0 0;font-size:.75rem;color:#94a3b8;word-break:break-all">' + url + '</p>' +
-    '<button onclick="this.closest(\'.modal-overlay\').remove()" style="margin-top:16px;padding:10px 24px;background:var(--acc);color:#fff;border:0;border-radius:20px;font-weight:600;cursor:pointer;font-family:inherit">' + window.t('close', LANG) + '</button>' +
+    '<button onclick="this.closest(\'.modal-overlay\').remove()" style="margin-top:16px;padding:10px 24px;background:var(--acc);color:#fff;border:0;border-radius:20px;font-weight:600;cursor:pointer;font-family:inherit">Fermer</button>' +
     '</div>';
   document.body.appendChild(overlay);
   
@@ -1382,32 +1387,24 @@ function doSearch(q) {
   const results = (typeof smartSearch === 'function') ? smartSearch(q, window.SECTIONS) : [];
   
   if (results.length === 0) {
-    app.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mut);animation:fadeIn .4s ease-out">' +
+    app.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mut)">' +
       '<b style="font-size:3rem;display:block;margin-bottom:10px">🔍</b>' +
-      window.t('noResult', LANG) + '<br><small>' + window.t('tryOther', LANG) + '</small>' +
-      '<br><br>' +
-      '<button onclick="openAISearch()" style="padding:12px 24px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:0;border-radius:50px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 8px 20px rgba(139,92,246,.4)">✨ Demander à l\'IA</button>' +
+      window.t('noResult', LANG) +
       '</div>';
     return;
   }
   
-  let html = '<h2 style="animation:fadeInUp .4s ease-out">🔍 ' + results.length + '</h2>';
+  let html = '<h2>🔍 ' + results.length + '</h2>';
   results.forEach((r, i) => {
     const title = (typeof r.item.title === 'object') ? (r.item.title[LANG] || r.item.title.fr) : (r.item.n || window.t(r.item.titleKey, LANG));
     const desc = r.item.desc 
       ? ((typeof r.item.desc === 'object') ? (r.item.desc[LANG] || r.item.desc.fr) : r.item.desc)
       : (r.item.note || (r.item.descKey ? window.t(r.item.descKey, LANG) : ''));
-    html += '<div class="card-3d" style="margin-bottom:12px;animation:fadeInUp .4s ease-out ' + (i * 0.05) + 's both">';
+    html += '<div class="card-3d" style="margin-bottom:12px">';
     html += '<h3 style="color:var(--acc);margin:0 0 6px">' + (r.item.icon || r.section.icon) + ' ' + title + '</h3>';
     if (desc) html += '<p style="color:var(--mut);font-size:.9rem">' + desc + '</p>';
     html += '</div>';
   });
-  
-  html += '<div style="text-align:center;margin-top:24px;padding:20px;background:linear-gradient(135deg,rgba(139,92,246,.05),rgba(124,58,237,.05));border-radius:16px;border:1px dashed #8b5cf6">';
-  html += '<p style="color:var(--mut);font-size:.9rem;margin:0 0 12px">Vous ne trouvez pas ce que vous cherchez ?</p>';
-  html += '<button onclick="openAISearch()" style="padding:12px 24px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:0;border-radius:50px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 8px 20px rgba(139,92,246,.4)">✨ Demander à l\'IA</button>';
-  html += '</div>';
-  
   app.innerHTML = html;
 }
 
@@ -1416,11 +1413,6 @@ function openAISearch() {
   if (!modal) return;
   modal.classList.add('show');
   setTimeout(() => document.getElementById('aiQuestion')?.focus(), 100);
-  if (typeof getRemainingQuota === 'function') {
-    const remaining = getRemainingQuota();
-    const quota = document.getElementById('aiQuota');
-    if (quota) quota.textContent = '⚡ ' + remaining + ' question(s) restante(s) aujourd\'hui';
-  }
 }
 
 function closeAISearch() {
@@ -1445,36 +1437,24 @@ async function submitAIQuestion() {
   
   if (typeof askGemini !== 'function') {
     answerDiv.classList.add('show');
-    answerDiv.innerHTML = '<p style="margin:0;color:#dc2626;font-weight:600">❌ Erreur : Le module IA n\'est pas chargé.</p>';
+    answerDiv.innerHTML = '<p style="margin:0;color:#dc2626;font-weight:600">❌ Le module IA n\'est pas chargé.</p>';
     return;
   }
   
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span class="spinner-small"></span> Réflexion...';
   answerDiv.classList.add('show');
-  answerDiv.innerHTML = '<div style="display:flex;align-items:center;gap:10px;color:var(--mut)"><div style="width:20px;height:20px;border:3px solid rgba(139,92,246,.2);border-top-color:#8b5cf6;border-radius:50%;animation:spin .8s linear infinite"></div><span>L\'IA réfléchit...</span></div>';
+  answerDiv.innerHTML = '<div style="color:var(--mut)">L\'IA réfléchit...</div>';
   
   try {
     const answer = await askGemini(question, LANG);
-    answerDiv.innerHTML = 
-      '<div style="display:flex;align-items:flex-start;gap:10px">' +
-        '<span style="font-size:1.5rem;flex-shrink:0">🤖</span>' +
-        '<div style="flex:1;line-height:1.7;white-space:pre-wrap">' + escapeHtmlAI(answer) + '</div>' +
-      '</div>' +
-      '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:.75rem;color:var(--mut);text-align:center">✨ Réponse générée par Google Gemini</div>';
-    if (typeof getRemainingQuota === 'function') {
-      const remaining = getRemainingQuota();
-      const quota = document.getElementById('aiQuota');
-      if (quota) quota.textContent = '⚡ ' + remaining + ' question(s) restante(s) aujourd\'hui';
-    }
+    answerDiv.innerHTML = '<div style="line-height:1.7;white-space:pre-wrap">' + escapeHtmlAI(answer) + '</div>';
   } catch(err) {
-    console.error('AI Error:', err);
-    answerDiv.innerHTML = '<div style="display:flex;align-items:flex-start;gap:10px"><span style="font-size:1.5rem;flex-shrink:0">⚠️</span><div style="flex:1;color:#dc2626"><b>Erreur :</b><br>' + escapeHtmlAI(err.message) + '</div></div>';
+    answerDiv.innerHTML = '<div style="color:#dc2626">⚠️ ' + escapeHtmlAI(err.message) + '</div>';
   }
   
   submitBtn.disabled = false;
-  const btns = { fr: "🚀 Demander à l'IA", ar: "🚀 اسأل الذكاء الاصطناعي", en: "🚀 Ask AI" };
-  submitBtn.innerHTML = btns[LANG] || btns.fr;
+  submitBtn.innerHTML = '🚀 Demander à l\'IA';
 }
 
 function escapeHtmlAI(text) {
@@ -1496,54 +1476,6 @@ function showToast(message, duration = 3000) {
     setTimeout(() => toast.remove(), 300);
   }, duration);
 }
-
-let deferredPrompt = null;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  setTimeout(() => {
-    if (!localStorage.getItem('installDismissed')) showInstallBanner();
-  }, 5000);
-});
-
-function showInstallBanner() {
-  if (document.getElementById('installBanner')) return;
-  const banner = document.createElement('div');
-  banner.id = 'installBanner';
-  banner.className = 'show';
-  banner.innerHTML = 
-    '<span class="ib-icon">📱</span>' +
-    '<div class="ib-text"><strong>Installer l\'application</strong><span>Accès rapide et hors ligne</span></div>' +
-    '<button class="ib-btn" onclick="installPWA()">Installer</button>' +
-    '<button class="ib-close" onclick="dismissInstallBanner()">×</button>';
-  document.body.appendChild(banner);
-}
-
-async function installPWA() {
-  if (!deferredPrompt) {
-    showToast('📱 Sur iOS : Partager 📤 → Sur l\'écran d\'accueil');
-    return;
-  }
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  if (outcome === 'accepted') {
-    showToast('✅ Application installée !');
-    localStorage.setItem('installDismissed', '1');
-  }
-  deferredPrompt = null;
-  document.getElementById('installBanner')?.remove();
-}
-
-function dismissInstallBanner() {
-  localStorage.setItem('installDismissed', '1');
-  document.getElementById('installBanner')?.remove();
-}
-
-window.addEventListener('appinstalled', () => {
-  showToast('🎉 Guide ENSTP installé !');
-  localStorage.setItem('installDismissed', '1');
-});
 
 function setupScrollAnimations() {
   const els = document.querySelectorAll('.scroll-anim');
@@ -1572,21 +1504,6 @@ window.addEventListener('scroll', () => {
   if (btn) btn.classList.toggle('show', window.scrollY > 300);
 });
 
-document.addEventListener('click', (e) => {
-  const target = e.target.closest('.ripple');
-  if (!target) return;
-  const rect = target.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  const ripple = document.createElement('span');
-  ripple.className = 'ripple-effect';
-  ripple.style.left = x + 'px';
-  ripple.style.top = y + 'px';
-  ripple.style.width = ripple.style.height = '20px';
-  target.appendChild(ripple);
-  setTimeout(() => ripple.remove(), 600);
-});
-
 function handleHash() {
   const h = location.hash.slice(1);
   if (h && window.SECTIONS.find(s => s.id === h)) openSection(h);
@@ -1603,29 +1520,10 @@ updateOnlineStatus();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js', { scope: './' })
-      .then((reg) => {
-        console.log('✅ SW registered');
-      })
-      .catch((err) => console.log('❌ SW error:', err));
+    navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => {});
   });
 }
 
-document.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.key === '/') {
-    e.preventDefault();
-    document.getElementById('q')?.focus();
-  }
-  if (e.key === 'Escape') {
-    const modal = document.getElementById('aiSearchModal');
-    if (modal && modal.classList.contains('show')) closeAISearch();
-    else if (CURRENT_SECTION) renderHome();
-  }
-});
-
-// ============================================
-// عارض الصور
-// ============================================
 function openImageViewer(src) {
   var overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
@@ -1656,7 +1554,6 @@ window.renderCategory = renderCategory;
 window.renderCategoriesList = renderCategoriesList;
 window.showMetroType = showMetroType;
 window.showStation = showStation;
-window.openStationMaps = openStationMaps;
 window.showQR = showQR;
 window.showPlace = showPlace;
 window.doSearch = doSearch;
@@ -1665,8 +1562,6 @@ window.scrollToTop = scrollToTop;
 window.openAISearch = openAISearch;
 window.closeAISearch = closeAISearch;
 window.submitAIQuestion = submitAIQuestion;
-window.installPWA = installPWA;
-window.dismissInstallBanner = dismissInstallBanner;
 window.showToast = showToast;
 window.renderGaridiMap = renderGaridiMap;
 window.renderProfsTabs = renderProfsTabs;
@@ -1677,6 +1572,7 @@ window.switchProfsYear = switchProfsYear;
 window.openImageViewer = openImageViewer;
 window.renderServiceItems = renderServiceItems;
 window.renderShoppingItems = renderShoppingItems;
+window.renderItems = renderItems;
 </script>
 
 </body>
