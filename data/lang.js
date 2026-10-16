@@ -1015,3 +1015,27 @@ window.LANG_DATA.en.ecoleInteractiveMap = "Interactive residence map";
 window.LANG_DATA.fr.ecoleInteractiveMapDesc = "Trouvez votre chambre et votre itinéraire dans la cité universitaire Garidi 1";
 window.LANG_DATA.ar.ecoleInteractiveMapDesc = "ابحث عن غرفتك ومسارك في الإقامة الجامعية قاريدي 1";
 window.LANG_DATA.en.ecoleInteractiveMapDesc = "Find your room and route in the Garidi 1 university residence";
+
+// ========== EL HANAA ==========
+srvElHanaa: {
+  fr: "Inscription sur EL HANAA",
+  ar: "التسجيل على منصة EL HANAA",
+  en: "Registration on EL HANAA"
+},
+srvElHanaaDesc: {
+  fr: "Inscription en ligne après affiliation à la CNAS.",
+  ar: "التسجيل الإلكتروني بعد الانتساب إلى CNAS.",
+  en: "Online registration after CNAS affiliation."
+},
+
+// ========== Règles de la bibliothèque ==========
+srvBiblioRules: {
+  fr: "Règles de la bibliothèque",
+  ar: "قواعد المكتبة",
+  en: "Library rules"
+},
+srvBiblioRulesDesc: {
+  fr: "Silence, propreté, pas de nourriture (sauf eau).",
+  ar: "الهدوء، النظافة، منع الأكل (ما عدا الماء).",
+  en: "Silence, cleanliness, no food (except water)."
+}
