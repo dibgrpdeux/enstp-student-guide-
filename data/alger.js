@@ -1,1495 +1,313 @@
-<!DOCTYPE html>
-<html lang="fr" dir="ltr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Guide de survie ENSTP</title>
-
-<script src="theme.js"></script>
-<script src="text-size.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<meta name="theme-color" content="#c2410c">
-<meta name="description" content="Guide de survie ENSTP — 3 langues, hors ligne">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="ENSTP Guide">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link rel="icon" type="image/png" href="icon-192.png">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="garidi-map.css">
-<link rel="stylesheet" href="profs-card.css">
-
-<style>
-.loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .4s ease,visibility .4s ease}
-.loading-screen.hide{opacity:0;visibility:hidden}
-.loading-screen .logo-spin{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#fff;margin-bottom:20px;animation:pulse 1.5s ease-in-out infinite;box-shadow:0 10px 30px rgba(194,65,12,.4)}
-.loading-screen .spin-ring{width:40px;height:40px;border:4px solid var(--acc-soft);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
-.loading-screen p{color:var(--mut);font-size:.9rem;font-weight:600}
-.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--acc),var(--acc2));z-index:9999;width:0%;transition:width .3s ease;box-shadow:0 0 10px var(--acc)}
-.progress-bar.active{animation:progressLoad 1s ease-out forwards}
-@keyframes progressLoad{0%{width:0%}50%{width:70%}100%{width:100%;opacity:0}}
-#app{animation:fadeIn .5s ease-out}
-#app.section-change{animation:fadeInUp .4s ease-out}
-.items-list .card-3d:nth-child(1){animation-delay:.05s}
-.items-list .card-3d:nth-child(2){animation-delay:.1s}
-.items-list .card-3d:nth-child(3){animation-delay:.15s}
-.items-list .card-3d:nth-child(4){animation-delay:.2s}
-.items-list .card-3d:nth-child(5){animation-delay:.25s}
-.items-list .card-3d:nth-child(6){animation-delay:.3s}
-.scroll-anim{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
-.scroll-anim.visible{opacity:1;transform:translateY(0)}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;backdrop-filter:blur(6px);animation:fadeIn .3s ease-out}
-.modal-box{background:var(--card);color:var(--ink);padding:28px;border-radius:24px;text-align:center;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:bounceIn .4s cubic-bezier(.2,.8,.2,1)}
-.back-to-top{position:fixed;bottom:20px;left:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(194,65,12,.4);transition:all .3s;opacity:0;visibility:hidden;z-index:998;font-family:inherit}
-.back-to-top.show{opacity:1;visibility:visible;animation:slideInBottom .4s ease-out}
-.back-to-top:hover{transform:translateY(-5px) scale(1.1)}
-html[dir="rtl"] .back-to-top{left:auto;right:20px}
-.feedback-float{position:fixed;bottom:20px;right:20px;padding:14px 22px;border-radius:50px;background:linear-gradient(135deg,#c2410c,#9a3412);color:#fff;border:0;font-size:.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(194,65,12,.4);transition:all .3s;z-index:998;font-family:inherit;text-decoration:none}
-.feedback-float:hover{transform:translateY(-4px) scale(1.05)}
-.feedback-float .fb-icon{font-size:1.2rem;animation:float 2s ease-in-out infinite}
-html[dir="rtl"] .feedback-float{right:auto;left:20px}
-.ai-btn{padding:12px 18px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:0;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;transition:all .3s;box-shadow:0 4px 12px rgba(139,92,246,.3);white-space:nowrap;flex-shrink:0}
-.ai-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(139,92,246,.5)}
-.ai-btn .ai-icon{font-size:1.2rem;animation:float 2s ease-in-out infinite}
-#aiSearchModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:10000;padding:20px;backdrop-filter:blur(8px);animation:fadeIn .3s ease-out;align-items:flex-start;justify-content:center;padding-top:60px;overflow-y:auto}
-#aiSearchModal.show{display:flex}
-.ai-modal-content{background:var(--card);color:var(--ink);padding:28px;border-radius:24px;max-width:600px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:bounceIn .4s cubic-bezier(.2,.8,.2,1)}
-.ai-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.ai-modal-header h3{margin:0;color:#8b5cf6;font-size:1.3rem;display:flex;align-items:center;gap:8px}
-.ai-modal-header .ai-close{background:none;border:0;font-size:1.5rem;color:var(--mut);cursor:pointer;padding:0;width:32px;height:32px;border-radius:50%;font-family:inherit;transition:all .2s}
-.ai-modal-header .ai-close:hover{background:var(--acc-soft);color:var(--acc);transform:rotate(90deg)}
-.ai-modal-desc{color:var(--mut);font-size:.9rem;margin-bottom:16px;line-height:1.6}
-#aiQuestion{width:100%;padding:14px;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font-size:1rem;font-family:inherit;outline:none;resize:vertical;transition:all .3s;line-height:1.5;min-height:80px}
-#aiQuestion:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.1)}
-.ai-submit-btn{width:100%;padding:14px;margin-top:12px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:0;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .3s;box-shadow:0 8px 20px rgba(139,92,246,.4)}
-.ai-submit-btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(139,92,246,.6)}
-.ai-submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
-#aiAnswer{display:none;margin-top:20px;padding:16px;background:linear-gradient(135deg,rgba(139,92,246,.05),rgba(124,58,237,.05));border-radius:12px;border-left:4px solid #8b5cf6;animation:fadeInUp .4s ease-out}
-#aiAnswer.show{display:block}
-.ai-quota{margin-top:16px;padding:10px;background:var(--bg);border-radius:8px;font-size:.75rem;color:var(--mut);text-align:center}
-.spinner-small{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;margin-right:8px;vertical-align:middle}
-#custom-toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--acc);color:#fff;padding:12px 24px;border-radius:30px;font-weight:600;font-size:.95rem;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:10001;opacity:0;transition:all .3s ease-out;pointer-events:none;max-width:90%;text-align:center}
-#custom-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-#installBanner{position:fixed;bottom:20px;left:20px;right:20px;max-width:440px;margin:0 auto;background:var(--card);color:var(--ink);padding:14px 18px;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.3);border:1px solid var(--line);display:none;align-items:center;gap:12px;z-index:1000}
-#installBanner.show{display:flex;animation:slideInBottom .4s ease-out}
-#installBanner .ib-icon{font-size:1.8rem;flex-shrink:0;animation:float 2s ease-in-out infinite}
-#installBanner .ib-text{flex:1;font-size:.88rem;line-height:1.4}
-#installBanner .ib-text strong{display:block;color:var(--acc);font-size:.95rem;margin-bottom:2px}
-#installBanner .ib-btn{background:var(--acc);color:#fff;padding:10px 18px;border-radius:10px;font-weight:600;cursor:pointer;font-family:inherit;font-size:.88rem;border:0;flex-shrink:0}
-#installBanner .ib-close{background:none;border:0;color:var(--mut);font-size:1.3rem;cursor:pointer;padding:0 4px;font-family:inherit}
-.map-wrapper{margin:16px 0 24px;border-radius:16px;overflow:hidden;border:2px solid var(--acc);box-shadow:0 8px 30px rgba(194,65,12,.15);animation:fadeInUp .5s ease-out}
-.map-header{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px}
-.map-header .map-icon{font-size:1.5rem}
-.map-header .map-info{flex:1}
-.map-header .map-title{font-weight:800;font-size:.95rem}
-.map-header .map-sub{font-size:.75rem;opacity:.9}
-.map-iframe{width:100%;height:420px;border:0;display:block}
-.map-footer{padding:12px;background:var(--card);text-align:center}
-.map-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-radius:50px;text-decoration:none;font-weight:700;font-size:.9rem;box-shadow:0 4px 15px rgba(194,65,12,.3);transition:all .3s}
-.map-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(194,65,12,.5)}
-@media(max-width:600px){
-  .feedback-float{padding:12px 18px;font-size:.85rem;bottom:80px}
-  .back-to-top{bottom:80px;width:44px;height:44px}
-  #aiSearchModal{padding-top:20px}
-  .ai-modal-content{padding:20px}
-  .ai-btn{padding:12px 14px}
-  .ai-btn .ai-text{display:none}
-  .map-iframe{height:300px}
-}
-</style>
-</head>
-<body>
-
-<div class="progress-bar" id="progressBar"></div>
-
-<div class="loading-screen" id="loadingScreen">
-  <div class="logo-spin">🎓</div>
-  <div class="spin-ring"></div>
-  <p>Chargement du guide...</p>
-</div>
-
-<div class="offline-banner" id="offline-banner">📴 Mode hors ligne</div>
-
-<div class="top-controls">
-  <div class="pill">
-    <button onclick="setLang('fr')" data-lang="fr">🇫🇷 FR</button>
-    <button onclick="setLang('ar')" data-lang="ar">🇩🇿 AR</button>
-    <button onclick="setLang('en')" data-lang="en">🇬🇧 EN</button>
-  </div>
-  <div class="pill">
-    <button class="ctrl-btn" onclick="toggleMode()" data-mode-toggle title="Mode">🌙</button>
-    <button class="ctrl-btn" onclick="toggleThemePanel()" title="Couleurs">🎨</button>
-    <button class="ctrl-btn" onclick="toggleTextSizePanel()" title="Taille du texte">🅰️</button>
-  </div>
-</div>
-
-<div class="theme-panel" id="theme-panel">
-  <div class="theme-panel-header">
-    <strong id="tp-title">Couleur</strong>
-    <button class="tp-close" onclick="closeThemePanel()">×</button>
-  </div>
-  <div class="theme-swatches">
-    <button class="swatch orange" onclick="setTheme('orange')" data-theme-btn="orange" title="Orange"></button>
-    <button class="swatch red" onclick="setTheme('red')" data-theme-btn="red" title="Rouge"></button>
-    <button class="swatch yellow" onclick="setTheme('yellow')" data-theme-btn="yellow" title="Jaune"></button>
-    <button class="swatch green" onclick="setTheme('green')" data-theme-btn="green" title="Vert"></button>
-    <button class="swatch teal" onclick="setTheme('teal')" data-theme-btn="teal" title="Turquoise"></button>
-    <button class="swatch blue" onclick="setTheme('blue')" data-theme-btn="blue" title="Bleu"></button>
-    <button class="swatch purple" onclick="setTheme('purple')" data-theme-btn="purple" title="Violet"></button>
-    <button class="swatch pink" onclick="setTheme('pink')" data-theme-btn="pink" title="Rose"></button>
-    <button class="swatch gray" onclick="setTheme('gray')" data-theme-btn="gray" title="Gris"></button>
-  </div>
-</div>
-
-<div class="text-size-panel" id="text-size-panel">
-  <div class="tsp-header">
-    <strong id="tsp-title">Taille du texte</strong>
-    <button class="tsp-close" onclick="closeTextSizePanel()">×</button>
-  </div>
-  <div class="tsp-list">
-    <button class="tsp-btn" data-text-size-btn="small" onclick="setTextSize('small')">
-      <span>🅰️- <span id="ts-small-label">Petit</span></span>
-      <span class="tsp-label">14px</span>
-    </button>
-    <button class="tsp-btn" data-text-size-btn="normal" onclick="setTextSize('normal')">
-      <span>🅰️ <span id="ts-normal-label">Normal</span></span>
-      <span class="tsp-label">16px</span>
-    </button>
-    <button class="tsp-btn" data-text-size-btn="large" onclick="setTextSize('large')">
-      <span>🅰️+ <span id="ts-large-label">Grand</span></span>
-      <span class="tsp-label">19px</span>
-    </button>
-    <button class="tsp-btn" data-text-size-btn="xlarge" onclick="setTextSize('xlarge')">
-      <span>🅰️++ <span id="ts-xlarge-label">Très grand</span></span>
-      <span class="tsp-label">22px</span>
-    </button>
-  </div>
-</div>
-
-<header style="background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:18px 16px 14px;position:relative;animation:fadeInDown .5s ease-out">
-  <a href="index.html" id="home-link" style="position:absolute;top:18px;right:16px;color:#fff;text-decoration:none;font-size:.85rem;opacity:.9;font-weight:600">🏠 <span id="home-text">Accueil</span></a>
-  <h1 id="siteName" style="margin:0;font-size:1.35rem;font-weight:800">Guide de survie ENSTP</h1>
-  <p id="tagline" style="margin:4px 0 0;opacity:.9;font-size:.9rem">Ton premier jour, dans ta poche.</p>
-</header>
-
-<div class="search-container">
-  <div class="search-inner">
-    <input id="q" placeholder="🔎 Chercher…" oninput="doSearch(this.value)">
-    <button class="ai-btn" onclick="openAISearch()" id="aiBtn" title="Assistant IA">
-      <span class="ai-icon">✨</span>
-      <span class="ai-text">IA</span>
-    </button>
-  </div>
-</div>
-
-<main id="app" style="max-width:900px;margin:0 auto;padding:14px"></main>
-
-<div id="aiSearchModal">
-  <div class="ai-modal-content">
-    <div class="ai-modal-header">
-      <h3>
-        <span style="font-size:1.5rem">✨</span>
-        <span id="aiTitle">Assistant IA</span>
-      </h3>
-      <button class="ai-close" onclick="closeAISearch()">×</button>
-    </div>
-    <p class="ai-modal-desc" id="aiDesc">
-      Posez une question en langage naturel. L'IA vous répondra en utilisant les informations du guide.
-    </p>
-    <textarea id="aiQuestion" placeholder="Ex: Où puis-je manger pas cher près de l'école ?" rows="3" maxlength="300"></textarea>
-    <button class="ai-submit-btn" onclick="submitAIQuestion()" id="aiSubmitBtn">🚀 Demander à l'IA</button>
-    <div id="aiAnswer"></div>
-    <div class="ai-quota" id="aiQuota">⚡ Limite : 1500 questions/jour</div>
-  </div>
-</div>
-
-<a href="feedback.html" class="feedback-float">
-  <span class="fb-icon">💬</span>
-  <span>Votre avis</span>
-</a>
-
-<button class="back-to-top" id="backToTop" onclick="scrollToTop()" title="Haut de page">↑</button>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyD35OVZ9JPlWr7ayQJMu8yVPFu3N_gZD1g",
-  authDomain: "enstp-forum-19a28.firebaseapp.com",
-  projectId: "enstp-forum-19a28",
-  storageBucket: "enstp-forum-19a28.firebasestorage.app",
-  messagingSenderId: "598736412518",
-  appId: "1:598736412518:web:a2a7c69a537e6567ffb2a7"
-};
-
-try {
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  window.__firebaseAuth = auth;
-  console.log('✅ Firebase Auth initialisé dans guide.html');
-  onAuthStateChanged(auth, (user) => {
-    window.__currentFirebaseUser = user;
-  });
-} catch(e) {
-  console.warn('⚠️ Firebase non initialisé:', e.message);
-}
-</script>
-
-<script src="lang.js"></script>
-
-<script src="data/config.js"></script>
-<script src="data/ecole.js"></script>
-<script src="data/admin.js"></script>
-<script src="data/profs.js"></script>
-<script src="data/forum.js"></script>
-<script src="data/services.js"></script>
-<script src="data/cite.js"></script>
-<script src="data/transport.js"></script>
-<script src="data/metro.js"></script>
-<script src="data/sport.js"></script>
-<script src="data/alger.js"></script>
-<script src="data/podcast.js"></script>
-<script src="data/courses.js"></script>
-<script src="data/green.js"></script>
-<script src="data/qr.js"></script>
-<script src="data/about.js"></script>
-<script src="data/shopping.js"></script>
-<script src="data/index.js"></script>
-
-<script src="search.js"></script>
-<script src="ai-search.js"></script>
-<script src="garidi-map.js"></script>
-
-<script>
-let LANG = localStorage.getItem('lang') || 'fr';
-let CURRENT_SECTION = null;
-let CURRENT_CATEGORY = null;
-
-function hideLoading() {
-  const el = document.getElementById('loadingScreen');
-  if (el) {
-    setTimeout(() => {
-      el.classList.add('hide');
-      setTimeout(() => el.remove(), 500);
-    }, 400);
-  }
-}
-
-function showProgress() {
-  const bar = document.getElementById('progressBar');
-  if (!bar) return;
-  bar.classList.add('active');
-  setTimeout(() => {
-    bar.classList.remove('active');
-    bar.style.width = '0%';
-  }, 1200);
-}
-
-function setLang(lang) {
-  LANG = lang;
-  localStorage.setItem('lang', lang);
-  document.documentElement.lang = lang;
-  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-  
-  if (typeof CONFIG !== 'undefined' && CONFIG.siteName) {
-    const sn = document.getElementById('siteName');
-    const tg = document.getElementById('tagline');
-    const ht = document.getElementById('home-text');
-    if (sn) sn.textContent = CONFIG.siteName[lang] || CONFIG.siteName.fr;
-    if (tg) tg.textContent = CONFIG.tagline[lang] || CONFIG.tagline.fr;
-    if (ht) ht.textContent = (lang === 'ar') ? 'الرئيسية' : (lang === 'en') ? 'Home' : 'Accueil';
-  }
-  
-  const q = document.getElementById('q');
-  if (q && typeof LANG_DATA !== 'undefined' && LANG_DATA[lang]) {
-    q.placeholder = LANG_DATA[lang].search || '🔎 Chercher…';
-  }
-  
-  const aiQ = document.getElementById('aiQuestion');
-  if (aiQ) {
-    const placeholders = {
-      fr: "Ex: Où puis-je manger pas cher près de l'école ?",
-      ar: "مثال: أين آكل رخيص قرب المدرسة؟",
-      en: "Ex: Where can I eat cheap near school?"
-    };
-    aiQ.placeholder = placeholders[lang] || placeholders.fr;
-  }
-  
-  const aiT = document.getElementById('aiTitle');
-  if (aiT) {
-    const titles = { fr: "Assistant IA", ar: "المساعد الذكي", en: "AI Assistant" };
-    aiT.textContent = titles[lang] || titles.fr;
-  }
-  
-  const aiD = document.getElementById('aiDesc');
-  if (aiD) {
-    const descs = {
-      fr: "Posez une question en langage naturel. L'IA vous répondra en utilisant les informations du guide.",
-      ar: "اطرح سؤالاً بلغة طبيعية. سيجيبك الذكاء الاصطناعي باستخدام معلومات الدليل.",
-      en: "Ask a question in natural language. The AI will answer using the guide's information."
-    };
-    aiD.textContent = descs[lang] || descs.fr;
-  }
-  
-  const aiBtn = document.getElementById('aiSubmitBtn');
-  if (aiBtn) {
-    const btns = { fr: "🚀 Demander à l'IA", ar: "🚀 اسأل الذكاء الاصطناعي", en: "🚀 Ask AI" };
-    aiBtn.innerHTML = btns[lang] || btns.fr;
-  }
-  
-  if (typeof LANG_DATA !== 'undefined' && LANG_DATA[lang]) {
-    const d = LANG_DATA[lang];
-    const tsMap = {
-      'tsp-title': 'tspTitle',
-      'ts-small-label': 'tsSmall',
-      'ts-normal-label': 'tsNormal',
-      'ts-large-label': 'tsLarge',
-      'ts-xlarge-label': 'tsXLarge'
-    };
-    Object.keys(tsMap).forEach(id => {
-      const el = document.getElementById(id);
-      if (el && d[tsMap[id]]) el.textContent = d[tsMap[id]];
-    });
-  }
-  
-  document.querySelectorAll('[data-lang]').forEach(b => {
-    b.classList.toggle('on', b.dataset.lang === lang);
-  });
-  
-  if (CURRENT_SECTION) {
-    if (CURRENT_CATEGORY) renderCategory(CURRENT_SECTION, CURRENT_CATEGORY);
-    else renderSection(CURRENT_SECTION);
-  } else {
-    renderHome();
-  }
-}
-
-function renderHome() {
-  CURRENT_SECTION = null;
-  CURRENT_CATEGORY = null;
-  
-  const app = document.getElementById('app');
-  app.classList.add('section-change');
-  setTimeout(() => app.classList.remove('section-change'), 500);
-  
-  if (typeof window.SECTIONS === 'undefined' || !window.SECTIONS.length) {
-    app.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mut)"><b style="font-size:3rem;display:block;margin-bottom:10px">⏳</b>Chargement…</div>';
-    return;
-  }
-  
-  let html = '<div class="tile-grid">';
-  window.SECTIONS.forEach((s) => {
-    const title = (window.t ? window.t(s.titleKey, LANG) : s.titleKey);
-    html += '<button class="tile-3d ripple" onclick="openSection(\'' + s.id + '\')">';
-    html += '<span class="tile-icon">' + s.icon + '</span>';
-    html += '<span class="tile-label">' + title + '</span>';
-    html += '</button>';
-  });
-  html += '</div>';
-  
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setupScrollAnimations();
-}
-
-function openSection(id) {
-  showProgress();
-  CURRENT_SECTION = id;
-  CURRENT_CATEGORY = null;
-  const s = window.SECTIONS.find(x => x.id === id);
-  if (!s) return;
-  
-  const app = document.getElementById('app');
-  app.classList.add('section-change');
-  setTimeout(() => app.classList.remove('section-change'), 500);
-  
-  if (s.type === 'custom' && typeof s.render === 'function') {
-    document.getElementById('app').innerHTML = s.render();
-    window.scrollTo(0, 0);
-    setupScrollAnimations();
-    return;
-  }
-  
-  if (s.type === 'profs-custom') {
-    renderProfsTabs(s);
-    return;
-  }
-  
-  if (s.type === 'metro-map') { renderMetroMap(s); return; }
-  if (s.type === 'qr') { renderQR(s); return; }
-  if (s.categories && s.categories.length > 0) { renderCategoriesList(id); return; }
-  if (s.items && s.items.length > 0) { renderItems(s, s.items); return; }
-  if (s.buildings) { renderMap(s); return; }
-}
-
 // ============================================
-// قسم أساتذتي
+// data/alger.js — Loisirs à Alger
+// Version 3.0 — مع صور من جذر المستودع
 // ============================================
-async function renderProfsTabs(section) {
-  const app = document.getElementById('app');
-  const L = window.LANG || localStorage.getItem('lang') || 'ar';
-  const FL = {
-    fr: { y1: "1ère année Préparatoire", y2: "2ème année Préparatoire", loading: "Chargement..." },
-    ar: { y1: "السنة الأولى تحضيري", y2: "السنة الثانية تحضيري", loading: "جاري التحميل..." },
-    en: { y1: "1st year Preparatory", y2: "2nd year Preparatory", loading: "Loading..." }
-  };
-  const T = FL[L] || FL.ar;
 
-  app.innerHTML = `
-    <button class="back" onclick="renderHome()">${window.t ? window.t('back', L) : '←'}</button>
-    <h2>${section.icon} ${window.t ? window.t(section.titleKey, L) : 'أساتذتي'}</h2>
-    <div style="text-align:center;padding:40px;color:var(--mut)">
-      <div style="width:30px;height:30px;border:3px solid var(--acc-soft);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px"></div>
-      ${T.loading}
-    </div>
-  `;
-
-  if (typeof window.loadProfsData !== 'function') {
-    app.innerHTML = '<p style="text-align:center;padding:40px;color:var(--mut)">Erreur : profs.js non chargé</p>';
-    return;
-  }
-  const data = await window.loadProfsData();
-  if (!data) {
-    app.innerHTML = '<p style="text-align:center;padding:40px;color:var(--mut)">Erreur de chargement des données</p>';
-    return;
+(function() {
+  if (typeof window.SECTIONS === 'undefined') {
+    window.SECTIONS = window.SECTIONS || [];
   }
 
-  window.__PROFS_DATA__ = data;
-
-  let html = `<button class="back" onclick="renderHome()">${window.t ? window.t('back', L) : '←'}</button>`;
-  html += `<h2>${section.icon} ${window.t ? window.t(section.titleKey, L) : 'أساتذتي'}</h2>`;
-  html += `<div class="profs-tabs" style="display:grid;grid-template-columns:1fr 1fr;background:var(--acc-soft);border-radius:12px;padding:4px;gap:4px;margin:14px 0">`;
-  html += `<button class="profs-tab on" data-year="1acp" onclick="switchProfsYear('1acp')" style="border:0;background:var(--card);color:var(--acc);font-weight:700;padding:9px 0;border-radius:9px;font-family:inherit;cursor:pointer">📘 ${T.y1}</button>`;
-  html += `<button class="profs-tab" data-year="2acp" onclick="switchProfsYear('2acp')" style="border:0;background:transparent;color:var(--mut);font-weight:500;padding:9px 0;border-radius:9px;font-family:inherit;cursor:pointer">📗 ${T.y2}</button>`;
-  html += `</div>`;
-  html += `<div id="profs-content"></div>`;
-
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-
-  renderProfsSubjects('1acp');
-}
-
-function switchProfsYear(yearId) {
-  document.querySelectorAll('.profs-tab').forEach(t => {
-    const isActive = t.dataset.year === yearId;
-    t.classList.toggle('on', isActive);
-    t.style.background = isActive ? 'var(--card)' : 'transparent';
-    t.style.color = isActive ? 'var(--acc)' : 'var(--mut)';
-    t.style.fontWeight = isActive ? '700' : '500';
-  });
-  renderProfsSubjects(yearId);
-}
-
-function renderProfsSubjects(yearId) {
-  const L = window.LANG || localStorage.getItem('lang') || 'ar';
-  const data = window.__PROFS_DATA__;
-  if (!data) return;
-
-  const year = data.years[yearId];
-  if (!year) return;
-
-  const content = document.getElementById('profs-content');
-  const T = { fr: "Choisissez une matière", ar: "اختر مادة", en: "Choose a subject" };
-
-  let html = `<p style="color:var(--mut);font-size:.9rem;margin-bottom:12px;text-align:center">${T[L] || T.ar}</p>`;
-  html += `<div class="tile-grid">`;
-
-  year.subjects.forEach(subj => {
-    const title = (typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title;
-    const count = subj.profs.length;
-    html += `<button class="tile-3d ripple" onclick="renderProfsList('${yearId}', '${subj.id}')" style="position:relative">`;
-    html += `<span class="tile-icon">${subj.icon || '📚'}</span>`;
-    html += `<span class="tile-label">${title}</span>`;
-    html += `<span style="position:absolute;top:10px;inset-inline-end:10px;background:var(--acc-soft);color:var(--acc);font-size:.7rem;font-weight:800;padding:3px 10px;border-radius:999px">${count} 👤</span>`;
-    html += `</button>`;
-  });
-
-  html += `</div>`;
-  content.innerHTML = html;
-  window.scrollTo(0, 0);
-}
-
-function renderProfsList(yearId, subjectId) {
-  const L = window.LANG || localStorage.getItem('lang') || 'ar';
-  const data = window.__PROFS_DATA__;
-  if (!data) return;
-
-  const year = data.years[yearId];
-  if (!year) return;
-  const subj = year.subjects.find(s => s.id === subjectId);
-  if (!subj) return;
-
-  const app = document.getElementById('app');
-  const title = (typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title;
-  const T = { fr: "Choisissez un enseignant", ar: "اختر الأستاذ", en: "Choose a teacher" };
-
-  let html = `<button class="back" onclick="renderProfsTabs(window.SECTIONS.find(s => s.id === 'profs'))">${window.t ? window.t('back', L) : '←'}</button>`;
-  html += `<h2>${subj.icon || ''} ${title}</h2>`;
-  html += `<p style="color:var(--mut);margin-bottom:16px;text-align:center">${T[L] || T.ar}</p>`;
-  html += `<div style="display:flex;flex-direction:column;gap:10px">`;
-
-  subj.profs.forEach(prof => {
-    const initial = prof.name.charAt(0);
-    const avatar = prof.photo
-      ? `<img src="${prof.photo}" alt="${prof.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--acc-soft),var(--acc));color:#fff;font-size:1.4rem;font-weight:700">${initial}</div>`
-      : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--acc-soft),var(--acc));color:#fff;font-size:1.4rem;font-weight:700">${initial}</div>`;
-
-    html += `
-      <button onclick="renderProfCard('${yearId}', '${subjectId}', '${prof.id}')" style="display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:${L === 'ar' ? 'right' : 'left'};cursor:pointer;font-family:inherit;color:var(--ink);transition:all .3s;width:100%">
-        <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--acc)">${avatar}</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${prof.name}</div>
-          <div style="font-size:.8rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${prof.email || ''}</div>
-          ${prof.vacataire ? '<span style="display:inline-block;background:#fef3c7;color:#92400e;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:999px;margin-top:4px">Vacataire</span>' : ''}
-        </div>
-        <span style="font-size:1.2rem;color:var(--acc);flex-shrink:0">›</span>
-      </button>
-    `;
-  });
-
-  html += `</div>`;
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-}
-
-function renderProfCard(yearId, subjectId, profId) {
-  const L = window.LANG || localStorage.getItem('lang') || 'ar';
-  const data = window.__PROFS_DATA__;
-  if (!data) return;
-
-  const year = data.years[yearId];
-  const subj = year.subjects.find(s => s.id === subjectId);
-  const prof = subj.profs.find(p => p.id === profId);
-  if (!prof) return;
-
-  const app = document.getElementById('app');
-
-  let html = `<button class="back" onclick="renderProfsList('${yearId}', '${subjectId}')">${window.t ? window.t('back', L) : '←'}</button>`;
-  html += `<h2 style="margin-bottom:14px">${subj.icon} ${(typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title}</h2>`;
-
-  if (!prof.full) {
-    html += `<div class="prof-card-wrapper"><div class="prof-card prof-simple-card">`;
-    html += `<div class="prof-simple-name">${prof.name}</div>`;
-    html += `<div class="prof-simple-module">${(typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title}</div>`;
-    if (prof.email) {
-      html += `<a href="mailto:${prof.email}" class="prof-simple-email">📧 ${prof.email}</a>`;
-    } else {
-      html += `<div class="prof-simple-no-email">📧 ${L === 'ar' ? 'البريد غير متوفر' : L === 'en' ? 'Email not available' : 'Email non disponible'}</div>`;
-    }
-    if (prof.vacataire) {
-      html += `<div><span class="prof-badge-vacataire">${L === 'ar' ? 'متطوع' : 'Vacataire'}</span></div>`;
-    }
-    html += `</div></div>`;
-    app.innerHTML = html;
-    window.scrollTo(0, 0);
-    return;
+  for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
+    if (window.SECTIONS[i].id === 'alger') window.SECTIONS.splice(i, 1);
   }
 
-  html += `<div class="prof-card-wrapper">`;
-
-  const initial = prof.name.charAt(0);
-  const photoHtml = prof.photo
-    ? `<img src="${prof.photo}" alt="${prof.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none" class="prof-avatar-fallback">${initial}</div>`
-    : `<div class="prof-avatar-fallback">${initial}</div>`;
-
-  html += `<div class="prof-card prof-id-card">`;
-  html += `<div class="prof-photo">${photoHtml}</div>`;
-  html += `<div class="prof-id-info">`;
-  html += `<div class="prof-name">${prof.name}</div>`;
-  html += `<div class="prof-title-line">`;
-  html += `<span class="prof-role">PROFESSOR</span>`;
-  html += `<span class="prof-location">ALGERIA</span>`;
-  html += `</div>`;
-  if (prof.status) {
-    html += `<div class="prof-status">${prof.status[L] || prof.status.fr}</div>`;
-  }
-  html += `</div></div>`;
-
-  if (prof.email) {
-    html += `<div class="prof-card prof-email-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'البريد الإلكتروني' : L === 'en' ? 'Professional email' : 'e-mail'}</div>`;
-    html += `<div class="prof-section-subtitle">${L === 'ar' ? 'المهني' : 'professionnel'}</div>`;
-    html += `<a href="mailto:${prof.email}" class="prof-email-link">${prof.email}</a>`;
-    html += `</div>`;
+  // دالة ترميز المسافات والأقواس في أسماء الملفات
+  function enc(filename) {
+    return encodeURIComponent(filename);
   }
 
-  if (prof.modules || prof.year) {
-    html += `<div class="prof-card prof-modules-card">`;
-    if (prof.modules) {
-      html += `<div class="prof-section-title">${L === 'ar' ? 'الوحدات المدرَّسة' : L === 'en' ? 'Modules taught' : 'Module enseigner'}</div>`;
-      html += `<ul class="prof-modules-list">`;
-      prof.modules.forEach(m => { html += `<li>${m}</li>`; });
-      html += `</ul>`;
-    }
-    if (prof.year) {
-      html += `<div class="prof-year-title">${L === 'ar' ? 'السنة المدرَّسة' : L === 'en' ? 'Year taught' : 'Année enseigner'}</div>`;
-      html += `<ul class="prof-modules-list"><li>${prof.year[L] || prof.year.fr}</li></ul>`;
-    }
-    html += `</div>`;
-  }
-
-  if (prof.advice) {
-    html += `<div class="prof-card prof-advice-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'نصيحة للطلبة' : L === 'en' ? 'Advice to students' : 'Un conseil aux étudiants'}</div>`;
-    html += `<div class="prof-advice-text">${prof.advice[L] || prof.advice.fr}</div>`;
-    html += `</div>`;
-  }
-
-  if (prof.research) {
-    html += `<div class="prof-card prof-research-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'البحث' : L === 'en' ? 'Research' : 'Recherche'}</div>`;
-    html += `<div class="prof-research-text">${prof.research[L] || prof.research.fr}</div>`;
-    html += `</div>`;
-  }
-
-  if (prof.links && prof.links.length) {
-    html += `<div class="prof-card prof-links-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'الروابط' : L === 'en' ? 'Links' : 'Liens'}</div>`;
-    html += `<div class="prof-links-list">`;
-    prof.links.forEach(l => {
-      html += `<a href="${l.url}" target="_blank" rel="noopener" class="prof-link"><span class="prof-link-icon">${l.icon || '🔗'}</span><span>${l.name}</span></a>`;
-    });
-    html += `</div></div>`;
-  }
-
-  html += `</div>`;
-
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-}
-
-function renderCategoriesList(sectionId) {
-  const s = window.SECTIONS.find(x => x.id === sectionId);
-  if (!s || !s.categories) return;
-  
-  const app = document.getElementById('app');
-  const title = window.t(s.titleKey, LANG);
-  const intro = window.t(s.introKey, LANG);
-  
-  let html = '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-  html += '<h2>' + s.icon + ' ' + title + '</h2>';
-  html += '<p style="color:var(--mut);margin-bottom:16px">' + intro + '</p>';
-  
-  if (s.mapEmbed) {
-    html += '<div class="map-wrapper">';
-    html += '<div class="map-header">';
-    html += '<span class="map-icon">🗺️</span>';
-    html += '<div class="map-info">';
-    const mapTitleText = s.mapTitle ? (typeof s.mapTitle === 'object' ? (s.mapTitle[LANG] || s.mapTitle.fr) : s.mapTitle) : 'Carte interactive';
-    html += '<div class="map-title">' + mapTitleText + '</div>';
-    const mapSubText = LANG === 'ar' ? 'اضغط على العلامات لرؤية التفاصيل' : LANG === 'en' ? 'Click markers for details' : 'Cliquez sur les marqueurs pour les détails';
-    html += '<div class="map-sub">' + mapSubText + '</div>';
-    html += '</div>';
-    html += '</div>';
-    html += '<iframe class="map-iframe" src="' + s.mapEmbed + '" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
-    html += '<div class="map-footer">';
-    html += '<a href="' + (s.mapLink || s.mapEmbed) + '" target="_blank" rel="noopener" class="map-btn">';
-    const btnText = LANG === 'ar' ? '📍 افتح في Google Maps' : LANG === 'en' ? '📍 Open in Google Maps' : '📍 Ouvrir dans Google Maps';
-    html += btnText;
-    html += '</a>';
-    html += '</div>';
-    html += '</div>';
-  }
-  
-  html += '<div class="tile-grid">';
-  
-  s.categories.forEach(c => {
-    const ct = c.titleKey ? window.t(c.titleKey, LANG) : (c.title || '');
-    html += '<button class="tile-3d ripple" onclick="renderCategory(\'' + s.id + '\',\'' + c.id + '\')">';
-    html += '<span class="tile-icon">' + (c.icon || '📁') + '</span>';
-    html += '<span class="tile-label">' + ct + '</span>';
-    html += '</button>';
-  });
-  
-  html += '</div>';
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setupScrollAnimations();
-}
-
-function renderCategory(sectionId, categoryId) {
-  const s = window.SECTIONS.find(x => x.id === sectionId);
-  if (!s || !s.categories) return;
-  const c = s.categories.find(x => x.id === categoryId);
-  if (!c) return;
-  
-  CURRENT_SECTION = sectionId;
-  CURRENT_CATEGORY = categoryId;
-  
-  const app = document.getElementById('app');
-  app.classList.add('section-change');
-  setTimeout(() => app.classList.remove('section-change'), 500);
-  
-  if (c.type === 'garidi-map') {
-    renderGaridiMap(s, c);
-    return;
-  }
-  
-  if (c.type === 'map' && c.buildings) { renderMap(s, c); return; }
-  if (c.items) { renderItems(s, c.items, c); return; }
-}
-
-function renderGaridiMap(section, category) {
-  const app = document.getElementById('app');
-  const L = window.LANG || localStorage.getItem('lang') || 'ar';
-  
-  let html = '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', L) + '</button>';
-  html += '<h2>' + (category.icon || '🗺️') + ' ' + window.t(category.titleKey, L) + '</h2>';
-  
-  const catIntro = (typeof category.intro === 'object') 
-    ? (category.intro[L] || category.intro.fr) 
-    : (category.descKey ? window.t(category.descKey, L) : '');
-  if (catIntro) {
-    html += '<p style="color:var(--mut);margin-bottom:16px;line-height:1.7">' + catIntro + '</p>';
-  }
-  
-  html += `
-    <div class="gm-container" id="garidi-map-container">
-      <div class="gm-startrow">
-        <label data-gm="startLabel" for="gm-start">أنا الآن عند</label>
-        <select id="gm-start"></select>
-      </div>
-      <div class="gm-tabs">
-        <button id="gm-tab-places" class="on" data-gm="tabPlaces">أماكن</button>
-        <button id="gm-tab-rooms" data-gm="tabRooms">غرف</button>
-      </div>
-      <div id="gm-panel-places">
-        <div class="gm-chips" id="gm-chips"></div>
-      </div>
-      <div id="gm-panel-rooms" hidden>
-        <div class="gm-blocks" id="gm-blocks"></div>
-        <div class="gm-floors" id="gm-floors"></div>
-        <div class="gm-numrow">
-          <input id="gm-num" type="text" inputmode="numeric" pattern="[0-9]*">
-          <button id="gm-go" data-gm="go">ابحث</button>
-        </div>
-        <div id="gm-msg"></div>
-      </div>
-      <div class="gm-mapcard">
-        <div class="gm-zoom">
-          <button id="gm-zin">+</button>
-          <button id="gm-zout">−</button>
-          <button id="gm-zhome">⌂</button>
-          <button id="gm-tsat" aria-pressed="false">🛰️</button>
-        </div>
-        <div class="gm-scroller" id="gm-scroller">
-          <div class="gm-stage" id="gm-stage">
-            <img id="gm-sat" alt="" style="display:none">
-            <svg class="gm-basemap" viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true">
-              <rect class="gm-land" width="705" height="596"/>
-              <polygon class="gm-field" points="318,432 535,426 540,520 450,560 330,540"/>
-              <polygon class="gm-field" points="100,38 168,34 172,148 104,150"/>
-              <polygon class="gm-bgry" points="0,188 88,182 132,300 132,372 0,372"/>
-              <polygon class="gm-bgry" points="0,0 48,0 62,140 0,162"/>
-              <polygon class="gm-bgry" points="600,335 698,333 698,408 612,412"/>
-              <rect class="gm-bgry" x="667" y="517" width="15" height="13"/>
-              <polygon class="gm-bgry" points="536,398 588,398 588,484 536,484" style="opacity:.8"/>
-              <g>
-                <path class="gm-rcase" d="M22,330 C40,420 90,480 190,535 L236,562"/>
-                <path class="gm-rfill" d="M22,330 C40,420 90,480 190,535 L236,562"/>
-                <path class="gm-rcase" d="M692,580 L655,548 L640,495 L618,440 L602,395"/>
-                <path class="gm-rfill" d="M692,580 L655,548 L640,495 L618,440 L602,395"/>
-                <path class="gm-rcase" d="M602,392 L545,392 L480,396 L432,398 L352,404 L296,408"/>
-                <path class="gm-rfill" d="M602,392 L545,392 L480,396 L432,398 L352,404 L296,408"/>
-                <path class="gm-rcase" d="M296,408 L278,445 L252,485 L228,525"/>
-                <path class="gm-rfill" d="M296,408 L278,445 L252,485 L228,525"/>
-              </g>
-              <polygon class="gm-bres" points="316,365 392,303 418,319 352,396 322,390"/>
-              <polygon class="gm-bres" points="312,120 352,106 430,268 405,290 385,286"/>
-              <polygon class="gm-bres" points="335,22 392,12 418,30 412,75 355,108 322,92"/>
-              <polygon class="gm-bres" points="207,68 298,66 305,115 210,92"/>
-              <polygon class="gm-bres" points="420,284 535,291 537,335 432,333"/>
-              <polygon class="gm-bsrv" points="418,45 458,40 462,85 425,90"/>
-              <polygon class="gm-bsrv" points="452,118 495,128 500,176 462,176"/>
-              <circle class="gm-bsrv" cx="552" cy="75" r="46"/>
-              <circle class="gm-bsrv" cx="552" cy="75" r="30" style="opacity:.55"/>
-              <polygon class="gm-bsrv" points="548,112 612,100 622,162 562,192"/>
-            </svg>
-            <svg viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true">
-              <polyline id="gm-rcase" class="gm-route-case" vector-effect="non-scaling-stroke" points=""/>
-              <polyline id="gm-rline" class="gm-route-line" vector-effect="non-scaling-stroke" points=""/>
-            </svg>
-          </div>
-        </div>
-        <div class="gm-legend">
-          <span><i style="background:#0F1B3D"></i><span data-gm="here"></span></span>
-          <span><i style="background:#FFB81C;border:2px solid #0F1B3D"></i><span data-gm="dest"></span></span>
-          <span data-gm="tap"></span>
-        </div>
-      </div>
-      <div class="gm-result" id="gm-result" aria-live="polite"></div>
-      <p class="gm-note" data-gm="foot"></p>
-    </div>
-  `;
-  
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  
-  if (window.garidiMap && window.garidiMap.init) {
-    window.garidiMap.init();
-  }
-}
-
-function renderItems(section, items, category) {
-  const app = document.getElementById('app');
-  
-  let html = '';
-  if (category) {
-    html += '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', LANG) + '</button>';
-    const ct = category.titleKey ? window.t(category.titleKey, LANG) : (category.title || '');
-    html += '<h2>' + (category.icon || '') + ' ' + ct + '</h2>';
-    if (category.intro) {
-      const catIntro = (typeof category.intro === 'object') ? (category.intro[LANG] || category.intro.fr) : category.intro;
-      html += '<p style="color:var(--mut);margin-bottom:16px;line-height:1.7">' + catIntro + '</p>';
-    }
-  } else {
-    html += '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-    html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, LANG) + '</h2>';
-    html += '<p style="color:var(--mut);margin-bottom:16px">' + window.t(section.introKey, LANG) + '</p>';
-  }
-  
-  html += '<div class="items-list">';
-  
-  items.forEach((item, idx) => {
-    const title = (typeof item.title === 'object') ? (item.title[LANG] || item.title.fr) : window.t(item.titleKey, LANG);
-    const desc = item.desc 
-      ? ((typeof item.desc === 'object') ? (item.desc[LANG] || item.desc.fr) : item.desc)
-      : (item.descKey ? window.t(item.descKey, LANG) : '');
-    
-    html += '<div class="card-3d scroll-anim" style="margin-bottom:14px">';
-    html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">';
-    html += '<h3 style="margin:0;color:var(--acc);font-size:1.1rem">' + (item.icon || '') + ' ' + title + '</h3>';
-    html += '<button onclick="showQR(\'' + section.id + '\',' + idx + ',\'' + (category ? category.id : '') + '\')" style="background:var(--acc-soft);border:0;color:var(--acc);padding:6px 10px;border-radius:10px;cursor:pointer;font-size:1rem;transition:all .3s">📱</button>';
-    html += '</div>';
-    
-    // ====== الصور ======
-    if (item.images && item.images.length > 0) {
-      html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0">';
-      item.images.forEach(function(imgUrl) {
-        html += '<div onclick="openImageViewer(\'' + imgUrl.replace(/'/g, "\\'") + '\')" style="cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg-3);transition:transform .3s">';
-        html += '<img src="' + imgUrl + '" style="width:100%;height:100%;object-fit:cover" loading="lazy" alt="" onerror="this.parentElement.style.display=\'none\'">';
-        html += '</div>';
-      });
-      html += '</div>';
-    }
-    
-    // ====== الصورة القديمة (توافق) ======
-    if (item.img) html += '<img src="' + item.img + '" style="width:100%;border-radius:10px;margin:10px 0" loading="lazy" alt="">';
-    
-    // ====== الفيديوهات ======
-    if (item.videos && item.videos.length > 0) {
-      item.videos.forEach(function(vid) {
-        if (vid.type === 'youtube') {
-          html += '<div style="margin:10px 0">';
-          if (vid.title) {
-            var vt = (typeof vid.title === 'object') ? (vid.title[LANG] || vid.title.fr) : vid.title;
-            html += '<p style="margin:0 0 6px;font-size:.9rem;font-weight:600;color:var(--acc)">🎬 ' + vt + '</p>';
+  window.SECTIONS.push({
+    id: "alger",
+    icon: "🎉",
+    titleKey: "sectionAlger",
+    introKey: "algerIntro",
+    type: "services",
+    categories: [
+      {
+        id: "plages",
+        icon: "🏖️",
+        titleKey: "algerPlages",
+        title: "Plages",
+        intro: {
+          fr: "Les meilleures plages d'Alger pour se détendre.",
+          ar: "أجمل شواطئ الجزائر العاصمة للاسترخاء.",
+          en: "The best beaches in Algiers to relax."
+        },
+        items: [
+          {
+            title: { fr: "Sidi Fredj", ar: "سيدي فرج", en: "Sidi Fredj" },
+            icon: "🏖️",
+            desc: { fr: "Plage familiale avec animations et restaurants.", ar: "شاطئ عائلي مع أنشطة ومطاعم.", en: "Family beach with activities and restaurants." },
+            map: "Sidi Fredj Alger",
+            images: [
+              enc("SIDI-FREDJ.png"),
+              enc("images (9).jpeg"),
+              enc("images (10).jpeg")
+            ],
+            videos: []
+          },
+          {
+            title: { fr: "Zeralda", ar: "زرالدة", en: "Zeralda" },
+            icon: "🏖️",
+            desc: { fr: "Sable fin et ambiance calme.", ar: "رمل ناعم وجو هادئ.", en: "Fine sand and calm vibes." },
+            map: "Zeralda plage Alger",
+            images: [
+              enc("images (3).jpeg"),
+              enc("images (4).jpeg"),
+              enc("images (5).jpeg")
+            ],
+            videos: []
+          },
+          {
+            title: { fr: "Bordj El Kiffan", ar: "برج الكيفان", en: "Bordj El Kiffan" },
+            icon: "🏖️",
+            desc: { fr: "Plage urbaine accessible.", ar: "شاطئ حضري يمكن الوصول إليه.", en: "Urban beach, easily accessible." },
+            map: "Bordj El Kiffan plage",
+            images: [
+              enc("images (6).jpeg"),
+              enc("images (7).jpeg"),
+              enc("images (8).jpeg")
+            ],
+            videos: []
+          },
+          {
+            title: { fr: "Les Dunes (Moretti)", ar: "الكثبان (موريتي)", en: "Les Dunes (Moretti)" },
+            icon: "🏖️",
+            desc: { fr: "Espaces verts + mer.", ar: "مساحات خضراء + البحر.", en: "Green spaces + sea." },
+            map: "Les Dunes Moretti Alger",
+            images: [
+              enc("20200808_114207.jpg")
+            ],
+            videos: []
           }
-          html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden">';
-          html += '<iframe src="https://www.youtube.com/embed/' + vid.id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
-          html += '</div></div>';
-        } else if (vid.type === 'file') {
-          html += '<div style="margin:10px 0"><video controls style="width:100%;border-radius:10px;display:block"><source src="' + vid.url + '" type="video/mp4"></video></div>';
-        }
-      });
-    }
-    
-    // ====== الفيديو القديم (توافق) ======
-    if (item.video && typeof item.video === 'string') {
-      html += '<div style="position:relative;padding-bottom:56.25%;height:0;margin:10px 0;border-radius:10px;overflow:hidden">';
-      html += '<iframe src="https://www.youtube.com/embed/' + item.video + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
-      html += '</div>';
-    }
-    
-    if (desc) html += '<p style="color:var(--mut);margin:8px 0;font-size:.95rem;line-height:1.6;white-space:pre-line">' + desc + '</p>';
-    if (item.hours) html += '<p style="margin:6px 0;font-size:.9rem"><b>🕐 ' + window.t('labelHours', LANG) + ':</b> ' + item.hours + '</p>';
-    if (item.budget) html += '<p style="margin:6px 0;font-size:.9rem"><b>💰 ' + window.t('labelBudget', LANG) + ':</b> ' + item.budget + '</p>';
-    if (item.extra) html += '<p style="margin:6px 0;font-size:.9rem;color:var(--acc)"><b>' + item.extra + '</b></p>';
-    
-    if (item.files && item.files.length) {
-      html += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">';
-      html += '<p style="margin:0 0 8px;font-weight:700;color:var(--acc);font-size:.9rem">📁 ' + (LANG === 'ar' ? 'الملفات' : LANG === 'en' ? 'Files' : 'Fichiers') + ' (' + item.files.length + ')</p>';
-      html += '<div style="display:flex;flex-wrap:wrap;gap:8px">';
-      item.files.forEach(f => {
-        const fname = f.name[LANG] || f.name.fr;
-        const isDisabled = !f.url || f.url === '#';
-        html += '<a href="' + f.url + '" ' + (isDisabled ? 'onclick="event.preventDefault();showToast(\'⚠️ ' + (LANG === 'ar' ? 'الملف غير متوفر بعد' : LANG === 'en' ? 'File not available yet' : 'Fichier non disponible') + '\');return false;"' : 'target="_blank" rel="noopener"') + ' style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--acc-soft);color:var(--acc);border-radius:20px;text-decoration:none;font-size:.85rem;font-weight:600;transition:all .3s">' + '<span>' + f.icon + '</span><span>' + fname + '</span></a>';
-      });
-      html += '</div></div>';
-    }
-    
-    if (item.services && item.services.length) {
-      html += '<p style="margin:10px 0 6px;font-weight:600;color:var(--acc)">' + window.t('labelServices', LANG) + ':</p>';
-      html += '<ul style="padding-' + (LANG === 'ar' ? 'right' : 'left') + ':20px;color:var(--mut);font-size:.9rem">';
-      item.services.forEach(srv => { html += '<li>' + (srv[LANG] || srv.fr) + '</li>'; });
-      html += '</ul>';
-    }
-    
-    if (item.steps && item.steps.length) {
-      html += '<details style="margin-top:10px"><summary style="cursor:pointer;color:var(--acc);font-weight:600;font-size:.9rem">📋 ' + window.t('labelSteps', LANG) + '</summary>';
-      html += '<ol style="padding-' + (LANG === 'ar' ? 'right' : 'left') + ':20px;margin-top:8px;color:var(--mut);font-size:.9rem;line-height:1.7">';
-      item.steps.forEach(step => { html += '<li>' + (step[LANG] || step.fr) + '</li>'; });
-      html += '</ol></details>';
-    }
-    
-    if (item.link) {
-      html += '<a href="' + item.link + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 18px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.9rem;font-weight:600;transition:all .3s">📥 ' + window.t('download', LANG) + '</a>';
-    }
-    
-    if (item.map) {
-      const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.map);
-      html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:8px 14px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.9rem;transition:all .3s">' + window.t('viewMap', LANG) + '</a>';
-    }
-    
-    html += '</div>';
-  });
-  
-  html += '</div>';
-  
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setupScrollAnimations();
-}
-
-function renderSection(id) {
-  const s = window.SECTIONS.find(x => x.id === id);
-  if (!s) return;
-  CURRENT_SECTION = id;
-  CURRENT_CATEGORY = null;
-  
-  if (s.type === 'custom' && typeof s.render === 'function') {
-    document.getElementById('app').innerHTML = s.render();
-    window.scrollTo(0, 0);
-    setupScrollAnimations();
-    return;
-  }
-  
-  if (s.type === 'profs-custom') { renderProfsTabs(s); return; }
-  if (s.type === 'metro-map') renderMetroMap(s);
-  else if (s.categories && s.categories.length > 0) renderCategoriesList(id);
-  else if (s.type === 'qr') renderQR(s);
-  else if (s.items) renderItems(s, s.items);
-  else if (s.buildings) renderMap(s);
-}
-
-function renderMap(section, category) {
-  const app = document.getElementById('app');
-  const buildings = (category ? category.buildings : section.buildings) || [];
-  
-  let html = '';
-  if (category) {
-    html += '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', LANG) + '</button>';
-    const ct = category.titleKey ? window.t(category.titleKey, LANG) : (category.title || '');
-    html += '<h2>' + (category.icon || '🗺️') + ' ' + ct + '</h2>';
-  } else {
-    html += '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-    html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, LANG) + '</h2>';
-  }
-  
-  const desc = (category && category.descKey) ? window.t(category.descKey, LANG) : window.t(section.introKey, LANG);
-  html += '<p style="color:var(--mut);margin-bottom:16px">' + desc + '</p>';
-  
-  html += '<div style="position:relative;width:100%;aspect-ratio:1;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:12px 0;animation:scaleIn .6s ease-out">';
-  html += '<div style="position:relative;width:100%;height:100%;background:linear-gradient(135deg,var(--acc-soft),var(--card))">';
-  
-  buildings.forEach((b, i) => {
-    const name = b.nameKey ? window.t(b.nameKey, LANG) : (b.name || '');
-    const delay = i * 0.05;
-    html += '<button onclick="showPlace(\'' + section.id + '\',\'' + b.id + '\',\'' + (category ? category.id : '') + '\')" style="position:absolute;left:' + b.x + '%;top:' + b.y + '%;transform:translate(-50%,-50%);background:var(--card);border:2px solid var(--acc);border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:0;transition:all .3s;animation:bounceIn .5s ease-out ' + delay + 's both" title="' + name + '">' + b.icon + '</button>';
-  });
-  
-  html += '</div></div>';
-  html += '<h3 style="color:var(--acc);margin:20px 0 12px">📍 ' + (window.t('mapPlaces', LANG) || 'Lieux') + '</h3>';
-  buildings.forEach(b => {
-    const name = b.nameKey ? window.t(b.nameKey, LANG) : (b.name || '');
-    html += '<button class="scroll-anim" style="width:100%;text-align:left;margin-bottom:10px;cursor:pointer;padding:14px;display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--ink);font-family:inherit;font-size:1rem;transition:all .3s" onclick="showPlace(\'' + section.id + '\',\'' + b.id + '\',\'' + (category ? category.id : '') + '\')">';
-    html += '<span style="font-size:1.5rem">' + b.icon + '</span>';
-    html += '<span style="font-weight:600">' + name + '</span>';
-    html += '</button>';
-  });
-  
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setupScrollAnimations();
-}
-
-function showPlace(sectionId, buildingId, categoryId) {
-  const s = window.SECTIONS.find(x => x.id === sectionId);
-  if (!s) return;
-  let buildings;
-  if (categoryId && s.categories) {
-    const c = s.categories.find(x => x.id === categoryId);
-    buildings = c ? c.buildings : [];
-  } else buildings = s.buildings;
-  if (!buildings) return;
-  const b = buildings.find(x => x.id === buildingId);
-  if (!b) return;
-  
-  const name = b.nameKey ? window.t(b.nameKey, LANG) : (b.name || '');
-  
-  const overlay = document.createElement('div');
-  overlay.className = 'modal-overlay';
-  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
-  overlay.innerHTML = '<div class="modal-box">' +
-    '<div style="font-size:3rem;margin-bottom:12px">' + b.icon + '</div>' +
-    '<h3 style="margin:0 0 8px;color:var(--acc);font-size:1.3rem">' + name + '</h3>' +
-    '<button onclick="this.closest(\'.modal-overlay\').remove()" style="margin-top:16px;padding:12px 32px;background:var(--acc);color:#fff;border:0;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit">OK</button>' +
-    '</div>';
-  document.body.appendChild(overlay);
-}
-
-function renderMetroMap(section) {
-  const app = document.getElementById('app');
-  let html = '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-  html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, LANG) + '</h2>';
-  html += '<p style="color:var(--mut);margin-bottom:20px">' + window.t(section.introKey, LANG) + '</p>';
-  html += '<div class="metro-tabs">';
-  html += '<button class="metro-tab active" onclick="showMetroType(\'metro\')" data-tab="metro">🚇 <span>' + (window.t('trMetro') || 'Métro') + '</span></button>';
-  html += '<button class="metro-tab" onclick="showMetroType(\'tram\')" data-tab="tram">🚊 <span>' + (window.t('trTram') || 'Tramway') + '</span></button>';
-  html += '</div><div id="metro-content"></div>';
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setTimeout(() => showMetroType('metro'), 100);
-}
-
-function showMetroType(type) {
-  document.querySelectorAll('.metro-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === type));
-  const content = document.getElementById('metro-content');
-  if (!content) return;
-  const stations = type === 'metro' ? window.METRO_STATIONS : window.TRAM_STATIONS;
-  if (!stations) return;
-  const color = type === 'metro' ? '#2563eb' : '#dc2626';
-  const bg = type === 'metro' ? 'linear-gradient(135deg,#dbeafe,#eff6ff)' : 'linear-gradient(135deg,#fee2e2,#fef2f2)';
-  const icon = type === 'metro' ? '🚇' : '🚊';
-  const title = type === 'metro' ? (window.t('trMetro') || 'Métro') : (window.t('trTram') || 'Tramway');
-  
-  let html = '<div class="metro-map" style="background:' + bg + '">';
-  html += '<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;z-index:1">';
-  html += '<line x1="' + stations[0].x + '" y1="50" x2="' + stations[stations.length - 1].x + '" y2="50" stroke="' + color + '" stroke-width="2" stroke-linecap="round" opacity="0.8"/>';
-  html += '</svg>';
-  
-  stations.forEach((s, i) => {
-    const isKey = s.key;
-    const size = isKey ? '1.5rem' : '1rem';
-    const border = isKey ? '3px' : '2px';
-    const delay = i * 0.03;
-    html += '<button class="metro-station' + (isKey ? ' key' : '') + '" style="left:' + s.x + '%;top:50%;--station-color:' + color + ';--station-size:' + size + ';--station-border:' + border + ';animation-delay:' + delay + 's" onclick="showStation(\'' + type + '\',' + i + ')" title="' + s[LANG] + '"></button>';
-  });
-  html += '</div>';
-  html += '<h3 style="color:' + color + ';margin:20px 0 12px;font-size:1.15rem;display:flex;align-items:center;gap:8px">';
-  html += '<span style="font-size:1.4rem">' + icon + '</span><span>' + title + ' — ' + stations.length + ' stations</span></h3>';
-  html += '<div class="metro-stations-list">';
-  stations.forEach((s, i) => {
-    const delay = i * 0.03;
-    html += '<button class="metro-station-card' + (s.key ? ' key' : '') + '" style="--station-color:' + color + ';animation-delay:' + delay + 's" onclick="showStation(\'' + type + '\',' + i + ')">';
-    html += '<div class="msc-num">' + (i + 1) + '</div>';
-    html += '<div class="msc-info"><div class="msc-name">' + s[LANG] + '</div><div class="msc-zone">📍 ' + s.zone + '</div></div>';
-    if (s.key) html += '<div class="msc-badge">⭐</div>';
-    html += '</button>';
-  });
-  html += '</div>';
-  content.innerHTML = html;
-}
-
-function showStation(type, index) {
-  const stations = type === 'metro' ? window.METRO_STATIONS : window.TRAM_STATIONS;
-  const s = stations[index];
-  if (!s) return;
-  const color = type === 'metro' ? '#2563eb' : '#dc2626';
-  const icon = type === 'metro' ? '🚇' : '🚊';
-  const typeName = type === 'metro' ? (window.t('trMetro') || 'Métro') : (window.t('trTram') || 'Tramway');
-  
-  const overlay = document.createElement('div');
-  overlay.className = 'modal-overlay';
-  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
-  overlay.innerHTML = '<div class="modal-box">' +
-    '<div style="font-size:3rem;margin-bottom:12px">' + icon + '</div>' +
-    '<div style="display:inline-block;background:' + color + ';color:#fff;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700;margin-bottom:12px">' + typeName + '</div>' +
-    '<h3 style="margin:0 0 8px;color:#1d2433;font-size:1.3rem;font-weight:800">' + s[LANG] + '</h3>' +
-    '<p style="margin:0 0 6px;color:#667085;font-size:.9rem">📍 ' + s.zone + '</p>' +
-    '<p style="margin:12px 0;color:#94a3b8;font-size:.8rem">Station n° ' + (index + 1) + ' / ' + stations.length + '</p>' +
-    '<div style="display:flex;gap:8px;margin-top:16px">' +
-      '<button onclick="this.closest(\'.modal-overlay\').remove()" style="flex:1;padding:12px;background:' + color + ';color:#fff;border:0;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit">' + (window.t('close') || 'Fermer') + '</button>' +
-      '<button onclick="openStationMaps(\'' + encodeURIComponent(s.fr + ' ' + typeName + ' Alger') + '\')" style="flex:1;padding:12px;background:#f1f5f9;color:#1d2433;border:0;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit">📍 Maps</button>' +
-    '</div></div>';
-  document.body.appendChild(overlay);
-}
-
-function openStationMaps(query) {
-  window.open('https://www.google.com/maps/search/?api=1&query=' + query, '_blank');
-  const o = document.querySelector('.modal-overlay');
-  if (o) o.remove();
-}
-
-function renderQR(section) {
-  const app = document.getElementById('app');
-  let html = '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-  html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, LANG) + '</h2>';
-  html += '<p style="color:var(--mut);margin-bottom:16px">' + window.t('qrIntro', LANG) + '</p>';
-  html += '<div id="qr-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px"></div>';
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  
-  setTimeout(() => {
-    const grid = document.getElementById('qr-grid');
-    if (!grid) return;
-    const base = location.origin + location.pathname;
-    window.SECTIONS.filter(x => x.id !== 'qr').forEach((sec, i) => {
-      const title = window.t(sec.titleKey, LANG);
-      const div = document.createElement('div');
-      div.style.cssText = 'background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;animation:bounceIn .4s ease-out ' + (i * 0.05) + 's both';
-      const qrId = 'qrc-' + sec.id;
-      div.innerHTML = '<div style="background:#fff;padding:8px;display:inline-block;border-radius:8px;margin-bottom:8px" id="' + qrId + '"></div><div style="font-size:.85rem;font-weight:600">' + sec.icon + ' ' + title + '</div>';
-      grid.appendChild(div);
-      if (typeof QRCode !== 'undefined') {
-        new QRCode(document.getElementById(qrId), { text: base + '#' + sec.id, width: 120, height: 120, colorDark: '#1d2433', colorLight: '#ffffff' });
+        ]
+      },
+      {
+        id: "parcs",
+        icon: "🌳",
+        titleKey: "algerParcs",
+        title: "Parcs et jardins",
+        intro: {
+          fr: "Les poumons verts d'Alger.",
+          ar: "الرئات الخضراء للجزائر.",
+          en: "Algiers' green lungs."
+        },
+        items: [
+          {
+            title: { fr: "Jardin d'Essai du Hamma", ar: "حديقة التجارب بالحامة", en: "Jardin d'Essai du Hamma" },
+            icon: "🌳",
+            desc: { fr: "Le poumon vert d'Alger.", ar: "رئة الجزائر الخضراء.", en: "Algiers' green lung." },
+            map: "Jardin d'Essai El Hamma Alger",
+            images: [],
+            videos: [
+              { type: "youtube", id: "DOHY1JVqmDU", title: { fr: "Visite du Jardin d'Essai", ar: "زيارة حديقة التجارب", en: "Jardin d'Essai visit" } }
+            ]
+          },
+          {
+            title: { fr: "Parc de Ben Aknoun", ar: "حديقة بن عكنون", en: "Ben Aknoun Park" },
+            icon: "🌳",
+            desc: { fr: "Zoo et promenades.", ar: "حديقة حيوانات ومسارات.", en: "Zoo and walks." },
+            map: "Parc Ben Aknoun Alger",
+            images: [
+              enc("images (11).jpeg"),
+              enc("images (12).jpeg")
+            ],
+            videos: []
+          },
+          {
+            title: { fr: "Bois des Arcades (Hydra)", ar: "غابة الأركاد (حيدرة)", en: "Bois des Arcades (Hydra)" },
+            icon: "🌳",
+            desc: { fr: "Idéal pour courir.", ar: "مثالي للجري.", en: "Ideal for running." },
+            map: "Bois des Arcades Hydra Alger",
+            images: [
+              enc("images (13).jpeg"),
+              enc("images (14).jpeg"),
+              enc("images (15).jpeg")
+            ],
+            videos: []
+          },
+          {
+            title: { fr: "Hamma Park", ar: "حديقة الحامة", en: "Hamma Park" },
+            icon: "🌳",
+            desc: { fr: "Parc verdoyant au cœur d'Alger.", ar: "حديقة خضراء في قلب الجزائر.", en: "Green park in the heart of Algiers." },
+            map: "Hamma Park Alger",
+            images: [],
+            videos: [
+              { type: "youtube", id: "NNHh_lcMfPo", title: { fr: "Visite du Hamma Park", ar: "زيارة حديقة الحامة", en: "Hamma Park visit" } }
+            ]
+          }
+        ]
+      },
+      {
+        id: "culture",
+        icon: "🏛️",
+        titleKey: "algerCulture",
+        title: "Culture et patrimoine",
+        intro: {
+          fr: "Découvre l'histoire de la capitale.",
+          ar: "اكتشف تاريخ العاصمة.",
+          en: "Discover the history of the capital."
+        },
+        items: [
+          {
+            title: { fr: "La Casbah d'Alger", ar: "قصبة الجزائر", en: "The Casbah of Algiers" },
+            icon: "🏛️",
+            desc: { fr: "Patrimoine mondial UNESCO.", ar: "تراث عالمي لليونسكو.", en: "UNESCO World Heritage." },
+            map: "Casbah Alger",
+            images: [],
+            videos: [
+              { type: "youtube", id: "K7f2zx0UFsg", title: { fr: "Visite de la Casbah", ar: "زيارة القصبة", en: "Casbah visit" } }
+            ]
+          },
+          {
+            title: { fr: "Musée du Bardo", ar: "متحف الباردو", en: "Bardo Museum" },
+            icon: "🏛️",
+            desc: { fr: "Art et histoire.", ar: "فن وتاريخ.", en: "Art and history." },
+            map: "Musée du Bardo Alger",
+            images: [],
+            videos: [
+              { type: "youtube", id: "Bx-EhrdmjbA", title: { fr: "Bienvenue au Musée du Bardo", ar: "مرحباً بكم في متحف الباردو", en: "Welcome to Bardo Museum" } }
+            ]
+          },
+          {
+            title: { fr: "Musée des Beaux-Arts", ar: "متحف الفنون الجميلة", en: "Museum of Fine Arts" },
+            icon: "🏛️",
+            desc: { fr: "Collections d'art.", ar: "مجموعات فنية.", en: "Art collections." },
+            map: "Musée des Beaux-Arts Alger",
+            images: [
+              enc("images (16).jpeg")
+            ],
+            videos: []
+          },
+          {
+            title: { fr: "Basilique Notre-Dame d'Afrique", ar: "كنيسة سيدة إفريقيا", en: "Notre-Dame d'Afrique Basilica" },
+            icon: "⛪",
+            desc: { fr: "Vue panoramique sur la baie.", ar: "إطلالة بانورامية على الخليج.", en: "Panoramic view over the bay." },
+            map: "Notre-Dame d'Afrique Alger",
+            images: [
+              enc("images (17).jpeg"),
+              enc("images (18).jpeg"),
+              enc("images (19).jpeg")
+            ],
+            videos: []
+          },
+          {
+            title: { fr: "La Grande Poste", ar: "البريد المركزي", en: "La Grande Poste" },
+            icon: "🏛️",
+            desc: { fr: "Monument emblématique.", ar: "معلم مميز.", en: "Iconic monument." },
+            map: "Grande Poste Alger",
+            images: [],
+            videos: [
+              { type: "youtube", id: "QQbkX8MeCWI", title: { fr: "Visite de la Grande Poste", ar: "زيارة البريد المركزي", en: "Grande Poste visit" } }
+            ]
+          }
+        ]
+      },
+      {
+        id: "shopping-alger",
+        icon: "🛍️",
+        titleKey: "algerShopping",
+        title: "Shopping et marchés",
+        intro: {
+          fr: "Où acheter à Alger.",
+          ar: "أين تشتري في الجزائر.",
+          en: "Where to buy in Algiers."
+        },
+        items: [
+          {
+            title: { fr: "Garden City", ar: "غاردن سيتي", en: "Garden City" },
+            icon: "🛍️",
+            desc: { fr: "Centre commercial moderne.", ar: "مركز تجاري عصري.", en: "Modern shopping mall." },
+            map: "Garden City Alger",
+            images: [],
+            videos: [
+              { type: "youtube", id: "MZl29gPBV6M", title: { fr: "Bienvenue à Garden City", ar: "مرحباً بكم في غاردن سيتي", en: "Welcome to Garden City" } },
+              { type: "youtube", id: "CWeCAiqxtL4", title: { fr: "Visite de Garden City", ar: "زيارة غاردن سيتي", en: "Garden City visit" } }
+            ]
+          },
+          {
+            title: { fr: "Centre commercial Bab Ezzouar", ar: "مركز باب الزوار", en: "Bab Ezzouar Mall" },
+            icon: "🛍️",
+            desc: { fr: "Grand centre commercial.", ar: "مركز تجاري كبير.", en: "Large shopping center." },
+            map: "Centre commercial Bab Ezzouar",
+            images: [],
+            videos: []
+          }
+        ]
+      },
+      {
+        id: "nocturne",
+        icon: "🌙",
+        titleKey: "algerNocturne",
+        title: "Vie nocturne",
+        intro: {
+          fr: "Sorties du soir.",
+          ar: "خرجات المساء.",
+          en: "Evening outings."
+        },
+        items: [
+          {
+            title: { fr: "Opéra d'Alger", ar: "أوبرا الجزائر", en: "Algiers Opera" },
+            icon: "🎭",
+            desc: { fr: "Concerts et spectacles.", ar: "حفلات وعروض.", en: "Concerts and shows." },
+            map: "Opéra d'Alger",
+            images: [
+              enc("images (20).jpeg"),
+              enc("images (21).jpeg")
+            ],
+            videos: []
+          },
+          {
+            title: { fr: "Corniche d'Alger", ar: "كورنيش الجزائر", en: "Algiers Corniche" },
+            icon: "🌙",
+            desc: { fr: "Promenade en bord de mer.", ar: "نزهة على البحر.", en: "Seaside walk." },
+            map: "Corniche Alger",
+            images: [],
+            videos: []
+          }
+        ]
       }
-    });
-  }, 100);
-}
-
-function showQR(sectionId, itemIndex, categoryId) {
-  const s = window.SECTIONS.find(x => x.id === sectionId);
-  if (!s) return;
-  let item;
-  if (categoryId && s.categories) {
-    const c = s.categories.find(x => x.id === categoryId);
-    if (c && c.items) item = c.items[itemIndex];
-  } else if (s.items) item = s.items[itemIndex];
-  if (!item) return;
-  
-  const url = location.origin + location.pathname + '#' + sectionId;
-  const title = (typeof item.title === 'object') ? (item.title[LANG] || item.title.fr) : window.t(item.titleKey, LANG);
-  
-  const overlay = document.createElement('div');
-  overlay.className = 'modal-overlay';
-  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
-  overlay.innerHTML = '<div class="modal-box">' +
-    '<h3 style="margin:0 0 8px;color:var(--acc);font-size:1.1rem">📱 ' + title + '</h3>' +
-    '<p style="margin:0 0 16px;color:#667085;font-size:.85rem">' + window.t('qrScan', LANG) + '</p>' +
-    '<div id="qr-popup-box" style="background:#fff;padding:12px;display:inline-block;border-radius:12px;border:1px solid #e5e1d8"></div>' +
-    '<p style="margin:16px 0 0;font-size:.75rem;color:#94a3b8;word-break:break-all">' + url + '</p>' +
-    '<button onclick="this.closest(\'.modal-overlay\').remove()" style="margin-top:16px;padding:10px 24px;background:var(--acc);color:#fff;border:0;border-radius:20px;font-weight:600;cursor:pointer;font-family:inherit">' + window.t('close', LANG) + '</button>' +
-    '</div>';
-  document.body.appendChild(overlay);
-  
-  setTimeout(() => {
-    const qrBox = document.getElementById('qr-popup-box');
-    if (qrBox && typeof QRCode !== 'undefined') {
-      qrBox.innerHTML = '';
-      new QRCode(qrBox, { text: url, width: 200, height: 200, colorDark: '#1d2433', colorLight: '#ffffff' });
-    }
-  }, 50);
-}
-
-function doSearch(q) {
-  q = q.trim();
-  if (!q) { renderHome(); return; }
-  
-  const app = document.getElementById('app');
-  app.classList.add('section-change');
-  setTimeout(() => app.classList.remove('section-change'), 500);
-  
-  const results = (typeof smartSearch === 'function') ? smartSearch(q, window.SECTIONS) : [];
-  
-  if (results.length === 0) {
-    app.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mut);animation:fadeIn .4s ease-out">' +
-      '<b style="font-size:3rem;display:block;margin-bottom:10px">🔍</b>' +
-      window.t('noResult', LANG) + '<br><small>' + window.t('tryOther', LANG) + '</small>' +
-      '<br><br>' +
-      '<button onclick="openAISearch()" style="padding:12px 24px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:0;border-radius:50px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 8px 20px rgba(139,92,246,.4)">✨ Demander à l\'IA</button>' +
-      '</div>';
-    return;
-  }
-  
-  let html = '<h2 style="animation:fadeInUp .4s ease-out">🔍 ' + results.length + '</h2>';
-  results.forEach((r, i) => {
-    const title = (typeof r.item.title === 'object') ? (r.item.title[LANG] || r.item.title.fr) : window.t(r.item.titleKey, LANG);
-    const desc = r.item.desc 
-      ? ((typeof r.item.desc === 'object') ? (r.item.desc[LANG] || r.item.desc.fr) : r.item.desc)
-      : (r.item.descKey ? window.t(r.item.descKey, LANG) : '');
-    html += '<div class="card-3d" style="margin-bottom:12px;animation:fadeInUp .4s ease-out ' + (i * 0.05) + 's both">';
-    html += '<h3 style="color:var(--acc);margin:0 0 6px">' + (r.item.icon || r.section.icon) + ' ' + title + '</h3>';
-    if (desc) html += '<p style="color:var(--mut);font-size:.9rem">' + desc + '</p>';
-    html += '</div>';
+    ]
   });
-  
-  html += '<div style="text-align:center;margin-top:24px;padding:20px;background:linear-gradient(135deg,rgba(139,92,246,.05),rgba(124,58,237,.05));border-radius:16px;border:1px dashed #8b5cf6">';
-  html += '<p style="color:var(--mut);font-size:.9rem;margin:0 0 12px">Vous ne trouvez pas ce que vous cherchez ?</p>';
-  html += '<button onclick="openAISearch()" style="padding:12px 24px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:0;border-radius:50px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 8px 20px rgba(139,92,246,.4)">✨ Demander à l\'IA</button>';
-  html += '</div>';
-  
-  app.innerHTML = html;
-}
 
-function openAISearch() {
-  const modal = document.getElementById('aiSearchModal');
-  if (!modal) return;
-  modal.classList.add('show');
-  setTimeout(() => document.getElementById('aiQuestion')?.focus(), 100);
-  if (typeof getRemainingQuota === 'function') {
-    const remaining = getRemainingQuota();
-    const quota = document.getElementById('aiQuota');
-    if (quota) quota.textContent = '⚡ ' + remaining + ' question(s) restante(s) aujourd\'hui';
-  }
-}
+  // ============ مفاتيح الترجمة ============
+  if (typeof window.LANG_DATA === 'undefined') window.LANG_DATA = {};
 
-function closeAISearch() {
-  const modal = document.getElementById('aiSearchModal');
-  if (!modal) return;
-  modal.classList.remove('show');
-  const answer = document.getElementById('aiAnswer');
-  if (answer) { answer.classList.remove('show'); answer.innerHTML = ''; }
-  const q = document.getElementById('aiQuestion');
-  if (q) q.value = '';
-}
-
-async function submitAIQuestion() {
-  const question = document.getElementById('aiQuestion')?.value.trim();
-  const answerDiv = document.getElementById('aiAnswer');
-  const submitBtn = document.getElementById('aiSubmitBtn');
-  
-  if (!question || question.length < 3) {
-    showToast('⚠️ Posez une question plus longue');
-    return;
-  }
-  
-  if (typeof askGemini !== 'function') {
-    answerDiv.classList.add('show');
-    answerDiv.innerHTML = '<p style="margin:0;color:#dc2626;font-weight:600">❌ Erreur : Le module IA n\'est pas chargé.</p>';
-    return;
-  }
-  
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = '<span class="spinner-small"></span> Réflexion...';
-  answerDiv.classList.add('show');
-  answerDiv.innerHTML = '<div style="display:flex;align-items:center;gap:10px;color:var(--mut)"><div style="width:20px;height:20px;border:3px solid rgba(139,92,246,.2);border-top-color:#8b5cf6;border-radius:50%;animation:spin .8s linear infinite"></div><span>L\'IA réfléchit...</span></div>';
-  
-  try {
-    const answer = await askGemini(question, LANG);
-    answerDiv.innerHTML = 
-      '<div style="display:flex;align-items:flex-start;gap:10px">' +
-        '<span style="font-size:1.5rem;flex-shrink:0">🤖</span>' +
-        '<div style="flex:1;line-height:1.7;white-space:pre-wrap">' + escapeHtmlAI(answer) + '</div>' +
-      '</div>' +
-      '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:.75rem;color:var(--mut);text-align:center">✨ Réponse générée par Google Gemini</div>';
-    if (typeof getRemainingQuota === 'function') {
-      const remaining = getRemainingQuota();
-      const quota = document.getElementById('aiQuota');
-      if (quota) quota.textContent = '⚡ ' + remaining + ' question(s) restante(s) aujourd\'hui';
+  const translations = {
+    fr: {
+      sectionAlger: "Loisirs à Alger",
+      algerIntro: "Découvre les meilleurs endroits pour te détendre.",
+      algerPlages: "Plages",
+      algerParcs: "Parcs et jardins",
+      algerCulture: "Culture et patrimoine",
+      algerShopping: "Shopping et marchés",
+      algerNocturne: "Vie nocturne"
+    },
+    ar: {
+      sectionAlger: "الترفيه في الجزائر",
+      algerIntro: "اكتشف أفضل الأماكن للاسترخاء.",
+      algerPlages: "الشواطئ",
+      algerParcs: "الحدائق والمنتزهات",
+      algerCulture: "الثقافة والتراث",
+      algerShopping: "التسوق والأسواق",
+      algerNocturne: "الحياة الليلية"
+    },
+    en: {
+      sectionAlger: "Leisure in Algiers",
+      algerIntro: "Discover the best places to relax.",
+      algerPlages: "Beaches",
+      algerParcs: "Parks and gardens",
+      algerCulture: "Culture and heritage",
+      algerShopping: "Shopping and markets",
+      algerNocturne: "Nightlife"
     }
-  } catch(err) {
-    console.error('AI Error:', err);
-    answerDiv.innerHTML = '<div style="display:flex;align-items:flex-start;gap:10px"><span style="font-size:1.5rem;flex-shrink:0">⚠️</span><div style="flex:1;color:#dc2626"><b>Erreur :</b><br>' + escapeHtmlAI(err.message) + '</div></div>';
-  }
-  
-  submitBtn.disabled = false;
-  const btns = { fr: "🚀 Demander à l'IA", ar: "🚀 اسأل الذكاء الاصطناعي", en: "🚀 Ask AI" };
-  submitBtn.innerHTML = btns[LANG] || btns.fr;
-}
+  };
 
-function escapeHtmlAI(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-function showToast(message, duration = 3000) {
-  const existing = document.getElementById('custom-toast');
-  if (existing) existing.remove();
-  const toast = document.createElement('div');
-  toast.id = 'custom-toast';
-  toast.textContent = message;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.classList.add('show'), 50);
-  setTimeout(() => {
-    toast.classList.remove('show');
-    setTimeout(() => toast.remove(), 300);
-  }, duration);
-}
-
-let deferredPrompt = null;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  setTimeout(() => {
-    if (!localStorage.getItem('installDismissed')) showInstallBanner();
-  }, 5000);
-});
-
-function showInstallBanner() {
-  if (document.getElementById('installBanner')) return;
-  const banner = document.createElement('div');
-  banner.id = 'installBanner';
-  banner.className = 'show';
-  banner.innerHTML = 
-    '<span class="ib-icon">📱</span>' +
-    '<div class="ib-text"><strong>Installer l\'application</strong><span>Accès rapide et hors ligne</span></div>' +
-    '<button class="ib-btn" onclick="installPWA()">Installer</button>' +
-    '<button class="ib-close" onclick="dismissInstallBanner()">×</button>';
-  document.body.appendChild(banner);
-}
-
-async function installPWA() {
-  if (!deferredPrompt) {
-    showToast('📱 Sur iOS : Partager 📤 → Sur l\'écran d\'accueil');
-    return;
-  }
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  if (outcome === 'accepted') {
-    showToast('✅ Application installée !');
-    localStorage.setItem('installDismissed', '1');
-  }
-  deferredPrompt = null;
-  document.getElementById('installBanner')?.remove();
-}
-
-function dismissInstallBanner() {
-  localStorage.setItem('installDismissed', '1');
-  document.getElementById('installBanner')?.remove();
-}
-
-window.addEventListener('appinstalled', () => {
-  showToast('🎉 Guide ENSTP installé !');
-  localStorage.setItem('installDismissed', '1');
-});
-
-function setupScrollAnimations() {
-  const els = document.querySelectorAll('.scroll-anim');
-  if (!els.length) return;
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    els.forEach(el => observer.observe(el));
-  } else {
-    els.forEach(el => el.classList.add('visible'));
-  }
-}
-
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-window.addEventListener('scroll', () => {
-  const btn = document.getElementById('backToTop');
-  if (btn) btn.classList.toggle('show', window.scrollY > 300);
-});
-
-document.addEventListener('click', (e) => {
-  const target = e.target.closest('.ripple');
-  if (!target) return;
-  const rect = target.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  const ripple = document.createElement('span');
-  ripple.className = 'ripple-effect';
-  ripple.style.left = x + 'px';
-  ripple.style.top = y + 'px';
-  ripple.style.width = ripple.style.height = '20px';
-  target.appendChild(ripple);
-  setTimeout(() => ripple.remove(), 600);
-});
-
-function handleHash() {
-  const h = location.hash.slice(1);
-  if (h && window.SECTIONS.find(s => s.id === h)) openSection(h);
-  else renderHome();
-}
-window.addEventListener('hashchange', handleHash);
-
-function updateOnlineStatus() {
-  document.body.classList.toggle('offline', !navigator.onLine);
-}
-window.addEventListener('online', updateOnlineStatus);
-window.addEventListener('offline', updateOnlineStatus);
-updateOnlineStatus();
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js', { scope: './' })
-      .then((reg) => {
-        console.log('✅ SW registered');
-      })
-      .catch((err) => console.log('❌ SW error:', err));
+  Object.keys(translations).forEach(lang => {
+    if (!window.LANG_DATA[lang]) window.LANG_DATA[lang] = {};
+    Object.assign(window.LANG_DATA[lang], translations[lang]);
   });
-}
 
-document.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.key === '/') {
-    e.preventDefault();
-    document.getElementById('q')?.focus();
-  }
-  if (e.key === 'Escape') {
-    const modal = document.getElementById('aiSearchModal');
-    if (modal && modal.classList.contains('show')) closeAISearch();
-    else if (CURRENT_SECTION) renderHome();
-  }
-});
-
-// ============================================
-// عارض الصور
-// ============================================
-function openImageViewer(src) {
-  var overlay = document.createElement('div');
-  overlay.className = 'modal-overlay';
-  overlay.style.background = 'rgba(0,0,0,.95)';
-  overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
-  overlay.innerHTML = 
-    '<div style="position:relative;max-width:95vw;max-height:95vh">' +
-      '<img src="' + src + '" style="max-width:95vw;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.8)" alt="">' +
-      '<button onclick="this.closest(\'.modal-overlay\').remove()" style="position:absolute;top:-40px;right:0;background:#fff;color:#000;border:0;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;font-family:inherit">✕</button>' +
-    '</div>';
-  document.body.appendChild(overlay);
-}
-
-(function init() {
-  if (typeof applyTheme === 'function') applyTheme();
-  if (typeof applyTextSize === 'function') applyTextSize();
-  setLang(localStorage.getItem('lang') || 'fr');
-  setTimeout(() => {
-    handleHash();
-    hideLoading();
-    setupScrollAnimations();
-  }, 300);
+  console.log('✅ Section alger (Loisirs à Alger) chargée');
 })();
-
-window.openSection = openSection;
-window.renderHome = renderHome;
-window.renderCategory = renderCategory;
-window.renderCategoriesList = renderCategoriesList;
-window.showMetroType = showMetroType;
-window.showStation = showStation;
-window.openStationMaps = openStationMaps;
-window.showQR = showQR;
-window.showPlace = showPlace;
-window.doSearch = doSearch;
-window.setLang = setLang;
-window.scrollToTop = scrollToTop;
-window.openAISearch = openAISearch;
-window.closeAISearch = closeAISearch;
-window.submitAIQuestion = submitAIQuestion;
-window.installPWA = installPWA;
-window.dismissInstallBanner = dismissInstallBanner;
-window.showToast = showToast;
-window.renderGaridiMap = renderGaridiMap;
-window.renderProfsTabs = renderProfsTabs;
-window.renderProfsSubjects = renderProfsSubjects;
-window.renderProfsList = renderProfsList;
-window.renderProfCard = renderProfCard;
-window.switchProfsYear = switchProfsYear;
-window.openImageViewer = openImageViewer;
-</script>
-
-</body>
-</html>
