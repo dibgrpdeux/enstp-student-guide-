@@ -18,7 +18,7 @@ import {
 import {
   getFirestore,
   collection,
-  query,          // ← مهم
+  query,
   orderBy,
   limit,
   where,
@@ -33,6 +33,14 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
 // ============================================
 // Firebase Configuration
 // ============================================
@@ -46,11 +54,12 @@ const firebaseConfig = {
 };
 
 // ============================================
-// Initialize
+// Initialize Firebase
 // ============================================
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 // ============================================
 // Wilayas (58 ولاية)
@@ -68,7 +77,7 @@ const WILAYAS = [
 ];
 
 // ============================================
-// Helper
+// Helper: التحقق من البريد
 // ============================================
 function isEnstpEmail(email) {
   return email && email.toLowerCase().endsWith('@enstp.edu.dz');
@@ -78,10 +87,13 @@ function isEnstpEmail(email) {
 // Exports
 // ============================================
 export {
+  // Config
   auth,
   db,
+  storage,
   WILAYAS,
   isEnstpEmail,
+  
   // Auth
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -89,9 +101,10 @@ export {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
+  
   // Firestore
   collection,
-  query,          // ← مهم جداً
+  query,
   orderBy,
   limit,
   where,
@@ -103,5 +116,11 @@ export {
   deleteDoc,
   doc,
   onSnapshot,
-  serverTimestamp
+  serverTimestamp,
+  
+  // Storage
+  storageRef,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject
 };
