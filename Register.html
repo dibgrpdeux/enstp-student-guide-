@@ -2,7 +2,7 @@
 <html lang="fr" dir="ltr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Inscription — ENSTP Forum</title>
 <style>
 :root{
@@ -20,42 +20,115 @@ body{
   width:100%;max-width:480px;background:#fff;
   border-radius:24px;padding:32px;
   box-shadow:0 20px 60px rgba(0,0,0,.3);
+  animation:fadeInUp .5s ease-out;
+}
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
 }
 .logo-big{
   width:80px;height:80px;margin:0 auto 20px;
   background:linear-gradient(135deg,var(--acc),var(--acc2));
   border-radius:50%;display:flex;align-items:center;justify-content:center;
   font-size:2.5rem;color:#fff;
+  box-shadow:0 10px 30px rgba(194,65,12,.4);
+  animation:float 3s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
 }
 h1{text-align:center;color:var(--ink);font-size:1.5rem;margin-bottom:8px}
 .sub{text-align:center;color:var(--mut);margin-bottom:24px;font-size:.9rem;line-height:1.5}
 .form-group{margin-bottom:16px}
 .form-group label{
-  display:block;margin-bottom:6px;color:var(--ink);
-  font-weight:600;font-size:.9rem;
+  display:block;margin-bottom:8px;color:var(--ink);
+  font-weight:700;font-size:.9rem;
 }
 .form-group input,
 .form-group select{
-  width:100%;padding:12px 14px;border:1px solid var(--line);
+  width:100%;padding:12px 14px;border:2px solid var(--line);
   border-radius:12px;font-size:1rem;background:var(--bg);
   outline:none;transition:all .2s;font-family:inherit;color:var(--ink);
 }
 .form-group input:focus,
 .form-group select:focus{
   border-color:var(--acc);background:#fff;
-  box-shadow:0 0 0 3px rgba(194,65,12,.1);
+  box-shadow:0 0 0 4px rgba(194,65,12,.1);
+  transform:translateY(-2px);
 }
 .form-group small{
   display:block;margin-top:4px;color:#94a3b8;font-size:.78rem;
 }
+
+/* ============================================
+   🎓 أزرار اختيار السنة — تصميم عصري
+   ============================================ */
+.year-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:6px;
+}
+.year-btn{
+  padding:14px 10px;
+  border:2px solid var(--line);
+  background:#fff;
+  border-radius:14px;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:.82rem;
+  font-weight:700;
+  color:var(--mut);
+  transition:all .3s cubic-bezier(.2,.8,.2,1);
+  text-align:center;
+  line-height:1.3;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+}
+.year-btn:hover{
+  border-color:var(--acc);
+  color:var(--acc);
+  transform:translateY(-3px);
+  box-shadow:0 6px 18px rgba(194,65,12,.2);
+}
+.year-btn.active{
+  background:linear-gradient(135deg,var(--acc),var(--acc2));
+  color:#fff;
+  border-color:var(--acc);
+  box-shadow:0 10px 25px rgba(194,65,12,.45);
+  transform:translateY(-3px);
+}
+.year-btn .year-icon{
+  font-size:1.5rem;
+  display:block;
+}
+.year-btn.full{
+  grid-column:1/-1;
+}
+.year-btn .year-sub{
+  font-size:.7rem;
+  opacity:.7;
+  font-weight:500;
+}
+.year-btn.active .year-sub{
+  opacity:.9;
+}
+
 .btn-submit{
   width:100%;padding:14px;
   background:linear-gradient(135deg,var(--acc),var(--acc2));
   color:#fff;border:0;border-radius:12px;font-size:1.05rem;
   font-weight:700;cursor:pointer;transition:all .2s;
   font-family:inherit;margin-top:8px;
+  box-shadow:0 8px 20px rgba(194,65,12,.35);
 }
-.btn-submit:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(194,65,12,.4)}
+.btn-submit:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(194,65,12,.55);
+}
 .btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
 .error-msg{
   display:none;background:#fee2e2;color:#991b1b;
@@ -63,13 +136,17 @@ h1{text-align:center;color:var(--ink);font-size:1.5rem;margin-bottom:8px}
   font-size:.9rem;border-left:4px solid #dc2626;
   white-space:pre-wrap;
 }
-.error-msg.show{display:block}
+.error-msg.show{display:block;animation:slideDown .3s ease-out}
 .success-msg{
   display:none;background:#d1fae5;color:#065f46;
   padding:12px 14px;border-radius:12px;margin-bottom:16px;
   font-size:.9rem;border-left:4px solid #10b981;
 }
-.success-msg.show{display:block}
+.success-msg.show{display:block;animation:slideDown .3s ease-out}
+@keyframes slideDown{
+  from{opacity:0;transform:translateY(-10px)}
+  to{opacity:1;transform:translateY(0)}
+}
 .login-link{
   text-align:center;margin-top:20px;
   font-size:.9rem;color:var(--mut);
@@ -82,6 +159,12 @@ h1{text-align:center;color:var(--ink);font-size:1.5rem;margin-bottom:8px}
   margin-right:8px;vertical-align:middle;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:600px){
+  .register-container{padding:24px 20px;border-radius:20px}
+  .year-btn{padding:12px 8px;font-size:.75rem}
+  .year-btn .year-icon{font-size:1.3rem}
+}
 </style>
 </head>
 <body>
@@ -119,18 +202,39 @@ h1{text-align:center;color:var(--ink);font-size:1.5rem;margin-bottom:8px}
       </select>
     </div>
 
+    <!-- ============================================
+         🎓 السنة الدراسية — 5 خيارات
+         ============================================ -->
     <div class="form-group">
-      <label for="year">Année d'étude</label>
-      <select id="year">
-        <option value="">— Choisir —</option>
-        <option value="1ère année Ingénieur">1ère année Ingénieur</option>
-        <option value="2ème année Ingénieur">2ème année Ingénieur</option>
-        <option value="3ème année Ingénieur">3ème année Ingénieur</option>
-        <option value="4ème année Ingénieur">4ème année Ingénieur</option>
-        <option value="5ème année Ingénieur">5ème année Ingénieur</option>
-        <option value="Cycle préparatoire">Cycle préparatoire</option>
-        <option value="Master">Master</option>
-      </select>
+      <label>Année d'étude *</label>
+      <div class="year-options" id="yearOptions">
+        <button type="button" class="year-btn" data-year="1acp" onclick="selectYear('1acp')">
+          <span class="year-icon">📘</span>
+          <span>1ère année Préparatoire</span>
+          <span class="year-sub">Cycle Préparatoire</span>
+        </button>
+        <button type="button" class="year-btn" data-year="2acp" onclick="selectYear('2acp')">
+          <span class="year-icon">📗</span>
+          <span>2ème année Préparatoire</span>
+          <span class="year-sub">Cycle Préparatoire</span>
+        </button>
+        <button type="button" class="year-btn full" data-year="1ing" onclick="selectYear('1ing')">
+          <span class="year-icon">🎓</span>
+          <span>1ère année Ingénieur</span>
+          <span class="year-sub">Cycle Ingénieur</span>
+        </button>
+        <button type="button" class="year-btn full" data-year="2ing" onclick="selectYear('2ing')">
+          <span class="year-icon">🎓</span>
+          <span>2ème année Ingénieur</span>
+          <span class="year-sub">Cycle Ingénieur</span>
+        </button>
+        <button type="button" class="year-btn full" data-year="3ing" onclick="selectYear('3ing')">
+          <span class="year-icon">🎓</span>
+          <span>3ème année Ingénieur</span>
+          <span class="year-sub">Cycle Ingénieur</span>
+        </button>
+      </div>
+      <input type="hidden" id="year" required>
     </div>
 
     <div class="form-group">
@@ -152,46 +256,82 @@ h1{text-align:center;color:var(--ink);font-size:1.5rem;margin-bottom:8px}
 import { registerUser, onAuthChange } from './auth.js';
 import { WILAYAS } from './firebase-config.js';
 
+// ============================================
+// Remplir la liste des wilayas
+// ============================================
 const wilayaSelect = document.getElementById('wilaya');
-WILAYAS.forEach(w => {
-  const opt = document.createElement('option');
-  opt.value = w;
-  opt.textContent = w;
-  wilayaSelect.appendChild(opt);
-});
+if (Array.isArray(WILAYAS)) {
+  WILAYAS.forEach(w => {
+    const opt = document.createElement('option');
+    opt.value = w;
+    opt.textContent = w;
+    wilayaSelect.appendChild(opt);
+  });
+}
 
+// ============================================
+// Si déjà connecté → redirection
+// ============================================
 onAuthChange(user => {
   if (user) {
     window.location.href = 'forum.html';
   }
 });
 
+// ============================================
+// 🎓 اختيار السنة
+// ============================================
+window.selectYear = function(yearId) {
+  document.getElementById('year').value = yearId;
+  document.querySelectorAll('.year-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.year === yearId);
+  });
+};
+
+// ============================================
+// إرسال النموذج
+// ============================================
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  
+
   const errorMsg = document.getElementById('errorMsg');
   const successMsg = document.getElementById('successMsg');
   const submitBtn = document.getElementById('submitBtn');
-  
+
   errorMsg.classList.remove('show');
   successMsg.classList.remove('show');
-  
+
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   const wilaya = document.getElementById('wilaya').value;
   const year = document.getElementById('year').value;
   const groupe = document.getElementById('groupe').value.trim();
-  
+
+  // التحقق من البريد
   if (!email.toLowerCase().endsWith('@enstp.edu.dz')) {
     errorMsg.textContent = '⚠️ Utilisez uniquement votre email @enstp.edu.dz';
     errorMsg.classList.add('show');
     return;
   }
-  
+
+  // التحقق من السنة
+  if (!year) {
+    errorMsg.textContent = '⚠️ Veuillez choisir votre année d\'étude';
+    errorMsg.classList.add('show');
+    return;
+  }
+
+  // التحقق من الولاية
+  if (!wilaya) {
+    errorMsg.textContent = '⚠️ Veuillez choisir votre wilaya';
+    errorMsg.classList.add('show');
+    return;
+  }
+
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span class="spinner"></span> Création...';
-  
+
   try {
     await registerUser(email, password, name, wilaya, year, groupe);
     successMsg.textContent = '✅ Compte créé ! Redirection...';
