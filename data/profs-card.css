@@ -1,16 +1,95 @@
 /* ============================================
-   🎨 خلفيات ملونة جميلة لبطاقات الأساتذة
+   🎓 profs-card.css — تصميم بطاقات الأساتذة
+   Guide de survie ENSTP
    ============================================ */
 
-/* --- الخلفية العامة لصفحة الأستاذ --- */
+/* ============================================
+   الأساسيات
+   ============================================ */
+.prof-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+/* ============================================
+   🎨 الخلفية الملونة الجميلة لصفحة الأستاذ
+   ============================================ */
 #app:has(.prof-card-wrapper) {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   padding: 20px 14px !important;
   border-radius: 0;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* --- البطاقة البسيطة (للأساتذة بدون معلومات كاملة) --- */
+/* زخرفة دائرية في الخلفية */
+#app:has(.prof-card-wrapper)::before {
+  content: "";
+  position: fixed;
+  top: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#app:has(.prof-card-wrapper)::after {
+  content: "";
+  position: fixed;
+  bottom: -150px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#app:has(.prof-card-wrapper) > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* زر الرجوع في الصفحة */
+#app:has(.prof-card-wrapper) .back {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #c2410c !important;
+  border: 0 !important;
+  padding: 10px 20px !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  margin-bottom: 16px !important;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+#app:has(.prof-card-wrapper) .back:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* عنوان الصفحة */
+#app:has(.prof-card-wrapper) h2 {
+  color: #fff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  font-weight: 800;
+  margin-bottom: 20px !important;
+}
+
+/* ============================================
+   🪪 البطاقة البسيطة (للأساتذة بدون معلومات كاملة)
+   ============================================ */
 .prof-simple-card {
   background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%) !important;
   border: 3px solid rgba(255, 255, 255, 0.3) !important;
@@ -57,7 +136,6 @@
 }
 
 .prof-simple-email {
-  display: inline-block !important;
   background: linear-gradient(135deg, #c2410c, #9a3412) !important;
   color: #fff !important;
   padding: 12px 20px !important;
@@ -70,6 +148,7 @@
   width: fit-content !important;
   box-shadow: 0 8px 20px rgba(194, 65, 12, 0.35);
   transition: all 0.3s ease;
+  text-align: center;
 }
 
 .prof-simple-email:hover {
@@ -87,7 +166,22 @@
   margin-top: 8px;
 }
 
-/* --- بطاقة الأستاذ الكاملة (ID Card) --- */
+.prof-badge-vacataire {
+  display: inline-block;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   📇 بطاقة الهوية (ID Card)
+   ============================================ */
 .prof-id-card {
   background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%) !important;
   border: 3px solid rgba(255, 255, 255, 0.4) !important;
@@ -96,54 +190,102 @@
     0 20px 50px rgba(0, 0, 0, 0.3),
     0 8px 20px rgba(0, 0, 0, 0.15) !important;
   animation: cardFadeIn 0.5s ease-out;
+  padding: 24px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-/* --- بطاقة البريد الإلكتروني --- */
+.prof-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #fff !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+  flex-shrink: 0;
+}
+
+.prof-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.prof-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #c2410c, #9a3412);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.prof-id-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.prof-name {
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  color: #1d2433 !important;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.prof-title-line {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 6px 0;
+}
+
+.prof-role {
+  display: inline-block;
+  background: #c2410c;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.prof-location {
+  display: inline-block;
+  background: #1d2433;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.prof-status {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* ============================================
+   📧 بطاقة البريد الإلكتروني (ذهبية)
+   ============================================ */
 .prof-email-card {
   background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.4) !important;
+  border: 3px solid rgba(255, 255, 255, 0.5) !important;
   border-radius: 20px !important;
+  padding: 20px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
   animation: cardFadeIn 0.5s ease-out 0.1s both;
 }
 
-/* --- بطاقة الوحدات المدرَّسة --- */
-.prof-modules-card {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 20px !important;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
-  animation: cardFadeIn 0.5s ease-out 0.2s both;
-}
-
-/* --- بطاقة النصيحة --- */
-.prof-advice-card {
-  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 20px !important;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
-  animation: cardFadeIn 0.5s ease-out 0.3s both;
-}
-
-/* --- بطاقة البحث --- */
-.prof-research-card {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 20px !important;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
-  animation: cardFadeIn 0.5s ease-out 0.4s both;
-}
-
-/* --- بطاقة الروابط --- */
-.prof-links-card {
-  background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 20px !important;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
-  animation: cardFadeIn 0.5s ease-out 0.5s both;
-}
-
-/* --- عناوين الأقسام داخل البطاقات --- */
 .prof-section-title {
   font-weight: 800 !important;
   font-size: 1rem !important;
@@ -160,7 +302,6 @@
   margin-bottom: 10px !important;
 }
 
-/* --- رابط البريد الإلكتروني --- */
 .prof-email-link {
   display: inline-block !important;
   color: #c2410c !important;
@@ -173,6 +314,7 @@
   word-break: break-all;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
+  margin-top: 6px;
 }
 
 .prof-email-link:hover {
@@ -180,7 +322,18 @@
   box-shadow: 0 8px 18px rgba(194, 65, 12, 0.25);
 }
 
-/* --- قائمة الوحدات --- */
+/* ============================================
+   📚 بطاقة الوحدات المدرَّسة (زرقاء)
+   ============================================ */
+.prof-modules-card {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+  border: 3px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 20px !important;
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  animation: cardFadeIn 0.5s ease-out 0.2s both;
+}
+
 .prof-modules-list {
   list-style: none;
   padding: 0;
@@ -213,7 +366,27 @@ html[dir="rtl"] .prof-modules-list li::before {
   right: 0;
 }
 
-/* --- نص النصيحة --- */
+.prof-year-title {
+  font-weight: 800;
+  color: #1d2433;
+  margin-top: 14px;
+  font-size: 0.95rem;
+  padding-top: 12px;
+  border-top: 2px dashed rgba(29, 36, 51, 0.15);
+}
+
+/* ============================================
+   💡 بطاقة النصيحة (وردية)
+   ============================================ */
+.prof-advice-card {
+  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%) !important;
+  border: 3px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 20px !important;
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  animation: cardFadeIn 0.5s ease-out 0.3s both;
+}
+
 .prof-advice-text {
   font-size: 0.92rem;
   line-height: 1.7;
@@ -231,7 +404,18 @@ html[dir="rtl"] .prof-advice-text {
   border-right: 3px solid #ec4899;
 }
 
-/* --- نص البحث --- */
+/* ============================================
+   🔬 بطاقة البحث (خضراء)
+   ============================================ */
+.prof-research-card {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important;
+  border: 3px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 20px !important;
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  animation: cardFadeIn 0.5s ease-out 0.4s both;
+}
+
 .prof-research-text {
   font-size: 0.9rem;
   line-height: 1.7;
@@ -242,7 +426,18 @@ html[dir="rtl"] .prof-advice-text {
   border-radius: 8px;
 }
 
-/* --- روابط --- */
+/* ============================================
+   🔗 بطاقة الروابط (بنفسجية)
+   ============================================ */
+.prof-links-card {
+  background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%) !important;
+  border: 3px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 20px !important;
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  animation: cardFadeIn 0.5s ease-out 0.5s both;
+}
+
 .prof-links-list {
   display: flex;
   flex-direction: column;
@@ -263,6 +458,7 @@ html[dir="rtl"] .prof-advice-text {
   font-size: 0.9rem !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
+  word-break: break-all;
 }
 
 .prof-link:hover {
@@ -276,85 +472,12 @@ html[dir="rtl"] .prof-link:hover {
 
 .prof-link-icon {
   font-size: 1.2rem;
+  flex-shrink: 0;
 }
 
-/* --- صورة الأستاذ --- */
-.prof-photo {
-  border: 4px solid #fff !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
-  border-radius: 50% !important;
-  overflow: hidden;
-}
-
-.prof-avatar-fallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #c2410c, #9a3412);
-  color: #fff;
-  font-size: 2rem;
-  font-weight: 800;
-}
-
-/* --- اسم الأستاذ في البطاقة --- */
-.prof-name {
-  font-size: 1.4rem !important;
-  font-weight: 800 !important;
-  color: #1d2433 !important;
-  line-height: 1.2;
-  margin-bottom: 8px;
-}
-
-.prof-role {
-  display: inline-block;
-  background: #c2410c;
-  color: #fff;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  margin-right: 6px;
-}
-
-.prof-location {
-  display: inline-block;
-  background: #1d2433;
-  color: #fff;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-.prof-status {
-  margin-top: 8px;
-  font-size: 0.85rem;
-  color: #64748b;
-  font-weight: 600;
-}
-
-.prof-title-line {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin: 6px 0;
-}
-
-/* --- الحاوية --- */
-.prof-card-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 600px;
-  margin: 0 auto;
-  padding-bottom: 40px;
-}
-
-/* --- أنيميشن --- */
+/* ============================================
+   ⏳ أنيميشن الظهور
+   ============================================ */
 @keyframes cardFadeIn {
   from {
     opacity: 0;
@@ -366,21 +489,126 @@ html[dir="rtl"] .prof-link:hover {
   }
 }
 
-/* --- تحسين زر الرجوع في الصفحة --- */
-#app:has(.prof-card-wrapper) .back {
-  background: rgba(255, 255, 255, 0.95) !important;
-  color: #c2410c !important;
-  border: 0 !important;
-  padding: 10px 20px !important;
-  border-radius: 50px !important;
-  font-weight: 700 !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  margin-bottom: 16px !important;
+/* ============================================
+   📱 استجابة للشاشات الصغيرة
+   ============================================ */
+@media (max-width: 600px) {
+  .prof-id-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .prof-title-line {
+    justify-content: center;
+  }
+  
+  .prof-photo {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .prof-name {
+    font-size: 1.2rem !important;
+  }
+  
+  .prof-simple-name {
+    font-size: 1.3rem !important;
+  }
+  
+  #app:has(.prof-card-wrapper) {
+    padding: 14px 10px !important;
+  }
+  
+  .prof-card-wrapper {
+    gap: 12px;
+  }
+  
+  .prof-email-card,
+  .prof-modules-card,
+  .prof-advice-card,
+  .prof-research-card,
+  .prof-links-card {
+    padding: 16px;
+  }
 }
 
-#app:has(.prof-card-wrapper) h2 {
-  color: #fff !important;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  font-weight: 800;
-  margin-bottom: 20px !important;
+/* ============================================
+   🌙 الوضع الليلي (Dark Mode)
+   ============================================ */
+body.dark .prof-simple-card,
+body.dark .prof-id-card {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+body.dark .prof-simple-name {
+  color: #fb923c !important;
+}
+
+body.dark .prof-simple-module {
+  color: #94a3b8 !important;
+  border-bottom-color: #334155;
+}
+
+body.dark .prof-name {
+  color: #f1f5f9 !important;
+}
+
+body.dark .prof-section-title {
+  color: #f1f5f9 !important;
+}
+
+body.dark .prof-email-card {
+  background: linear-gradient(135deg, #422006 0%, #78350f 100%) !important;
+}
+
+body.dark .prof-modules-card {
+  background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%) !important;
+}
+
+body.dark .prof-modules-list li {
+  color: #e2e8f0;
+}
+
+body.dark .prof-advice-card {
+  background: linear-gradient(135deg, #581c3f 0%, #831843 100%) !important;
+}
+
+body.dark .prof-advice-text {
+  color: #f1f5f9;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+body.dark .prof-research-card {
+  background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
+}
+
+body.dark .prof-research-text {
+  color: #d1fae5;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+body.dark .prof-links-card {
+  background: linear-gradient(135deg, #3b0764 0%, #4c1d95 100%) !important;
+}
+
+body.dark .prof-link {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #c4b5fd !important;
+}
+
+body.dark .prof-email-link {
+  background: #1e293b !important;
+  color: #fb923c !important;
+}
+
+body.dark .prof-simple-no-email {
+  background: #1e293b;
+  color: #94a3b8;
+}
+
+body.dark .prof-year-title {
+  color: #f1f5f9;
+  border-top-color: rgba(255, 255, 255, 0.15);
 }
