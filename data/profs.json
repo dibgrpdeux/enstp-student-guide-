@@ -13,7 +13,7 @@
             {
               "id": "hebbache",
               "name": "Zineb HEBBACHE",
-              "photo": "prof-images/hebbache.jpg",
+              "photo": "",
               "full": true,
               "email": "zinebhebache@gmail.com",
               "altEmail": "z.hebbache@enstp.edu.dz",
@@ -83,7 +83,7 @@
             {
               "id": "haddouche",
               "name": "Haddouche Abdelslam",
-              "photo": "prof-images/haddouche.jpg",
+              "photo": "haddouche.jpg",
               "full": true,
               "email": "a.haddouche@enstp.edu.dz",
               "modules": ["Physics 1", "Physics 2", "Electromagnetism", "Optics"],
@@ -106,7 +106,7 @@
             {
               "id": "zikem",
               "name": "Mme ZIKEM",
-              "photo": "prof-images/zikem.jpg",
+              "photo": "",
               "full": true,
               "email": "a.zikem@enstp.edu.dz",
               "modules": ["Physique 1", "Physique 2"],
@@ -125,7 +125,7 @@
               "links": []
             },
             { "id": "kias", "name": "Mlle Kias", "photo": "", "full": false, "email": "r.kias@enstp.edu.dz", "modules": ["Physique 1", "Physique 3"] },
-            { "id": "benyettou-1", "name": "Benyettou Fethi", "photo": "prof-images/benyettou.jpg", "full": true, "email": "f.benyettou@enstp.edu.dz", "modules": ["Électricité/Électronique", "Physique 1"], "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Cherchez, vous trouvez.", "ar": "ابحثوا، تجدوا.", "en": "Search, you will find." }, "research": { "fr": "Modélisation et simulation des nano-structures BQs, PQs et NFs pour le photovoltaïque", "ar": "نمذجة ومحاكاة البنى النانوية للخلايا الكهروضوئية", "en": "Modeling and simulation of BQs, PQs, and NFs nanostructures for photovoltaics" }, "links": [{ "icon": "🎓", "name": "ResearchGate", "url": "https://www.researchgate.net/profile/Benyettou-Fethi-2" }] },
+            { "id": "benyettou-1", "name": "Benyettou Fethi", "photo": "", "full": true, "email": "f.benyettou@enstp.edu.dz", "modules": ["Électricité/Électronique", "Physique 1"], "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Cherchez, vous trouvez.", "ar": "ابحثوا، تجدوا.", "en": "Search, you will find." }, "research": { "fr": "Modélisation et simulation des nano-structures BQs, PQs et NFs pour le photovoltaïque", "ar": "نمذجة ومحاكاة البنى النانوية للخلايا الكهروضوئية", "en": "Modeling and simulation of BQs, PQs, and NFs nanostructures for photovoltaics" }, "links": [{ "icon": "🎓", "name": "ResearchGate", "url": "https://www.researchgate.net/profile/Benyettou-Fethi-2" }] },
             { "id": "ouanoufi", "name": "Mme Ouanoufi", "photo": "", "full": false, "email": "s.ouanoufi@enstp.edu.dz", "modules": ["Physique 1"] }
           ]
         },
@@ -163,7 +163,7 @@
             {
               "id": "yala",
               "name": "Yala Ahmed",
-              "photo": "prof-images/yala.jpg",
+              "photo": "yalla.jpg",
               "full": true,
               "email": "a.yala@enstp.edu.dz",
               "modules": ["English for Engineering"],
@@ -232,7 +232,7 @@
             {
               "id": "hamadi",
               "name": "HAMADI Ahmed",
-              "photo": "prof-images/hamadi.jpg",
+              "photo": "",
               "full": true,
               "email": "a.hamadi@enstp.edu.dz",
               "modules": ["Analyse Numérique"],
@@ -261,7 +261,7 @@
             {
               "id": "bendada",
               "name": "BENDADA",
-              "photo": "prof-images/bendada.jpg",
+              "photo": "",
               "full": true,
               "email": "k.bendada@enstp.edu.dz",
               "modules": ["Chimie des solutions", "Chimie organique"],
@@ -273,9 +273,9 @@
                 "en": "I advise students to develop their scientific curiosity, not hesitate to ask questions, and always seek to understand rather than simply memorize."
               },
               "research": {
-                "fr": "Caractérisation des paramètres thermodynamiques de surface des roches réservoirs pétroliers par CGI. Remédiation des sols par électropermédiation.",
-                "ar": "توصيف المعايير الثرموديناميكية لسطح صخور المكامن النفطية. معالجة التربة بالترحيل الكهربائي.",
-                "en": "Characterization of surface thermodynamic parameters of petroleum reservoir rocks by IGC. Soil remediation by electroremediation."
+                "fr": "Caractérisation des paramètres thermodynamiques de surface des roches réservoirs pétroliers par CGI.",
+                "ar": "توصيف المعايير الثرموديناميكية لسطح صخور المكامن النفطية.",
+                "en": "Characterization of surface thermodynamic parameters of petroleum reservoir rocks by IGC."
               },
               "links": [
                 { "icon": "🎓", "name": "Google Scholar", "url": "https://scholar.google.com/citations?hl=fr&user=Oy0kr_UAAAAJ" }
@@ -287,16 +287,16 @@
             {
               "id": "bouhara",
               "name": "Bouhara Safia",
-              "photo": "prof-images/bouhara.jpg",
+              "photo": "",
               "full": true,
               "email": "s.bouhara@enstp.edu.dz",
               "modules": ["Chimie"],
               "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" },
               "status": { "fr": "Enseignante permanente", "ar": "أستاذة دائمة", "en": "Permanent teacher" },
               "advice": {
-                "fr": "Je conseille les étudiants d'être respectueux, patients et ne pas se décourager. Aussi je les incite à travailler pendant les séances de TD.",
-                "ar": "أنصح الطلبة بأن يكونوا محترمين، صبورين، ولا يستسلموا. كما أحثهم على العمل خلال حصص الأعمال الموجهة.",
-                "en": "I advise students to be respectful, patient, and not to get discouraged. I also encourage them to work during tutorial sessions."
+                "fr": "Je conseille les étudiants d'être respectueux, patients et ne pas se décourager.",
+                "ar": "أنصح الطلبة بأن يكونوا محترمين، صبورين، ولا يستسلموا.",
+                "en": "I advise students to be respectful, patient, and not to get discouraged."
               },
               "research": {
                 "fr": "Adsorption du glyphosate (herbicide) sur les nanotubes de carbone et bore azote : Étude théorique",
@@ -317,7 +317,7 @@
             {
               "id": "berroudji",
               "name": "Sid-Ahmed BERROUDJI",
-              "photo": "prof-images/berroudji.jpg",
+              "photo": "beroudji.jpg",
               "full": true,
               "email": "s.berroudji@enstp.edu.dz",
               "modules": ["Physics 3", "Physics 4", "Fluids mechanics"],
@@ -327,6 +327,11 @@
                 "fr": "Travaillez régulièrement, ne laissez pas les choses s'accumuler. La physique demande de la pratique quotidienne.",
                 "ar": "اعملوا بانتظام، لا تدعوا الأمور تتراكم. الفيزياء تتطلب ممارسة يومية.",
                 "en": "Work regularly, don't let things pile up. Physics requires daily practice."
+              },
+              "research": {
+                "fr": "Physique théorique",
+                "ar": "الفيزياء النظرية",
+                "en": "Theoretical Physics"
               },
               "links": [
                 { "icon": "🔗", "name": "LinkedIn", "url": "https://www.linkedin.com/in/sid-ahmed-berroudji/" }
@@ -366,7 +371,7 @@
             {
               "id": "rahoui",
               "name": "Rahoui Adel",
-              "photo": "prof-images/rahoui.jpg",
+              "photo": "rahoui.jpg",
               "full": true,
               "email": "a.rahoui@enstp.edu.dz",
               "modules": ["Électricité Générale S3", "Électronique Générale S4"],
@@ -388,20 +393,20 @@
                 { "icon": "📚", "name": "Google Scholar", "url": "https://scholar.google.fr/citations?user=28i_t1EAAAAJ&hl=fr&oi=ao" }
               ]
             },
-            { "id": "benyettou-elec", "name": "Benyettou Fethi", "photo": "prof-images/benyettou.jpg", "full": true, "email": "f.benyettou@enstp.edu.dz", "modules": ["Électricité/Électronique"], "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Cherchez, vous trouvez.", "ar": "ابحثوا، تجدوا.", "en": "Search, you will find." }, "research": { "fr": "Modélisation et simulation des nano-structures pour le photovoltaïque", "ar": "نمذجة ومحاكاة البنى النانوية للخلايا الكهروضوئية", "en": "Modeling and simulation of nanostructures for photovoltaics" }, "links": [{ "icon": "🎓", "name": "ResearchGate", "url": "https://www.researchgate.net/profile/Benyettou-Fethi-2" }] },
+            { "id": "benyettou-elec", "name": "Benyettou Fethi", "photo": "", "full": true, "email": "f.benyettou@enstp.edu.dz", "modules": ["Électricité/Électronique"], "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Cherchez, vous trouvez.", "ar": "ابحثوا، تجدوا.", "en": "Search, you will find." }, "research": { "fr": "Modélisation et simulation des nano-structures pour le photovoltaïque", "ar": "نمذجة ومحاكاة البنى النانوية للخلايا الكهروضوئية", "en": "Modeling and simulation of nanostructures for photovoltaics" }, "links": [{ "icon": "🎓", "name": "ResearchGate", "url": "https://www.researchgate.net/profile/Benyettou-Fethi-2" }] },
             {
               "id": "boudina",
               "name": "Boudina Nour El Houda",
-              "photo": "prof-images/boudina.jpg",
+              "photo": "",
               "full": true,
               "email": "nourelhouda.boudina@enstp.edu.dz",
               "modules": ["Électricité générale"],
               "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" },
               "status": { "fr": "Enseignante vacataire", "ar": "أستاذة متعاقدة", "en": "Contract teacher" },
               "advice": {
-                "fr": "Ne cessez jamais d'apprendre et de croire en vous. Construisez votre carrière professionnelle sur les bases théoriques acquises durant vos études.",
-                "ar": "لا تتوقفوا أبداً عن التعلم والثقة بأنفسكم. ابنوا مساركم المهني على الأسس النظرية المكتسبة خلال دراستكم.",
-                "en": "Never stop learning and believing in yourself. Build your professional career on the theoretical foundations acquired during your studies."
+                "fr": "Ne cessez jamais d'apprendre et de croire en vous.",
+                "ar": "لا تتوقفوا أبداً عن التعلم والثقة بأنفسكم.",
+                "en": "Never stop learning and believing in yourself."
               },
               "links": [
                 { "icon": "🔗", "name": "LinkedIn", "url": "https://www.linkedin.com/in/nour-el-houda-boudina-93215b2b5" }
@@ -428,7 +433,7 @@
             {
               "id": "chiali",
               "name": "CHIALI Soumiya",
-              "photo": "prof-images/chiali.jpg",
+              "photo": "",
               "full": true,
               "email": "s.chiali@enstp.edu.dz",
               "modules": ["Ingénierie"],
@@ -454,7 +459,7 @@
           "icon": "🇬🇧",
           "title": { "fr": "Anglais 3", "ar": "إنجليزية 3", "en": "English 3" },
           "profs": [
-            { "id": "yala-3", "name": "Yala Ahmed", "photo": "prof-images/yala.jpg", "full": true, "email": "a.yala@enstp.edu.dz", "modules": ["English for Engineering"], "year": { "fr": "1ère et 2ème année", "ar": "السنة الأولى والثانية", "en": "1st and 2nd year" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems.", "ar": "لا تدرسوا الهندسة فقط لاجتياز الامتحانات؛ ادرسوها لتصبحوا أشخاصاً قادرين على حل المشاكل الحقيقية في الحياة.", "en": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems." }, "research": { "fr": "The Use of Mobile Assisted Language Learning to Foster Students' EFL Sentence Writing", "ar": "استخدام تعلم اللغة بمساعدة الجوال لتعزيز كتابة الجمل باللغة الإنجليزية", "en": "The Use of Mobile Assisted Language Learning to Foster Students' EFL Sentence Writing" }, "links": [{ "icon": "🎓", "name": "Google Scholar", "url": "https://scholar.google.com/citations?user=fVI2fEUAAAAAJ&hl=fr" }] },
+            { "id": "yala-3", "name": "Yala Ahmed", "photo": "yalla.jpg", "full": true, "email": "a.yala@enstp.edu.dz", "modules": ["English for Engineering"], "year": { "fr": "1ère et 2ème année", "ar": "السنة الأولى والثانية", "en": "1st and 2nd year" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems.", "ar": "لا تدرسوا الهندسة فقط لاجتياز الامتحانات؛ ادرسوها لتصبحوا أشخاصاً قادرين على حل المشاكل الحقيقية في الحياة.", "en": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems." }, "research": { "fr": "The Use of Mobile Assisted Language Learning to Foster Students' EFL Sentence Writing", "ar": "استخدام تعلم اللغة بمساعدة الجوال لتعزيز كتابة الجمل باللغة الإنجليزية", "en": "The Use of Mobile Assisted Language Learning to Foster Students' EFL Sentence Writing" }, "links": [{ "icon": "🎓", "name": "Google Scholar", "url": "https://scholar.google.com/citations?user=fVI2fEUAAAAAJ&hl=fr" }] },
             { "id": "azzi", "name": "Mr Azzi", "photo": "", "full": false, "email": "a.azzi@enstp.edu.dz", "modules": ["Anglais 3"] },
             { "id": "bellabes", "name": "Mr Bellabes Omar", "photo": "", "full": false, "email": "o.bellabes@enstp.edu.dz", "modules": ["Anglais 3"] }
           ]
@@ -464,7 +469,7 @@
           "icon": "💬",
           "title": { "fr": "Technique d'expression", "ar": "تقنيات التعبير", "en": "Expression Techniques" },
           "profs": [
-            { "id": "benyettou-tech", "name": "Benyettou Fethi", "photo": "prof-images/benyettou.jpg", "full": true, "email": "f.benyettou@enstp.edu.dz", "modules": ["Technique d'expression"], "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Cherchez, vous trouvez.", "ar": "ابحثوا، تجدوا.", "en": "Search, you will find." }, "research": { "fr": "Modélisation et simulation des nano-structures pour le photovoltaïque", "ar": "نمذجة ومحاكاة البنى النانوية للخلايا الكهروضوئية", "en": "Modeling and simulation of nanostructures for photovoltaics" }, "links": [] }
+            { "id": "benyettou-tech", "name": "Benyettou Fethi", "photo": "", "full": true, "email": "f.benyettou@enstp.edu.dz", "modules": ["Technique d'expression"], "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Cherchez, vous trouvez.", "ar": "ابحثوا، تجدوا.", "en": "Search, you will find." }, "research": { "fr": "Modélisation et simulation des nano-structures pour le photovoltaïque", "ar": "نمذجة ومحاكاة البنى النانوية للخلايا الكهروضوئية", "en": "Modeling and simulation of nanostructures for photovoltaics" }, "links": [] }
           ]
         }
       ]
