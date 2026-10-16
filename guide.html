@@ -833,7 +833,116 @@ function renderGaridiMap(section, category) {
   }
 }
 
+// ============================================
+// ✅ دالة خاصة لعرض عناصر قسم التسوق والأكل (shopping)
+// ============================================
+function renderShoppingItems(section, items, category) {
+  const app = document.getElementById('app');
+  const L = LANG;
+  
+  const T = {
+    fr: { back: '← Retour', call: '📞 Appeler', go: '🚶 Y aller', hours: 'Horaires' },
+    ar: { back: '← رجوع', call: '📞 اتصل', go: '🚶 اذهب', hours: 'الساعات' },
+    en: { back: '← Back', call: '📞 Call', go: '🚶 Go', hours: 'Hours' }
+  }[L] || { back: '←', call: '📞', go: '🚶', hours: 'Horaires' };
+  
+  let html = '';
+  
+  if (category) {
+    html += '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + T.back + '</button>';
+    const ct = category.titleKey ? window.t(category.titleKey, L) : (category.title || '');
+    html += '<h2>' + (category.icon || '') + ' ' + ct + '</h2>';
+    if (category.intro) {
+      const catIntro = (typeof category.intro === 'object') ? (category.intro[L] || category.intro.fr) : category.intro;
+      html += '<p style="color:var(--mut);margin-bottom:16px;line-height:1.7">' + catIntro + '</p>';
+    }
+  } else {
+    html += '<button class="back" onclick="renderHome()">' + T.back + '</button>';
+    html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, L) + '</h2>';
+    html += '<p style="color:var(--mut);margin-bottom:16px">' + window.t(section.introKey, L) + '</p>';
+  }
+  
+  html += '<div class="items-list">';
+  
+  items.forEach(function(item) {
+    const name = item.n || 'Sans nom';
+    const note = item.note || '';
+    const phone = item.t || '';
+    const rating = item.r || 0;
+    const gps = item.g;
+    const hours = item.h || [];
+    
+    let mapUrl = '';
+    if (Array.isArray(gps) && gps.length === 2) {
+      mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + gps[0] + ',' + gps[1];
+    }
+    
+    const telUrl = phone ? 'tel:' + phone.replace(/\s/g, '') : '';
+    
+    let hoursText = '';
+    if (Array.isArray(hours) && hours.length > 0 && hours[0]) {
+      hoursText = hours[0][0] + ' — ' + hours[0][1];
+    }
+    
+    let starsHtml = '';
+    if (rating > 0) {
+      const fullStars = Math.floor(rating);
+      const halfStar = (rating - fullStars) >= 0.5;
+      starsHtml = '<span style="color:#f59e0b;font-size:.85rem">';
+      for (let i = 0; i < fullStars; i++) starsHtml += '★';
+      if (halfStar) starsHtml += '⯨';
+      for (let i = fullStars + (halfStar ? 1 : 0); i < 5; i++) starsHtml += '☆';
+      starsHtml += '</span>';
+    }
+    
+    html += '<div class="card-3d scroll-anim" style="margin-bottom:14px;padding:16px">';
+    
+    html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px">';
+    html += '<h3 style="margin:0;color:var(--acc);font-size:1.1rem;flex:1">🍽️ ' + name + '</h3>';
+    if (rating > 0) {
+      html += '<span style="background:var(--acc-soft);color:var(--acc);padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:700;white-space:nowrap">⭐ ' + rating + '</span>';
+    }
+    html += '</div>';
+    
+    if (starsHtml) {
+      html += '<div style="margin-bottom:8px">' + starsHtml + '</div>';
+    }
+    
+    if (note) {
+      html += '<p style="color:var(--mut);margin:8px 0;font-size:.9rem;line-height:1.6">' + note + '</p>';
+    }
+    
+    if (hoursText) {
+      html += '<p style="margin:6px 0;font-size:.85rem;color:var(--mut)"><b>🕐 ' + T.hours + ':</b> ' + hoursText + '</p>';
+    }
+    
+    html += '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">';
+    
+    if (telUrl) {
+      html += '<a href="' + telUrl + '" style="flex:1;min-width:120px;padding:10px 16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-radius:12px;text-decoration:none;font-size:.85rem;font-weight:600;text-align:center;transition:all .3s">' + T.call + '</a>';
+    }
+    
+    if (mapUrl) {
+      html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="flex:1;min-width:120px;padding:10px 16px;background:var(--acc-soft);color:var(--acc);border-radius:12px;text-decoration:none;font-size:.85rem;font-weight:600;text-align:center;transition:all .3s">' + T.go + '</a>';
+    }
+    
+    html += '</div>';
+    html += '</div>';
+  });
+  
+  html += '</div>';
+  
+  app.innerHTML = html;
+  window.scrollTo(0, 0);
+  if (typeof setupScrollAnimations === 'function') setupScrollAnimations();
+}
+
 function renderItems(section, items, category) {
+  // ✅ حالة خاصة: قسم التسوق والأكل (shopping)
+  if (section.id === 'shopping' || (items[0] && items[0].n !== undefined && items[0].title === undefined && items[0].titleKey === undefined)) {
+    return renderShoppingItems(section, items, category);
+  }
+  
   const app = document.getElementById('app');
   
   let html = '';
@@ -865,7 +974,6 @@ function renderItems(section, items, category) {
     html += '<button onclick="showQR(\'' + section.id + '\',' + idx + ',\'' + (category ? category.id : '') + '\')" style="background:var(--acc-soft);border:0;color:var(--acc);padding:6px 10px;border-radius:10px;cursor:pointer;font-size:1rem;transition:all .3s">📱</button>';
     html += '</div>';
     
-    // ====== الصور ======
     if (item.images && item.images.length > 0) {
       html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0">';
       item.images.forEach(function(imgUrl) {
@@ -876,10 +984,8 @@ function renderItems(section, items, category) {
       html += '</div>';
     }
     
-    // ====== الصورة القديمة (توافق) ======
     if (item.img) html += '<img src="' + item.img + '" style="width:100%;border-radius:10px;margin:10px 0" loading="lazy" alt="">';
     
-    // ====== الفيديوهات ======
     if (item.videos && item.videos.length > 0) {
       item.videos.forEach(function(vid) {
         if (vid.type === 'youtube') {
@@ -897,7 +1003,6 @@ function renderItems(section, items, category) {
       });
     }
     
-    // ====== الفيديو القديم (توافق) ======
     if (item.video && typeof item.video === 'string') {
       html += '<div style="position:relative;padding-bottom:56.25%;height:0;margin:10px 0;border-radius:10px;overflow:hidden">';
       html += '<iframe src="https://www.youtube.com/embed/' + item.video + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
@@ -1162,7 +1267,7 @@ function showQR(sectionId, itemIndex, categoryId) {
   if (!item) return;
   
   const url = location.origin + location.pathname + '#' + sectionId;
-  const title = (typeof item.title === 'object') ? (item.title[LANG] || item.title.fr) : window.t(item.titleKey, LANG);
+  const title = (typeof item.title === 'object') ? (item.title[LANG] || item.title.fr) : (item.n || window.t(item.titleKey, LANG));
   
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
@@ -1207,10 +1312,10 @@ function doSearch(q) {
   
   let html = '<h2 style="animation:fadeInUp .4s ease-out">🔍 ' + results.length + '</h2>';
   results.forEach((r, i) => {
-    const title = (typeof r.item.title === 'object') ? (r.item.title[LANG] || r.item.title.fr) : window.t(r.item.titleKey, LANG);
+    const title = (typeof r.item.title === 'object') ? (r.item.title[LANG] || r.item.title.fr) : (r.item.n || window.t(r.item.titleKey, LANG));
     const desc = r.item.desc 
       ? ((typeof r.item.desc === 'object') ? (r.item.desc[LANG] || r.item.desc.fr) : r.item.desc)
-      : (r.item.descKey ? window.t(r.item.descKey, LANG) : '');
+      : (r.item.note || (r.item.descKey ? window.t(r.item.descKey, LANG) : ''));
     html += '<div class="card-3d" style="margin-bottom:12px;animation:fadeInUp .4s ease-out ' + (i * 0.05) + 's both">';
     html += '<h3 style="color:var(--acc);margin:0 0 6px">' + (r.item.icon || r.section.icon) + ' ' + title + '</h3>';
     if (desc) html += '<p style="color:var(--mut);font-size:.9rem">' + desc + '</p>';
@@ -1489,6 +1594,7 @@ window.renderProfsList = renderProfsList;
 window.renderProfCard = renderProfCard;
 window.switchProfsYear = switchProfsYear;
 window.openImageViewer = openImageViewer;
+window.renderShoppingItems = renderShoppingItems;
 </script>
 
 </body>
