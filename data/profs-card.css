@@ -1,453 +1,386 @@
 /* ============================================
-   profs-card.css — تصميم بطاقات الأساتذة
-   طبق الأصل عن صورة Berroudji
+   🎨 خلفيات ملونة جميلة لبطاقات الأساتذة
    ============================================ */
 
-/* ============================================
-   الحاوية الأساسية — الخلفية البنية الداكنة
-   ============================================ */
-.prof-card-wrapper{
-  background: #5C1010;
-  background-image: 
-    radial-gradient(circle at 20% 20%, rgba(184, 134, 11, 0.08), transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(184, 134, 11, 0.06), transparent 50%);
-  padding: 30px 16px;
-  border-radius: 12px;
-  margin: 20px 0;
-  position: relative;
-  overflow: visible;
-  font-family: Georgia, "Times New Roman", "IBM Plex Sans Arabic", serif;
-  color: #1a1a1a;
-  box-shadow: 
-    0 15px 50px rgba(0,0,0,.35),
-    inset 0 0 100px rgba(0,0,0,.15);
-  border: 1px solid #4a0d0d;
-}
-
-/* ============================================
-   البطاقة الأساسية (بيج/عاجي)
-   ============================================ */
-.prof-card{
-  background: #FBF3DC;
-  background-image: linear-gradient(135deg, #FBF3DC 0%, #F5E8C8 100%);
-  border: 1px solid #D4C08A;
-  border-radius: 2px;
-  padding: 18px 16px;
-  margin-bottom: 22px;
-  position: relative;
-  box-shadow: 
-    2px 2px 0 rgba(0,0,0,.08),
-    4px 4px 12px rgba(0,0,0,.25),
-    inset 0 0 0 1px rgba(255,255,255,.5);
-  transform: rotate(-0.4deg);
-  transition: transform 0.4s ease;
-}
-.prof-card:nth-child(even){
-  transform: rotate(0.4deg);
-}
-.prof-card:last-child{
-  margin-bottom: 0;
-}
-
-/* دبوس ذهبي في أعلى كل بطاقة */
-.prof-card::before{
-  content: '';
-  position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: 
-    radial-gradient(circle at 35% 30%, #FFE066 0%, #D4AF37 40%, #A67C00 70%, #6B4F0F 100%);
-  box-shadow:
-    0 3px 6px rgba(0,0,0,.5),
-    0 1px 2px rgba(0,0,0,.3),
-    inset -2px -2px 4px rgba(0,0,0,.3),
-    inset 2px 2px 4px rgba(255,255,255,.6);
-  z-index: 10;
-}
-.prof-card::after{
-  content: '';
-  position: absolute;
-  top: -8px;
-  left: calc(50% - 4px);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.7);
-  filter: blur(1px);
-  z-index: 11;
-}
-
-/* ============================================
-   بطاقة الهوية (صورة + اسم)
-   ============================================ */
-.prof-id-card{
-  display: flex;
-  gap: 16px;
-  align-items: stretch;
-  padding: 16px;
-}
-
-.prof-photo{
-  width: 110px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid #FBF3DC;
-  background: #fff;
-  overflow: hidden;
+/* --- الخلفية العامة لصفحة الأستاذ --- */
+#app:has(.prof-card-wrapper) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px 14px !important;
   border-radius: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,.15);
-}
-.prof-photo img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.prof-avatar-fallback{
-  font-size: 3rem;
-  color: #8B6914;
-  font-weight: 700;
-  font-family: Georgia, serif;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #FDF6E3, #E8D9A8);
 }
 
-.prof-id-info{
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 6px;
-  min-width: 0;
+/* --- البطاقة البسيطة (للأساتذة بدون معلومات كاملة) --- */
+.prof-simple-card {
+  background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%) !important;
+  border: 3px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 24px !important;
+  padding: 32px 24px !important;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.3),
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  position: relative;
+  overflow: hidden;
+  animation: cardFadeIn 0.5s ease-out;
 }
 
-.prof-name{
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  line-height: 1.15;
-  letter-spacing: -0.3px;
-  word-break: break-word;
+.prof-simple-card::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(194, 65, 12, 0.15), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
-.prof-title-line{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-
-.prof-role{
-  font-family: Georgia, serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.prof-location{
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.8rem;
-  color: #1a1a1a;
-  font-weight: 600;
-}
-.prof-location::before{
-  content: '📍';
-  font-size: 0.85rem;
-}
-
-.prof-status{
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  margin-top: 6px;
-}
-
-/* ============================================
-   بطاقة البريد
-   ============================================ */
-.prof-email-card{
+.prof-simple-name {
+  font-size: 1.6rem !important;
+  font-weight: 800 !important;
+  color: #c2410c !important;
+  margin-bottom: 8px !important;
   text-align: center;
-  padding: 22px 16px;
-}
-.prof-email-card .prof-section-title{
-  font-family: Georgia, serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 4px;
-}
-.prof-email-card .prof-section-subtitle{
-  font-family: Georgia, serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 14px;
-  font-style: italic;
-}
-.prof-email-link{
-  display: inline-block;
-  font-size: 0.95rem;
-  color: #1a1a1a;
-  text-decoration: underline;
-  text-decoration-color: #8B6914;
-  text-underline-offset: 4px;
-  font-family: Georgia, serif;
-  word-break: break-all;
-  transition: color 0.2s;
-}
-.prof-email-link:hover{
-  color: #5C1010;
+  letter-spacing: -0.5px;
 }
 
-/* ============================================
-   بطاقة Modules / Année
-   ============================================ */
-.prof-modules-card{
-  padding: 22px 18px;
+.prof-simple-module {
+  font-size: 1rem !important;
+  color: #64748b !important;
+  margin-bottom: 20px !important;
+  text-align: center;
+  font-weight: 500;
+  padding-bottom: 16px;
+  border-bottom: 2px dashed #e2e8f0;
 }
-.prof-modules-card .prof-section-title{
-  font-family: Georgia, serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 12px;
+
+.prof-simple-email {
+  display: inline-block !important;
+  background: linear-gradient(135deg, #c2410c, #9a3412) !important;
+  color: #fff !important;
+  padding: 12px 20px !important;
+  border-radius: 50px !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  margin: 8px auto !important;
+  display: block !important;
+  width: fit-content !important;
+  box-shadow: 0 8px 20px rgba(194, 65, 12, 0.35);
+  transition: all 0.3s ease;
 }
-.prof-modules-list{
+
+.prof-simple-email:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(194, 65, 12, 0.5);
+}
+
+.prof-simple-no-email {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  padding: 12px;
+  background: #f1f5f9;
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+/* --- بطاقة الأستاذ الكاملة (ID Card) --- */
+.prof-id-card {
+  background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%) !important;
+  border: 3px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 24px !important;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.3),
+    0 8px 20px rgba(0, 0, 0, 0.15) !important;
+  animation: cardFadeIn 0.5s ease-out;
+}
+
+/* --- بطاقة البريد الإلكتروني --- */
+.prof-email-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+  border: 3px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  animation: cardFadeIn 0.5s ease-out 0.1s both;
+}
+
+/* --- بطاقة الوحدات المدرَّسة --- */
+.prof-modules-card {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+  border: 3px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  animation: cardFadeIn 0.5s ease-out 0.2s both;
+}
+
+/* --- بطاقة النصيحة --- */
+.prof-advice-card {
+  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%) !important;
+  border: 3px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  animation: cardFadeIn 0.5s ease-out 0.3s both;
+}
+
+/* --- بطاقة البحث --- */
+.prof-research-card {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important;
+  border: 3px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  animation: cardFadeIn 0.5s ease-out 0.4s both;
+}
+
+/* --- بطاقة الروابط --- */
+.prof-links-card {
+  background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%) !important;
+  border: 3px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  animation: cardFadeIn 0.5s ease-out 0.5s both;
+}
+
+/* --- عناوين الأقسام داخل البطاقات --- */
+.prof-section-title {
+  font-weight: 800 !important;
+  font-size: 1rem !important;
+  color: #1d2433 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px !important;
+}
+
+.prof-section-subtitle {
+  font-size: 0.8rem !important;
+  color: #64748b !important;
+  font-style: italic;
+  margin-bottom: 10px !important;
+}
+
+/* --- رابط البريد الإلكتروني --- */
+.prof-email-link {
+  display: inline-block !important;
+  color: #c2410c !important;
+  text-decoration: none !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  padding: 8px 16px !important;
+  background: #fff !important;
+  border-radius: 12px !important;
+  word-break: break-all;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.prof-email-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(194, 65, 12, 0.25);
+}
+
+/* --- قائمة الوحدات --- */
+.prof-modules-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 18px 0;
+  margin: 8px 0 0 0;
 }
-.prof-modules-list li{
-  font-family: Georgia, serif;
-  font-size: 0.92rem;
-  color: #1a1a1a;
-  padding: 4px 0;
-  padding-inline-start: 18px;
+
+.prof-modules-list li {
+  padding: 6px 0 6px 20px;
   position: relative;
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.5;
 }
-.prof-modules-list li::before{
-  content: '•';
+
+.prof-modules-list li::before {
+  content: "✦";
   position: absolute;
-  inset-inline-start: 0;
-  color: #1a1a1a;
+  left: 0;
+  color: #c2410c;
   font-weight: 700;
-  font-size: 1.1rem;
-}
-.prof-year-title{
-  font-family: Georgia, serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin: 14px 0 10px;
 }
 
-/* ============================================
-   بطاقة النصيحة
-   ============================================ */
-.prof-advice-card{
-  padding: 22px 18px;
+html[dir="rtl"] .prof-modules-list li {
+  padding-left: 0;
+  padding-right: 20px;
 }
-.prof-advice-card .prof-section-title{
-  font-family: Georgia, serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 12px;
-  text-align: center;
+
+html[dir="rtl"] .prof-modules-list li::before {
+  left: auto;
+  right: 0;
 }
-.prof-advice-text{
-  font-family: Georgia, serif;
-  font-size: 0.88rem;
+
+/* --- نص النصيحة --- */
+.prof-advice-text {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: #334155;
   font-style: italic;
-  color: #2a2a2a;
-  line-height: 1.7;
-  text-align: center;
-  position: relative;
   padding: 8px 12px;
+  border-left: 3px solid #ec4899;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  margin-top: 8px;
 }
 
-/* ============================================
-   بطاقة البحث
-   ============================================ */
-.prof-research-card{
-  padding: 22px 18px;
+html[dir="rtl"] .prof-advice-text {
+  border-left: 0;
+  border-right: 3px solid #ec4899;
 }
-.prof-research-card .prof-section-title{
-  font-family: Georgia, serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 12px;
-  text-align: center;
-}
-.prof-research-text{
-  font-family: Georgia, serif;
-  font-size: 0.85rem;
-  color: #2a2a2a;
+
+/* --- نص البحث --- */
+.prof-research-text {
+  font-size: 0.9rem;
   line-height: 1.7;
-  text-align: center;
+  color: #065f46;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
 }
 
-/* ============================================
-   بطاقة الروابط
-   ============================================ */
-.prof-links-card{
-  padding: 22px 18px;
-}
-.prof-links-card .prof-section-title{
-  font-family: Georgia, serif;
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 14px;
-}
-.prof-links-list{
+/* --- روابط --- */
+.prof-links-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  margin-top: 8px;
 }
-.prof-link{
-  display: flex;
+
+.prof-link {
+  display: flex !important;
   align-items: center;
   gap: 10px;
-  font-family: Georgia, serif;
-  font-size: 0.88rem;
-  color: #1a1a1a;
-  text-decoration: underline;
-  text-decoration-color: #8B6914;
-  text-underline-offset: 4px;
-  word-break: break-all;
-  padding: 4px 0;
-  transition: color 0.2s;
-}
-.prof-link:hover{
-  color: #5C1010;
-}
-.prof-link .prof-link-icon{
-  flex-shrink: 0;
-  font-size: 1rem;
+  padding: 12px 16px !important;
+  background: #fff !important;
+  color: #4c1d95 !important;
+  text-decoration: none !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
 }
 
-/* ============================================
-   بطاقة مبسّطة (بدون full data)
-   ============================================ */
-.prof-simple-card{
-  padding: 20px 16px;
-  text-align: center;
+.prof-link:hover {
+  transform: translateX(5px);
+  box-shadow: 0 8px 18px rgba(76, 29, 149, 0.25);
 }
-.prof-simple-card .prof-simple-name{
-  font-family: Georgia, serif;
+
+html[dir="rtl"] .prof-link:hover {
+  transform: translateX(-5px);
+}
+
+.prof-link-icon {
   font-size: 1.2rem;
-  font-weight: 700;
-  color: #1a1a1a;
+}
+
+/* --- صورة الأستاذ --- */
+.prof-photo {
+  border: 4px solid #fff !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+}
+
+.prof-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #c2410c, #9a3412);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+/* --- اسم الأستاذ في البطاقة --- */
+.prof-name {
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  color: #1d2433 !important;
+  line-height: 1.2;
   margin-bottom: 8px;
 }
-.prof-simple-card .prof-simple-module{
-  font-family: Georgia, serif;
-  font-size: 0.85rem;
-  color: #4a4a4a;
-  margin-bottom: 12px;
-  font-style: italic;
-}
-.prof-simple-card .prof-simple-email{
-  display: inline-block;
-  font-size: 0.85rem;
-  color: #1a1a1a;
-  text-decoration: underline;
-  text-decoration-color: #8B6914;
-  word-break: break-all;
-  font-family: Georgia, serif;
-}
-.prof-simple-card .prof-simple-email:hover{
-  color: #5C1010;
-}
-.prof-simple-card .prof-simple-no-email{
-  font-size: 0.82rem;
-  color: #8a8a8a;
-  font-style: italic;
-}
 
-/* بادج "متطوع" */
-.prof-badge-vacataire{
+.prof-role {
   display: inline-block;
-  background: #F4DDB8;
-  color: #6B4F0F;
-  font-size: 0.68rem;
-  font-weight: 700;
+  background: #c2410c;
+  color: #fff;
   padding: 3px 10px;
-  border-radius: 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-right: 6px;
+}
+
+.prof-location {
+  display: inline-block;
+  background: #1d2433;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.prof-status {
   margin-top: 8px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
 }
 
-/* ============================================
-   تصميم متجاوب
-   ============================================ */
-@media (max-width: 480px){
-  .prof-card-wrapper{
-    padding: 24px 12px;
-    border-radius: 10px;
+.prof-title-line {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 6px 0;
+}
+
+/* --- الحاوية --- */
+.prof-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+/* --- أنيميشن --- */
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
   }
-  .prof-card{
-    padding: 14px 12px;
-    margin-bottom: 20px;
-  }
-  .prof-id-card{
-    gap: 12px;
-    padding: 12px;
-  }
-  .prof-name{
-    font-size: 1.15rem;
-  }
-  .prof-photo{
-    width: 85px;
-  }
-  .prof-role{
-    font-size: 0.75rem;
-  }
-  .prof-modules-card .prof-section-title,
-  .prof-year-title{
-    font-size: 1.05rem;
-  }
-  .prof-modules-list li{
-    font-size: 0.85rem;
-  }
-  .prof-email-card .prof-section-title{
-    font-size: 1rem;
-  }
-  .prof-advice-text{
-    font-size: 0.82rem;
-  }
-  .prof-links-card .prof-section-title{
-    font-size: 1.15rem;
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-/* ============================================
-   دعم RTL
-   ============================================ */
-html[dir="rtl"] .prof-card{
-  transform: rotate(0.4deg);
+/* --- تحسين زر الرجوع في الصفحة --- */
+#app:has(.prof-card-wrapper) .back {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #c2410c !important;
+  border: 0 !important;
+  padding: 10px 20px !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  margin-bottom: 16px !important;
 }
-html[dir="rtl"] .prof-card:nth-child(even){
-  transform: rotate(-0.4deg);
+
+#app:has(.prof-card-wrapper) h2 {
+  color: #fff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  font-weight: 800;
+  margin-bottom: 20px !important;
 }
