@@ -200,39 +200,7 @@ html[dir="rtl"] .feedback-float{right:auto;left:20px}
     <textarea id="aiQuestion" placeholder="Ex: Où puis-je manger pas cher près de l'école ?" rows="3" maxlength="300"></textarea>
     <button class="ai-submit-btn" onclick="submitAIQuestion()" id="aiSubmitBtn">🚀 Demander à l'IA</button>
     <div id="aiAnswer"></div>
-    <div class="ai-quota" id="aiQuota">⚡ Limite : 50 questions/jour</div>
-
-    <div id="apiKeySection" style="margin-top:16px;padding:16px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:14px;border-left:4px solid #f59e0b;display:none">
-      <p style="margin:0 0 8px;font-weight:800;color:#92400e;font-size:.95rem;display:flex;align-items:center;gap:6px">🔑 Clé API Gemini requise</p>
-      <p style="margin:0 0 12px;font-size:.82rem;color:#78350f;line-height:1.5">
-        Obtenez une clé <b>gratuite</b> sur 
-        <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#c2410c;font-weight:700;text-decoration:underline">Google AI Studio</a>
-      </p>
-      <input 
-        type="password" 
-        id="apiKeyInput" 
-        placeholder="AIzaSy..." 
-        style="width:100%;padding:12px;border:2px solid #f59e0b;border-radius:10px;font-family:monospace;font-size:.9rem;margin-bottom:10px;background:#fff;outline:none;color:#1d2433"
-      >
-      <button 
-        onclick="saveApiKey()" 
-        style="width:100%;padding:12px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:0;border-radius:10px;font-weight:800;cursor:pointer;font-family:inherit;font-size:.95rem;box-shadow:0 4px 12px rgba(245,158,11,.4)"
-      >
-        💾 Enregistrer la clé
-      </button>
-      <p style="margin:10px 0 0;font-size:.72rem;color:#92400e;text-align:center;line-height:1.4">
-        🔒 La clé est stockée localement sur votre appareil uniquement.
-      </p>
-    </div>
-
-    <div id="apiKeyActions" style="margin-top:12px;display:none;text-align:center">
-      <button 
-        onclick="changeApiKey()" 
-        style="padding:8px 16px;background:transparent;color:var(--mut);border:1px solid var(--line);border-radius:20px;font-size:.78rem;cursor:pointer;font-family:inherit"
-      >
-        🔑 Changer la clé API
-      </button>
-    </div>
+    <div class="ai-quota" id="aiQuota">⚡ Limite : 30 questions/jour</div>
   </div>
 </div>
 
@@ -707,7 +675,6 @@ function renderProfCard(yearId, subjectId, profId) {
   }
 
   html += `</div>`;
-
   app.innerHTML = html;
   window.scrollTo(0, 0);
 }
@@ -726,13 +693,7 @@ function renderCategoriesList(sectionId) {
   
   if (s.mapEmbed) {
     html += '<div class="map-wrapper">';
-    html += '<div class="map-header">';
-    html += '<span class="map-icon">🗺️</span>';
-    html += '<div class="map-info">';
-    const mapTitleText = s.mapTitle ? (typeof s.mapTitle === 'object' ? (s.mapTitle[LANG] || s.mapTitle.fr) : s.mapTitle) : 'Carte interactive';
-    html += '<div class="map-title">' + mapTitleText + '</div>';
-    html += '</div>';
-    html += '</div>';
+    html += '<div class="map-header"><span class="map-icon">🗺️</span><div class="map-info"><div class="map-title">' + (typeof s.mapTitle === 'object' ? (s.mapTitle[LANG] || s.mapTitle.fr) : (s.mapTitle || 'Carte')) + '</div></div></div>';
     html += '<iframe class="map-iframe" src="' + s.mapEmbed + '" allowfullscreen loading="lazy"></iframe>';
     html += '</div>';
   }
@@ -854,13 +815,12 @@ function renderServiceItems(section, items, category) {
     
     html += '<div class="card-3d scroll-anim" style="margin-bottom:14px;padding:16px">';
     html += '<h3 style="margin:0 0 12px;color:var(--acc);font-size:1.1rem">' + (item.icon || '') + ' ' + title + '</h3>';
-    
     if (desc) html += '<p style="color:var(--mut);margin:8px 0;font-size:.95rem;line-height:1.6">' + desc + '</p>';
     
     if (item.images && item.images.length > 0) {
       html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:12px 0">';
       item.images.forEach(function(imgUrl) {
-        html += '<div onclick="openImageViewer(\'' + imgUrl + '\')" style="cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg-3);transition:transform .3s">';
+        html += '<div onclick="openImageViewer(\'' + imgUrl + '\')" style="cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg-3)">';
         html += '<img src="' + imgUrl + '" style="width:100%;height:100%;object-fit:cover" loading="lazy" alt="" onerror="this.parentElement.style.display=\'none\'">';
         html += '</div>';
       });
@@ -1168,7 +1128,6 @@ function showMetroType(type) {
   if (!content) return;
   const stations = type === 'metro' ? window.METRO_STATIONS : window.TRAM_STATIONS;
   if (!stations) return;
-  const color = type === 'metro' ? '#2563eb' : '#dc2626';
   let html = '<div class="metro-stations-list">';
   stations.forEach((s, i) => {
     html += '<button class="metro-station-card" onclick="showStation(\'' + type + '\',' + i + ')">';
@@ -1334,19 +1293,7 @@ function openAISearch() {
   if (!modal) return;
   modal.classList.add('show');
   
-  const hasKey = typeof hasGeminiKey === 'function' && hasGeminiKey();
-  const keySection = document.getElementById('apiKeySection');
-  const keyActions = document.getElementById('apiKeyActions');
-  
-  if (!hasKey) {
-    if (keySection) keySection.style.display = 'block';
-    if (keyActions) keyActions.style.display = 'none';
-    setTimeout(() => document.getElementById('apiKeyInput')?.focus(), 100);
-  } else {
-    if (keySection) keySection.style.display = 'none';
-    if (keyActions) keyActions.style.display = 'block';
-    setTimeout(() => document.getElementById('aiQuestion')?.focus(), 100);
-  }
+  setTimeout(() => document.getElementById('aiQuestion')?.focus(), 100);
   
   if (typeof getRemainingQuota === 'function') {
     const remaining = getRemainingQuota();
@@ -1385,35 +1332,6 @@ function addAISuggestions() {
   }
 }
 
-function saveApiKey() {
-  const input = document.getElementById('apiKeyInput');
-  const key = input?.value.trim();
-  if (!key || !key.startsWith('AIza')) {
-    showToast('⚠️ Clé API invalide (doit commencer par AIza)');
-    return;
-  }
-  try {
-    if (typeof setGeminiKey === 'function') {
-      setGeminiKey(key);
-      showToast('✅ Clé enregistrée !');
-      document.getElementById('apiKeySection').style.display = 'none';
-      document.getElementById('apiKeyActions').style.display = 'block';
-      input.value = '';
-      setTimeout(() => document.getElementById('aiQuestion')?.focus(), 200);
-    }
-  } catch(e) {
-    showToast('❌ ' + e.message);
-  }
-}
-
-function changeApiKey() {
-  if (!confirm('Changer votre clé API ?')) return;
-  if (typeof clearGeminiKey === 'function') clearGeminiKey();
-  document.getElementById('apiKeySection').style.display = 'block';
-  document.getElementById('apiKeyActions').style.display = 'none';
-  setTimeout(() => document.getElementById('apiKeyInput')?.focus(), 100);
-}
-
 function closeAISearch() {
   const modal = document.getElementById('aiSearchModal');
   if (!modal) return;
@@ -1424,8 +1342,6 @@ function closeAISearch() {
   if (q) q.value = '';
   const suggestions = document.getElementById('aiSuggestions');
   if (suggestions) suggestions.remove();
-  const keySection = document.getElementById('apiKeySection');
-  if (keySection) keySection.style.display = 'none';
 }
 
 async function submitAIQuestion() {
@@ -1440,31 +1356,20 @@ async function submitAIQuestion() {
   
   if (typeof askGemini !== 'function') {
     answerDiv.classList.add('show');
-    answerDiv.innerHTML = '<p style="margin:0;color:#dc2626;font-weight:600">❌ Le module IA n\'est pas chargé.</p>';
-    return;
-  }
-  
-  if (typeof hasGeminiKey === 'function' && !hasGeminiKey()) {
-    showToast('🔑 Configurez d\'abord votre clé API');
-    document.getElementById('apiKeySection').style.display = 'block';
-    document.getElementById('apiKeyInput')?.focus();
+    answerDiv.innerHTML = '<p style="color:#dc2626">❌ Module IA non chargé.</p>';
     return;
   }
   
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span class="spinner-small"></span> Réflexion...';
   answerDiv.classList.add('show');
-  answerDiv.innerHTML = 
-    '<div style="display:flex;align-items:center;gap:10px;color:var(--mut)">' +
-      '<div style="width:20px;height:20px;border:3px solid rgba(139,92,246,.2);border-top-color:#8b5cf6;border-radius:50%;animation:spin .8s linear infinite"></div>' +
-      '<span>L\'IA réfléchit...</span>' +
-    '</div>';
+  answerDiv.innerHTML = '<div style="color:var(--mut)">🤖 L\'IA réfléchit...</div>';
   
   try {
     const answer = await askGemini(question, LANG);
     answerDiv.innerHTML = 
-      '<div style="display:flex;align-items:flex-start;gap:10px">' +
-        '<span style="font-size:1.5rem;flex-shrink:0">🤖</span>' +
+      '<div style="display:flex;gap:10px">' +
+        '<span style="font-size:1.5rem">🤖</span>' +
         '<div style="flex:1;line-height:1.7;white-space:pre-wrap">' + escapeHtmlAI(answer) + '</div>' +
       '</div>' +
       '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:.75rem;color:var(--mut);text-align:center">✨ Réponse générée par Google Gemini</div>';
@@ -1476,11 +1381,7 @@ async function submitAIQuestion() {
     }
   } catch(err) {
     console.error('AI Error:', err);
-    answerDiv.innerHTML = 
-      '<div style="display:flex;align-items:flex-start;gap:10px">' +
-        '<span style="font-size:1.5rem;flex-shrink:0">⚠️</span>' +
-        '<div style="flex:1;color:#dc2626;line-height:1.6"><b>Erreur :</b><br>' + escapeHtmlAI(err.message) + '</div>' +
-      '</div>';
+    answerDiv.innerHTML = '<div style="color:#dc2626">⚠️ ' + escapeHtmlAI(err.message) + '</div>';
   }
   
   submitBtn.disabled = false;
@@ -1604,8 +1505,6 @@ window.openImageViewer = openImageViewer;
 window.renderServiceItems = renderServiceItems;
 window.renderShoppingItems = renderShoppingItems;
 window.renderItems = renderItems;
-window.saveApiKey = saveApiKey;
-window.changeApiKey = changeApiKey;
 window.askAIWithQuery = askAIWithQuery;
 window.openResult = openResult;
 </script>
