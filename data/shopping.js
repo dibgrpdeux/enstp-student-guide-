@@ -29,6 +29,25 @@ window.SECTIONS = window.SECTIONS || [];
   // ============ نقطة ENSTP ============
   const ENSTP = [36.7255818, 3.0695956];
 
+  // ============ دالة تحويل GPS بأمان ============
+  function parseGPS(str) {
+    if (!str) return null;
+    try {
+      // إذا كانت مصفوفة حقيقية
+      if (Array.isArray(str)) return str;
+      // إذا كانت سلسلة نصية مثل "[36.729, 3.072]"
+      if (typeof str === 'string') {
+        const cleaned = str.replace(/[\[\]]/g, '').split(',').map(Number);
+        if (cleaned.length === 2 && !isNaN(cleaned[0]) && !isNaN(cleaned[1])) {
+          return cleaned;
+        }
+      }
+    } catch (e) {
+      console.warn('GPS parse error:', str, e);
+    }
+    return null;
+  }
+
   // ============ البيانات ============
   // [cat, nom, tel, note, prix, horaires, exceptions, note_desc, gps, links]
   const RAW = [
@@ -42,7 +61,6 @@ window.SECTIONS = window.SECTIONS || [];
     ["manger","Pizza Fun","+213552339073",4.0,3,[["11:00","22:30"]],{5:[["16:30","22:30"]]},"Pizzeria","[36.7275167,3.0651086]"],
     ["manger","Mo Pizza Kouba","+213552554140",4.4,2,[["11:00","23:55"]],{4:[["11:00","00:30"]],5:[["18:00","00:30"]]},"Pizzas, sandwichs","[36.7289283,3.0804309]"],
     ["manger","Pizza Show","+213790741322",3.7,1,[["11:00","01:00"]],{5:[["17:00","02:00"]],0:[["11:00","24:00"]]},"Pizzas","[36.7303492,3.0843623]"],
-    // متاجر إضافية
     ["manger","Chicken Spot Kouba","+213559112233",4.3,1,[["11:00","23:30"]],{5:[["16:00","23:30"]]},"Poulet frit, grillades","[36.7285,3.0752]"],
     ["manger","Tacos World","+213661445566",4.1,1,[["11:00","01:00"]],{},"Tacos, burgers","[36.7268,3.0771]"],
     ["manger","Snack El Wafa","+213550778899",4.0,1,[["08:00","23:00"]],{},"Sandwichs, chawarma","[36.7259,3.0714]"],
@@ -123,16 +141,16 @@ window.SECTIONS = window.SECTIONS || [];
   const items = RAW.map(function(a, i) {
     return {
       i: i,
-      c: a[0],                    // catégorie
-      n: a[1],                    // nom
-      t: a[2],                    // téléphone
-      r: a[3],                    // note
-      p: a[4],                    // prix
-      h: a[5],                    // horaires
-      x: a[6],                    // exceptions
-      note: a[7],                 // description
-      g: JSON.parse(a[8]),        // GPS
-      l: a[9] || {}               // liens
+      c: a[0] || 'manger',          // catégorie
+      n: a[1] || 'Sans nom',        // nom
+      t: a[2] || '',                // téléphone
+      r: a[3] || 0,                 // note
+      p: a[4] || 0,                 // prix
+      h: a[5] || [],                // horaires
+      x: a[6] || {},                // exceptions
+      note: a[7] || '',             // description
+      g: parseGPS(a[8]),            // GPS (sécurisé)
+      l: a[9] || {}                 // liens
     };
   });
 
@@ -261,3 +279,4 @@ window.SECTIONS = window.SECTIONS || [];
 
   console.log('✅ Section shopping chargée — ' + items.length + ' commerces');
 })();
+
