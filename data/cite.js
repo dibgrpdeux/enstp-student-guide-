@@ -64,7 +64,39 @@ window.SECTIONS.push({
       video: "t1BCRwvmZyo",
       videoTitle: "🎥 Visite de la résidence Rouiba",
       videoShort: "agTlVSQ8760",
-      img: ""
+      img: "",
+      
+      // ============ أماكن قريبة من إقامة رويسو ============
+      nearby: [
+        {
+          icon: "🕌",
+          name: "مسجد النور",
+          nameFr: "Mosquée En-Nour",
+          desc: "مسجد قريب من الإقامة للصلاة والجمعة.",
+          map: "Mosquée En-Nour Rouiba Alger"
+        },
+        {
+          icon: "🍖",
+          name: "شواء Chez Rougi",
+          nameFr: "Grill Chez Rougi",
+          desc: "مطعم شواء قريب من الإقامة.",
+          map: "Chez Rougi Rouiba Alger"
+        },
+        {
+          icon: "💊",
+          name: "صيدلية Larak",
+          nameFr: "Pharmacie Larak",
+          desc: "صيدلية قريبة لشراء الأدوية.",
+          map: "Pharmacie Larak Rouiba Alger"
+        },
+        {
+          icon: "🏋️",
+          name: "Warriors Land Gym",
+          nameFr: "Warriors Land Gym",
+          desc: "قاعة رياضة قريبة من الإقامة.",
+          map: "Warriors Land Gym Rouiba Alger"
+        }
+      ]
     }
   ]
 });
