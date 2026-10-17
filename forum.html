@@ -5,65 +5,69 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Forum — ENSTP</title>
 <style>
+/* متغيرات الألوان الأساسية */
 :root{--acc:#c2410c;--acc2:#9a3412;--acc-soft:#fde8dc;--bg:#f6f4ef;--card:#fff;--ink:#1d2433;--mut:#667085;--line:#e5e1d8}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;background:var(--bg);color:var(--ink);padding-bottom:40px}
-.forum-header{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(0,0,0,.15);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:10px}
+body{font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;background:var(--bg);color:var(--ink);padding-bottom:40px;transition:background .3s}
+.forum-header{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(0,0,0,.15);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:10px;transition:background .3s}
 .forum-header h1{margin:0;font-size:1.15rem;display:flex;align-items:center;gap:8px;font-weight:800}
 .forum-header .user-info{display:flex;align-items:center;gap:10px;font-size:.85rem}
-.forum-header .user-info .avatar{width:36px;height:36px;border-radius:50%;background:#fff;color:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;flex-shrink:0}
+.forum-header .user-info .avatar{width:36px;height:36px;border-radius:50%;background:#fff;color:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;flex-shrink:0;transition:color .3s}
 .forum-header button{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);padding:7px 14px;border-radius:20px;font-size:.8rem;cursor:pointer;font-family:inherit;font-weight:600;transition:all .2s}
 .forum-header button:hover{background:rgba(255,255,255,.3)}
+
+/* لوحة تغيير الألوان */
+.color-picker{display:flex;gap:6px;background:rgba(255,255,255,.15);padding:4px 8px;border-radius:20px}
+.color-picker button{width:20px;height:20px;border-radius:50%;border:2px solid #fff;cursor:pointer;padding:0}
+.color-picker button:hover{transform:scale(1.2)}
+
 .forum-container{max-width:900px;margin:0 auto;padding:20px}
-.welcome-card{background:var(--card);border-radius:20px;padding:22px;margin-bottom:18px;box-shadow:0 4px 20px rgba(0,0,0,.06);border:1px solid var(--line)}
+.welcome-card{background:var(--card);border-radius:20px;padding:22px;margin-bottom:18px;box-shadow:0 4px 20px rgba(0,0,0,.06);border:1px solid var(--line);transition:background .3s}
 .welcome-card h2{margin:0 0 8px;color:var(--acc);font-size:1.15rem;font-weight:800}
 .welcome-card p{margin:0;color:var(--mut);line-height:1.6;font-size:.95rem}
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
-.stat-box{background:var(--card);padding:14px 10px;border-radius:16px;text-align:center;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.04)}
-.stat-box b{display:block;font-size:1.6rem;color:var(--acc);font-weight:900}
-.stat-box span{font-size:.78rem;color:var(--mut)}
 .search-bar{margin-bottom:18px}
 .search-bar input{width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:14px;font-size:1rem;background:var(--card);color:var(--ink);outline:none;font-family:inherit;transition:all .2s}
-.search-bar input:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(194,65,12,.1)}
-.tabs{display:flex;gap:8px;margin-bottom:18px;background:var(--card);padding:6px;border-radius:16px;border:1px solid var(--line)}
-.tab-btn{flex:1;padding:12px 14px;border-radius:12px;background:transparent;border:0;color:var(--mut);font-weight:600;font-size:.9rem;cursor:pointer;font-family:inherit;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:6px}
+.search-bar input:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+
+/* التبويبات */
+.tabs{display:flex;gap:8px;margin-bottom:18px;background:var(--card);padding:6px;border-radius:16px;border:1px solid var(--line);overflow-x:auto}
+.tab-btn{flex:1;min-width:100px;padding:12px 14px;border-radius:12px;background:transparent;border:0;color:var(--mut);font-weight:600;font-size:.9rem;cursor:pointer;font-family:inherit;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:6px}
 .tab-btn:hover{background:var(--acc-soft);color:var(--acc)}
-.tab-btn.active{background:var(--acc);color:#fff;box-shadow:0 4px 12px rgba(194,65,12,.3)}
+.tab-btn.active{background:var(--acc);color:#fff;box-shadow:0 4px 12px var(--acc-soft)}
+
 .section-title{color:var(--acc);font-size:1.05rem;font-weight:800;margin:20px 0 12px;display:flex;align-items:center;gap:8px}
-.rooms-list,.users-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.rooms-list,.users-list,.groups-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+
+/* بطاقات القاعات والأفواج */
 .room-card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:14px;transition:all .25s;cursor:pointer;display:flex;align-items:center;gap:12px;font-family:inherit;text-align:left;color:inherit;width:100%}
 .room-card:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,.08);border-color:var(--acc)}
 .room-card.mine{border-color:#10b981;background:linear-gradient(135deg,#f0fdf4,#dcfce7)}
-.room-card.mine:hover{border-color:#059669}
 .room-card.global{border-color:#2563eb;background:linear-gradient(135deg,#eff6ff,#dbeafe);grid-column:1/-1}
-.room-card.global:hover{border-color:#1d4ed8}
 .room-card .room-icon{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
 .room-card.mine .room-icon{background:linear-gradient(135deg,#10b981,#059669)}
 .room-card.global .room-icon{background:linear-gradient(135deg,#2563eb,#1d4ed8)}
 .room-card .room-info{flex:1;min-width:0}
 .room-card .room-name{font-weight:700;color:var(--ink);font-size:1rem;margin-bottom:3px}
 .room-card .room-count{font-size:.8rem;color:var(--mut)}
-.user-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;transition:all .25s}
-.user-card:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,.08);border-color:var(--acc)}
-.user-card .u-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.user-card .u-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;flex-shrink:0}
-.user-card .u-info{min-width:0;flex:1}
-.user-card .u-name{font-weight:700;color:var(--ink);font-size:.95rem;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.user-card .u-wilaya{font-size:.8rem;color:var(--mut)}
-.user-card .u-details{display:flex;gap:6px;flex-wrap:wrap}
-.u-badge{background:var(--acc-soft);color:var(--acc);padding:3px 8px;border-radius:10px;font-size:.7rem;font-weight:600}
-.loading{text-align:center;padding:40px;color:var(--mut)}
-.loading .spinner{display:inline-block;width:30px;height:30px;border:3px solid var(--acc-soft);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:10px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:40px 20px;color:#94a3b8;font-size:.9rem}
-.empty b{font-size:2.5rem;display:block;margin-bottom:8px}
+
+/* بطاقة إنشاء دردشة جديدة */
+.room-card.new-chat{border-style:dashed;justify-content:center;color:var(--acc);font-weight:700;background:var(--acc-soft)}
+.room-card.new-chat:hover{background:var(--card)}
+
+/* صفحة إنشاء دردشة جديدة */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;backdrop-filter:blur(4px)}
+.modal-box{background:var(--card);color:var(--ink);padding:24px;border-radius:20px;max-width:400px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.5);animation:pop .3s ease-out}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.modal-box h3{margin:0 0 16px;color:var(--acc);font-size:1.2rem}
+.modal-box input, .modal-box select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;margin-bottom:14px;font-family:inherit;font-size:1rem;background:var(--bg);color:var(--ink)}
+.modal-box .actions{display:flex;gap:10px}
+.modal-box .actions button{flex:1;padding:12px;border-radius:10px;border:0;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.modal-box .actions .cancel{background:var(--line);color:var(--ink)}
+.modal-box .actions .confirm{background:var(--acc);color:#fff}
+
 @media (max-width:600px){
-  .stats-row{grid-template-columns:repeat(3,1fr);gap:8px}
-  .stat-box b{font-size:1.3rem}
-  .stat-box span{font-size:.7rem}
-  .rooms-list,.users-list{grid-template-columns:1fr}
   .forum-header{flex-direction:column;text-align:center}
-  .forum-header h1{font-size:1rem}
+  .rooms-list,.users-list,.groups-list{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -71,6 +75,16 @@ body{font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-heig
 
 <div class="forum-header">
   <h1>🎓 Forum ENSTP</h1>
+  
+  <!-- لوحة تغيير الألوان -->
+  <div class="color-picker">
+    <button onclick="changeTheme('#c2410c','#9a3412','#fde8dc')" style="background:#c2410c" title="Orange"></button>
+    <button onclick="changeTheme('#2563eb','#1d4ed8','#dbeafe')" style="background:#2563eb" title="Bleu"></button>
+    <button onclick="changeTheme('#10b981','#059669','#d1fae5')" style="background:#10b981" title="Vert"></button>
+    <button onclick="changeTheme('#8b5cf6','#7c3aed','#ede9fe')" style="background:#8b5cf6" title="Violet"></button>
+    <button onclick="changeTheme('#ec4899','#be185d','#fce7f3')" style="background:#ec4899" title="Rose"></button>
+  </div>
+
   <div class="user-info">
     <div class="avatar" id="userAvatar">?</div>
     <span id="userName">Chargement...</span>
@@ -81,74 +95,70 @@ body{font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-heig
 <div class="forum-container">
   <div class="welcome-card">
     <h2>👋 Bienvenue, <span id="welcomeName">...</span> !</h2>
-    <p>Discute avec les étudiants de ta wilaya et de toute l'Algérie.</p>
-  </div>
-
-  <div class="stats-row">
-    <div class="stat-box"><b id="statUsers">-</b><span>👥 Étudiants</span></div>
-    <div class="stat-box"><b id="statWilayas">69</b><span>📍 Wilayas</span></div>
-    <div class="stat-box"><b id="statMyWilaya">-</b><span>🏠 Ma wilaya</span></div>
+    <p>Discute avec les étudiants de ta wilaya, de ton groupe et de toute l'Algérie.</p>
   </div>
 
   <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="🔍 Rechercher..." oninput="filterContent()">
+    <input type="text" id="searchInput" placeholder="🔍 Rechercher une wilaya ou un groupe..." oninput="filterContent()">
   </div>
 
+  <!-- التبويبات -->
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('rooms')" id="tabRooms">🏠 Salles</button>
-    <button class="tab-btn" onclick="switchTab('users')" id="tabUsers">👥 Étudiants</button>
+    <button class="tab-btn active" onclick="switchTab('rooms')" id="tabRooms">🏠 Salles (Wilayas)</button>
+    <button class="tab-btn" onclick="switchTab('groups')" id="tabGroups">👥 Groupes (Fouj)</button>
+    <button class="tab-btn" onclick="switchTab('users')" id="tabUsers">🎓 Étudiants</button>
   </div>
 
   <div id="content">
-    <div class="loading"><div class="spinner"></div><p>Chargement...</p></div>
+    <div class="loading">Chargement...</div>
   </div>
 </div>
 
 <script type="module">
-import { 
-  auth, db, WILAYAS,
-  onAuthStateChanged, signOut,
-  collection, getDocs, getDoc, doc
-} from './firebase-config.js';
+import { auth, db, WILAYAS, onAuthStateChanged, signOut, collection, getDocs, getDoc, doc } from './firebase-config.js';
 
 let currentUser = null;
 let currentUserData = null;
 let allUsers = [];
-let allRooms = [];
 let currentTab = 'rooms';
 
+// ============================================
+// إدارة الألوان (Theme)
+// ============================================
+window.changeTheme = function(color1, color2, colorSoft) {
+  document.documentElement.style.setProperty('--acc', color1);
+  document.documentElement.style.setProperty('--acc2', color2);
+  document.documentElement.style.setProperty('--acc-soft', colorSoft);
+  localStorage.setItem('enstp_theme', JSON.stringify({ color1, color2, colorSoft }));
+};
+
+// تحميل اللون المحفوظ
+const savedTheme = localStorage.getItem('enstp_theme');
+if (savedTheme) {
+  const t = JSON.parse(savedTheme);
+  window.changeTheme(t.color1, t.color2, t.colorSoft);
+}
+
+// ============================================
+// بدء التطبيق
+// ============================================
 onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = 'login.html';
-    return;
-  }
+  if (!user) { window.location.href = 'login.html'; return; }
   currentUser = user;
   try {
     const snap = await getDoc(doc(db, 'users', user.uid));
-    currentUserData = snap.exists() ? snap.data() : {
-      name: user.displayName || 'Étudiant',
-      email: user.email,
-      wilaya: 'غير محدد'
-    };
+    currentUserData = snap.exists() ? snap.data() : { name: user.displayName || 'Étudiant', wilaya: 'غير محدد', groupe: '' };
   } catch(e) {
-    currentUserData = { name: user.displayName || 'Étudiant', email: user.email, wilaya: 'غير محدد' };
+    currentUserData = { name: user.displayName || 'Étudiant', wilaya: 'غير محدد', groupe: '' };
   }
   
-  const initials = (currentUserData.name || '?').charAt(0).toUpperCase();
-  document.getElementById('userAvatar').textContent = initials;
+  document.getElementById('userAvatar').textContent = (currentUserData.name || '?').charAt(0).toUpperCase();
   document.getElementById('userName').textContent = currentUserData.name || 'Étudiant';
   document.getElementById('welcomeName').textContent = currentUserData.name || 'Étudiant';
-  document.getElementById('statMyWilaya').textContent = currentUserData.wilaya || '-';
   
-  await loadAllData();
-});
-
-async function loadAllData() {
   await loadUsers();
-  await loadRooms();
   renderContent();
-  document.getElementById('statUsers').textContent = allUsers.length + 1;
-}
+});
 
 async function loadUsers() {
   try {
@@ -161,120 +171,126 @@ async function loadUsers() {
   } catch(e) { allUsers = []; }
 }
 
-async function loadRooms() {
-  try {
-    allRooms = WILAYAS.map(w => ({
-      wilaya: w,
-      count: allUsers.filter(u => u.wilaya === w).length
-    }));
-    if (currentUserData && currentUserData.wilaya) {
-      const my = allRooms.find(r => r.wilaya === currentUserData.wilaya);
-      if (my) my.count++;
-    }
-    allRooms.sort((a, b) => {
-      if (a.wilaya === currentUserData.wilaya) return -1;
-      if (b.wilaya === currentUserData.wilaya) return 1;
-      return b.count - a.count;
-    });
-  } catch(e) { allRooms = []; }
-}
-
+// ============================================
+// عرض المحتوى
+// ============================================
 function renderContent() {
   const content = document.getElementById('content');
   if (currentTab === 'rooms') renderRooms(content);
+  else if (currentTab === 'groups') renderGroups(content);
   else renderUsers(content);
 }
 
 function renderRooms(content) {
-  const search = (document.getElementById('searchInput').value || '').toLowerCase().trim();
-  let rooms = allRooms;
-  if (search) rooms = rooms.filter(r => r.wilaya.toLowerCase().includes(search));
+  let html = '<div class="rooms-list">';
+  // القاعة العامة
+  html += `<button class="room-card global" onclick="openRoom('general', '')">
+    <div class="room-icon">🌍</div>
+    <div class="room-info"><div class="room-name">Salle générale ENSTP</div>
+    <div class="room-count">Toutes les wilayas</div></div></button>`;
   
-  let html = '';
-  if (!search || 'général générale general عامة'.toLowerCase().includes(search)) {
-    const total = allUsers.length + 1;
-    html += '<button class="room-card global" onclick="openRoom(\'__general__\')">';
-    html += '<div class="room-icon">🌍</div>';
-    html += '<div class="room-info"><div class="room-name">Salle générale ENSTP</div>';
-    html += '<div class="room-count">👥 ' + total + ' étudiant' + (total > 1 ? 's' : '') + ' — Toutes les wilayas</div>';
-    html += '</div></button>';
-  }
-  
-  if (rooms.length > 0) {
-    html += '<h3 class="section-title">📍 Salles par wilaya (69)</h3><div class="rooms-list">';
-    rooms.forEach(r => {
-      const isMine = r.wilaya === currentUserData.wilaya;
-      html += '<button class="room-card' + (isMine ? ' mine' : '') + '" onclick="openRoom(\'' + r.wilaya.replace(/'/g, "\\'") + '\')">';
-      html += '<div class="room-icon">' + (isMine ? '⭐' : '🏠') + '</div>';
-      html += '<div class="room-info"><div class="room-name">' + r.wilaya + (isMine ? ' <span style="color:#10b981;font-size:.75rem">— Ma wilaya</span>' : '') + '</div>';
-      html += '<div class="room-count">👥 ' + r.count + ' étudiant' + (r.count > 1 ? 's' : '') + '</div>';
-      html += '</div></button>';
-    });
-    html += '</div>';
-  }
-  
-  if (!html) html = '<div class="empty"><b>🔍</b>Aucune wilaya trouvée</div>';
-  content.innerHTML = html;
-}
-
-function renderUsers(content) {
-  const search = (document.getElementById('searchInput').value || '').toLowerCase().trim();
-  let users = allUsers;
-  if (search) users = users.filter(u => 
-    (u.name || '').toLowerCase().includes(search) ||
-    (u.wilaya || '').toLowerCase().includes(search)
-  );
-  
-  if (users.length === 0) {
-    content.innerHTML = '<div class="empty"><b>👥</b>Aucun étudiant trouvé</div>';
-    return;
-  }
-  
-  let html = '<h3 class="section-title">👥 Étudiants inscrits (' + users.length + ')</h3><div class="users-list">';
-  users.forEach(u => {
-    const initials = (u.name || '?').charAt(0).toUpperCase();
-    html += '<div class="user-card"><div class="u-head">';
-    html += '<div class="u-avatar">' + initials + '</div>';
-    html += '<div class="u-info"><div class="u-name">' + (u.name || 'Étudiant') + '</div>';
-    html += '<div class="u-wilaya">📍 ' + (u.wilaya || 'غير محدد') + '</div></div></div>';
-    html += '<div class="u-details">';
-    if (u.year) html += '<span class="u-badge">🎓 ' + u.year + '</span>';
-    if (u.groupe) html += '<span class="u-badge">' + u.groupe + '</span>';
-    html += '</div></div>';
+  // قاعات الولايات
+  WILAYAS.forEach(w => {
+    const isMine = currentUserData.wilaya === w;
+    html += `<button class="room-card ${isMine ? 'mine' : ''}" onclick="openRoom('wilaya', '${w}')">
+      <div class="room-icon">${isMine ? '⭐' : '🏠'}</div>
+      <div class="room-info"><div class="room-name">${w}</div>
+      <div class="room-count">${isMine ? 'Ma wilaya' : 'Wilaya'}</div></div></button>`;
   });
   html += '</div>';
   content.innerHTML = html;
 }
 
-function switchTab(tab) {
+function renderGroups(content) {
+  let html = '';
+  
+  // زر إنشاء دردشة جديدة
+  html += `<button class="room-card new-chat" onclick="openCreateGroupModal()" style="margin-bottom:16px; padding: 20px;">
+    <div class="room-icon" style="background:var(--card); color:var(--acc); font-size:2rem;">+</div>
+    <div class="room-info"><div class="room-name">Créer une nouvelle discussion (Fouj)</div>
+    <div class="room-count">Ajoutez votre groupe d'étude</div></div></button>`;
+    
+  html += '<div class="groups-list">';
+  // قاعات الأفواج الافتراضية (1 إلى 10)
+  for(let i = 1; i <= 10; i++) {
+    html += `<button class="room-card" onclick="openRoom('groupe', 'Groupe ${i}')">
+      <div class="room-icon">👥</div>
+      <div class="room-info"><div class="room-name">Groupe ${i}</div>
+      <div class="room-count">Discussion du groupe</div></div></button>`;
+  }
+  html += '</div>';
+  content.innerHTML = html;
+}
+
+function renderUsers(content) {
+  if (allUsers.length === 0) {
+    content.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mut)">Aucun étudiant trouvé</div>';
+    return;
+  }
+  let html = '<div class="users-list">';
+  allUsers.forEach(u => {
+    html += `<div class="room-card">
+      <div class="room-icon">${(u.name||'?').charAt(0).toUpperCase()}</div>
+      <div class="room-info"><div class="room-name">${u.name || 'Étudiant'}</div>
+      <div class="room-count">📍 ${u.wilaya || 'Non spécifié'} ${u.groupe ? '| 🎓 '+u.groupe : ''}</div></div></div>`;
+  });
+  html += '</div>';
+  content.innerHTML = html;
+}
+
+window.switchTab = function(tab) {
   currentTab = tab;
   document.getElementById('tabRooms').classList.toggle('active', tab === 'rooms');
+  document.getElementById('tabGroups').classList.toggle('active', tab === 'groups');
   document.getElementById('tabUsers').classList.toggle('active', tab === 'users');
   renderContent();
-}
+};
 
-function filterContent() { renderContent(); }
+window.filterContent = function() { renderContent(); }; // يمكن تحسينها لاحقاً
 
-function openRoom(wilaya) {
-  if (wilaya === '__general__') {
-    window.location.href = 'chat.html?room=general';
-  } else {
-    window.location.href = 'chat.html?wilaya=' + encodeURIComponent(wilaya);
-  }
-}
+// التوجيه لصفحة المحادثة
+window.openRoom = function(type, value) {
+  if (type === 'general') window.location.href = 'chat.html?room=general';
+  else if (type === 'wilaya') window.location.href = 'chat.html?wilaya=' + encodeURIComponent(value);
+  else if (type === 'groupe') window.location.href = 'chat.html?groupe=' + encodeURIComponent(value);
+};
 
-async function handleLogout() {
-  if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+// ============================================
+// إنشاء دردشة جديدة (Fouj)
+// ============================================
+window.openCreateGroupModal = function() {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.onclick = (e) => { if(e.target === overlay) overlay.remove(); };
+  
+  overlay.innerHTML = `
+    <div class="modal-box">
+      <h3>Créer un nouveau groupe</h3>
+      <p style="font-size:.9rem;color:var(--mut);margin-bottom:12px">Entrez le nom du groupe (ex: Groupe 5, Fouj 12...)</p>
+      <input type="text" id="newGroupName" placeholder="Nom du groupe...">
+      <div class="actions">
+        <button class="cancel" onclick="this.closest('.modal-overlay').remove()">Annuler</button>
+        <button class="confirm" onclick="createGroup()">Créer</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  document.getElementById('newGroupName').focus();
+};
+
+window.createGroup = function() {
+  const name = document.getElementById('newGroupName').value.trim();
+  if(!name) return alert('Veuillez entrer un nom');
+  // التوجيه مباشرة إلى الدردشة باسم الفوج الجديد
+  window.location.href = 'chat.html?groupe=' + encodeURIComponent(name);
+};
+
+window.handleLogout = async function() {
+  if (confirm('Se déconnecter ?')) {
     await signOut(auth);
     window.location.href = 'login.html';
   }
-}
-
-window.switchTab = switchTab;
-window.filterContent = filterContent;
-window.openRoom = openRoom;
-window.handleLogout = handleLogout;
+};
 </script>
-
 </body>
 </html>
