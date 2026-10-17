@@ -12,10 +12,8 @@ header{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padd
 header a{color:#fff;text-decoration:none;font-size:1.2rem}
 header h1{font-size:1rem;font-weight:800;flex:1;margin:0}
 header .me{font-size:.75rem;opacity:.9}
-
-#messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
-
-.msg{max-width:82%;padding:10px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.04);position:relative;word-wrap:break-word;animation:pop .25s ease-out}
+#messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:82%;padding:10px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.04);word-wrap:break-word;animation:pop .25s ease-out}
 @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .msg.mine{align-self:flex-end;background:linear-gradient(135deg,var(--acc-soft),#fff5ee);border-color:var(--acc-soft)}
 .msg.deleted{opacity:.7;font-style:italic;color:var(--mut)}
@@ -27,22 +25,20 @@ header .me{font-size:.75rem;opacity:.9}
 .msg .actions{display:flex;gap:6px;margin-top:8px;justify-content:flex-end}
 .msg .actions button{background:transparent;border:1px solid var(--line);color:var(--mut);padding:3px 8px;border-radius:8px;font-size:.7rem;cursor:pointer;font-family:inherit;transition:all .2s}
 .msg .actions button:hover{background:var(--acc-soft);color:var(--acc);border-color:var(--acc)}
-
 #composer{padding:10px 12px;background:var(--card);border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
 #composer .row{display:flex;gap:8px;width:100%;align-items:flex-end}
-#msgText{flex:1;padding:10px 14px;border:1px solid var(--line);border-radius:22px;font-family:inherit;font-size:.95rem;outline:none;resize:none;max-height:120px;min-height:42px;line-height:1.4;background:var(--bg);color:var(--ink);transition:border .2s}
+#msgText{flex:1;padding:10px 14px;border:1px solid var(--line);border-radius:22px;font-family:inherit;font-size:.95rem;outline:none;resize:none;max-height:120px;min-height:42px;line-height:1.4;background:var(--bg);color:var(--ink)}
 #msgText:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(194,65,12,.1)}
-#composer button.icon{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;color:var(--ink)}
+#composer button.icon{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink)}
 #composer button.icon:hover{background:var(--acc-soft);border-color:var(--acc)}
-#sendBtn{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(194,65,12,.3);transition:all .2s}
-#sendBtn:hover{transform:scale(1.05)}
+#sendBtn{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(194,65,12,.3)}
 #sendBtn:disabled{opacity:.5;cursor:not-allowed}
 #filePreview{width:100%;display:none;padding:8px;background:var(--bg);border-radius:12px;border:1px dashed var(--acc);font-size:.8rem;color:var(--mut);align-items:center;gap:10px}
 #filePreview.show{display:flex}
 #filePreview .thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:#000}
 #filePreview .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #filePreview button{background:none;border:0;color:var(--acc);font-size:1.2rem;cursor:pointer}
-#progress{height:3px;background:var(--acc);width:0;transition:width .2s;border-radius:2px}
+#progress{height:3px;background:var(--acc);width:0;transition:width .2s;border-radius:2px;margin-top:4px}
 .empty{text-align:center;color:var(--mut);padding:40px 20px;font-size:.9rem}
 .empty b{display:block;font-size:2.5rem;margin-bottom:8px}
 @media(max-width:600px){.msg{max-width:88%}}
@@ -56,9 +52,7 @@ header .me{font-size:.75rem;opacity:.9}
   <span class="me" id="meName"></span>
 </header>
 
-<div id="messages">
-  <div class="empty"><b>⏳</b>Chargement…</div>
-</div>
+<div id="messages"><div class="empty"><b>⏳</b>Chargement…</div></div>
 
 <div id="composer">
   <div id="filePreview">
@@ -77,29 +71,21 @@ header .me{font-size:.75rem;opacity:.9}
 
 <script type="module">
 import {
-  auth, db, storage, onAuthStateChanged, signOut,
-  collection, addDoc, doc, updateDoc, deleteDoc, getDoc,
+  auth, db, onAuthStateChanged,
+  collection, addDoc, doc, updateDoc, getDoc,
   query, orderBy, onSnapshot, serverTimestamp,
-  ref, uploadBytesResumable, getDownloadURL, deleteObject
+  uploadToCloudinary // استيراد دالة الرفع الجديدة
 } from './firebase-config.js';
 
-// ---------- تحديد القاعة من الرابط ----------
 const params = new URLSearchParams(location.search);
 const room = params.get('room') === 'general'
   ? 'general'
   : ('wilaya_' + (params.get('wilaya') || 'unknown'));
-
-const ROOM_LABEL = params.get('room') === 'general'
-  ? 'Salle générale ENSTP'
+document.getElementById('roomTitle').textContent =
+  params.get('room') === 'general' ? 'Salle générale ENSTP'
   : 'Salle — ' + (params.get('wilaya') || '?');
 
-document.getElementById('roomTitle').textContent = ROOM_LABEL;
-
-// ---------- الحالة ----------
-let currentUser = null;
-let currentUserData = null;
-let pendingFile = null;
-let unsubscribeMsgs = null;
+let currentUser = null, currentUserData = null, pendingFile = null, unsub = null;
 const messagesEl = document.getElementById('messages');
 const textEl = document.getElementById('msgText');
 const sendBtn = document.getElementById('sendBtn');
@@ -109,34 +95,21 @@ const prevThumb = document.getElementById('prevThumb');
 const prevName = document.getElementById('prevName');
 const progressBar = document.getElementById('progress');
 
-// ---------- المصادقة ----------
 onAuthStateChanged(auth, async (user) => {
   if (!user) { location.href = 'login.html'; return; }
   currentUser = user;
-
   const snap = await getDoc(doc(db, 'users', user.uid)).catch(() => null);
-  currentUserData = snap && snap.exists() ? snap.data() : {
-    name: user.displayName || user.email || 'Étudiant'
-  };
-
+  currentUserData = snap && snap.exists() ? snap.data() : { name: user.displayName || user.email || 'Étudiant' };
   document.getElementById('meName').textContent = '👤 ' + (currentUserData.name || 'Étudiant');
-
   listenMessages();
 });
 
-// ---------- الاستماع للرسائل ----------
 function listenMessages() {
-  if (unsubscribeMsgs) unsubscribeMsgs();
-  const q = query(
-    collection(db, 'rooms', room, 'messages'),
-    orderBy('createdAt', 'asc')
-  );
-  unsubscribeMsgs = onSnapshot(q, (snap) => {
+  if (unsub) unsub();
+  const q = query(collection(db, 'rooms', room, 'messages'), orderBy('createdAt', 'asc'));
+  unsub = onSnapshot(q, (snap) => {
     messagesEl.innerHTML = '';
-    if (snap.empty) {
-      messagesEl.innerHTML = '<div class="empty"><b>💬</b>Aucun message. Soyez le premier !</div>';
-      return;
-    }
+    if (snap.empty) { messagesEl.innerHTML = '<div class="empty"><b>💬</b>Aucun message. Soyez le premier !</div>'; return; }
     let lastAuthor = null;
     snap.forEach((d) => {
       const m = d.data();
@@ -145,44 +118,32 @@ function listenMessages() {
     });
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }, (err) => {
-    console.error(err);
-    messagesEl.innerHTML = '<div class="empty"><b>⚠️</b>Erreur de chargement : ' + err.message + '</div>';
+    messagesEl.innerHTML = '<div class="empty"><b>⚠️</b>' + err.message + '</div>';
   });
 }
 
-// ---------- عرض رسالة ----------
 function renderMessage(id, m, showAuthor) {
   const div = document.createElement('div');
   const mine = currentUser && m.uid === currentUser.uid;
   div.className = 'msg' + (mine ? ' mine' : '') + (m.isDeleted ? ' deleted' : '');
-  div.dataset.id = id;
-
   if (m.isDeleted) {
     div.innerHTML = `<div class="text">🚫 ${mine ? 'Vous avez supprimé ce message' : 'Message supprimé'}</div>`;
     return div;
   }
-
   let html = '';
-  if (showAuthor) html += `<div class="author">${escapeHtml(m.author || 'Étudiant')}</div>`;
-  if (m.text) html += `<div class="text">${linkify(escapeHtml(m.text))}${m.isEdited ? '<span class="edited">(modifié)</span>' : ''}</div>`;
-
+  if (showAuthor) html += `<div class="author">${esc(m.author || 'Étudiant')}</div>`;
+  if (m.text) html += `<div class="text">${linkify(esc(m.text))}${m.isEdited ? '<span class="edited">(modifié)</span>' : ''}</div>`;
   if (m.fileURL) {
     if ((m.fileType || '').startsWith('image/')) {
-      html += `<div class="media"><img src="${m.fileURL}" alt="" loading="lazy" onclick="window.openImageViewer('${m.fileURL}')"></div>`;
+      html += `<div class="media"><img src="${m.fileURL}" loading="lazy" onclick="window.openImageViewer('${m.fileURL}')"></div>`;
     } else if ((m.fileType || '').startsWith('video/')) {
       html += `<div class="media"><video src="${m.fileURL}" controls preload="metadata"></video></div>`;
     }
   }
-
   if (mine) {
-    html += `<div class="actions">
-      ${m.text ? `<button data-act="edit">✏️</button>` : ''}
-      <button data-act="del">🗑️</button>
-    </div>`;
+    html += `<div class="actions">${m.text ? '<button data-act="edit">✏️</button>' : ''}<button data-act="del">🗑️</button></div>`;
   }
-
   div.innerHTML = html;
-
   if (mine) {
     div.querySelector('[data-act="edit"]')?.addEventListener('click', () => editMessage(id, m));
     div.querySelector('[data-act="del"]')?.addEventListener('click', () => deleteMessage(id, m));
@@ -190,7 +151,6 @@ function renderMessage(id, m, showAuthor) {
   return div;
 }
 
-// ---------- إرسال رسالة ----------
 textEl.addEventListener('input', () => {
   textEl.style.height = 'auto';
   textEl.style.height = Math.min(textEl.scrollHeight, 120) + 'px';
@@ -207,12 +167,8 @@ fileInput.addEventListener('change', () => {
   if (f.size > 20 * 1024 * 1024) { alert('Fichier trop volumineux (max 20 Mo)'); fileInput.value = ''; return; }
   pendingFile = f;
   prevName.textContent = `${f.name} — ${(f.size/1024/1024).toFixed(2)} Mo`;
-  if (f.type.startsWith('image/')) {
-    prevThumb.src = URL.createObjectURL(f);
-    prevThumb.style.display = 'block';
-  } else {
-    prevThumb.style.display = 'none';
-  }
+  if (f.type.startsWith('image/')) { prevThumb.src = URL.createObjectURL(f); prevThumb.style.display = 'block'; }
+  else prevThumb.style.display = 'none';
   filePreview.classList.add('show');
 });
 document.getElementById('cancelFile').addEventListener('click', () => {
@@ -223,49 +179,33 @@ document.getElementById('cancelFile').addEventListener('click', () => {
 async function sendMessage() {
   const text = textEl.value.trim();
   if (!text && !pendingFile) return;
-  if (!currentUser) return;
-
   sendBtn.disabled = true;
   try {
-    let fileURL = null, fileType = null, filePath = null;
-
+    let fileURL = null, fileType = null;
     if (pendingFile) {
-      filePath = `chat/${room}/${currentUser.uid}/${Date.now()}_${pendingFile.name.replace(/\s+/g,'_')}`;
-      const sRef = ref(storage, filePath);
-      const task = uploadBytesResumable(sRef, pendingFile);
+      // استخدام Cloudinary بدلاً من Firebase Storage
       fileType = pendingFile.type;
-      fileURL = await new Promise((resolve, reject) => {
-        task.on('state_changed',
-          (s) => { progressBar.style.width = (s.bytesTransferred / s.totalBytes * 100) + '%'; },
-          reject,
-          async () => { progressBar.style.width = '100%'; resolve(await getDownloadURL(sRef)); }
-        );
+      fileURL = await uploadToCloudinary(pendingFile, (percent) => {
+        progressBar.style.width = percent + '%';
       });
-      setTimeout(() => { progressBar.style.width = '0'; }, 400);
+      setTimeout(() => { progressBar.style.width = '0'; }, 500);
     }
-
+    
     await addDoc(collection(db, 'rooms', room, 'messages'), {
       uid: currentUser.uid,
       author: currentUserData.name || 'Étudiant',
-      text: text,
-      fileURL, fileType, filePath,
-      isDeleted: false,
-      isEdited: false,
+      text, fileURL, fileType,
+      isDeleted: false, isEdited: false,
       createdAt: serverTimestamp()
     });
-
     textEl.value = ''; textEl.style.height = 'auto';
     pendingFile = null; fileInput.value = '';
     filePreview.classList.remove('show'); prevThumb.src = '';
   } catch (err) {
-    console.error(err);
-    alert('Erreur d\'envoi : ' + err.message);
-  } finally {
-    sendBtn.disabled = false;
-  }
+    console.error(err); alert('Erreur d\'envoi : ' + err.message);
+  } finally { sendBtn.disabled = false; }
 }
 
-// ---------- تعديل رسالة ----------
 async function editMessage(id, m) {
   const newText = prompt('Modifier votre message :', m.text || '');
   if (newText === null) return;
@@ -273,44 +213,32 @@ async function editMessage(id, m) {
   if (!trimmed || trimmed === m.text) return;
   try {
     await updateDoc(doc(db, 'rooms', room, 'messages', id), {
-      text: trimmed,
-      isEdited: true,
-      editedAt: serverTimestamp()
+      text: trimmed, isEdited: true, editedAt: serverTimestamp()
     });
   } catch (err) { alert('Erreur : ' + err.message); }
 }
 
-// ---------- حذف رسالة ----------
 async function deleteMessage(id, m) {
   if (!confirm('Supprimer ce message ?')) return;
   try {
-    if (m.filePath) {
-      try { await deleteObject(ref(storage, m.filePath)); } catch (e) { console.warn('file déjà supprimé', e); }
-    }
+    // ملاحظة: Cloudinary لا يسمح بحذف الملفات من الواجهة الأمامية (Unsigned) لأسباب أمنية.
+    // سنحذف الرسالة من قاعدة البيانات فقط، والملف سيبقى في Cloudinary (لكن لن يظهر في المحادثة).
     await updateDoc(doc(db, 'rooms', room, 'messages', id), {
-      isDeleted: true, text: '', fileURL: null, fileType: null, filePath: null,
+      isDeleted: true, text: '', fileURL: null, fileType: null,
       deletedAt: serverTimestamp()
     });
   } catch (err) { alert('Erreur : ' + err.message); }
 }
 
-// ---------- أدوات ----------
-function escapeHtml(s) {
-  const d = document.createElement('div'); d.textContent = s; return d.innerHTML;
-}
-function linkify(html) {
-  return html.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-}
-
-// عرض صورة مكبّرة
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+function linkify(html){return html.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');}
 window.openImageViewer = (src) => {
   const o = document.createElement('div');
   o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.95);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out';
   o.onclick = () => o.remove();
-  o.innerHTML = `<img src="${src}" style="max-width:95vw;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.8)">`;
+  o.innerHTML = `<img src="${src}" style="max-width:95vw;max-height:90vh;border-radius:12px">`;
   document.body.appendChild(o);
 };
 </script>
-
 </body>
 </html>
