@@ -41,6 +41,7 @@ header .me{font-size:.75rem;opacity:.9}
 #progress{height:3px;background:var(--acc);width:0;transition:width .2s;border-radius:2px;margin-top:4px}
 .empty{text-align:center;color:var(--mut);padding:40px 20px;font-size:.9rem}
 .empty b{display:block;font-size:2.5rem;margin-bottom:8px}
+.err{color:#dc2626;text-align:center;padding:20px;font-weight:bold;font-size:14px}
 @media(max-width:600px){.msg{max-width:88%}}
 </style>
 </head>
@@ -52,7 +53,7 @@ header .me{font-size:.75rem;opacity:.9}
   <span class="me" id="meName"></span>
 </header>
 
-<div id="messages"><div class="empty"><b>⏳</b>Chargement…</div></div>
+<div id="messages"><div class="empty"><b>⏳</b>Chargement...</div></div>
 
 <div id="composer">
   <div id="filePreview">
@@ -73,17 +74,14 @@ header .me{font-size:.75rem;opacity:.9}
 import {
   auth, db, onAuthStateChanged,
   collection, addDoc, doc, updateDoc, getDoc,
-  query, orderBy, onSnapshot, serverTimestamp,
-  uploadToCloudinary // استيراد دالة الرفع الجديدة
+  query, orderBy, onSnapshot, serverTimestamp, where,
+  uploadToCloudinary 
 } from './firebase-config.js';
 
 const params = new URLSearchParams(location.search);
-const room = params.get('room') === 'general'
-  ? 'general'
-  : ('wilaya_' + (params.get('wilaya') || 'unknown'));
-document.getElementById('roomTitle').textContent =
-  params.get('room') === 'general' ? 'Salle générale ENSTP'
-  : 'Salle — ' + (params.get('wilaya') || '?');
+// نستخدم اسم القاعة كما هو (general أو wilaya_xxx)
+const roomId = params.get('room') === 'general' ? 'general' : ('wilaya_' + (params.get('wilaya') || 'unknown'));
+document.getElementById('roomTitle').textContent = params.get('room') === 'general' ? 'Salle générale ENSTP' : 'Salle — ' + (params.get('wilaya') || '?');
 
 let currentUser = null, currentUserData = null, pendingFile = null, unsub = null;
 const messagesEl = document.getElementById('messages');
@@ -98,18 +96,31 @@ const progressBar = document.getElementById('progress');
 onAuthStateChanged(auth, async (user) => {
   if (!user) { location.href = 'login.html'; return; }
   currentUser = user;
-  const snap = await getDoc(doc(db, 'users', user.uid)).catch(() => null);
-  currentUserData = snap && snap.exists() ? snap.data() : { name: user.displayName || user.email || 'Étudiant' };
+  try {
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    currentUserData = snap.exists() ? snap.data() : { name: user.displayName || user.email || 'Étudiant' };
+  } catch(e) {
+    currentUserData = { name: user.displayName || user.email || 'Étudiant' };
+  }
   document.getElementById('meName').textContent = '👤 ' + (currentUserData.name || 'Étudiant');
   listenMessages();
 });
 
 function listenMessages() {
   if (unsub) unsub();
-  const q = query(collection(db, 'rooms', room, 'messages'), orderBy('createdAt', 'asc'));
+  // نستخدم مجموعة messages مباشرة ونفلتر بـ roomId
+  const q = query(
+    collection(db, 'messages'), 
+    where('roomId', '==', roomId),
+    orderBy('createdAt', 'asc')
+  );
+  
   unsub = onSnapshot(q, (snap) => {
     messagesEl.innerHTML = '';
-    if (snap.empty) { messagesEl.innerHTML = '<div class="empty"><b>💬</b>Aucun message. Soyez le premier !</div>'; return; }
+    if (snap.empty) { 
+      messagesEl.innerHTML = '<div class="empty"><b>💬</b>Aucun message. Soyez le premier !</div>'; 
+      return; 
+    }
     let lastAuthor = null;
     snap.forEach((d) => {
       const m = d.data();
@@ -118,7 +129,9 @@ function listenMessages() {
     });
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }, (err) => {
-    messagesEl.innerHTML = '<div class="empty"><b>⚠️</b>' + err.message + '</div>';
+    // عرض الخطأ بوضوح في الشاشة
+    messagesEl.innerHTML = '<div class="err">⚠️ Erreur de lecture :<br>' + err.message + '</div>';
+    console.error("Firestore Error:", err);
   });
 }
 
@@ -183,7 +196,6 @@ async function sendMessage() {
   try {
     let fileURL = null, fileType = null;
     if (pendingFile) {
-      // استخدام Cloudinary بدلاً من Firebase Storage
       fileType = pendingFile.type;
       fileURL = await uploadToCloudinary(pendingFile, (percent) => {
         progressBar.style.width = percent + '%';
@@ -191,7 +203,9 @@ async function sendMessage() {
       setTimeout(() => { progressBar.style.width = '0'; }, 500);
     }
     
-    await addDoc(collection(db, 'rooms', room, 'messages'), {
+    // إضافة roomId لحفظ الرسالة في القاعة الصحيحة
+    await addDoc(collection(db, 'messages'), {
+      roomId: roomId,
       uid: currentUser.uid,
       author: currentUserData.name || 'Étudiant',
       text, fileURL, fileType,
@@ -212,7 +226,7 @@ async function editMessage(id, m) {
   const trimmed = newText.trim();
   if (!trimmed || trimmed === m.text) return;
   try {
-    await updateDoc(doc(db, 'rooms', room, 'messages', id), {
+    await updateDoc(doc(db, 'messages', id), {
       text: trimmed, isEdited: true, editedAt: serverTimestamp()
     });
   } catch (err) { alert('Erreur : ' + err.message); }
@@ -221,9 +235,7 @@ async function editMessage(id, m) {
 async function deleteMessage(id, m) {
   if (!confirm('Supprimer ce message ?')) return;
   try {
-    // ملاحظة: Cloudinary لا يسمح بحذف الملفات من الواجهة الأمامية (Unsigned) لأسباب أمنية.
-    // سنحذف الرسالة من قاعدة البيانات فقط، والملف سيبقى في Cloudinary (لكن لن يظهر في المحادثة).
-    await updateDoc(doc(db, 'rooms', room, 'messages', id), {
+    await updateDoc(doc(db, 'messages', id), {
       isDeleted: true, text: '', fileURL: null, fileType: null,
       deletedAt: serverTimestamp()
     });
