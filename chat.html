@@ -3,233 +3,313 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Chat — ENSTP Forum</title>
+<title>Chat — ENSTP</title>
 <style>
 :root{--acc:#c2410c;--acc2:#9a3412;--acc-soft:#fde8dc;--bg:#f6f4ef;--card:#fff;--ink:#1d2433;--mut:#667085;--line:#e5e1d8}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:var(--bg);color:var(--ink);font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;overflow:hidden;-webkit-tap-highlight-color:transparent}
-.chat-header{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:100;flex-shrink:0}
-.chat-header .back-btn{background:rgba(255,255,255,.15);border:0;color:#fff;width:38px;height:38px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;font-family:inherit}
-.chat-header .back-btn:hover{background:rgba(255,255,255,.3)}
-.chat-header .room-info{flex:1;min-width:0}
-.chat-header .room-info h1{margin:0;font-size:1.05rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chat-header .room-info .room-sub{font-size:.78rem;opacity:.9;margin-top:2px;display:flex;align-items:center;gap:6px}
-.chat-header .room-info .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#10b981;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.messages-container{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--bg);-webkit-overflow-scrolling:touch}
-.messages-container::-webkit-scrollbar{width:8px}
-.messages-container::-webkit-scrollbar-track{background:transparent}
-.messages-container::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:4px}
-.message{display:flex;gap:8px;max-width:80%;animation:msgSlide .25s ease-out}
-@keyframes msgSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.message.own{align-self:flex-end;flex-direction:row-reverse}
-.message .msg-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0}
-.message.own .msg-avatar{background:linear-gradient(135deg,#10b981,#059669)}
-.message .msg-content{min-width:0}
-.message .msg-name{font-size:.72rem;color:var(--mut);margin-bottom:3px;font-weight:600}
-.message.own .msg-name{text-align:right;color:#10b981}
-.message .msg-bubble{background:var(--card);padding:10px 14px;border-radius:16px;border-top-left-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.05);word-wrap:break-word;word-break:break-word;line-height:1.5;font-size:.95rem;border:1px solid var(--line)}
-.message.own .msg-bubble{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;border-radius:16px;border-top-right-radius:4px}
-.message .msg-time{font-size:.68rem;color:#94a3b8;margin-top:3px}
-.message.own .msg-time{text-align:right}
-.empty-chat,.loading-chat{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#94a3b8;text-align:center;padding:40px 20px;gap:10px}
-.empty-chat .icon,.loading-chat .icon{font-size:4rem;margin-bottom:10px}
-.loading-chat .spinner{width:32px;height:32px;border:3px solid var(--acc-soft);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.input-bar{padding:12px 16px;background:var(--card);border-top:1px solid var(--line);display:flex;gap:10px;align-items:flex-end;flex-shrink:0;box-shadow:0 -4px 20px rgba(0,0,0,.05)}
-.input-bar textarea{flex:1;padding:12px 16px;border:1px solid var(--line);border-radius:22px;font-size:.95rem;font-family:inherit;resize:none;outline:none;max-height:120px;min-height:44px;line-height:1.4;background:var(--bg);color:var(--ink);transition:all .2s}
-.input-bar textarea:focus{border-color:var(--acc);background:#fff;box-shadow:0 0 0 3px rgba(194,65,12,.1)}
-.input-bar textarea:disabled{opacity:.5;cursor:not-allowed}
-.input-bar .send-btn{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;box-shadow:0 4px 12px rgba(194,65,12,.3);font-family:inherit}
-.input-bar .send-btn:hover{transform:scale(1.08);box-shadow:0 6px 18px rgba(194,65,12,.4)}
-.input-bar .send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-@media (max-width:600px){
-  .message{max-width:88%}
-  .message .msg-avatar{width:30px;height:30px;font-size:.75rem}
-  .message .msg-bubble{font-size:.9rem;padding:9px 12px}
-  .input-bar textarea{font-size:16px}
-}
+body{font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,.15)}
+header a{color:#fff;text-decoration:none;font-size:1.2rem}
+header h1{font-size:1rem;font-weight:800;flex:1;margin:0}
+header .me{font-size:.75rem;opacity:.9}
+
+#messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+
+.msg{max-width:82%;padding:10px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.04);position:relative;word-wrap:break-word;animation:pop .25s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.mine{align-self:flex-end;background:linear-gradient(135deg,var(--acc-soft),#fff5ee);border-color:var(--acc-soft)}
+.msg.deleted{opacity:.7;font-style:italic;color:var(--mut)}
+.msg .author{font-size:.72rem;font-weight:800;color:var(--acc);margin-bottom:4px}
+.msg .text{font-size:.95rem;line-height:1.5;white-space:pre-wrap}
+.msg .edited{font-size:.68rem;color:var(--mut);margin-left:6px}
+.msg .media{margin-top:8px;border-radius:12px;overflow:hidden;max-width:260px}
+.msg .media img,.msg .media video{width:100%;display:block;border-radius:12px}
+.msg .actions{display:flex;gap:6px;margin-top:8px;justify-content:flex-end}
+.msg .actions button{background:transparent;border:1px solid var(--line);color:var(--mut);padding:3px 8px;border-radius:8px;font-size:.7rem;cursor:pointer;font-family:inherit;transition:all .2s}
+.msg .actions button:hover{background:var(--acc-soft);color:var(--acc);border-color:var(--acc)}
+
+#composer{padding:10px 12px;background:var(--card);border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
+#composer .row{display:flex;gap:8px;width:100%;align-items:flex-end}
+#msgText{flex:1;padding:10px 14px;border:1px solid var(--line);border-radius:22px;font-family:inherit;font-size:.95rem;outline:none;resize:none;max-height:120px;min-height:42px;line-height:1.4;background:var(--bg);color:var(--ink);transition:border .2s}
+#msgText:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(194,65,12,.1)}
+#composer button.icon{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;color:var(--ink)}
+#composer button.icon:hover{background:var(--acc-soft);border-color:var(--acc)}
+#sendBtn{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(194,65,12,.3);transition:all .2s}
+#sendBtn:hover{transform:scale(1.05)}
+#sendBtn:disabled{opacity:.5;cursor:not-allowed}
+#filePreview{width:100%;display:none;padding:8px;background:var(--bg);border-radius:12px;border:1px dashed var(--acc);font-size:.8rem;color:var(--mut);align-items:center;gap:10px}
+#filePreview.show{display:flex}
+#filePreview .thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:#000}
+#filePreview .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#filePreview button{background:none;border:0;color:var(--acc);font-size:1.2rem;cursor:pointer}
+#progress{height:3px;background:var(--acc);width:0;transition:width .2s;border-radius:2px}
+.empty{text-align:center;color:var(--mut);padding:40px 20px;font-size:.9rem}
+.empty b{display:block;font-size:2.5rem;margin-bottom:8px}
+@media(max-width:600px){.msg{max-width:88%}}
 </style>
 </head>
 <body>
 
-<div class="chat-header">
-  <button class="back-btn" onclick="goBack()">←</button>
-  <div class="room-info">
-    <h1 id="roomTitle">Chargement...</h1>
-    <div class="room-sub"><span class="status-dot"></span><span id="roomSub">Connexion...</span></div>
+<header>
+  <a href="forum.html">←</a>
+  <h1 id="roomTitle">Salle…</h1>
+  <span class="me" id="meName"></span>
+</header>
+
+<div id="messages">
+  <div class="empty"><b>⏳</b>Chargement…</div>
+</div>
+
+<div id="composer">
+  <div id="filePreview">
+    <img class="thumb" id="prevThumb" alt="">
+    <span class="name" id="prevName"></span>
+    <button id="cancelFile">✕</button>
   </div>
-</div>
-
-<div class="messages-container" id="messagesContainer">
-  <div class="loading-chat"><div class="spinner"></div><p>Chargement des messages...</p></div>
-</div>
-
-<div class="input-bar">
-  <textarea id="messageInput" placeholder="Écrivez votre message..." rows="1" maxlength="2000" disabled></textarea>
-  <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>📤</button>
+  <div class="row">
+    <button class="icon" id="attachBtn" title="Joindre une image/vidéo">📎</button>
+    <textarea id="msgText" rows="1" placeholder="Écrivez un message…"></textarea>
+    <button id="sendBtn" title="Envoyer">➤</button>
+  </div>
+  <input id="fileInput" type="file" accept="image/*,video/*" hidden>
+  <div id="progress"></div>
 </div>
 
 <script type="module">
-import { 
-  auth, db,
-  onAuthStateChanged,
-  collection, query, orderBy, limit,
-  addDoc, getDoc, doc,
-  onSnapshot, serverTimestamp
+import {
+  auth, db, storage, onAuthStateChanged, signOut,
+  collection, addDoc, doc, updateDoc, deleteDoc, getDoc,
+  query, orderBy, onSnapshot, serverTimestamp,
+  ref, uploadBytesResumable, getDownloadURL, deleteObject
 } from './firebase-config.js';
 
+// ---------- تحديد القاعة من الرابط ----------
+const params = new URLSearchParams(location.search);
+const room = params.get('room') === 'general'
+  ? 'general'
+  : ('wilaya_' + (params.get('wilaya') || 'unknown'));
+
+const ROOM_LABEL = params.get('room') === 'general'
+  ? 'Salle générale ENSTP'
+  : 'Salle — ' + (params.get('wilaya') || '?');
+
+document.getElementById('roomTitle').textContent = ROOM_LABEL;
+
+// ---------- الحالة ----------
 let currentUser = null;
 let currentUserData = null;
-let roomType = 'general';
-let roomName = 'Général';
-let currentRoomId = null;
-let unsubscribeMessages = null;
-
-const messagesContainer = document.getElementById('messagesContainer');
-const messageInput = document.getElementById('messageInput');
+let pendingFile = null;
+let unsubscribeMsgs = null;
+const messagesEl = document.getElementById('messages');
+const textEl = document.getElementById('msgText');
 const sendBtn = document.getElementById('sendBtn');
+const fileInput = document.getElementById('fileInput');
+const filePreview = document.getElementById('filePreview');
+const prevThumb = document.getElementById('prevThumb');
+const prevName = document.getElementById('prevName');
+const progressBar = document.getElementById('progress');
 
-const urlParams = new URLSearchParams(window.location.search);
-const roomParam = urlParams.get('room');
-const wilayaParam = urlParams.get('wilaya');
-
+// ---------- المصادقة ----------
 onAuthStateChanged(auth, async (user) => {
-  if (!user) { window.location.href = 'login.html'; return; }
+  if (!user) { location.href = 'login.html'; return; }
   currentUser = user;
-  
-  try {
-    const snap = await getDoc(doc(db, 'users', user.uid));
-    currentUserData = snap.exists() ? snap.data() : {
-      name: user.displayName || 'Étudiant', email: user.email, wilaya: 'غير محدد'
-    };
-  } catch(e) {
-    currentUserData = { name: user.displayName || 'Étudiant', email: user.email, wilaya: 'غير محدد' };
-  }
-  
-  if (roomParam === 'general') {
-    roomType = 'general'; roomName = '🌍 Salle générale ENSTP'; currentRoomId = 'general';
-  } else if (wilayaParam) {
-    roomType = 'wilaya'; roomName = '📍 ' + wilayaParam; currentRoomId = 'wilaya_' + wilayaParam;
-  } else if (currentUserData.wilaya && currentUserData.wilaya !== 'غير محدد') {
-    roomType = 'wilaya'; roomName = '📍 ' + currentUserData.wilaya; currentRoomId = 'wilaya_' + currentUserData.wilaya;
-  } else {
-    roomType = 'general'; roomName = '🌍 Salle générale ENSTP'; currentRoomId = 'general';
-  }
-  
-  document.getElementById('roomTitle').textContent = roomName;
-  document.getElementById('roomSub').textContent = 'Connecté : ' + (currentUserData.name || 'Étudiant');
-  document.title = roomName + ' — ENSTP Chat';
-  
-  loadMessages();
-  setupInput();
+
+  const snap = await getDoc(doc(db, 'users', user.uid)).catch(() => null);
+  currentUserData = snap && snap.exists() ? snap.data() : {
+    name: user.displayName || user.email || 'Étudiant'
+  };
+
+  document.getElementById('meName').textContent = '👤 ' + (currentUserData.name || 'Étudiant');
+
+  listenMessages();
 });
 
-function loadMessages() {
-  messagesContainer.innerHTML = '<div class="loading-chat"><div class="spinner"></div><p>Chargement...</p></div>';
-  try {
-    const messagesRef = collection(db, 'chats', currentRoomId, 'messages');
-    const q = query(messagesRef, orderBy('timestamp', 'asc'), limit(200));
-    
-    unsubscribeMessages = onSnapshot(q, (snapshot) => {
-      const messages = [];
-      snapshot.forEach(d => messages.push({ id: d.id, ...d.data() }));
-      renderMessages(messages);
-    }, (error) => {
-      messagesContainer.innerHTML = '<div class="empty-chat"><div class="icon">⚠️</div><p>Erreur</p><p style="font-size:.8rem">' + error.message + '</p></div>';
+// ---------- الاستماع للرسائل ----------
+function listenMessages() {
+  if (unsubscribeMsgs) unsubscribeMsgs();
+  const q = query(
+    collection(db, 'rooms', room, 'messages'),
+    orderBy('createdAt', 'asc')
+  );
+  unsubscribeMsgs = onSnapshot(q, (snap) => {
+    messagesEl.innerHTML = '';
+    if (snap.empty) {
+      messagesEl.innerHTML = '<div class="empty"><b>💬</b>Aucun message. Soyez le premier !</div>';
+      return;
+    }
+    let lastAuthor = null;
+    snap.forEach((d) => {
+      const m = d.data();
+      messagesEl.appendChild(renderMessage(d.id, m, m.uid !== lastAuthor));
+      lastAuthor = m.uid;
     });
-  } catch(e) {
-    messagesContainer.innerHTML = '<div class="empty-chat"><div class="icon">⚠️</div><p>Erreur: ' + e.message + '</p></div>';
-  }
-}
-
-function renderMessages(messages) {
-  if (!messages.length) {
-    messagesContainer.innerHTML = '<div class="empty-chat"><div class="icon">💬</div><p>Aucun message</p><p style="font-size:.85rem">Soyez le premier !</p></div>';
-    return;
-  }
-  let html = '';
-  messages.forEach(m => {
-    const isOwn = m.from === currentUser.uid;
-    const name = m.fromName || 'Étudiant';
-    const initials = name.charAt(0).toUpperCase();
-    const time = formatTime(m.timestamp);
-    const text = escapeHtml(m.text || '');
-    html += '<div class="message' + (isOwn ? ' own' : '') + '">';
-    html += '<div class="msg-avatar">' + initials + '</div>';
-    html += '<div class="msg-content">';
-    html += '<div class="msg-name">' + (isOwn ? 'Moi' : escapeHtml(name)) + '</div>';
-    html += '<div class="msg-bubble">' + text + '</div>';
-    html += '<div class="msg-time">' + time + '</div>';
-    html += '</div></div>';
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }, (err) => {
+    console.error(err);
+    messagesEl.innerHTML = '<div class="empty"><b>⚠️</b>Erreur de chargement : ' + err.message + '</div>';
   });
-  messagesContainer.innerHTML = html;
-  scrollToBottom();
 }
 
-function scrollToBottom() {
-  setTimeout(() => messagesContainer.scrollTop = messagesContainer.scrollHeight, 50);
-}
-
-function formatTime(ts) {
-  if (!ts) return '';
-  let date = ts.toDate ? ts.toDate() : (ts.seconds ? new Date(ts.seconds * 1000) : new Date(ts));
-  const now = new Date();
-  const diff = (now - date) / 1000;
-  if (diff < 60) return 'À l\'instant';
-  if (diff < 3600) return Math.floor(diff / 60) + ' min';
-  if (diff < 86400) return date.toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
-  return date.toLocaleDateString('fr-FR', {day: '2-digit', month: '2-digit'}) + ' ' + date.toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
-}
-
-function escapeHtml(text) {
+// ---------- عرض رسالة ----------
+function renderMessage(id, m, showAuthor) {
   const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML.replace(/\n/g, '<br>');
+  const mine = currentUser && m.uid === currentUser.uid;
+  div.className = 'msg' + (mine ? ' mine' : '') + (m.isDeleted ? ' deleted' : '');
+  div.dataset.id = id;
+
+  if (m.isDeleted) {
+    div.innerHTML = `<div class="text">🚫 ${mine ? 'Vous avez supprimé ce message' : 'Message supprimé'}</div>`;
+    return div;
+  }
+
+  let html = '';
+  if (showAuthor) html += `<div class="author">${escapeHtml(m.author || 'Étudiant')}</div>`;
+  if (m.text) html += `<div class="text">${linkify(escapeHtml(m.text))}${m.isEdited ? '<span class="edited">(modifié)</span>' : ''}</div>`;
+
+  if (m.fileURL) {
+    if ((m.fileType || '').startsWith('image/')) {
+      html += `<div class="media"><img src="${m.fileURL}" alt="" loading="lazy" onclick="window.openImageViewer('${m.fileURL}')"></div>`;
+    } else if ((m.fileType || '').startsWith('video/')) {
+      html += `<div class="media"><video src="${m.fileURL}" controls preload="metadata"></video></div>`;
+    }
+  }
+
+  if (mine) {
+    html += `<div class="actions">
+      ${m.text ? `<button data-act="edit">✏️</button>` : ''}
+      <button data-act="del">🗑️</button>
+    </div>`;
+  }
+
+  div.innerHTML = html;
+
+  if (mine) {
+    div.querySelector('[data-act="edit"]')?.addEventListener('click', () => editMessage(id, m));
+    div.querySelector('[data-act="del"]')?.addEventListener('click', () => deleteMessage(id, m));
+  }
+  return div;
 }
 
-function setupInput() {
-  messageInput.disabled = false;
-  sendBtn.disabled = true;
-  messageInput.addEventListener('input', () => {
-    sendBtn.disabled = !messageInput.value.trim();
-    messageInput.style.height = 'auto';
-    messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
-  });
-  messageInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-  });
-  messageInput.focus();
-}
+// ---------- إرسال رسالة ----------
+textEl.addEventListener('input', () => {
+  textEl.style.height = 'auto';
+  textEl.style.height = Math.min(textEl.scrollHeight, 120) + 'px';
+});
+textEl.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+sendBtn.addEventListener('click', sendMessage);
+
+document.getElementById('attachBtn').addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', () => {
+  const f = fileInput.files[0];
+  if (!f) return;
+  if (f.size > 20 * 1024 * 1024) { alert('Fichier trop volumineux (max 20 Mo)'); fileInput.value = ''; return; }
+  pendingFile = f;
+  prevName.textContent = `${f.name} — ${(f.size/1024/1024).toFixed(2)} Mo`;
+  if (f.type.startsWith('image/')) {
+    prevThumb.src = URL.createObjectURL(f);
+    prevThumb.style.display = 'block';
+  } else {
+    prevThumb.style.display = 'none';
+  }
+  filePreview.classList.add('show');
+});
+document.getElementById('cancelFile').addEventListener('click', () => {
+  pendingFile = null; fileInput.value = '';
+  filePreview.classList.remove('show'); prevThumb.src = '';
+});
 
 async function sendMessage() {
-  const text = messageInput.value.trim();
-  if (!text || !currentUser) return;
+  const text = textEl.value.trim();
+  if (!text && !pendingFile) return;
+  if (!currentUser) return;
+
   sendBtn.disabled = true;
-  messageInput.value = '';
-  messageInput.style.height = 'auto';
   try {
-    await addDoc(collection(db, 'chats', currentRoomId, 'messages'), {
-      from: currentUser.uid,
-      fromName: currentUserData.name || 'Étudiant',
-      fromWilaya: currentUserData.wilaya || '',
+    let fileURL = null, fileType = null, filePath = null;
+
+    if (pendingFile) {
+      filePath = `chat/${room}/${currentUser.uid}/${Date.now()}_${pendingFile.name.replace(/\s+/g,'_')}`;
+      const sRef = ref(storage, filePath);
+      const task = uploadBytesResumable(sRef, pendingFile);
+      fileType = pendingFile.type;
+      fileURL = await new Promise((resolve, reject) => {
+        task.on('state_changed',
+          (s) => { progressBar.style.width = (s.bytesTransferred / s.totalBytes * 100) + '%'; },
+          reject,
+          async () => { progressBar.style.width = '100%'; resolve(await getDownloadURL(sRef)); }
+        );
+      });
+      setTimeout(() => { progressBar.style.width = '0'; }, 400);
+    }
+
+    await addDoc(collection(db, 'rooms', room, 'messages'), {
+      uid: currentUser.uid,
+      author: currentUserData.name || 'Étudiant',
       text: text,
-      timestamp: serverTimestamp()
+      fileURL, fileType, filePath,
+      isDeleted: false,
+      isEdited: false,
+      createdAt: serverTimestamp()
     });
-  } catch(e) {
-    alert('❌ Erreur: ' + e.message);
-    messageInput.value = text;
+
+    textEl.value = ''; textEl.style.height = 'auto';
+    pendingFile = null; fileInput.value = '';
+    filePreview.classList.remove('show'); prevThumb.src = '';
+  } catch (err) {
+    console.error(err);
+    alert('Erreur d\'envoi : ' + err.message);
+  } finally {
+    sendBtn.disabled = false;
   }
-  sendBtn.disabled = !messageInput.value.trim();
 }
 
-function goBack() {
-  if (unsubscribeMessages) unsubscribeMessages();
-  window.location.href = 'forum.html';
+// ---------- تعديل رسالة ----------
+async function editMessage(id, m) {
+  const newText = prompt('Modifier votre message :', m.text || '');
+  if (newText === null) return;
+  const trimmed = newText.trim();
+  if (!trimmed || trimmed === m.text) return;
+  try {
+    await updateDoc(doc(db, 'rooms', room, 'messages', id), {
+      text: trimmed,
+      isEdited: true,
+      editedAt: serverTimestamp()
+    });
+  } catch (err) { alert('Erreur : ' + err.message); }
 }
 
-window.sendMessage = sendMessage;
-window.goBack = goBack;
+// ---------- حذف رسالة ----------
+async function deleteMessage(id, m) {
+  if (!confirm('Supprimer ce message ?')) return;
+  try {
+    if (m.filePath) {
+      try { await deleteObject(ref(storage, m.filePath)); } catch (e) { console.warn('file déjà supprimé', e); }
+    }
+    await updateDoc(doc(db, 'rooms', room, 'messages', id), {
+      isDeleted: true, text: '', fileURL: null, fileType: null, filePath: null,
+      deletedAt: serverTimestamp()
+    });
+  } catch (err) { alert('Erreur : ' + err.message); }
+}
+
+// ---------- أدوات ----------
+function escapeHtml(s) {
+  const d = document.createElement('div'); d.textContent = s; return d.innerHTML;
+}
+function linkify(html) {
+  return html.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+}
+
+// عرض صورة مكبّرة
+window.openImageViewer = (src) => {
+  const o = document.createElement('div');
+  o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.95);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out';
+  o.onclick = () => o.remove();
+  o.innerHTML = `<img src="${src}" style="max-width:95vw;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.8)">`;
+  document.body.appendChild(o);
+};
 </script>
 
 </body>
