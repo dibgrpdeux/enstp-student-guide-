@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Chat — ENSTP</title>
 <style>
+/* استخدام نفس الألوان الافتراضية للصفحة */
 :root{--acc:#c2410c;--acc2:#9a3412;--acc-soft:#fde8dc;--bg:#f6f4ef;--card:#fff;--ink:#1d2433;--mut:#667085;--line:#e5e1d8}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--ink)}
-header{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,.15)}
+header{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,.15);transition:background .3s}
 header a{color:#fff;text-decoration:none;font-size:1.2rem}
-header h1{font-size:1rem;font-weight:800;flex:1;margin:0}
-header .me{font-size:.75rem;opacity:.9}
+header h1{font-size:1rem;font-weight:800;flex:1;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header .me{font-size:.75rem;opacity:.9;white-space:nowrap}
 #messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
 .msg{max-width:82%;padding:10px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.04);word-wrap:break-word;animation:pop .25s ease-out}
 @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -28,11 +29,12 @@ header .me{font-size:.75rem;opacity:.9}
 #composer{padding:10px 12px;background:var(--card);border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
 #composer .row{display:flex;gap:8px;width:100%;align-items:flex-end}
 #msgText{flex:1;padding:10px 14px;border:1px solid var(--line);border-radius:22px;font-family:inherit;font-size:.95rem;outline:none;resize:none;max-height:120px;min-height:42px;line-height:1.4;background:var(--bg);color:var(--ink)}
-#msgText:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(194,65,12,.1)}
+#msgText:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
 #composer button.icon{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink)}
 #composer button.icon:hover{background:var(--acc-soft);border-color:var(--acc)}
-#sendBtn{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(194,65,12,.3)}
-#sendBtn:disabled{opacity:.5;cursor:not-allowed}
+#sendBtn{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px var(--acc-soft);transition:all .2s}
+#sendBtn:hover{transform:scale(1.05)}
+#sendBtn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 #filePreview{width:100%;display:none;padding:8px;background:var(--bg);border-radius:12px;border:1px dashed var(--acc);font-size:.8rem;color:var(--mut);align-items:center;gap:10px}
 #filePreview.show{display:flex}
 #filePreview .thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:#000}
@@ -41,7 +43,7 @@ header .me{font-size:.75rem;opacity:.9}
 #progress{height:3px;background:var(--acc);width:0;transition:width .2s;border-radius:2px;margin-top:4px}
 .empty{text-align:center;color:var(--mut);padding:40px 20px;font-size:.9rem}
 .empty b{display:block;font-size:2.5rem;margin-bottom:8px}
-.err{color:#dc2626;text-align:center;padding:20px;font-weight:bold;font-size:14px}
+.err{color:#dc2626;text-align:center;padding:20px;font-weight:bold;font-size:14px;background:#fee2e2;border-radius:12px;margin:20px}
 @media(max-width:600px){.msg{max-width:88%}}
 </style>
 </head>
@@ -49,7 +51,7 @@ header .me{font-size:.75rem;opacity:.9}
 
 <header>
   <a href="forum.html">←</a>
-  <h1 id="roomTitle">Salle…</h1>
+  <h1 id="roomTitle">Chargement...</h1>
   <span class="me" id="meName"></span>
 </header>
 
@@ -63,7 +65,7 @@ header .me{font-size:.75rem;opacity:.9}
   </div>
   <div class="row">
     <button class="icon" id="attachBtn" title="Joindre une image/vidéo">📎</button>
-    <textarea id="msgText" rows="1" placeholder="Écrivez un message…"></textarea>
+    <textarea id="msgText" rows="1" placeholder="Écrivez un message..."></textarea>
     <button id="sendBtn" title="Envoyer">➤</button>
   </div>
   <input id="fileInput" type="file" accept="image/*,video/*" hidden>
@@ -78,11 +80,40 @@ import {
   uploadToCloudinary 
 } from './firebase-config.js';
 
+// ============================================
+// 1. تحديد نوع القاعة (عامة / ولاية / فوج)
+// ============================================
 const params = new URLSearchParams(location.search);
-// نستخدم اسم القاعة كما هو (general أو wilaya_xxx)
-const roomId = params.get('room') === 'general' ? 'general' : ('wilaya_' + (params.get('wilaya') || 'unknown'));
-document.getElementById('roomTitle').textContent = params.get('room') === 'general' ? 'Salle générale ENSTP' : 'Salle — ' + (params.get('wilaya') || '?');
+let roomId = 'general';
+let roomTitle = 'Salle générale ENSTP';
 
+if (params.get('room') === 'general') {
+  roomId = 'general';
+  roomTitle = 'Salle générale ENSTP';
+} else if (params.get('wilaya')) {
+  const wilaya = params.get('wilaya');
+  roomId = 'wilaya_' + wilaya;
+  roomTitle = 'Wilaya — ' + wilaya;
+} else if (params.get('groupe')) {
+  const groupe = params.get('groupe');
+  roomId = 'groupe_' + groupe;
+  roomTitle = 'Groupe — ' + groupe;
+}
+
+document.getElementById('roomTitle').textContent = roomTitle;
+
+// تطبيق اللون المحفوظ من صفحة forum.html
+const savedTheme = localStorage.getItem('enstp_theme');
+if (savedTheme) {
+  const t = JSON.parse(savedTheme);
+  document.documentElement.style.setProperty('--acc', t.color1);
+  document.documentElement.style.setProperty('--acc2', t.color2);
+  document.documentElement.style.setProperty('--acc-soft', t.colorSoft);
+}
+
+// ============================================
+// 2. المتغيرات الأساسية
+// ============================================
 let currentUser = null, currentUserData = null, pendingFile = null, unsub = null;
 const messagesEl = document.getElementById('messages');
 const textEl = document.getElementById('msgText');
@@ -93,21 +124,30 @@ const prevThumb = document.getElementById('prevThumb');
 const prevName = document.getElementById('prevName');
 const progressBar = document.getElementById('progress');
 
+// ============================================
+// 3. المصادقة والتحقق من المستخدم
+// ============================================
 onAuthStateChanged(auth, async (user) => {
   if (!user) { location.href = 'login.html'; return; }
   currentUser = user;
+  
   try {
     const snap = await getDoc(doc(db, 'users', user.uid));
     currentUserData = snap.exists() ? snap.data() : { name: user.displayName || user.email || 'Étudiant' };
   } catch(e) {
     currentUserData = { name: user.displayName || user.email || 'Étudiant' };
   }
+  
   document.getElementById('meName').textContent = '👤 ' + (currentUserData.name || 'Étudiant');
   listenMessages();
 });
 
+// ============================================
+// 4. الاستماع للرسائل (Firestore)
+// ============================================
 function listenMessages() {
   if (unsub) unsub();
+  
   // نستخدم مجموعة messages مباشرة ونفلتر بـ roomId
   const q = query(
     collection(db, 'messages'), 
@@ -129,23 +169,28 @@ function listenMessages() {
     });
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }, (err) => {
-    // عرض الخطأ بوضوح في الشاشة
     messagesEl.innerHTML = '<div class="err">⚠️ Erreur de lecture :<br>' + err.message + '</div>';
     console.error("Firestore Error:", err);
   });
 }
 
+// ============================================
+// 5. عرض الرسالة
+// ============================================
 function renderMessage(id, m, showAuthor) {
   const div = document.createElement('div');
   const mine = currentUser && m.uid === currentUser.uid;
   div.className = 'msg' + (mine ? ' mine' : '') + (m.isDeleted ? ' deleted' : '');
+  
   if (m.isDeleted) {
     div.innerHTML = `<div class="text">🚫 ${mine ? 'Vous avez supprimé ce message' : 'Message supprimé'}</div>`;
     return div;
   }
+  
   let html = '';
   if (showAuthor) html += `<div class="author">${esc(m.author || 'Étudiant')}</div>`;
   if (m.text) html += `<div class="text">${linkify(esc(m.text))}${m.isEdited ? '<span class="edited">(modifié)</span>' : ''}</div>`;
+  
   if (m.fileURL) {
     if ((m.fileType || '').startsWith('image/')) {
       html += `<div class="media"><img src="${m.fileURL}" loading="lazy" onclick="window.openImageViewer('${m.fileURL}')"></div>`;
@@ -153,10 +198,13 @@ function renderMessage(id, m, showAuthor) {
       html += `<div class="media"><video src="${m.fileURL}" controls preload="metadata"></video></div>`;
     }
   }
+  
   if (mine) {
     html += `<div class="actions">${m.text ? '<button data-act="edit">✏️</button>' : ''}<button data-act="del">🗑️</button></div>`;
   }
+  
   div.innerHTML = html;
+  
   if (mine) {
     div.querySelector('[data-act="edit"]')?.addEventListener('click', () => editMessage(id, m));
     div.querySelector('[data-act="del"]')?.addEventListener('click', () => deleteMessage(id, m));
@@ -164,26 +212,37 @@ function renderMessage(id, m, showAuthor) {
   return div;
 }
 
+// ============================================
+// 6. أحداث الإدخال والإرسال
+// ============================================
 textEl.addEventListener('input', () => {
   textEl.style.height = 'auto';
   textEl.style.height = Math.min(textEl.scrollHeight, 120) + 'px';
 });
+
 textEl.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 });
+
 sendBtn.addEventListener('click', sendMessage);
 
 document.getElementById('attachBtn').addEventListener('click', () => fileInput.click());
+
 fileInput.addEventListener('change', () => {
   const f = fileInput.files[0];
   if (!f) return;
   if (f.size > 20 * 1024 * 1024) { alert('Fichier trop volumineux (max 20 Mo)'); fileInput.value = ''; return; }
   pendingFile = f;
   prevName.textContent = `${f.name} — ${(f.size/1024/1024).toFixed(2)} Mo`;
-  if (f.type.startsWith('image/')) { prevThumb.src = URL.createObjectURL(f); prevThumb.style.display = 'block'; }
-  else prevThumb.style.display = 'none';
+  if (f.type.startsWith('image/')) { 
+    prevThumb.src = URL.createObjectURL(f); 
+    prevThumb.style.display = 'block'; 
+  } else {
+    prevThumb.style.display = 'none';
+  }
   filePreview.classList.add('show');
 });
+
 document.getElementById('cancelFile').addEventListener('click', () => {
   pendingFile = null; fileInput.value = '';
   filePreview.classList.remove('show'); prevThumb.src = '';
@@ -193,8 +252,11 @@ async function sendMessage() {
   const text = textEl.value.trim();
   if (!text && !pendingFile) return;
   sendBtn.disabled = true;
+  
   try {
     let fileURL = null, fileType = null;
+    
+    // رفع الملف عبر Cloudinary إن وجد
     if (pendingFile) {
       fileType = pendingFile.type;
       fileURL = await uploadToCloudinary(pendingFile, (percent) => {
@@ -203,52 +265,85 @@ async function sendMessage() {
       setTimeout(() => { progressBar.style.width = '0'; }, 500);
     }
     
-    // إضافة roomId لحفظ الرسالة في القاعة الصحيحة
+    // حفظ الرسالة في Firestore
     await addDoc(collection(db, 'messages'), {
-      roomId: roomId,
+      roomId: roomId, // ربط الرسالة بالقاعة أو الفوج
       uid: currentUser.uid,
       author: currentUserData.name || 'Étudiant',
-      text, fileURL, fileType,
-      isDeleted: false, isEdited: false,
+      text: text, 
+      fileURL: fileURL, 
+      fileType: fileType,
+      isDeleted: false, 
+      isEdited: false,
       createdAt: serverTimestamp()
     });
-    textEl.value = ''; textEl.style.height = 'auto';
-    pendingFile = null; fileInput.value = '';
-    filePreview.classList.remove('show'); prevThumb.src = '';
+    
+    // تفريغ الحقول بعد الإرسال
+    textEl.value = ''; 
+    textEl.style.height = 'auto';
+    pendingFile = null; 
+    fileInput.value = '';
+    filePreview.classList.remove('show'); 
+    prevThumb.src = '';
+    
   } catch (err) {
-    console.error(err); alert('Erreur d\'envoi : ' + err.message);
-  } finally { sendBtn.disabled = false; }
+    console.error(err); 
+    alert('Erreur d\'envoi : ' + err.message);
+  } finally { 
+    sendBtn.disabled = false; 
+  }
 }
 
+// ============================================
+// 7. التعديل والحذف
+// ============================================
 async function editMessage(id, m) {
   const newText = prompt('Modifier votre message :', m.text || '');
   if (newText === null) return;
   const trimmed = newText.trim();
   if (!trimmed || trimmed === m.text) return;
+  
   try {
     await updateDoc(doc(db, 'messages', id), {
-      text: trimmed, isEdited: true, editedAt: serverTimestamp()
+      text: trimmed, 
+      isEdited: true, 
+      editedAt: serverTimestamp()
     });
   } catch (err) { alert('Erreur : ' + err.message); }
 }
 
 async function deleteMessage(id, m) {
   if (!confirm('Supprimer ce message ?')) return;
+  
   try {
     await updateDoc(doc(db, 'messages', id), {
-      isDeleted: true, text: '', fileURL: null, fileType: null,
+      isDeleted: true, 
+      text: '', 
+      fileURL: null, 
+      fileType: null,
       deletedAt: serverTimestamp()
     });
   } catch (err) { alert('Erreur : ' + err.message); }
 }
 
-function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-function linkify(html){return html.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');}
+// ============================================
+// 8. أدوات مساعدة
+// ============================================
+function esc(s) {
+  const d = document.createElement('div'); 
+  d.textContent = s; 
+  return d.innerHTML;
+}
+
+function linkify(html) {
+  return html.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+}
+
 window.openImageViewer = (src) => {
   const o = document.createElement('div');
   o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.95);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out';
   o.onclick = () => o.remove();
-  o.innerHTML = `<img src="${src}" style="max-width:95vw;max-height:90vh;border-radius:12px">`;
+  o.innerHTML = `<img src="${src}" style="max-width:95vw;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.8)">`;
   document.body.appendChild(o);
 };
 </script>
