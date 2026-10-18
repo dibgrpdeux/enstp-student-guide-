@@ -889,7 +889,7 @@ function renderShoppingItems(section, items, category) {
     const rating = item.r || 0;
     const gps = item.g;
     const hours = item.h || [];
-    const videoId = item.video; // قراءة الفيديو
+    const videoId = item.video;
     
     let mapUrl = '';
     if (Array.isArray(gps) && gps.length === 2) {
@@ -909,7 +909,6 @@ function renderShoppingItems(section, items, category) {
     }
     html += '</div>';
     
-    // عرض الفيديو إذا وجد
     if (videoId) {
       html += '<div style="margin:12px 0">';
       html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
@@ -980,6 +979,23 @@ function renderItems(section, items, category) {
     
     if (item.img) html += '<img src="' + item.img + '" style="width:100%;border-radius:10px;margin:10px 0" loading="lazy" alt="">';
     
+    // مصفوفة الفيديوهات (مثل قسم الترفيه alger)
+    if (item.videos && Array.isArray(item.videos) && item.videos.length > 0) {
+      item.videos.forEach(vid => {
+        if (vid.type === 'youtube' && vid.id) {
+          html += '<div style="margin:14px 0">';
+          if (vid.title) {
+            const vTitle = (typeof vid.title === 'object') ? (vid.title[LANG] || vid.title.fr) : vid.title;
+            html += '<p style="margin:0 0 8px;font-size:.9rem;font-weight:700;color:var(--acc)">🎥 ' + vTitle + '</p>';
+          }
+          html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
+          html += '<iframe src="https://www.youtube.com/embed/' + vid.id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
+          html += '</div></div>';
+        }
+      });
+    }
+
+    // فيديو واحد عادي
     if (item.video && typeof item.video === 'string') {
       html += '<div style="margin:14px 0">';
       if (item.videoTitle) {
@@ -990,6 +1006,7 @@ function renderItems(section, items, category) {
       html += '</div></div>';
     }
     
+    // فيديو قصير
     if (item.videoShort && typeof item.videoShort === 'string') {
       html += '<div style="margin:14px 0">';
       html += '<p style="margin:0 0 8px;font-size:.9rem;font-weight:700;color:var(--acc)">📱 Vidéo courte</p>';
@@ -1521,4 +1538,3 @@ window.openResult = openResult;
 
 </body>
 </html>
-
