@@ -1,116 +1,42 @@
 // ============================================
-// Traductions pour la section "ecole"
+// data/ecole.js — قسم مدرستي
 // ============================================
 
-const translations = {
-  ar: {
-    // Section
-    sectionEcole: "مدرستي",
-    
-    // Carte
-    ecoleMapTitle: "البنية التحتية للمدرسة (ENSTP)",
-    ecoleMapDesc: "اكتشف الخريطة التفاعلية للمدرسة",
-    
-    // Vidéos
-    ecoleVideosTitle: "جولة تعريفية في المدرسة",
-    ecoleVideosDesc: "زيارات مصورة بالفيديو",
-    
-    // Vidéo 1
-    ecoleVideoTour: "برج المدرسة (ENSTP)",
-    ecoleVideoTourDesc: "اكتشف برج المدرسة",
-    
-    // Vidéo 2
-    ecoleVideoPrep: "قسم الأقسام التحضيرية (ENSTP)",
-    ecoleVideoPrepDesc: "زيارة قسم الأقسام التحضيرية",
-    
-    // Vidéo 3
-    ecoleVideoAmphi: "المدرج A",
-    ecoleVideoAmphiDesc: "اكتشف المدرج A",
-    
-    // Vidéo 4
-    ecoleVideoInfra: "قسم المنشآت القاعدية",
-    ecoleVideoInfraDesc: "زيارة قسم المنشآت القاعدية",
-    
-    // Vidéo 5
-    ecoleVideoEntree: "مدخل المدرسة",
-    ecoleVideoEntreeDesc: "اكتشف المدخل الرئيسي للمدرسة",
-    
-    // Vidéo 6
-    ecoleVideoInfo: "مركز الإعلام الآلي",
-    ecoleVideoInfoDesc: "زيارة مركز الإعلام الآلي"
-  },
+window.SECTIONS = window.SECTIONS || [];
 
-  fr: {
-    // Section
-    sectionEcole: "Mon École",
+window.SECTIONS.push({
+  id: "ecole",
+  icon: "🏫",
+  titleKey: "sectionEcole",
+  introKey: "ecoleIntro",
+  type: "ecole",
+  
+  categories: [
+    // ========== 1. الخريطة التفاعلية ==========
+    {
+      id: "interactive-map",
+      icon: "🗺️",
+      titleKey: "ecoleMapTitle",
+      descKey: "ecoleMapDesc",
+      type: "garidi-map",
+      mapUrl: "https://www.google.com/maps/d/u/1/edit?mid=1nT-Wvfqo8A3wdoHnadLzZHFYB_qdH_U&usp=sharing"
+    },
     
-    // Carte
-    ecoleMapTitle: "Les infrastructures de l'ENSTP",
-    ecoleMapDesc: "Découvrez le plan interactif de l'école",
-    
-    // Vidéos
-    ecoleVideosTitle: "Découverte de l'ENSTP",
-    ecoleVideosDesc: "Visites guidées en vidéo",
-    
-    // Vidéo 1
-    ecoleVideoTour: "Une tour à l'ENSTP",
-    ecoleVideoTourDesc: "Découvrez la tour de l'école",
-    
-    // Vidéo 2
-    ecoleVideoPrep: "Département des classes préparatoires ENSTP",
-    ecoleVideoPrepDesc: "Visite du département des classes préparatoires",
-    
-    // Vidéo 3
-    ecoleVideoAmphi: "L'Amphi A",
-    ecoleVideoAmphiDesc: "Découvrez l'amphithéâtre A",
-    
-    // Vidéo 4
-    ecoleVideoInfra: "Département d'infrastructures de base",
-    ecoleVideoInfraDesc: "Visite du département d'infrastructures de base",
-    
-    // Vidéo 5
-    ecoleVideoEntree: "Entrée à l'école",
-    ecoleVideoEntreeDesc: "Découvrez l'entrée principale de l'ENSTP",
-    
-    // Vidéo 6
-    ecoleVideoInfo: "Centre d'informatique",
-    ecoleVideoInfoDesc: "Visite du centre d'informatique"
-  },
-
-  en: {
-    // Section
-    sectionEcole: "My School",
-    
-    // Carte
-    ecoleMapTitle: "ENSTP Infrastructures",
-    ecoleMapDesc: "Discover the interactive map of the school",
-    
-    // Vidéos
-    ecoleVideosTitle: "Discovering ENSTP",
-    ecoleVideosDesc: "Video guided tours",
-    
-    // Vidéo 1
-    ecoleVideoTour: "A tower at ENSTP",
-    ecoleVideoTourDesc: "Discover the school tower",
-    
-    // Vidéo 2
-    ecoleVideoPrep: "ENSTP Preparatory Classes Department",
-    ecoleVideoPrepDesc: "Visit of the preparatory classes department",
-    
-    // Vidéo 3
-    ecoleVideoAmphi: "Amphi A",
-    ecoleVideoAmphiDesc: "Discover amphitheater A",
-    
-    // Vidéo 4
-    ecoleVideoInfra: "Basic Infrastructures Department",
-    ecoleVideoInfraDesc: "Visit of the basic infrastructures department",
-    
-    // Vidéo 5
-    ecoleVideoEntree: "School Entrance",
-    ecoleVideoEntreeDesc: "Discover the main entrance of ENSTP",
-    
-    // Vidéo 6
-    ecoleVideoInfo: "Computer Center",
-    ecoleVideoInfoDesc: "Visit of the computer center"
-  }
-};
+    // ========== 2. الفيديوهات التعريفية ==========
+    {
+      id: "videos",
+      icon: "🎬",
+      titleKey: "ecoleVideosTitle",
+      descKey: "ecoleVideosDesc",
+      type: "items",
+      items: [
+        { titleKey: "ecoleVideoTour", icon: "🏢", descKey: "ecoleVideoTourDesc", video: "8LfUbr6JoVE", img: "" },
+        { titleKey: "ecoleVideoPrep", icon: "📘", descKey: "ecoleVideoPrepDesc", video: "DQLbKFkIJh0", img: "" },
+        { titleKey: "ecoleVideoAmphi", icon: "🏛️", descKey: "ecoleVideoAmphiDesc", video: "5LSyChDF-hA", img: "" },
+        { titleKey: "ecoleVideoInfra", icon: "🏗️", descKey: "ecoleVideoInfraDesc", video: "uZ7HbehM_UU", img: "" },
+        { titleKey: "ecoleVideoEntree", icon: "🚪", descKey: "ecoleVideoEntreeDesc", video: "GUCHDgEJaIk", img: "" },
+        { titleKey: "ecoleVideoInfo", icon: "💻", descKey: "ecoleVideoInfoDesc", video: "sFwHEHhgAbQ", img: "" }
+      ]
+    }
+  ]
+});
