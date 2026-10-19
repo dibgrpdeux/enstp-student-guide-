@@ -813,6 +813,12 @@ function renderServiceItems(section, items, category) {
     const title = window.t(item.titleKey, L);
     const desc = item.descKey ? window.t(item.descKey, L) : '';
     
+    // التحقق من وجود قسم FAQ
+    if (item.type === 'faq') {
+       html += renderFAQHtml(item, L);
+       return; // تخطي بقية الكود لهذا العنصر
+    }
+    
     html += '<div class="card-3d scroll-anim" style="margin-bottom:14px;padding:16px">';
     html += '<h3 style="margin:0 0 12px;color:var(--acc);font-size:1.1rem">' + (item.icon || '') + ' ' + title + '</h3>';
     if (desc) html += '<p style="color:var(--mut);margin:8px 0;font-size:.95rem;line-height:1.6">' + desc + '</p>';
@@ -827,24 +833,29 @@ function renderServiceItems(section, items, category) {
       html += '</div>';
     }
     
-    if (item.location) {
+    // استخدام دالة الترجمة هنا
+    const loc = item.location ? window.t(item.location, L) : '';
+    const proc = item.procedure ? window.t(item.procedure, L) : '';
+    const dly = item.delay ? window.t(item.delay, L) : '';
+
+    if (loc) {
       html += '<div style="margin:12px 0;padding:12px;background:var(--acc-soft);border-radius:12px;border-left:4px solid var(--acc)">';
       html += '<div style="font-weight:700;color:var(--acc);font-size:.85rem;margin-bottom:6px">📍 ' + T.location + '</div>';
-      html += '<div style="font-size:.9rem;color:var(--ink);line-height:1.6;white-space:pre-line">' + item.location + '</div>';
+      html += '<div style="font-size:.9rem;color:var(--ink);line-height:1.6;white-space:pre-line">' + loc + '</div>';
       html += '</div>';
     }
     
-    if (item.procedure) {
+    if (proc) {
       html += '<div style="margin:12px 0;padding:12px;background:rgba(59,130,246,.08);border-radius:12px;border-left:4px solid #3b82f6">';
       html += '<div style="font-weight:700;color:#3b82f6;font-size:.85rem;margin-bottom:6px">📋 ' + T.procedure + '</div>';
-      html += '<div style="font-size:.9rem;color:var(--ink);line-height:1.7;white-space:pre-line">' + item.procedure + '</div>';
+      html += '<div style="font-size:.9rem;color:var(--ink);line-height:1.7;white-space:pre-line">' + proc + '</div>';
       html += '</div>';
     }
     
-    if (item.delay) {
+    if (dly) {
       html += '<div style="margin:12px 0;padding:12px;background:rgba(16,185,129,.08);border-radius:12px;border-left:4px solid #10b981">';
       html += '<div style="font-weight:700;color:#10b981;font-size:.85rem;margin-bottom:6px">🕐 ' + T.delay + '</div>';
-      html += '<div style="font-size:.9rem;color:var(--ink);line-height:1.7;white-space:pre-line">' + item.delay + '</div>';
+      html += '<div style="font-size:.9rem;color:var(--ink);line-height:1.7;white-space:pre-line">' + dly + '</div>';
       html += '</div>';
     }
     
@@ -859,6 +870,36 @@ function renderServiceItems(section, items, category) {
   app.innerHTML = html;
   window.scrollTo(0, 0);
   setupScrollAnimations();
+}
+
+// دالة مساعدة لعرض الأسئلة الشائعة
+function renderFAQHtml(item, L) {
+  let html = '<div class="card-3d scroll-anim" style="margin-bottom:14px;padding:16px;background:linear-gradient(135deg, rgba(139,92,246,0.05), var(--card))">';
+  html += '<h3 style="margin:0 0 16px;color:#8b5cf6;font-size:1.1rem">' + (item.icon || '❓') + ' ' + window.t(item.titleKey, L) + '</h3>';
+  if (item.descKey) {
+    html += '<p style="color:var(--mut);margin-bottom:16px;font-size:.9rem">' + window.t(item.descKey, L) + '</p>';
+  }
+  
+  item.faqItems.forEach(cat => {
+    // عنوان التصنيف
+    html += '<div style="margin-bottom:16px">';
+    html += '<h4 style="color:var(--acc);margin:0 0 10px;font-size:1rem;border-bottom:2px solid var(--acc-soft);padding-bottom:6px">' + window.t(cat.categoryKey, L) + '</h4>';
+    
+    cat.items.forEach(qa => {
+      // القائمة المنسدلة للسؤال والجواب
+      html += '<details style="margin-bottom:10px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)">';
+      html += '<summary style="padding:12px;background:rgba(139,92,246,0.05);cursor:pointer;font-weight:700;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center">';
+      html += '<span style="flex:1;font-size:.9rem">' + window.t(qa.q, L) + '</span>';
+      html += '<span style="color:#8b5cf6;font-size:1.2rem;margin-inline-start:10px">+</span>';
+      html += '</summary>';
+      html += '<div style="padding:12px;font-size:.9rem;line-height:1.7;color:var(--mut);border-top:1px solid var(--line)">' + window.t(qa.a, L) + '</div>';
+      html += '</details>';
+    });
+    html += '</div>';
+  });
+  
+  html += '</div>';
+  return html;
 }
 
 function renderShoppingItems(section, items, category) {
@@ -995,25 +1036,15 @@ function renderItems(section, items, category) {
       });
     }
 
-    // فيديو واحد عادي
+    // فيديو واحد عادي (يدعم Shorts)
     if (item.video && typeof item.video === 'string') {
       html += '<div style="margin:14px 0">';
       if (item.videoTitle) {
         html += '<p style="margin:0 0 8px;font-size:.9rem;font-weight:700;color:var(--acc)">' + item.videoTitle + '</p>';
       }
-      html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
+      html += '<div style="position:relative;padding-bottom:177.78%;height:0;max-width:320px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
       html += '<iframe src="https://www.youtube.com/embed/' + item.video + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
       html += '</div></div>';
-    }
-    
-    // فيديو قصير
-    if (item.videoShort && typeof item.videoShort === 'string') {
-      html += '<div style="margin:14px 0">';
-      html += '<p style="margin:0 0 8px;font-size:.9rem;font-weight:700;color:var(--acc)">📱 Vidéo courte</p>';
-      html += '<div style="max-width:320px;margin:0 auto">';
-      html += '<div style="position:relative;padding-bottom:177.78%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
-      html += '<iframe src="https://www.youtube.com/embed/' + item.videoShort + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
-      html += '</div></div></div>';
     }
     
     if (desc) html += '<p style="color:var(--mut);margin:8px 0;font-size:.95rem;line-height:1.6;white-space:pre-line">' + desc + '</p>';
