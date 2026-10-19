@@ -247,12 +247,12 @@ try {
 <script src="data/services.js"></script>
 <script src="data/cite.js"></script>
 <script src="data/transport.js"></script>
-<script src="data/metro.js"></script>
+<!-- <script src="data/metro.js"></script> تم حذفه -->
 <script src="data/sport.js"></script>
 <script src="data/alger.js"></script>
 <script src="data/podcast.js"></script>
 <script src="data/courses.js"></script>
-<script src="data/green.js"></script>
+<!-- <script src="data/green.js"></script> تم حذفه -->
 <script src="data/qr.js"></script>
 <script src="data/about.js"></script>
 <script src="data/shopping.js"></script>
@@ -379,8 +379,12 @@ function renderHome() {
     return;
   }
   
+  // تصفية الأقسام المحذوفة (green, metro)
+  const hiddenSections = ['green', 'metro'];
+  const visibleSections = window.SECTIONS.filter(s => !hiddenSections.includes(s.id));
+
   let html = '<div class="tile-grid">';
-  window.SECTIONS.forEach((s) => {
+  visibleSections.forEach((s) => {
     const title = (window.t ? window.t(s.titleKey, LANG) : s.titleKey);
     html += '<button class="tile-3d ripple" onclick="openSection(\'' + s.id + '\')">';
     html += '<span class="tile-icon">' + s.icon + '</span>';
@@ -813,10 +817,9 @@ function renderServiceItems(section, items, category) {
     const title = window.t(item.titleKey, L);
     const desc = item.descKey ? window.t(item.descKey, L) : '';
     
-    // التحقق من وجود قسم FAQ
     if (item.type === 'faq') {
        html += renderFAQHtml(item, L);
-       return; // تخطي بقية الكود لهذا العنصر
+       return;
     }
     
     html += '<div class="card-3d scroll-anim" style="margin-bottom:14px;padding:16px">';
@@ -833,7 +836,6 @@ function renderServiceItems(section, items, category) {
       html += '</div>';
     }
     
-    // استخدام دالة الترجمة هنا
     const loc = item.location ? window.t(item.location, L) : '';
     const proc = item.procedure ? window.t(item.procedure, L) : '';
     const dly = item.delay ? window.t(item.delay, L) : '';
@@ -872,7 +874,6 @@ function renderServiceItems(section, items, category) {
   setupScrollAnimations();
 }
 
-// دالة مساعدة لعرض الأسئلة الشائعة
 function renderFAQHtml(item, L) {
   let html = '<div class="card-3d scroll-anim" style="margin-bottom:14px;padding:16px;background:linear-gradient(135deg, rgba(139,92,246,0.05), var(--card))">';
   html += '<h3 style="margin:0 0 16px;color:#8b5cf6;font-size:1.1rem">' + (item.icon || '❓') + ' ' + window.t(item.titleKey, L) + '</h3>';
@@ -881,12 +882,10 @@ function renderFAQHtml(item, L) {
   }
   
   item.faqItems.forEach(cat => {
-    // عنوان التصنيف
     html += '<div style="margin-bottom:16px">';
     html += '<h4 style="color:var(--acc);margin:0 0 10px;font-size:1rem;border-bottom:2px solid var(--acc-soft);padding-bottom:6px">' + window.t(cat.categoryKey, L) + '</h4>';
     
     cat.items.forEach(qa => {
-      // القائمة المنسدلة للسؤال والجواب
       html += '<details style="margin-bottom:10px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)">';
       html += '<summary style="padding:12px;background:rgba(139,92,246,0.05);cursor:pointer;font-weight:700;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center">';
       html += '<span style="flex:1;font-size:.9rem">' + window.t(qa.q, L) + '</span>';
@@ -983,26 +982,67 @@ function renderItems(section, items, category) {
   }
   
   const app = document.getElementById('app');
+  const L = LANG;
   
   let html = '';
   if (category) {
-    html += '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', LANG) + '</button>';
-    const ct = category.titleKey ? window.t(category.titleKey, LANG) : (category.title || '');
+    html += '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', L) + '</button>';
+    const ct = category.titleKey ? window.t(category.titleKey, L) : (category.title || '');
     html += '<h2>' + (category.icon || '') + ' ' + ct + '</h2>';
   } else {
-    html += '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-    html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, LANG) + '</h2>';
+    html += '<button class="back" onclick="renderHome()">' + window.t('back', L) + '</button>';
+    html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, L) + '</h2>';
+    if (section.introKey) {
+      html += '<p style="color:var(--mut);margin-bottom:16px">' + window.t(section.introKey, L) + '</p>';
+    }
   }
   
-  html += '<div class="items-list">';
+  html += '<div class="items-list" style="display:flex;flex-direction:column;gap:20px">';
   
   items.forEach((item, idx) => {
-    const title = (typeof item.title === 'object') ? (item.title[LANG] || item.title.fr) : window.t(item.titleKey, LANG);
+    const title = (typeof item.title === 'object') ? (item.title[L] || item.title.fr) : window.t(item.titleKey, L);
     const desc = item.desc 
-      ? ((typeof item.desc === 'object') ? (item.desc[LANG] || item.desc.fr) : item.desc)
-      : (item.descKey ? window.t(item.descKey, LANG) : '');
+      ? ((typeof item.desc === 'object') ? (item.desc[L] || item.desc.fr) : item.desc)
+      : (item.descKey ? window.t(item.descKey, L) : '');
     
-    html += '<div class="card-3d scroll-anim" style="margin-bottom:14px">';
+    // 1. عرض الخريطة التفاعلية
+    if (item.type === 'garidi-map') {
+      html += '<div class="card-3d" style="padding:16px">';
+      html += '<h3 style="margin:0 0 8px;color:var(--acc);font-size:1.2rem">' + (item.icon || '') + ' ' + title + '</h3>';
+      if (desc) html += '<p style="color:var(--mut);margin-bottom:12px;font-size:.9rem">' + desc + '</p>';
+      
+      const mapUrl = item.mapUrl || "https://www.google.com/maps/d/embed?mid=1nT-Wvfqo8A3wdoHnadLzZHFYB_qdH_U";
+      html += '<div style="position:relative;padding-bottom:75%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.1)">';
+      html += '<iframe src="' + mapUrl + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
+      html += '</div>';
+      
+      html += '<div style="text-align:center;margin-top:12px">';
+      html += '<a href="' + mapUrl.replace('/edit?', '/view?') + '" target="_blank" style="display:inline-block;padding:8px 16px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.85rem;font-weight:600">🗺️ Ouvrir dans Google Maps</a>';
+      html += '</div></div>';
+      return;
+    }
+
+    // 2. عرض مجموعة الفيديوهات
+    if (item.type === 'videos-group') {
+      html += '<div class="card-3d" style="padding:16px">';
+      html += '<h3 style="margin:0 0 8px;color:var(--acc);font-size:1.2rem">' + (item.icon || '') + ' ' + title + '</h3>';
+      if (desc) html += '<p style="color:var(--mut);margin-bottom:16px;font-size:.9rem">' + desc + '</p>';
+      
+      html += '<div style="display:flex;flex-direction:column;gap:16px">';
+      item.videos.forEach(vid => {
+        const vTitle = window.t(vid.titleKey, L);
+        html += '<div>';
+        html += '<p style="margin:0 0 8px;font-size:.95rem;font-weight:700;color:var(--ink)">' + (vid.icon || '🎥') + ' ' + vTitle + '</p>';
+        html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.1)">';
+        html += '<iframe src="https://www.youtube.com/embed/' + vid.video + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
+        html += '</div></div>';
+      });
+      html += '</div></div>';
+      return;
+    }
+    
+    // 3. العرض العادي
+    html += '<div class="card-3d scroll-anim" style="padding:16px">';
     html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">';
     html += '<h3 style="margin:0;color:var(--acc);font-size:1.1rem">' + (item.icon || '') + ' ' + title + '</h3>';
     html += '<button onclick="showQR(\'' + section.id + '\',' + idx + ',\'' + (category ? category.id : '') + '\')" style="background:var(--acc-soft);border:0;color:var(--acc);padding:6px 10px;border-radius:10px;cursor:pointer;font-size:1rem">📱</button>';
@@ -1018,67 +1058,19 @@ function renderItems(section, items, category) {
       html += '</div>';
     }
     
-    if (item.img) html += '<img src="' + item.img + '" style="width:100%;border-radius:10px;margin:10px 0" loading="lazy" alt="">';
-    
-    // مصفوفة الفيديوهات (مثل قسم الترفيه alger)
-    if (item.videos && Array.isArray(item.videos) && item.videos.length > 0) {
-      item.videos.forEach(vid => {
-        if (vid.type === 'youtube' && vid.id) {
-          html += '<div style="margin:14px 0">';
-          if (vid.title) {
-            const vTitle = (typeof vid.title === 'object') ? (vid.title[LANG] || vid.title.fr) : vid.title;
-            html += '<p style="margin:0 0 8px;font-size:.9rem;font-weight:700;color:var(--acc)">🎥 ' + vTitle + '</p>';
-          }
-          html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
-          html += '<iframe src="https://www.youtube.com/embed/' + vid.id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
-          html += '</div></div>';
-        }
-      });
-    }
-
-    // فيديو واحد عادي (يدعم Shorts)
     if (item.video && typeof item.video === 'string') {
       html += '<div style="margin:14px 0">';
-      if (item.videoTitle) {
-        html += '<p style="margin:0 0 8px;font-size:.9rem;font-weight:700;color:var(--acc)">' + item.videoTitle + '</p>';
-      }
-      html += '<div style="position:relative;padding-bottom:177.78%;height:0;max-width:320px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
+      html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
       html += '<iframe src="https://www.youtube.com/embed/' + item.video + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
       html += '</div></div>';
     }
     
     if (desc) html += '<p style="color:var(--mut);margin:8px 0;font-size:.95rem;line-height:1.6;white-space:pre-line">' + desc + '</p>';
     if (item.location) html += '<p style="margin:6px 0;font-size:.9rem">📍 ' + item.location + '</p>';
-    if (item.distance) html += '<p style="margin:6px 0;font-size:.9rem">' + item.distance + '</p>';
-    if (item.capacity) html += '<p style="margin:6px 0;font-size:.9rem">' + item.capacity + '</p>';
-    if (item.hours) html += '<p style="margin:6px 0;font-size:.9rem">🕐 ' + item.hours + '</p>';
-    if (item.services) html += '<p style="margin:6px 0;font-size:.9rem">' + item.services + '</p>';
-    
-    if (item.nearby && Array.isArray(item.nearby) && item.nearby.length > 0) {
-      html += '<div style="margin-top:16px;padding:14px;background:linear-gradient(135deg,rgba(194,65,12,.05),rgba(154,52,18,.05));border-radius:14px;border-left:4px solid var(--acc)">';
-      html += '<p style="margin:0 0 12px;font-weight:800;color:var(--acc);font-size:.95rem">📍 Lieux à proximité</p>';
-      html += '<div style="display:flex;flex-direction:column;gap:8px">';
-      item.nearby.forEach(place => {
-        const placeName = (LANG === 'ar') ? place.name : (place.nameFr || place.name);
-        const placeDesc = place.desc || '';
-        const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(place.map || placeName);
-        html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;border-radius:12px;text-decoration:none;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid var(--line)">';
-        html += '<span style="font-size:1.6rem;flex-shrink:0">' + place.icon + '</span>';
-        html += '<div style="flex:1;min-width:0">';
-        html += '<div style="font-weight:700;color:var(--acc);font-size:.95rem;margin-bottom:2px">' + placeName + '</div>';
-        if (placeDesc) html += '<div style="font-size:.82rem;color:var(--mut);line-height:1.4">' + placeDesc + '</div>';
-        html += '</div>';
-        html += '<span style="font-size:1.2rem;color:var(--acc);flex-shrink:0">🗺️</span>';
-        html += '</a>';
-      });
-      html += '</div></div>';
-    }
-    
     if (item.map) {
       const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.map);
       html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 16px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.88rem;font-weight:600">🗺️ Voir sur la carte</a>';
     }
-    
     if (item.link) {
       html += '<a href="' + item.link + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 18px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.9rem;font-weight:600">🔗 Ouvrir</a>';
     }
@@ -1168,48 +1160,15 @@ function showPlace(sectionId, buildingId, categoryId) {
 }
 
 function renderMetroMap(section) {
-  const app = document.getElementById('app');
-  let html = '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-  html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, LANG) + '</h2>';
-  html += '<div class="metro-tabs">';
-  html += '<button class="metro-tab active" onclick="showMetroType(\'metro\')" data-tab="metro">🚇 Métro</button>';
-  html += '<button class="metro-tab" onclick="showMetroType(\'tram\')" data-tab="tram">🚊 Tramway</button>';
-  html += '</div><div id="metro-content"></div>';
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setTimeout(() => showMetroType('metro'), 100);
+  // تم إبقاء الدالة فارغة لتجنب الأخطاء إذا تم استدعاؤها بالخطأ
 }
 
 function showMetroType(type) {
-  document.querySelectorAll('.metro-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === type));
-  const content = document.getElementById('metro-content');
-  if (!content) return;
-  const stations = type === 'metro' ? window.METRO_STATIONS : window.TRAM_STATIONS;
-  if (!stations) return;
-  let html = '<div class="metro-stations-list">';
-  stations.forEach((s, i) => {
-    html += '<button class="metro-station-card" onclick="showStation(\'' + type + '\',' + i + ')">';
-    html += '<div class="msc-num">' + (i + 1) + '</div>';
-    html += '<div class="msc-info"><div class="msc-name">' + s[LANG] + '</div><div class="msc-zone">📍 ' + s.zone + '</div></div>';
-    html += '</button>';
-  });
-  html += '</div>';
-  content.innerHTML = html;
+  // تم إبقاء الدالة فارغة
 }
 
 function showStation(type, index) {
-  const stations = type === 'metro' ? window.METRO_STATIONS : window.TRAM_STATIONS;
-  const s = stations[index];
-  if (!s) return;
-  const overlay = document.createElement('div');
-  overlay.className = 'modal-overlay';
-  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
-  overlay.innerHTML = '<div class="modal-box">' +
-    '<h3 style="margin:0 0 8px;color:#1d2433">' + s[LANG] + '</h3>' +
-    '<p>📍 ' + s.zone + '</p>' +
-    '<button onclick="this.closest(\'.modal-overlay\').remove()" style="margin-top:16px;padding:12px 32px;background:var(--acc);color:#fff;border:0;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit">Fermer</button>' +
-    '</div>';
-  document.body.appendChild(overlay);
+  // تم إبقاء الدالة فارغة
 }
 
 function renderQR(section) {
