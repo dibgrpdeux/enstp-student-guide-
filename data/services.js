@@ -1,5 +1,6 @@
 // ============================================
 // data/services.js — قسم الخدمات
+// Guide de survie ENSTP
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
@@ -46,12 +47,12 @@ window.SECTIONS.push({
       link: ""
     },
 
-    // ========== 4. FAQ — الأسئلة الشائعة ==========
+    // ========== 4. الأسئلة الشائعة (FAQ) ==========
     {
       titleKey: "srvFaqTitle",
       icon: "❓",
       descKey: "srvFaqDesc",
-      type: "faq",
+      type: "faq", // نوع خاص ليتم عرضه كأسئلة وأجوبة
       faqItems: [
         {
           categoryKey: "srvFaqCat1",
