@@ -1,7 +1,7 @@
 // ============================================
 // lang.js — نظام اللغات الثلاث
 // Guide de survie ENSTP
-// Version 3.0 — avec Forum
+// Version 4.0 — Complet (Ecole + Services + FAQ)
 // ============================================
 
 const LANG_DATA = {
@@ -113,6 +113,24 @@ const LANG_DATA = {
     ecoleBiblioDesc: "Salles de lecture, prêt de livres et espace de travail.",
     ecoleCite: "Centre de la cité universitaire",
     ecoleCiteDesc: "Gestion des résidences universitaires (Garidi, Saïd Hamdine, Rouiba).",
+    
+    // --- مدرستي الجديدة (الخريطة والفيديوهات) ---
+    ecoleMapTitle: "Les infrastructures de l'ENSTP",
+    ecoleMapDesc: "Découvrez le plan interactif de l'école",
+    ecoleVideosTitle: "Découverte de l'ENSTP",
+    ecoleVideosDesc: "Visites guidées en vidéo",
+    ecoleVideoTour: "Une tour à l'ENSTP",
+    ecoleVideoTourDesc: "Découvrez la tour de l'école",
+    ecoleVideoPrep: "Département des classes préparatoires ENSTP",
+    ecoleVideoPrepDesc: "Visite du département des classes préparatoires",
+    ecoleVideoAmphi: "L'Amphi A",
+    ecoleVideoAmphiDesc: "Découvrez l'amphithéâtre A",
+    ecoleVideoInfra: "Département d'infrastructures de base",
+    ecoleVideoInfraDesc: "Visite du département d'infrastructures de base",
+    ecoleVideoEntree: "Entrée à l'école",
+    ecoleVideoEntreeDesc: "Découvrez l'entrée principale de l'ENSTP",
+    ecoleVideoInfo: "Centre d'informatique",
+    ecoleVideoInfoDesc: "Visite du centre d'informatique",
 
     // ============ 2. أساتذتي ============
     profsIntro: "Recherche un enseignant par matière ou par nom.",
@@ -157,28 +175,47 @@ const LANG_DATA = {
     servicesBiblio: "Bibliothèque & Club",
     servicesDigital: "Plateformes numériques",
     servicesSocial: "Sécurité sociale",
+    
     srvStage: "Convention de stage",
     srvStageDesc: "Démarches pour obtenir une convention de stage auprès de l'administration.",
-    srvSecu: "Sécurité sociale",
+    srvSecu: "Sécurité sociale (CNAS)",
     srvSecuDesc: "Inscription et suivi du dossier de sécurité sociale étudiant.",
-    srvBiblio: "Adhésion à la bibliothèque",
-    srvBiblioDesc: "Inscription gratuite avec carte étudiant + 1 photo.",
-    srvClub: "Rejoindre un club",
-    srvClubDesc: "Sport, culture, art, entrepreneuriat…",
-    srvIqra: "Plateforme Iqra",
-    srvIqraDesc: "Accès à la plateforme de lecture numérique.",
-    srvAbsence: "Justificatif d'absence",
-    srvAbsenceDesc: "Dépôt d'un document médical sous 3 jours au département.",
-    srvCarte: "Carte d'étudiant",
-    srvCarteDesc: "Délivrée après inscription définitive.",
-    srvCartePerdue: "Carte d'étudiant perdue",
-    srvCartePerdueDesc: "Déclaration de perte + 2 photos d'identité à la scolarité.",
-    srvAttestation: "Attestation de scolarité",
-    srvAttestationDesc: "Demande écrite à la scolarité, délai de quelques jours.",
-    srvReleve: "Relevé de notes",
-    srvReleveDesc: "Document officiel listant toutes tes notes.",
-    srvProgress: "Voir mes notes sur Progress",
-    srvProgressDesc: "Plateforme en ligne de l'école pour consulter tes notes.",
+    srvSecuLocation: "📍 Bureau de la sécurité sociale — à l'intérieur de l'ENSTP, en face de l'incubateur et du foyer des étudiants, juste à côté du bureau du médecin.",
+    srvSecuProcedure: "📄 **Dossier requis :**\n• Extrait de naissance\n• Certificat de résidence\n• Photocopie de la carte nationale d'identité biométrique\n• Photocopie du certificat de scolarité\n• Chèque postal barré",
+    srvSecuDelay: "📝 **Étapes :**\n1. Préparer le dossier complet.\n2. Se présenter au bureau de la sécurité sociale à l'ENSTP.\n3. Déposer le dossier.\n4. Attendre l'obtention du numéro de sécurité sociale.\n\n🗓️ **Jours de réception :** Lundi, Mardi et Jeudi",
+
+    srvElHanaa: "Inscription sur la plateforme EL HANAA",
+    srvElHanaaDesc: "Créer un compte sur la plateforme numérique de la sécurité sociale",
+    srvElHanaaLocation: "🌐 https://elhanaa.cnas.dz/",
+    srvElHanaaProcedure: "📝 Étapes d'inscription :\n1. Ouvrir le site officiel EL HANAA.\n2. Cliquer sur « S'inscrire ».\n3. Remplir le formulaire (numéro de sécurité sociale + données personnelles).\n4. Valider la demande.\n5. Se connecter avec ses identifiants.",
+    srvElHanaaDelay: "🔗 Lien direct : https://elhanaa.cnas.dz/inscription.xhtml",
+
+    srvBiblio: "S'inscrire à la Bibliothèque",
+    srvBiblioDesc: "Profiter des services de la bibliothèque physique et numérique",
+    srvBiblioLocation: "📍 Bibliothèque de l'ENSTP",
+    srvBiblioProcedure: "🕐 **Horaires d'ouverture :**\n• Session du matin : de 09:00 à 11:45\n• Session de l'après-midi : de 13:00 à 15:00\n\n📚 **Services disponibles :**\n• Prêt de livres : possibilité d'emprunter des références scientifiques et d'ingénierie.\n• Salle de lecture : environnement calme et équipé pour l'étude individuelle et collective.\n\n💻 **Bibliothèque numérique :**\n• Plateforme électronique de recherche et de cours (Bibliothèque de l'ingénieur TP).\n• Contient des vidéos et des cours pour tous les niveaux de l'école.",
+    srvBiblioDelay: "📝 **Procédure d'inscription :**\n• Scanner le QR Code affiché dans l'annonce de la bibliothèque.\n• Ou cliquer directement sur le lien de la plateforme.\n\n📄 **Documents requis :**\n• Attestation de scolarité\n• Photo d'identité récente\n• Remplir le formulaire d'inscription électronique\n\n🚫 **Règles internes :**\n• Silence obligatoire\n• Interdiction de manger ou boire sauf l'eau\n• Respect du mobilier et propreté du lieu",
+    
+    srvFaqTitle: "FAQ — Administration & Scolarité",
+    srvFaqDesc: "Réponses aux questions les plus fréquentes sur l'inscription, les études, les absences et les examens",
+    srvFaqCat1: "1. Inscriptions et documents administratifs",
+    srvFaqCat2: "2. Système d'études et programme pédagogique",
+    srvFaqCat3: "3. Discipline et justification des absences",
+    srvFaqCat4: "4. Examens et passage au 2ème cycle",
+    srvFaqQ1: "Comment puis-je obtenir ma carte d'étudiant ?",
+    srvFaqA1: "Elle est délivrée par le service des inscriptions du département préparatoire au début de la première année universitaire, après la finalisation de l'inscription administrative, le paiement des droits et la fourniture de photos d'identité.",
+    srvFaqQ2: "Où puis-je obtenir mon relevé de notes ?",
+    srvFaqA2: "Il est retiré en version papier et signé auprès du service de l'enseignement du département préparatoire après les délibérations. Vous pouvez également consulter vos notes périodiquement via la plateforme numérique (Progrès).",
+    srvFaqQ3: "Quelle est la durée des études au département préparatoire ?",
+    srvFaqA3: "La durée des études est de deux (2) ans, durant lesquels l'étudiant reçoit une formation de base intensive le préparant à la phase de spécialisation.",
+    srvFaqQ4: "Quelles sont les matières et programmes principaux enseignés ?",
+    srvFaqA4: "Le programme est axé sur les mathématiques (algèbre et analyse), la physique (mécanique et électricité), la chimie, l'informatique, le dessin technique et les langues étrangères.",
+    srvFaqQ5: "Comment puis-je justifier une absence ?",
+    srvFaqA5: "Vous devez présenter un justificatif légal (certificat médical ou convocation officielle) au service de l'enseignement dans les 48 heures suivant la date de l'absence.",
+    srvFaqQ6: "Quelle est la sanction pour les absences injustifiées ?",
+    srvFaqA6: "Les absences injustifiées entraînent une perte de points de contrôle continu. Si elles dépassent 3 absences injustifiées en TD ou TP, l'étudiant est automatiquement exclu de la matière et privé de son examen.",
+    srvFaqQ7: "Comment se fait le passage de la 1ère à la 2ème année préparatoire ?",
+    srvFaqA7: "Pour réussir, il faut obtenir une moyenne annuelle générale égale ou supérieure à 10/20, sans avoir de note éliminatoire dans les matières fondamentales.",
 
     // ============ 5. التسوق والأكل ============
     shoppingIntro: "Manger, acheter, se soigner autour de l'école.",
@@ -403,6 +440,7 @@ const LANG_DATA = {
     forumNote: "مهم",
     forumNoteText: "التسجيل بالبريد الجامعي @enstp.edu.dz فقط. معلوماتك تبقى خاصة وتُشارك فقط مع طلبة ENSTP.",
 
+    // --- مدرستي ---
     ecoleIntro: "كل أماكن المدرسة: القاعات، المدرجات، المخابر، الخدمات.",
     ecoleEntree: "المدخل الرئيسي",
     ecolePlan: "خريطة المدرسة",
@@ -442,6 +480,24 @@ const LANG_DATA = {
     ecoleCite: "مركز الإقامة الجامعية",
     ecoleCiteDesc: "إدارة الإقامات الجامعية (قاريدي، سعيد حمدين، رويسو).",
 
+    // --- مدرستي الجديدة ---
+    ecoleMapTitle: "البنية التحتية للمدرسة (ENSTP)",
+    ecoleMapDesc: "اكتشف الخريطة التفاعلية للمدرسة",
+    ecoleVideosTitle: "جولة تعريفية في المدرسة",
+    ecoleVideosDesc: "زيارات مصورة بالفيديو",
+    ecoleVideoTour: "برج المدرسة (ENSTP)",
+    ecoleVideoTourDesc: "اكتشف برج المدرسة",
+    ecoleVideoPrep: "قسم الأقسام التحضيرية (ENSTP)",
+    ecoleVideoPrepDesc: "زيارة قسم الأقسام التحضيرية",
+    ecoleVideoAmphi: "المدرج A",
+    ecoleVideoAmphiDesc: "اكتشف المدرج A",
+    ecoleVideoInfra: "قسم المنشآت القاعدية",
+    ecoleVideoInfraDesc: "زيارة قسم المنشآت القاعدية",
+    ecoleVideoEntree: "مدخل المدرسة",
+    ecoleVideoEntreeDesc: "اكتشف المدخل الرئيسي للمدرسة",
+    ecoleVideoInfo: "مركز الإعلام الآلي",
+    ecoleVideoInfoDesc: "زيارة مركز الإعلام الآلي",
+
     profsIntro: "ابحث عن أستاذ حسب المادة أو الاسم.",
     profPhysique: "الفيزياء",
     profPhysiqueDesc: "الميكانيك، الديناميكا الحرارية، الكهرباء.",
@@ -476,35 +532,56 @@ const LANG_DATA = {
     adminFinances: "المالية",
     adminFinancesDesc: "المنح، المدفوعات، الرسوم.",
 
+    // --- الخدمات ---
     servicesIntro: "كل الإجراءات الإدارية والطلابية.",
     servicesAdmin: "إداري",
     servicesCarte: "بطاقة الطالب",
     servicesBiblio: "المكتبة والنادي",
     servicesDigital: "المنصات الرقمية",
     servicesSocial: "الضمان الاجتماعي",
+    
     srvStage: "اتفاقية التربص",
     srvStageDesc: "إجراءات الحصول على اتفاقية تربص من الإدارة.",
-    srvSecu: "الضمان الاجتماعي",
-    srvSecuDesc: "الانتساب ومتابعة ملف الضمان الاجتماعي الطلابي.",
-    srvBiblio: "الانضمام إلى المكتبة",
-    srvBiblioDesc: "تسجيل مجاني ببطاقة الطالب + صورة واحدة.",
-    srvClub: "الانضمام إلى نادٍ",
-    srvClubDesc: "رياضة، ثقافة، فن، مقاولاتية…",
-    srvIqra: "منصة اقرأ",
-    srvIqraDesc: "الوصول إلى منصة القراءة الرقمية.",
-    srvAbsence: "تبرير الغياب",
-    srvAbsenceDesc: "تقديم وثيقة طبية خلال 3 أيام إلى القسم.",
-    srvCarte: "بطاقة الطالب",
-    srvCarteDesc: "تُسلَّم بعد التسجيل النهائي.",
-    srvCartePerdue: "ضياع بطاقة الطالب",
-    srvCartePerdueDesc: "تصريح بالضياع + صورتان شمسيتان إلى الشؤون الطلابية.",
-    srvAttestation: "شهادة مدرسية",
-    srvAttestationDesc: "طلب كتابي إلى الشؤون الطلابية، تأخير بضعة أيام.",
-    srvReleve: "كشف النقاط",
-    srvReleveDesc: "وثيقة رسمية تحتوي على كل نقاطك.",
-    srvProgress: "رؤية نقاطي في Progress",
-    srvProgressDesc: "منصة المدرسة الإلكترونية للاطلاع على نقاطك.",
+    srvSecu: "الضمان الاجتماعي (CNAS)",
+    srvSecuDesc: "التسجيل والحصول على بطاقة الضمان الاجتماعي",
+    srvSecuLocation: "📍 مكتب الضمان الاجتماعي — داخل المدرسة، مقابل الحاضنة ونادي الطلبة، بجوار مكتب الطبيب.",
+    srvSecuProcedure: "📄 **الملف المطلوب :**\n• شهادة الميلاد\n• شهادة الإقامة\n• نسخة من بطاقة التعريف البيومترية\n• نسخة من شهادة مدرسية\n• صك بريدي مشطوب",
+    srvSecuDelay: "📝 **الخطوات :**\n1. تحضير الملف كاملاً.\n2. التوجه إلى مكتب الضمان الاجتماعي بالمدرسة.\n3. إيداع الملف.\n4. انتظار الحصول على رقم الضمان الاجتماعي.\n\n🗓️ **أيام الاستقبال :** الاثنين، الثلاثاء والخميس",
 
+    srvElHanaa: "التسجيل على منصة EL HANAA",
+    srvElHanaaDesc: "إنشاء حساب على المنصة الرقمية للضمان الاجتماعي",
+    srvElHanaaLocation: "🌐 https://elhanaa.cnas.dz/",
+    srvElHanaaProcedure: "📝 خطوات التسجيل :\n1. فتح الموقع الرسمي EL HANAA.\n2. النقر على « S'inscrire ».\n3. ملء الاستمارة (رقم الضمان الاجتماعي + البيانات الشخصية).\n4. تأكيد الطلب.\n5. تسجيل الدخول باستخدام بياناتك.",
+    srvElHanaaDelay: "🔗 الرابط المباشر : https://elhanaa.cnas.dz/inscription.xhtml",
+
+    srvBiblio: "الانضمام للمكتبة",
+    srvBiblioDesc: "الاستفادة من خدمات المكتبة الحضورية والرقمية",
+    srvBiblioLocation: "📍 مكتبة المدرسة (ENSTP)",
+    srvBiblioProcedure: "🕐 **أوقات العمل :**\n• الفترة الصباحية : من 09:00 إلى 11:45\n• الفترة المسائية : من 13:00 إلى 15:00\n\n📚 **الخدمات المتاحة :**\n• استعارة الكتب : إمكانية استعارة المراجع العلمية والهندسية.\n• قاعة المطالعة : بيئة هادئة ومجهزة للدراسة الفردية والجماعية.\n\n💻 **المكتبة الرقمية :**\n• منصة إلكترونية للبحث والدروس (Bibliothèque de l'ingénieur TP).\n• تحتوي على فيديوهات ودروس لجميع المستويات.",
+    srvBiblioDelay: "📝 **إجراءات التسجيل :**\n• مسح رمز الاستجابة السريعة (QR Code) الموجود في إعلان المكتبة.\n• أو النقر مباشرة على رابط المنصة.\n\n📄 **الوثائق المطلوبة :**\n• شهادة مدرسية\n• صورة شخصية حديثة\n• ملء استمارة التسجيل الإلكترونية\n\n🚫 **القواعد الداخلية :**\n• منع الصوت العالي\n• منع الأكل والشرب إلا الماء\n• الحفاظ على النظافة والأثاث",
+    
+    srvFaqTitle: "الأسئلة الشائعة (الإدارة والدراسة)",
+    srvFaqDesc: "أجوبة على أكثر الأسئلة تكراراً حول التسجيل، الدراسة، الغيابات والامتحانات",
+    srvFaqCat1: "أولاً: التسجيلات والوثائق الإدارية",
+    srvFaqCat2: "ثانياً: نظام الدراسة والبرنامج البيداغوجي",
+    srvFaqCat3: "ثالثاً: الانضباط وتبرير الغيابات",
+    srvFaqCat4: "رابعاً: الامتحانات والانتقال للطور الثاني",
+    srvFaqQ1: "كيف يمكنني الحصول على بطاقة الطالب؟",
+    srvFaqA1: "يتم تسليمها من طرف مصلحة التسجيلات بالقسم التحضيري في بداية السنة الجامعية الأولى، بعد إتمام التسجيل الإداري النهائي، دفع الحقوق، وتقديم الصور الشمسية.",
+    srvFaqQ2: "من أين أتحصل على كشف النقاط؟",
+    srvFaqA2: "يُستلم ورقيّاً ومختوماً من مصلحة التدريس بالقسم التحضيري بعد المداولات، ويمكنك أيضاً الاطلاع على علاماتك دورياً عبر الأرضية الرقمية (Progrès).",
+    srvFaqQ3: "ما هي مدة الدراسة في القسم التحضيري بالمدرسة؟",
+    srvFaqA3: "مدة الدراسة هي سنتان (2)، يتلقى فيهما الطالب تكويناً قاعدياً مكثفاً يؤهله لمرحلة التخصص.",
+    srvFaqQ4: "ما هي المواد والبرامج الأساسية التي يتم تدريسها؟",
+    srvFaqA4: "يرتكز البرنامج على الرياضيات (الجبر والتحليل)، الفيزياء (الميكانيك والكهرباء)، الكيمياء، الإعلام الآلي، الرسم التقني، واللغات الأجنبية.",
+    srvFaqQ5: "كيف يمكنني تبرير الغياب؟",
+    srvFaqA5: "يجب تقديم وثيقة تبرير قانونية (شهادة طبية أو استدعاء رسمي) إلى مصلحة التدريس في غضون 48 ساعة من تاريخ الغياب.",
+    srvFaqQ6: "ما هي عقوبة الغيابات غير المبررة في القسم التحضيري؟",
+    srvFaqA6: "الغيابات غير المبررة تؤدي لخصم علامات المراقبة المستمرة، وإذا تجاوزت 3 غيابات غير مبررة في حصص الأعمال الموجهة (TD) أو التطبيقية (TP)، يتم إقصاء الطالب تلقائياً من المادة ويحرم من امتحانها.",
+    srvFaqQ7: "كيف يتم الانتقال من السنة الأولى إلى السنة الثانية تحضيري؟",
+    srvFaqA7: "يشترط للنجاح الحصول على معدل سنوي عام يساوي أو يفوق 10 من 20، مع عدم الحصول على علامة إقصائية في المقاييس الأساسية.",
+
+    // ============ 5. التسوق والأكل ============
     shoppingIntro: "الأكل، الشراء، العلاج حول المدرسة.",
     shopResto: "مطاعم",
     shopRestoDesc: "مطاعم ووجبات سريعة حول المدرسة.",
@@ -523,6 +600,7 @@ const LANG_DATA = {
     shopTchof: "مركز تشوف",
     shopTchofDesc: "فضاء تجاري وترفيهي.",
 
+    // ============ 6. النقل ============
     transportIntro: "حافلات، تكاسي، مترو، قطار، ترامواي.",
     trCatBus: "الحافلات",
     trCatTaxi: "التكاسي",
@@ -555,9 +633,11 @@ const LANG_DATA = {
     trGareTrain: "محطة القطار",
     trGareTrainDesc: "خطوط SNTF نحو الشرق والغرب.",
 
+    // ============ 7. خريطة المترو ============
     trMetroMap: "خريطة المترو والترامواي",
     trMetroMapIntro: "اكتشف كل محطات مترو وترامواي الجزائر.",
 
+    // ============ 8. الإقامة ============
     citeIntro: "الحياة في الإقامة الجامعية.",
     citeGaridi: "إقامة قاريدي",
     citeGaridiDesc: "الأقرب للمدرسة. مثالية لمن لا يملك سيارة.",
@@ -570,6 +650,7 @@ const LANG_DATA = {
     citeEtude: "قاعات الدراسة",
     citeEtudeDesc: "متوفرة في كل إقامة.",
 
+    // ============ 9. الرياضة ============
     sportIntro: "الرياضة الجامعية وخارج الحرم.",
     sportUniv: "الرياضة الجامعية",
     sportUnivDesc: "أنشطة يوفّرها الديوان الوطني للخدمات الجامعية.",
@@ -582,6 +663,7 @@ const LANG_DATA = {
     sportBasket: "كرة السلة / الطائرة",
     sportBasketDesc: "رياضات جماعية.",
 
+    // ============ 10. الأخضر ============
     greenIntro: "المشروع الأخضر وإعادة التدوير.",
     greenRecy: "إعادة تدوير الورق",
     greenRecyDesc: "جمع الورق المستعمل لإعادة تدويره.",
@@ -599,6 +681,7 @@ const LANG_DATA = {
     greenBenefit4: "يخلق هذا القطاع فرص عمل جديدة ويقلل من تكاليف الإنتاج والاستيراد.",
     greenConclusion: "إن اعتماد ثقافة إعادة تدوير الورق ليس مجرد خيار، بل هو استثمار حقيقي في مستقبل أجيالنا وبيئتنا.",
 
+    // ============ 11. بودكاست ============
     podcastIntro: "بودكاست الطالب ENSTP.",
     podcastEp1: "الحلقة 1",
     podcastEp1Desc: "مرحباً بك في المدرسة — دليل الطالب الجديد.",
@@ -607,6 +690,7 @@ const LANG_DATA = {
     podcastEp3: "الحلقة 3",
     podcastEp3Desc: "نصائح للنجاح في سنتك الأولى.",
 
+    // ============ 12. دورات ============
     coursesIntro: "دورات وتكوينات لمساعدتك.",
     courseMath: "الرياضيات",
     courseMathDesc: "دورات دعم في التحليل والجبر.",
@@ -615,6 +699,7 @@ const LANG_DATA = {
     courseInfo: "الإعلام الآلي",
     courseInfoDesc: "مقدمة في البرمجة.",
 
+    // ============ 13. من نحن ============
     aboutIntro: "مشروع طلابي، 100% مجاني.",
     aboutMission: "مهمتنا",
     aboutMissionDesc: "مساعدة كل طالب جديد على الاندماج بسرعة وعدم البقاء وحيداً أمام أي مشكلة.",
@@ -629,6 +714,7 @@ const LANG_DATA = {
     aboutUpdate: "آخر تحديث",
     aboutUpdateDesc: "أكتوبر 2026 — الإصدار 3.0",
 
+    // ============ 14. رموز QR ============
     qrPrint: "🖨️ طباعة",
     qrDownload: "📥 تحميل",
     qrShare: "📤 مشاركة",
@@ -716,6 +802,7 @@ const LANG_DATA = {
     forumNote: "Important",
     forumNoteText: "Registration only with @enstp.edu.dz email. Your information stays private and is only shared with other ENSTP students.",
 
+    // --- مدرستي ---
     ecoleIntro: "All school places: rooms, amphis, labs, services.",
     ecoleEntree: "Main entrance",
     ecolePlan: "School map",
@@ -755,6 +842,24 @@ const LANG_DATA = {
     ecoleCite: "Student residence center",
     ecoleCiteDesc: "Management of university residences (Garidi, Saïd Hamdine, Rouiba).",
 
+    // --- مدرستي الجديدة ---
+    ecoleMapTitle: "ENSTP Infrastructures",
+    ecoleMapDesc: "Discover the interactive map of the school",
+    ecoleVideosTitle: "Discovering ENSTP",
+    ecoleVideosDesc: "Video guided tours",
+    ecoleVideoTour: "A tower at ENSTP",
+    ecoleVideoTourDesc: "Discover the school tower",
+    ecoleVideoPrep: "ENSTP Preparatory Classes Department",
+    ecoleVideoPrepDesc: "Visit of the preparatory classes department",
+    ecoleVideoAmphi: "Amphi A",
+    ecoleVideoAmphiDesc: "Discover amphitheater A",
+    ecoleVideoInfra: "Basic Infrastructures Department",
+    ecoleVideoInfraDesc: "Visit of the basic infrastructures department",
+    ecoleVideoEntree: "School Entrance",
+    ecoleVideoEntreeDesc: "Discover the main entrance of ENSTP",
+    ecoleVideoInfo: "Computer Center",
+    ecoleVideoInfoDesc: "Visit of the computer center",
+
     profsIntro: "Search for a teacher by subject or name.",
     profPhysique: "Physics",
     profPhysiqueDesc: "Mechanics, thermodynamics, electricity.",
@@ -789,35 +894,56 @@ const LANG_DATA = {
     adminFinances: "Finance",
     adminFinancesDesc: "Scholarships, payments, fees.",
 
+    // --- الخدمات ---
     servicesIntro: "All administrative and student procedures.",
     servicesAdmin: "Administrative",
     servicesCarte: "Student card",
     servicesBiblio: "Library & Club",
     servicesDigital: "Digital platforms",
     servicesSocial: "Social security",
+    
     srvStage: "Internship agreement",
     srvStageDesc: "Procedures to get an internship agreement from administration.",
-    srvSecu: "Social security",
-    srvSecuDesc: "Registration and follow-up of the student social security file.",
-    srvBiblio: "Library membership",
-    srvBiblioDesc: "Free registration with student card + 1 photo.",
-    srvClub: "Join a club",
-    srvClubDesc: "Sport, culture, art, entrepreneurship…",
-    srvIqra: "Iqra platform",
-    srvIqraDesc: "Access to the digital reading platform.",
-    srvAbsence: "Absence justification",
-    srvAbsenceDesc: "Submit a medical document within 3 days to the department.",
-    srvCarte: "Student card",
-    srvCarteDesc: "Issued after final enrollment.",
-    srvCartePerdue: "Lost student card",
-    srvCartePerdueDesc: "Loss report + 2 ID photos at Student Affairs.",
-    srvAttestation: "School certificate",
-    srvAttestationDesc: "Written request to Student Affairs, delay of a few days.",
-    srvReleve: "Transcript",
-    srvReleveDesc: "Official document listing all your grades.",
-    srvProgress: "See my grades on Progress",
-    srvProgressDesc: "School's online platform to view your grades.",
+    srvSecu: "Social Security (CNAS)",
+    srvSecuDesc: "Registration and obtaining the social security card",
+    srvSecuLocation: "📍 Social Security Office — inside ENSTP, opposite the incubator and student foyer, right next to the doctor's office.",
+    srvSecuProcedure: "📄 **Required documents:**\n• Birth certificate\n• Residence certificate\n• Photocopy of the biometric national ID card\n• Photocopy of the school certificate\n• Crossed postal check",
+    srvSecuDelay: "📝 **Steps:**\n1. Prepare the complete file.\n2. Go to the social security office at ENSTP.\n3. Submit the file.\n4. Wait to obtain the social security number.\n\n🗓️ **Reception days:** Monday, Tuesday and Thursday",
 
+    srvElHanaa: "Registration on EL HANAA platform",
+    srvElHanaaDesc: "Create an account on the digital social security platform",
+    srvElHanaaLocation: "🌐 https://elhanaa.cnas.dz/",
+    srvElHanaaProcedure: "📝 Registration steps:\n1. Open the official EL HANAA website.\n2. Click on 'S'inscrire'.\n3. Fill in the form (social security number + personal data).\n4. Validate the request.\n5. Log in with your credentials.",
+    srvElHanaaDelay: "🔗 Direct link: https://elhanaa.cnas.dz/inscription.xhtml",
+
+    srvBiblio: "Join the Library",
+    srvBiblioDesc: "Enjoy physical and digital library services",
+    srvBiblioLocation: "📍 ENSTP Library",
+    srvBiblioProcedure: "🕐 **Opening hours:**\n• Morning session: 09:00 to 11:45\n• Afternoon session: 13:00 to 15:00\n\n📚 **Available services:**\n• Book lending: possibility to borrow scientific and engineering references.\n• Reading room: quiet and equipped environment for individual and collective study.\n\n💻 **Digital library:**\n• Electronic research and course platform (Bibliothèque de l'ingénieur TP).\n• Contains videos and courses for all levels of the school.",
+    srvBiblioDelay: "📝 **Registration procedure:**\n• Scan the QR Code displayed in the library announcement.\n• Or click directly on the platform link.\n\n📄 **Required documents:**\n• School certificate\n• Recent ID photo\n• Fill in the electronic registration form\n\n🚫 **Internal rules:**\n• Silence is mandatory\n• No eating or drinking except water\n• Respect furniture and keep the place clean",
+    
+    srvFaqTitle: "FAQ — Administration & Studies",
+    srvFaqDesc: "Answers to the most frequently asked questions about registration, studies, absences and exams",
+    srvFaqCat1: "1. Registrations and administrative documents",
+    srvFaqCat2: "2. Study system and pedagogical program",
+    srvFaqCat3: "3. Discipline and justification of absences",
+    srvFaqCat4: "4. Exams and passage to the 2nd cycle",
+    srvFaqQ1: "How can I get my student card?",
+    srvFaqA1: "It is issued by the registration service of the preparatory department at the beginning of the first university year, after completing the final administrative registration, paying the fees, and providing ID photos.",
+    srvFaqQ2: "Where can I get my transcript?",
+    srvFaqA2: "It is collected in paper format and signed from the teaching service of the preparatory department after the deliberations. You can also consult your grades periodically via the digital platform (Progrès).",
+    srvFaqQ3: "What is the duration of studies in the preparatory department?",
+    srvFaqA3: "The duration of studies is two (2) years, during which the student receives intensive basic training preparing them for the specialization phase.",
+    srvFaqQ4: "What are the main subjects and programs taught?",
+    srvFaqA4: "The program focuses on mathematics (algebra and analysis), physics (mechanics and electricity), chemistry, computer science, technical drawing, and foreign languages.",
+    srvFaqQ5: "How can I justify an absence?",
+    srvFaqA5: "You must present a legal justification (medical certificate or official summons) to the teaching service within 48 hours of the absence date.",
+    srvFaqQ6: "What is the penalty for unjustified absences?",
+    srvFaqA6: "Unjustified absences lead to a loss of continuous assessment points. If they exceed 3 unjustified absences in TD or TP, the student is automatically excluded from the subject and deprived of its exam.",
+    srvFaqQ7: "How does the passage from the 1st to the 2nd preparatory year work?",
+    srvFaqA7: "To succeed, you must obtain an overall annual average equal to or greater than 10/20, without having an eliminatory grade in the fundamental subjects.",
+
+    // ============ 5. التسوق والأكل ============
     shoppingIntro: "Eat, shop, heal around the school.",
     shopResto: "Restaurants",
     shopRestoDesc: "Restaurants and fast-foods around the school.",
@@ -836,6 +962,7 @@ const LANG_DATA = {
     shopTchof: "Tchof Center",
     shopTchofDesc: "Shopping and leisure space.",
 
+    // ============ 6. النقل ============
     transportIntro: "Bus, taxis, metro, train, tram.",
     trCatBus: "Bus",
     trCatTaxi: "Taxis",
@@ -868,9 +995,11 @@ const LANG_DATA = {
     trGareTrain: "Train station",
     trGareTrainDesc: "SNTF lines to the east and west.",
 
+    // ============ 7. خريطة المترو ============
     trMetroMap: "Metro & Tram Map",
     trMetroMapIntro: "Discover all Algiers metro and tram stations.",
 
+    // ============ 8. الإقامة ============
     citeIntro: "Life at the university residence.",
     citeGaridi: "Garidi Residence",
     citeGaridiDesc: "Closest to ENSTP. Ideal without a car.",
@@ -883,6 +1012,7 @@ const LANG_DATA = {
     citeEtude: "Study rooms",
     citeEtudeDesc: "Available in each residence.",
 
+    // ============ 9. الرياضة ============
     sportIntro: "University sport and off-campus.",
     sportUniv: "University sport",
     sportUnivDesc: "Activities offered by ONSU.",
@@ -895,6 +1025,7 @@ const LANG_DATA = {
     sportBasket: "Basket / Volley",
     sportBasketDesc: "Team sports.",
 
+    // ============ 10. الأخضر ============
     greenIntro: "Green project and recycling.",
     greenRecy: "Paper recycling",
     greenRecyDesc: "Collecting used paper to recycle.",
@@ -912,6 +1043,7 @@ const LANG_DATA = {
     greenBenefit4: "This sector creates new jobs and reduces production and import costs.",
     greenConclusion: "Adopting a paper recycling culture is not just an option, it's a real investment in the future of our generations and our environment.",
 
+    // ============ 11. بودكاست ============
     podcastIntro: "ENSTP student podcast.",
     podcastEp1: "Episode 1",
     podcastEp1Desc: "Welcome to ENSTP — new student guide.",
@@ -920,6 +1052,7 @@ const LANG_DATA = {
     podcastEp3: "Episode 3",
     podcastEp3Desc: "Tips to succeed in your first year.",
 
+    // ============ 12. دورات ============
     coursesIntro: "Courses and training to help you.",
     courseMath: "Mathematics",
     courseMathDesc: "Support courses in analysis and algebra.",
@@ -928,6 +1061,7 @@ const LANG_DATA = {
     courseInfo: "Computer Science",
     courseInfoDesc: "Introduction to programming.",
 
+    // ============ 13. من نحن ============
     aboutIntro: "A student project, 100% free.",
     aboutMission: "Our mission",
     aboutMissionDesc: "Help every new student integrate quickly and never stay alone facing a problem.",
@@ -942,6 +1076,7 @@ const LANG_DATA = {
     aboutUpdate: "Last update",
     aboutUpdateDesc: "October 2026 — Version 3.0",
 
+    // ============ 14. رموز QR ============
     qrPrint: "🖨️ Print",
     qrDownload: "📥 Download",
     qrShare: "📤 Share",
@@ -996,46 +1131,4 @@ if (typeof window !== 'undefined') {
   window.t = t;
   window.getCurrentLang = getCurrentLang;
   window.setCurrentLang = setCurrentLang;
-}
-
-// ============================================
-// ترجمات الخريطة التفاعلية
-// ============================================
-window.LANG_DATA = window.LANG_DATA || {};
-window.LANG_DATA.fr = window.LANG_DATA.fr || {};
-window.LANG_DATA.ar = window.LANG_DATA.ar || {};
-window.LANG_DATA.en = window.LANG_DATA.en || {};
-
-// عنوان الفئة
-window.LANG_DATA.fr.ecoleInteractiveMap = "Carte interactive de la cité";
-window.LANG_DATA.ar.ecoleInteractiveMap = "خريطة الإقامة التفاعلية";
-window.LANG_DATA.en.ecoleInteractiveMap = "Interactive residence map";
-
-// وصف الفئة
-window.LANG_DATA.fr.ecoleInteractiveMapDesc = "Trouvez votre chambre et votre itinéraire dans la cité universitaire Garidi 1";
-window.LANG_DATA.ar.ecoleInteractiveMapDesc = "ابحث عن غرفتك ومسارك في الإقامة الجامعية قاريدي 1";
-window.LANG_DATA.en.ecoleInteractiveMapDesc = "Find your room and route in the Garidi 1 university residence";
-
-// ========== EL HANAA ==========
-srvElHanaa: {
-  fr: "Inscription sur EL HANAA",
-  ar: "التسجيل على منصة EL HANAA",
-  en: "Registration on EL HANAA"
-},
-srvElHanaaDesc: {
-  fr: "Inscription en ligne après affiliation à la CNAS.",
-  ar: "التسجيل الإلكتروني بعد الانتساب إلى CNAS.",
-  en: "Online registration after CNAS affiliation."
-},
-
-// ========== Règles de la bibliothèque ==========
-srvBiblioRules: {
-  fr: "Règles de la bibliothèque",
-  ar: "قواعد المكتبة",
-  en: "Library rules"
-},
-srvBiblioRulesDesc: {
-  fr: "Silence, propreté, pas de nourriture (sauf eau).",
-  ar: "الهدوء، النظافة، منع الأكل (ما عدا الماء).",
-  en: "Silence, cleanliness, no food (except water)."
 }
