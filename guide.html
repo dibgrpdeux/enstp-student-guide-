@@ -14,6 +14,7 @@
 </head>
 <body>
 
+<!-- شاشة التحميل -->
 <div class="loading-screen" id="loading-screen">
   <div class="logo-spin">🎓</div>
   <div class="spin-ring"></div>
@@ -23,6 +24,7 @@
 <div class="progress-bar" id="progress-bar"></div>
 <div class="offline-banner">📴 Mode hors ligne</div>
 
+<!-- الشريط العلوي: اللغة، الألوان، حجم الخط -->
 <div class="top-controls">
   <div class="pill">
     <button onclick="setLang('fr')" data-lang="fr">🇫🇷</button>
@@ -37,6 +39,7 @@
   </div>
 </div>
 
+<!-- لوحة الألوان -->
 <div class="theme-panel" id="theme-panel">
   <div class="theme-panel-header">
     <strong>Thème</strong>
@@ -55,6 +58,7 @@
   </div>
 </div>
 
+<!-- لوحة حجم النص -->
 <div class="text-size-panel" id="text-size-panel">
   <div class="tsp-header">
     <strong>Taille du texte</strong>
@@ -68,9 +72,9 @@
   </div>
 </div>
 
+<!-- الهيدر والبحث -->
 <header>
   <h1><span>Guide</span> de survie ENSTP</h1>
-  <p id="header-sub">Ton premier jour, dans ta poche.</p>
   <a href="index.html">🏠 Accueil</a>
 </header>
 
@@ -81,11 +85,13 @@
   </div>
 </div>
 
+<!-- الحاوية الرئيسية -->
 <main id="app"></main>
 
 <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <a href="feedback.html" class="feedback-float"><span class="fb-icon">💬</span> Votre avis</a>
 
+<!-- نافذة الذكاء الاصطناعي -->
 <div class="modal-overlay" id="aiModal" style="display:none">
   <div class="modal-box">
     <h3>🤖 Assistant IA</h3>
@@ -95,14 +101,16 @@
       <button onclick="closeAIModal()" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-family:inherit">Annuler</button>
       <button onclick="submitAI()" id="aiSubmitBtn" style="flex:1;padding:12px;border-radius:12px;border:0;background:var(--acc);color:#fff;font-weight:700;cursor:pointer;font-family:inherit">Envoyer</button>
     </div>
-    <div id="aiAnswer" style="display:none;margin-top:16px;padding:14px;background:var(--orange-soft,#fde8dc);border-radius:12px;font-size:.9rem;line-height:1.6"></div>
+    <div id="aiAnswer" style="display:none;margin-top:16px;padding:14px;background:var(--acc-soft);border-radius:12px;font-size:.9rem;line-height:1.6"></div>
   </div>
 </div>
 
+<!-- تحميل السكربتات -->
 <script src="lang.js"></script>
 <script src="search.js"></script>
 <script src="ai-search.js"></script>
 
+<!-- تحميل البيانات -->
 <script src="data/config.js"></script>
 <script src="data/ecole.js"></script>
 <script src="data/admin.js"></script>
@@ -123,6 +131,7 @@
 let currentSection = null;
 let currentView = 'home';
 
+// تغيير اللغة
 function setLang(lang) {
   window.setCurrentLang(lang);
   document.documentElement.lang = lang;
@@ -132,6 +141,7 @@ function setLang(lang) {
   else if (currentSection) renderSection(currentSection.id);
 }
 
+// الصفحة الرئيسية
 function renderHome() {
   currentView = 'home';
   currentSection = null;
@@ -150,6 +160,7 @@ function renderHome() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// فتح قسم
 function openSection(id) {
   const sec = window.SECTIONS.find(s => s.id === id);
   if (!sec) return;
@@ -158,17 +169,20 @@ function openSection(id) {
   renderSection(id);
 }
 
+// عرض القسم
 function renderSection(id) {
   const sec = window.SECTIONS.find(s => s.id === id);
   if (!sec) return;
   const app = document.getElementById('app');
 
+  // أقسام مخصصة (مثل المنتدى)
   if (sec.type === 'custom' && typeof sec.render === 'function') {
     app.innerHTML = sec.render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
 
+  // قسم الأساتذة
   if (sec.type === 'profs-custom') {
     renderProfsSection(sec);
     return;
@@ -193,33 +207,29 @@ function renderSection(id) {
 }
 
 // ==========================================
-// الدالة الأهم: عرض العناصر والصور والفيديوهات والخريطة
+// عرض العناصر (تدعم النصوص المباشرة والمفاتيح والخريطة)
 // ==========================================
 function renderItem(item) {
-    // في دالة renderItem، أضف هذا السطر:
-  if (item.detailsKey) {
-    html += `<div style="margin-top:12px;padding:12px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">${window.t(item.detailsKey)}</div>`;
-  }
   const lang = window.getCurrentLang();
 
-  // --- دعم الخريطة التفاعلية (iframe-map) ---
+  // 1. الخريطة التفاعلية
   if (item.type === 'iframe-map') {
     return `
       <div class="card-3d" style="padding-bottom:20px">
-        <h3>${item.icon} ${window.t(item.titleKey)}</h3>
-        <p style="margin-bottom:15px">${window.t(item.descKey)}</p>
+        <h3>${item.icon} ${item.title || window.t(item.titleKey)}</h3>
+        <p style="margin-bottom:15px">${item.desc || window.t(item.descKey)}</p>
         <div style="border-radius:12px;overflow:hidden;height:600px;width:100%;background:#eee;border:1px solid var(--line)">
-          <iframe src="${item.iframeUrl}" width="100%" height="100%" style="border:0" title="خريطة المدرسة التفاعلية"></iframe>
+          <iframe src="${item.iframeUrl}" width="100%" height="100%" style="border:0" title="خريطة المدرسة"></iframe>
         </div>
       </div>
     `;
   }
 
-  // --- دعم مجموعة الفيديوهات (videos-group) ---
+  // 2. مجموعة الفيديوهات
   if (item.type === 'videos-group') {
     let html = `<div class="card-3d" style="padding-bottom:20px">
-      <h3>${item.icon} ${window.t(item.titleKey)}</h3>
-      <p style="margin-bottom:15px">${window.t(item.descKey)}</p>
+      <h3>${item.icon} ${item.title || window.t(item.titleKey)}</h3>
+      <p style="margin-bottom:15px">${item.desc || window.t(item.descKey)}</p>
       <div style="display:flex;flex-direction:column;gap:20px">`;
     
     item.videos.forEach(v => {
@@ -237,9 +247,9 @@ function renderItem(item) {
     return html;
   }
 
-  // --- دعم العناصر العادية (Items) ---
-  const title = item.titleKey ? window.t(item.titleKey) : (item.title ? (item.title[lang] || item.title.fr) : '');
-  const desc = item.descKey ? window.t(item.descKey) : (item.desc ? (item.desc[lang] || item.desc.fr) : '');
+  // 3. العناصر العادية (نصوص مباشرة أو مفاتيح)
+  const title = item.title || (item.titleKey ? window.t(item.titleKey) : '');
+  const desc = item.desc || (item.descKey ? window.t(item.descKey) : '');
 
   let html = '<div class="card-3d">';
   html += `<h3>${item.icon || ''} ${title}</h3>`;
@@ -247,8 +257,17 @@ function renderItem(item) {
 
   if (item.location) html += `<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ${item.location}</p>`;
   if (item.hours) html += `<p style="font-size:.85rem;color:var(--mut)">🕐 ${item.hours}</p>`;
-  
-  // عرض الصور المتعددة
+  if (item.phone && item.phone !== 'À compléter') html += `<p style="font-size:.85rem">📞 ${item.phone}</p>`;
+  if (item.email) html += `<p style="font-size:.85rem">✉️ <a href="mailto:${item.email}">${item.email}</a></p>`;
+
+  // عرض التفاصيل المباشرة
+  if (item.details) {
+    html += `<div style="margin-top:12px;padding:12px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">${item.details}</div>`;
+  } else if (item.detailsKey) {
+    html += `<div style="margin-top:12px;padding:12px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">${window.t(item.detailsKey)}</div>`;
+  }
+
+  // الصور
   if (item.images && item.images.length > 0) {
     html += '<div style="display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:8px">';
     item.images.forEach(img => {
@@ -257,14 +276,14 @@ function renderItem(item) {
     html += '</div>';
   }
 
-  // عرض الفيديو الفردي
+  // فيديو فردي
   if (item.video) {
     html += '<div style="margin-top:12px;border-radius:12px;overflow:hidden;aspect-ratio:16/9">';
     html += `<iframe src="https://www.youtube.com/embed/${item.video}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>`;
     html += '</div>';
   }
 
-  // عرض الخريطة (Google Maps)
+  // خريطة جوجل
   if (item.map) {
     html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(item.map)}" target="_blank" class="btn">📍 Voir sur Maps</a></p>`;
   }
@@ -283,7 +302,7 @@ window.openImageViewer = (src) => {
   document.body.appendChild(o);
 };
 
-// أساتذتي
+// قسم الأساتذة
 async function renderProfsSection(sec) {
   const app = document.getElementById('app');
   app.innerHTML = '<button class="back" onclick="renderHome()">Retour</button><p>Chargement...</p>';
@@ -364,6 +383,7 @@ window.addEventListener('load', () => {
   if (typeof window.loadProfsData === 'function') window.loadProfsData();
 });
 
+// تصدير الدوال للنطاق العام
 window.renderHome = renderHome;
 window.openSection = openSection;
 window.setLang = setLang;
