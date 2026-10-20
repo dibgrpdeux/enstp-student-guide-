@@ -23,7 +23,6 @@
 <div class="progress-bar" id="progress-bar"></div>
 <div class="offline-banner">📴 Mode hors ligne</div>
 
-<!-- الشريط العلوي -->
 <div class="top-controls">
   <div class="pill">
     <button onclick="setLang('fr')" data-lang="fr">🇫🇷</button>
@@ -38,7 +37,6 @@
   </div>
 </div>
 
-<!-- لوحة الألوان -->
 <div class="theme-panel" id="theme-panel">
   <div class="theme-panel-header">
     <strong>Thème</strong>
@@ -57,7 +55,6 @@
   </div>
 </div>
 
-<!-- لوحة حجم النص -->
 <div class="text-size-panel" id="text-size-panel">
   <div class="tsp-header">
     <strong>Taille du texte</strong>
@@ -89,7 +86,6 @@
 <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <a href="feedback.html" class="feedback-float"><span class="fb-icon">💬</span> Votre avis</a>
 
-<!-- نافذة الذكاء الاصطناعي -->
 <div class="modal-overlay" id="aiModal" style="display:none">
   <div class="modal-box">
     <h3>🤖 Assistant IA</h3>
@@ -107,7 +103,6 @@
 <script src="search.js"></script>
 <script src="ai-search.js"></script>
 
-<!-- تحميل كل الأقسام -->
 <script src="data/config.js"></script>
 <script src="data/ecole.js"></script>
 <script src="data/admin.js"></script>
@@ -279,7 +274,7 @@ function renderItem(item) {
     return html;
   }
 
-  // 3. العناصر العادية
+  // 3. العناصر العادية (الخدمات، المتاجر، إلخ)
   let title = item.titleKey ? window.t(item.titleKey) : getText(item.title, lang);
   if (!title && item.n) title = item.n;
 
@@ -308,6 +303,27 @@ function renderItem(item) {
     </div>`;
   }
 
+  // ==========================================
+  // استعادة عرض الإجراءات والشروط (procedure & delay)
+  // ==========================================
+  if (item.procedure) {
+    const procText = item.procedure.startsWith('srv') ? window.t(item.procedure) : getText(item.procedure, lang);
+    html += `<div style="margin-top:12px; padding:15px; background:var(--bg-2, #fff); border: 1px solid var(--line); border-radius: 10px; font-size:.88rem; line-height: 1.7; white-space: pre-line;">
+      <strong style="color: var(--acc); display:block; margin-bottom:8px;">📝 ${window.t('labelSteps') || 'الخطوات / Étapes'}</strong>
+      ${procText}
+    </div>`;
+  }
+
+  if (item.delay) {
+    const delayText = item.delay.startsWith('srv') ? window.t(item.delay) : getText(item.delay, lang);
+    html += `<div style="margin-top:12px; padding:15px; background:var(--acc-soft); border-left: 4px solid var(--acc); border-radius: 8px; font-size:.88rem; line-height: 1.7; white-space: pre-line;">
+      ${delayText}
+    </div>`;
+  }
+
+  // ==========================================
+  // الصور والفيديوهات والخريطة
+  // ==========================================
   if (item.images && item.images.length > 0) {
     html += '<div style="display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:8px">';
     item.images.forEach(img => {
@@ -351,9 +367,7 @@ function renderItem(item) {
   return html;
 }
 
-// ==========================================
-// تصميم بطاقات الأساتذة (الجديد)
-// ==========================================
+// تصميم قسم الأساتذة (بطاقات)
 async function renderProfsSection(sec) {
   const app = document.getElementById('app');
   app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><p style="text-align:center;padding:40px">Chargement…</p>';
@@ -378,8 +392,6 @@ async function renderProfsSection(sec) {
       
       subj.profs.forEach(p => {
         html += `<div class="prof-card-wrapper">`;
-
-        // 1. بطاقة الاسم والصورة
         html += `<div class="prof-header-card">`;
         if (p.photo) {
           html += `<div class="prof-avatar-big"><img src="${p.photo}"></div>`;
@@ -393,45 +405,25 @@ async function renderProfsSection(sec) {
         }
         html += `</div>`;
 
-        // 2. صندوق البريد الإلكتروني
         if (p.email) {
-          html += `<div class="prof-box email-box">
-            <div class="prof-box-title">✉️ EMAIL</div>
-            <a href="mailto:${p.email}">${p.email}</a>
-          </div>`;
+          html += `<div class="prof-box email-box"><div class="prof-box-title">✉️ EMAIL</div><a href="mailto:${p.email}">${p.email}</a></div>`;
         }
-
-        // 3. صندوق النصيحة
         if (p.advice) {
           const adviceText = p.advice[lang] || p.advice.fr;
           if (adviceText) {
-            html += `<div class="prof-box advice-box">
-              <div class="prof-box-title">💡 CONSEIL</div>
-              <p>"${adviceText}"</p>
-            </div>`;
+            html += `<div class="prof-box advice-box"><div class="prof-box-title">💡 CONSEIL</div><p>"${adviceText}"</p></div>`;
           }
         }
-
-        // 4. صندوق الوحدات
         if (p.modules && p.modules.length > 0) {
-          html += `<div class="prof-box modules-box">
-            <div class="prof-box-title">📚 MODULES</div>
-            <ul>${p.modules.map(m => `<li>${m}</li>`).join('')}</ul>
-          </div>`;
+          html += `<div class="prof-box modules-box"><div class="prof-box-title">📚 MODULES</div><ul>${p.modules.map(m => `<li>${m}</li>`).join('')}</ul></div>`;
         }
-
-        // 5. صندوق البحث العلمي
         if (p.research) {
           const researchText = p.research[lang] || p.research.fr;
           if (researchText) {
-            html += `<div class="prof-box research-box">
-              <div class="prof-box-title">🔬 RECHERCHE</div>
-              <p>${researchText}</p>
-            </div>`;
+            html += `<div class="prof-box research-box"><div class="prof-box-title">🔬 RECHERCHE</div><p>${researchText}</p></div>`;
           }
         }
-
-        html += `</div>`; // إغلاق prof-card-wrapper
+        html += `</div>`;
       });
     });
   });
@@ -440,7 +432,6 @@ async function renderProfsSection(sec) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// عرض الصور بشكل مكبر
 window.openImageViewer = (src) => {
   const o = document.createElement('div');
   o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out';
@@ -449,7 +440,6 @@ window.openImageViewer = (src) => {
   document.body.appendChild(o);
 };
 
-// البحث
 document.getElementById('q').addEventListener('input', (e) => {
   const q = e.target.value.trim();
   if (!q) { if (currentView === 'search') renderHome(); return; }
@@ -471,7 +461,6 @@ document.getElementById('q').addEventListener('input', (e) => {
   app.innerHTML = html;
 });
 
-// الذكاء الاصطناعي
 function openAIModal() { document.getElementById('aiModal').style.display = 'flex'; }
 function closeAIModal() { document.getElementById('aiModal').style.display = 'none'; }
 async function submitAI() {
@@ -488,12 +477,10 @@ async function submitAI() {
   finally { btn.disabled = false; btn.textContent = 'Envoyer'; }
 }
 
-// السهم لأعلى
 window.addEventListener('scroll', () => {
   document.getElementById('back-to-top').classList.toggle('show', window.scrollY > 400);
 });
 
-// تشغيل التطبيق
 window.addEventListener('load', () => {
   setTimeout(() => document.getElementById('loading-screen').classList.add('hide'), 300);
   if (typeof applyTheme === 'function') applyTheme();
