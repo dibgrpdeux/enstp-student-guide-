@@ -9,24 +9,19 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="style.css">
-<!-- ملف تصميم بطاقات الأساتذة -->
-<link rel="stylesheet" href="data/profs-card.css">
+<link rel="stylesheet" href="data/profs.css"> <!-- ربط تصميم الأساتذة -->
 <script src="text-size.js"></script>
 <script src="theme.js"></script>
 </head>
 <body>
 
-<!-- شاشة التحميل -->
 <div class="loading-screen" id="loading-screen">
-  <div class="logo-spin">🎓</div>
-  <div class="spin-ring"></div>
+  <div class="logo-spin">🎓</div><div class="spin-ring"></div>
   <p id="loading-text">Chargement…</p>
 </div>
-
 <div class="progress-bar" id="progress-bar"></div>
 <div class="offline-banner">📴 Mode hors ligne</div>
 
-<!-- الشريط العلوي: اللغة، الألوان، حجم الخط -->
 <div class="top-controls">
   <div class="pill">
     <button onclick="setLang('fr')" data-lang="fr">🇫🇷</button>
@@ -34,19 +29,15 @@
     <button onclick="setLang('en')" data-lang="en">🇬🇧</button>
   </div>
   <div class="pill">
-    <button class="ctrl-btn" onclick="toggleThemePanel()" title="Thème" id="theme-btn">🎨</button>
-    <button class="ctrl-btn" onclick="toggleTextSizePanel()" title="Texte" id="text-size-btn">🅰️</button>
+    <button class="ctrl-btn" onclick="toggleThemePanel()" title="Thème">🎨</button>
+    <button class="ctrl-btn" onclick="toggleTextSizePanel()" title="Texte">🅰️</button>
     <button class="ctrl-btn" onclick="toggleMode()" data-mode-toggle title="Mode">🌙</button>
     <a href="feedback.html" class="ctrl-btn" title="Avis">💬</a>
   </div>
 </div>
 
-<!-- لوحة الألوان -->
 <div class="theme-panel" id="theme-panel">
-  <div class="theme-panel-header">
-    <strong>Thème</strong>
-    <button class="tp-close" onclick="closeThemePanel()">×</button>
-  </div>
+  <div class="theme-panel-header"><strong>Thème</strong><button class="tp-close" onclick="closeThemePanel()">×</button></div>
   <div class="theme-swatches">
     <button class="swatch orange" data-theme-btn="orange" onclick="setTheme('orange')"></button>
     <button class="swatch red" data-theme-btn="red" onclick="setTheme('red')"></button>
@@ -60,12 +51,8 @@
   </div>
 </div>
 
-<!-- لوحة حجم النص -->
 <div class="text-size-panel" id="text-size-panel">
-  <div class="tsp-header">
-    <strong>Taille du texte</strong>
-    <button class="tsp-close" onclick="closeTextSizePanel()">×</button>
-  </div>
+  <div class="tsp-header"><strong>Taille du texte</strong><button class="tsp-close" onclick="closeTextSizePanel()">×</button></div>
   <div class="tsp-list">
     <button class="tsp-btn" data-text-size-btn="small" onclick="setTextSize('small')"><span>🅰️- Petit</span><span class="tsp-label">14px</span></button>
     <button class="tsp-btn" data-text-size-btn="normal" onclick="setTextSize('normal')"><span>🅰️ Normal</span><span class="tsp-label">16px</span></button>
@@ -74,7 +61,6 @@
   </div>
 </div>
 
-<!-- الهيدر والبحث -->
 <header>
   <h1><span>Guide</span> de survie ENSTP</h1>
   <a href="index.html">🏠 Accueil</a>
@@ -87,13 +73,11 @@
   </div>
 </div>
 
-<!-- الحاوية الرئيسية -->
 <main id="app"></main>
 
 <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <a href="feedback.html" class="feedback-float"><span class="fb-icon">💬</span> Votre avis</a>
 
-<!-- نافذة الذكاء الاصطناعي -->
 <div class="modal-overlay" id="aiModal" style="display:none">
   <div class="modal-box">
     <h3>🤖 Assistant IA</h3>
@@ -107,12 +91,10 @@
   </div>
 </div>
 
-<!-- تحميل السكربتات -->
 <script src="lang.js"></script>
 <script src="search.js"></script>
 <script src="ai-search.js"></script>
 
-<!-- تحميل البيانات -->
 <script src="data/config.js"></script>
 <script src="data/ecole.js"></script>
 <script src="data/admin.js"></script>
@@ -133,7 +115,6 @@
 let currentSection = null;
 let currentView = 'home';
 
-// تغيير اللغة
 function setLang(lang) {
   window.setCurrentLang(lang);
   document.documentElement.lang = lang;
@@ -143,10 +124,8 @@ function setLang(lang) {
   else if (currentSection) renderSection(currentSection.id);
 }
 
-// الصفحة الرئيسية
 function renderHome() {
-  currentView = 'home';
-  currentSection = null;
+  currentView = 'home'; currentSection = null;
   const app = document.getElementById('app');
   let html = '<h2>' + window.t('welcomeTitle') + '</h2>';
   html += '<p style="color:var(--mut);margin-bottom:24px;font-size:1.05rem">' + window.t('welcomeSubtitle') + '</p>';
@@ -162,69 +141,52 @@ function renderHome() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// فتح قسم
 function openSection(id) {
   const sec = window.SECTIONS.find(s => s.id === id);
   if (!sec) return;
-  currentSection = sec;
-  currentView = 'section';
+  currentSection = sec; currentView = 'section';
   renderSection(id);
 }
 
-// عرض القسم
 function renderSection(id) {
   const sec = window.SECTIONS.find(s => s.id === id);
   if (!sec) return;
   const app = document.getElementById('app');
 
-  // أقسام مخصصة (مثل المنتدى)
   if (sec.type === 'custom' && typeof sec.render === 'function') {
-    app.innerHTML = sec.render();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    return;
+    app.innerHTML = sec.render(); window.scrollTo({ top: 0, behavior: 'smooth' }); return;
   }
 
-  // قسم الأساتذة
   if (sec.type === 'profs-custom') {
-    renderProfsSection(sec);
-    return;
+    renderProfsSection(sec); return;
   }
 
   let html = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button>';
   html += '<h2>' + sec.icon + ' ' + window.t(sec.titleKey) + '</h2>';
-
   if (sec.introKey) html += '<p style="color:var(--mut);margin-bottom:20px">' + window.t(sec.introKey) + '</p>';
-
   if (sec.items) sec.items.forEach(item => { html += renderItem(item); });
-
   if (sec.categories) {
     sec.categories.forEach(cat => {
       html += '<h3 style="color:var(--acc);margin:24px 0 12px">' + cat.icon + ' ' + (cat.titleKey ? window.t(cat.titleKey) : cat.title) + '</h3>';
       if (cat.items) cat.items.forEach(item => { html += renderItem(item); });
     });
   }
-
   app.innerHTML = html;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ==========================================
-// عرض العناصر (تدعم النصوص المباشرة والمفاتيح والخريطة)
-// ==========================================
+// دالة عرض العناصر (الخريطة، الفيديوهات، الأسئلة الشائعة، النصوص المباشرة)
 function renderItem(item) {
   const lang = window.getCurrentLang();
 
   // 1. الخريطة التفاعلية
   if (item.type === 'iframe-map') {
-    return `
-      <div class="card-3d" style="padding-bottom:20px">
+    return `<div class="card-3d" style="padding-bottom:20px">
         <h3>${item.icon} ${item.title || window.t(item.titleKey)}</h3>
         <p style="margin-bottom:15px">${item.desc || window.t(item.descKey)}</p>
         <div style="border-radius:12px;overflow:hidden;height:600px;width:100%;background:#eee;border:1px solid var(--line)">
           <iframe src="${item.iframeUrl}" width="100%" height="100%" style="border:0" title="خريطة المدرسة"></iframe>
-        </div>
-      </div>
-    `;
+        </div></div>`;
   }
 
   // 2. مجموعة الفيديوهات
@@ -233,84 +195,70 @@ function renderItem(item) {
       <h3>${item.icon} ${item.title || window.t(item.titleKey)}</h3>
       <p style="margin-bottom:15px">${item.desc || window.t(item.descKey)}</p>
       <div style="display:flex;flex-direction:column;gap:20px">`;
-    
     item.videos.forEach(v => {
-      html += `
-        <div>
-          <h4 style="color:var(--acc);margin-bottom:8px;font-size:1rem">${v.icon} ${window.t(v.titleKey)}</h4>
+      html += `<div><h4 style="color:var(--acc);margin-bottom:8px;font-size:1rem">${v.icon} ${window.t(v.titleKey)}</h4>
           <div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 4px 12px rgba(0,0,0,0.1)">
             <iframe src="https://www.youtube.com/embed/${v.video}" width="100%" height="100%" style="border:0" allowfullscreen loading="lazy"></iframe>
-          </div>
-        </div>
-      `;
+          </div></div>`;
     });
-    
-    html += `</div></div>`;
-    return html;
+    html += `</div></div>`; return html;
   }
 
-  // 3. العناصر العادية (نصوص مباشرة أو مفاتيح)
+  // 3. الأسئلة الشائعة (FAQ)
+  if (item.type === 'faq') {
+    let html = `<div class="card-3d" style="padding-bottom:20px">
+      <h3>${item.icon} ${item.title || window.t(item.titleKey)}</h3>
+      <p style="margin-bottom:15px">${item.desc || window.t(item.descKey)}</p>
+      <div>`;
+    item.faqItems.forEach(cat => {
+      html += `<h4 style="color:var(--acc);margin-top:16px;margin-bottom:8px;">${window.t(cat.categoryKey)}</h4>`;
+      cat.items.forEach(faq => {
+        html += `<details style="margin-bottom:8px;background:var(--bg-3, #f1f5f9);border-radius:8px;padding:10px;cursor:pointer;">
+            <summary style="font-weight:700;color:var(--ink);">${window.t(faq.q)}</summary>
+            <p style="margin-top:10px;font-size:0.9rem;color:var(--mut);line-height:1.6;">${window.t(faq.a)}</p>
+          </details>`;
+      });
+    });
+    html += `</div></div>`; return html;
+  }
+
+  // 4. العناصر العادية
   const title = item.title || (item.titleKey ? window.t(item.titleKey) : '');
   const desc = item.desc || (item.descKey ? window.t(item.descKey) : '');
-
   let html = '<div class="card-3d">';
   html += `<h3>${item.icon || ''} ${title}</h3>`;
   if (desc) html += `<p>${desc}</p>`;
-
-  if (item.location) html += `<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ${item.location}</p>`;
+  if (item.location) {
+    const loc = item.location.startsWith('srv') ? window.t(item.location) : item.location;
+    html += `<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ${loc}</p>`;
+  }
   if (item.hours) html += `<p style="font-size:.85rem;color:var(--mut)">🕐 ${item.hours}</p>`;
   if (item.phone && item.phone !== 'À compléter') html += `<p style="font-size:.85rem">📞 ${item.phone}</p>`;
   if (item.email) html += `<p style="font-size:.85rem">✉️ <a href="mailto:${item.email}">${item.email}</a></p>`;
 
-  // عرض التفاصيل المباشرة
+  if (item.procedure) {
+    const proc = item.procedure.startsWith('srv') ? window.t(item.procedure) : item.procedure;
+    html += `<div style="margin-top:12px;padding:12px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">${proc}</div>`;
+  }
+  if (item.delay) {
+    const delay = item.delay.startsWith('srv') ? window.t(item.delay) : item.delay;
+    html += `<div style="margin-top:8px;padding:12px;background:var(--orange-soft,#fde8dc);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">${delay}</div>`;
+  }
   if (item.details) {
     html += `<div style="margin-top:12px;padding:12px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">${item.details}</div>`;
-  } else if (item.detailsKey) {
-    html += `<div style="margin-top:12px;padding:12px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">${window.t(item.detailsKey)}</div>`;
   }
-
-  // الصور
-  if (item.images && item.images.length > 0) {
-    html += '<div style="display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:8px">';
-    item.images.forEach(img => {
-      html += `<img src="${img}" style="height:150px;border-radius:12px;object-fit:cover;cursor:pointer" onclick="window.openImageViewer('${img}')">`;
-    });
-    html += '</div>';
-  }
-
-  // فيديو فردي
-  if (item.video) {
-    html += '<div style="margin-top:12px;border-radius:12px;overflow:hidden;aspect-ratio:16/9">';
-    html += `<iframe src="https://www.youtube.com/embed/${item.video}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>`;
-    html += '</div>';
-  }
-
-  // خريطة جوجل
-  if (item.map) {
-    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(item.map)}" target="_blank" class="btn">📍 Voir sur Maps</a></p>`;
-  }
-
+  if (item.link) html += `<p style="margin-top:10px"><a href="${item.link}" target="_blank" rel="noopener" class="btn">🔗 Ouvrir</a></p>`;
+  if (item.map) html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(item.map)}" target="_blank" class="btn">📍 Voir sur Maps</a></p>`;
+  if (item.video) html += `<div style="margin-top:12px;border-radius:12px;overflow:hidden;aspect-ratio:16/9"><iframe src="https://www.youtube.com/embed/${item.video}" width="100%" height="100%" style="border:0" allowfullscreen></iframe></div>`;
   if (item.extra) html += `<span class="extra">${item.extra}</span>`;
   html += '</div>';
   return html;
 }
 
-// عرض الصور بشكل مكبر
-window.openImageViewer = (src) => {
-  const o = document.createElement('div');
-  o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out';
-  o.onclick = () => o.remove();
-  o.innerHTML = `<img src="${src}" style="max-width:95vw;max-height:90vh;border-radius:12px;">`;
-  document.body.appendChild(o);
-};
-
-// ==========================================
-// قسم الأساتذة (مع دعم بطاقات profs-card.css)
-// ==========================================
+// قسم الأساتذة
 async function renderProfsSection(sec) {
   const app = document.getElementById('app');
   app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><p>Chargement...</p>';
-  
   const data = await window.loadProfsData();
   if (!data) { app.innerHTML = '<p>Erreur de chargement.</p>'; return; }
 
@@ -322,79 +270,28 @@ async function renderProfsSection(sec) {
   Object.keys(data.years).forEach(yearId => {
     const year = data.years[yearId];
     html += `<h3 style="color:var(--acc);margin:24px 0 12px">${year.icon} ${year.title[lang] || year.title.fr}</h3>`;
-    
     year.subjects.forEach(subj => {
       html += `<details style="margin-bottom:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px">`;
       html += `<summary style="cursor:pointer;font-weight:700">${subj.icon} ${subj.title[lang] || subj.title.fr}</summary>`;
       html += '<div style="margin-top:12px">';
-      
       subj.profs.forEach(p => {
         if (p.full) {
-          // بطاقة كاملة (ID Card)
-          html += `
-          <div class="prof-id-card">
-            <div class="prof-photo">
-              ${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : `<div class="prof-avatar-fallback">${p.name.charAt(0)}</div>`}
-            </div>
-            <div class="prof-id-info">
-              <div class="prof-name">${p.name}</div>
-              <div class="prof-title-line">
-                <span class="prof-role">${p.status ? p.status[lang] : 'PROFESSOR'}</span>
-                <span class="prof-location">${p.year ? p.year[lang] : ''}</span>
-              </div>
-            </div>
-          </div>`;
-          
-          if (p.email) {
-            html += `<div class="prof-section-card prof-email-card">
-              <div class="prof-section-title">📧 Email</div>
-              <a href="mailto:${p.email}" class="prof-email-link">${p.email}</a>
-            </div>`;
-          }
-          
-          if (p.advice) {
-            html += `<div class="prof-section-card prof-advice-card">
-              <div class="prof-section-title">💡 Conseil</div>
-              <div class="prof-advice-text">"${p.advice[lang] || p.advice.fr}"</div>
-            </div>`;
-          }
-          
-          if (p.modules) {
-            html += `<div class="prof-section-card prof-modules-card">
-              <div class="prof-section-title">📚 Modules</div>
-              <ul class="prof-modules-list">${p.modules.map(m => `<li>${m}</li>`).join('')}</ul>
-            </div>`;
-          }
-          
-          if (p.research) {
-            html += `<div class="prof-section-card prof-research-card">
-              <div class="prof-section-title">🔬 Recherche</div>
-              <div class="prof-research-text">${p.research[lang] || p.research.fr}</div>
-            </div>`;
-          }
-          
-          if (p.links && p.links.length > 0) {
-            html += `<div class="prof-section-card prof-links-card">
-              <div class="prof-section-title">🔗 Liens</div>
-              <div class="prof-links-list">${p.links.map(l => `<a href="${l.url}" target="_blank" class="prof-link">${l.icon} ${l.name}</a>`).join('')}</div>
-            </div>`;
-          }
+          html += `<div class="prof-id-card"><div class="prof-photo">${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : `<div class="prof-avatar-fallback">${p.name.charAt(0)}</div>`}</div>
+            <div class="prof-id-info"><div class="prof-name">${p.name}</div>
+              <div class="prof-title-line"><span class="prof-role">${p.status ? p.status[lang] : 'PROFESSOR'}</span><span class="prof-location">${p.year ? p.year[lang] : ''}</span></div></div></div>`;
+          if (p.email) html += `<div class="prof-section-card prof-email-card"><div class="prof-section-title">📧 Email</div><a href="mailto:${p.email}" class="prof-email-link">${p.email}</a></div>`;
+          if (p.advice) html += `<div class="prof-section-card prof-advice-card"><div class="prof-section-title">💡 Conseil</div><div class="prof-advice-text">"${p.advice[lang] || p.advice.fr}"</div></div>`;
+          if (p.modules) html += `<div class="prof-section-card prof-modules-card"><div class="prof-section-title">📚 Modules</div><ul class="prof-modules-list">${p.modules.map(m => `<li>${m}</li>`).join('')}</ul></div>`;
+          if (p.research) html += `<div class="prof-section-card prof-research-card"><div class="prof-section-title">🔬 Recherche</div><div class="prof-research-text">${p.research[lang] || p.research.fr}</div></div>`;
+          if (p.links && p.links.length > 0) html += `<div class="prof-section-card prof-links-card"><div class="prof-section-title">🔗 Liens</div><div class="prof-links-list">${p.links.map(l => `<a href="${l.url}" target="_blank" class="prof-link">${l.icon} ${l.name}</a>`).join('')}</div></div>`;
         } else {
-          // بطاقة بسيطة (Fallback)
-          html += `
-          <div class="prof-simple-card">
-            <div class="prof-simple-name">${p.name}</div>
-            <div class="prof-simple-module">${subj.title[lang] || subj.title.fr}</div>
-            ${p.email ? `<a href="mailto:${p.email}" class="prof-simple-email">✉️ ${p.email}</a>` : `<div class="prof-simple-no-email">Email non disponible</div>`}
-          </div>`;
+          html += `<div class="prof-simple-card"><div class="prof-simple-name">${p.name}</div><div class="prof-simple-module">${subj.title[lang] || subj.title.fr}</div>${p.email ? `<a href="mailto:${p.email}" class="prof-simple-email">✉️ ${p.email}</a>` : `<div class="prof-simple-no-email">Email non disponible</div>`}</div>`;
         }
         html += '<div style="margin-bottom:20px"></div>';
       });
-      
       html += '</div></details>';
     });
   });
-
   html += '</div>';
   app.innerHTML = html;
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -412,16 +309,12 @@ document.getElementById('q').addEventListener('input', (e) => {
     html += `<p style="color:var(--mut);text-align:center;padding:40px">${window.t('noResult')}</p>`;
   } else {
     results.slice(0, 20).forEach(r => {
-      html += `<div class="card-3d" style="cursor:pointer" onclick="openSection('${r.section.id}')">
-        <h3>${r.section.icon} ${r.item.titleKey ? window.t(r.item.titleKey) : (r.item.title || '')}</h3>
-        <p style="font-size:.85rem;color:var(--mut)">${window.t(r.section.titleKey)}</p>
-      </div>`;
+      html += `<div class="card-3d" style="cursor:pointer" onclick="openSection('${r.section.id}')"><h3>${r.section.icon} ${r.item.titleKey ? window.t(r.item.titleKey) : (r.item.title || '')}</h3><p style="font-size:.85rem;color:var(--mut)">${window.t(r.section.titleKey)}</p></div>`;
     });
   }
   app.innerHTML = html;
 });
 
-// الذكاء الاصطناعي
 function openAIModal() { document.getElementById('aiModal').style.display = 'flex'; }
 function closeAIModal() { document.getElementById('aiModal').style.display = 'none'; }
 async function submitAI() {
@@ -438,12 +331,10 @@ async function submitAI() {
   finally { btn.disabled = false; btn.textContent = 'Envoyer'; }
 }
 
-// السهم لأعلى
 window.addEventListener('scroll', () => {
   document.getElementById('back-to-top').classList.toggle('show', window.scrollY > 400);
 });
 
-// تشغيل التطبيق
 window.addEventListener('load', () => {
   setTimeout(() => document.getElementById('loading-screen').classList.add('hide'), 300);
   if (typeof applyTheme === 'function') applyTheme();
@@ -453,7 +344,6 @@ window.addEventListener('load', () => {
   if (typeof window.loadProfsData === 'function') window.loadProfsData();
 });
 
-// تصدير الدوال للنطاق العام
 window.renderHome = renderHome;
 window.openSection = openSection;
 window.setLang = setLang;
