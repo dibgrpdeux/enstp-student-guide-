@@ -1,7 +1,7 @@
 // ============================================
 // search.js — محرك البحث الذكي
 // Guide de survie ENSTP
-// Version 2.0
+// Version 3.0 — محسّن
 // ============================================
 
 const SYNONYMS = {
@@ -13,8 +13,8 @@ const SYNONYMS = {
   "enseignant": ["prof", "professeur"],
   "probleme": ["aide", "souci", "difficulté", "service"],
   "aide": ["probleme", "service", "secours"],
-  "absence": ["absent", "justificatif", "manqué"],
-  "carte": ["badge", "identité"],
+  "absence": ["absent", "justificatif", "manqué", "exclusion", "éliminatoire"],
+  "carte": ["badge", "identité", "étudiant"],
   "transport": ["bus", "taxi", "métro", "tram", "déplacement"],
   "bus": ["transport", "arrêt", "ligne"],
   "taxi": ["transport", "voiture", "station"],
@@ -22,7 +22,7 @@ const SYNONYMS = {
   "residence": ["cite", "logement"],
   "manger": ["restaurant", "repas", "snack", "café", "pizzeria", "boulangerie"],
   "restaurant": ["manger", "repas", "snack"],
-  "bibliotheque": ["livre", "adhésion", "prêt"],
+  "bibliotheque": ["livre", "adhésion", "prêt", "emprunt"],
   "notes": ["résultats", "examens", "moyenne"],
   "examens": ["notes", "résultats"],
   "sport": ["football", "basket", "running"],
@@ -30,7 +30,11 @@ const SYNONYMS = {
   "pharmacie": ["médicament", "santé"],
   "forum": ["discussion", "chat", "étudiants", "communauté"],
   "etudiant": ["élève", "étudiants", "apprenant"],
-  
+  "cnas": ["sécurité sociale", "ameli", "assurance", "santé"],
+  "stage": ["internship", "convention", "terrain"],
+  "bourse": ["aide financière", "allocation"],
+  "wifi": ["internet", "connexion", "réseau"],
+
   // عربي
   "قاعة": ["قسم", "مدرج", "صف", "حصة"],
   "مدرج": ["قاعة", "أمفي"],
@@ -39,7 +43,7 @@ const SYNONYMS = {
   "أساتذة": ["أستاذ", "معلم"],
   "مشكلة": ["مساعدة", "سؤال", "صعوبة"],
   "مساعدة": ["مشكلة", "خدمة"],
-  "غياب": ["غائب", "تبرير", "مبرر"],
+  "غياب": ["غائب", "تبرير", "مبرر", "إقصاء"],
   "بطاقة": ["هوية", "شارة"],
   "نقل": ["حافلة", "طاكسي", "مترو", "ترامواي"],
   "حافلة": ["نقل", "باص", "محطة"],
@@ -57,7 +61,10 @@ const SYNONYMS = {
   "صيدلية": ["دواء", "صحة"],
   "ملتقى": ["دردشة", "طلبة", "مجتمع", "تواصل"],
   "طلبة": ["طلاب", "ملتقى"],
-  
+  "ضمان": ["cnas", "تأمين", "صحة"],
+  "تربص": ["تدريب", "اتفاقية"],
+  "منحة": ["مساعدة مالية", "دعم"],
+
   // إنجليزي
   "room": ["class", "amphi", "classroom"],
   "teacher": ["professor", "instructor"],
@@ -68,7 +75,8 @@ const SYNONYMS = {
   "eat": ["restaurant", "food", "meal"],
   "library": ["book", "membership"],
   "grades": ["results", "exams"],
-  "forum": ["discussion", "chat", "community"]
+  "forum": ["discussion", "chat", "community"],
+  "internship": ["stage", "training"]
 };
 
 // ============================================
@@ -77,10 +85,17 @@ const SYNONYMS = {
 function normalize(text) {
   if (!text) return '';
   return text.toString().toLowerCase()
+    // الفرنسية
     .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a').replace(/[îï]/g, 'i')
-    .replace(/[ôö]/g, 'o').replace(/[ùûü]/g, 'u').replace(/[ç]/g, 'c')
+    .replace(/[ôö]/g, 'o').replace(/[ùûü]/g, 'u').replace(/ç/g, 'c')
+    // العربية
     .replace(/[إأآا]/g, 'ا').replace(/[ىي]/g, 'ي').replace(/[ةه]/g, 'ه')
-    .replace(/[ًٌٍَُِّْ]/g, '').trim();
+    .replace(/[ًٌٍَُِّْ]/g, '')
+    // أرقام عربية ← لاتينية
+    .replace(/[٠-٩]/g, d => String.fromCharCode(d.charCodeAt(0) - 0x0660 + 48))
+    .replace(/[۰-۹]/g, d => String.fromCharCode(d.charCodeAt(0) - 0x06F0 + 48))
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 // ============================================
@@ -98,7 +113,7 @@ function expandWord(word) {
 }
 
 // ============================================
-// Levenshtein (تصحيح الأخطاء الإملائية)
+// Levenshtein
 // ============================================
 function levenshtein(a, b) {
   if (a.length === 0) return b.length;
@@ -108,18 +123,79 @@ function levenshtein(a, b) {
   for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
   for (let i = 1; i <= b.length; i++) {
     for (let j = 1; j <= a.length; j++) {
-      if (b.charAt(i - 1) === a.charAt(j - 1)) {
-        matrix[i][j] = matrix[i - 1][j - 1];
-      } else {
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j - 1] + 1,
-          matrix[i][j - 1] + 1,
-          matrix[i - 1][j] + 1
-        );
-      }
+      matrix[i][j] = b.charAt(i - 1) === a.charAt(j - 1)
+        ? matrix[i - 1][j - 1]
+        : Math.min(matrix[i - 1][j - 1] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j] + 1);
     }
   }
   return matrix[b.length][a.length];
+}
+
+// ============================================
+// ذاكرة مؤقتة للترجمات
+// ============================================
+const _transCache = new Map();
+function cachedT(key, lang) {
+  if (!key) return '';
+  const k = key + '|' + lang;
+  if (_transCache.has(k)) return _transCache.get(k);
+  const val = (typeof window.t === 'function' ? window.t(key, lang) : '') || '';
+  _transCache.set(k, val);
+  return val;
+}
+
+function joinTrilingual(key) {
+  if (!key) return '';
+  return [
+    cachedT(key, 'fr'),
+    cachedT(key, 'ar'),
+    cachedT(key, 'en')
+  ].filter(Boolean).join(' ');
+}
+
+function joinObject(obj) {
+  if (!obj) return '';
+  if (typeof obj === 'string') return obj;
+  if (typeof obj === 'object') {
+    return [obj.fr, obj.ar, obj.en].filter(Boolean).join(' ');
+  }
+  return '';
+}
+
+// ============================================
+// تقييم عنصر
+// ============================================
+function scoreItem(item, expandedWords, section) {
+  let score = 0;
+
+  const titleText = normalize(
+    joinTrilingual(item.titleKey) + ' ' + joinObject(item.title)
+  );
+  const descText = normalize(
+    joinTrilingual(item.descKey) + ' ' + joinObject(item.desc) + ' ' +
+    (item.note || '') + ' ' + (item.location || '') + ' ' + (item.hours || '')
+  );
+  const secText = normalize(joinTrilingual(section.titleKey));
+
+  let matchedGroups = 0;
+
+  expandedWords.forEach(group => {
+    let groupMatched = false;
+    group.forEach(w => {
+      if (!w) return;
+      if (titleText.includes(w)) { score += 10; groupMatched = true; }
+      if (descText.includes(w)) { score += 3; groupMatched = true; }
+      if (secText.includes(w)) { score += 1; groupMatched = true; }
+    });
+    if (groupMatched) matchedGroups++;
+  });
+
+  // مكافأة التطابق الكامل
+  if (matchedGroups === expandedWords.length && expandedWords.length > 1) {
+    score += 20;
+  }
+
+  return score;
 }
 
 // ============================================
@@ -128,61 +204,55 @@ function levenshtein(a, b) {
 function smartSearch(query, sections) {
   const q = normalize(query);
   if (!q) return [];
-  
+
   const words = q.split(/\s+/).filter(w => w.length > 1);
-  if (words.length === 0) return [];
-  
-  const expandedWords = words.map(w => expandWord(w));
+  if (!words.length) return [];
+
+  const expandedWords = words.map(expandWord);
   const results = [];
-  
-  sections.forEach(section => {
-    // بحث في items
+
+  (sections || []).forEach(section => {
     if (section.items) {
       section.items.forEach((item, idx) => {
         const score = scoreItem(item, expandedWords, section);
         if (score > 0) {
           results.push({
-            section: section,
-            item: item,
-            itemIndex: idx,
-            categoryId: null,
-            score: score
+            section, item, itemIndex: idx, categoryId: null, score
           });
         }
       });
     }
-    
-    // بحث في categories
+
     if (section.categories) {
       section.categories.forEach(cat => {
         // عنوان التصنيف
-        if (cat.titleKey && typeof window.t === 'function') {
-          const ct = window.t(cat.titleKey, getCurrentLang()) || '';
-          const ctext = normalize(ct);
-          expandedWords.forEach(group => group.forEach(w => {
-            if (ctext.includes(w)) {
-              results.push({
-                section: section,
-                item: { titleKey: cat.titleKey, icon: cat.icon },
-                itemIndex: null,
-                categoryId: cat.id,
-                score: 15
-              });
-            }
-          }));
+        const catTitle = cat.titleKey
+          ? joinTrilingual(cat.titleKey)
+          : (typeof cat.title === 'string' ? cat.title : '');
+        const ctext = normalize(catTitle);
+        let catScore = 0;
+        expandedWords.forEach(group => {
+          group.forEach(w => {
+            if (w && ctext.includes(w)) catScore += 15;
+          });
+        });
+        if (catScore > 0) {
+          results.push({
+            section,
+            item: { titleKey: cat.titleKey, title: cat.title, icon: cat.icon },
+            itemIndex: null,
+            categoryId: cat.id,
+            score: catScore
+          });
         }
-        
+
         // items داخل التصنيف
         if (cat.items) {
           cat.items.forEach((item, idx) => {
             const score = scoreItem(item, expandedWords, section);
             if (score > 0) {
               results.push({
-                section: section,
-                item: item,
-                itemIndex: idx,
-                categoryId: cat.id,
-                score: score
+                section, item, itemIndex: idx, categoryId: cat.id, score
               });
             }
           });
@@ -190,49 +260,17 @@ function smartSearch(query, sections) {
       });
     }
   });
-  
+
   // إزالة التكرارات
   const seen = new Set();
   const unique = [];
   results.forEach(r => {
-    const key = r.section.id + '|' + (r.item.titleKey || '') + '|' + (r.categoryId || '') + '|' + (r.itemIndex || '');
-    if (!seen.has(key)) {
-      seen.add(key);
-      unique.push(r);
-    }
+    const key = r.section.id + '|' + (r.item.titleKey || r.item.title || '') + '|' + (r.categoryId || '') + '|' + (r.itemIndex ?? '');
+    if (!seen.has(key)) { seen.add(key); unique.push(r); }
   });
-  
+
   unique.sort((a, b) => b.score - a.score);
   return unique;
-}
-
-function scoreItem(item, expandedWords, section) {
-  let score = 0;
-  const titleText = normalize(
-    (item.titleKey && typeof window.t === 'function' ? window.t(item.titleKey, 'fr') + ' ' + window.t(item.titleKey, 'ar') + ' ' + window.t(item.titleKey, 'en') : '') + ' ' +
-    (typeof item.title === 'object' ? (item.title.fr + ' ' + item.title.ar + ' ' + item.title.en) : (item.title || ''))
-  );
-  const descText = normalize(
-    (item.descKey && typeof window.t === 'function' ? window.t(item.descKey, 'fr') + ' ' + window.t(item.descKey, 'ar') + ' ' + window.t(item.descKey, 'en') : '') + ' ' +
-    (typeof item.desc === 'object' ? (item.desc.fr + ' ' + item.desc.ar + ' ' + item.desc.en) : (item.desc || ''))
-  );
-  const secText = normalize(
-    section.titleKey && typeof window.t === 'function' ? window.t(section.titleKey, 'fr') + ' ' + window.t(section.titleKey, 'ar') + ' ' + window.t(section.titleKey, 'en') : ''
-  );
-  
-  expandedWords.forEach(group => {
-    group.forEach(w => {
-      if (titleText.includes(w)) score += 10;
-      if (descText.includes(w)) score += 3;
-      if (secText.includes(w)) score += 1;
-    });
-  });
-  
-  return score;
-}
-
-function getCurrentLang() {
-  return (typeof localStorage !== 'undefined' && localStorage.getItem('lang')) || 'fr';
 }
 
 // ============================================
@@ -240,18 +278,29 @@ function getCurrentLang() {
 // ============================================
 function suggestWords(query) {
   const q = normalize(query);
-  const suggestions = [];
-  Object.keys(SYNONYMS).forEach(key => {
-    const dist = levenshtein(q, normalize(key));
-    if (dist <= 2 && dist > 0) {
-      suggestions.push({ word: key, distance: dist });
-    }
+  if (!q) return [];
+  const words = q.split(/\s+/).filter(Boolean);
+  const suggestions = new Map();
+
+  words.forEach(word => {
+    Object.keys(SYNONYMS).forEach(key => {
+      const dist = levenshtein(word, normalize(key));
+      if (dist > 0 && dist <= 2) {
+        const current = suggestions.get(key);
+        if (!current || current > dist) suggestions.set(key, dist);
+      }
+    });
   });
-  suggestions.sort((a, b) => a.distance - b.distance);
-  return suggestions.slice(0, 3).map(s => s.word);
+
+  return [...suggestions.entries()]
+    .sort((a, b) => a[1] - b[1])
+    .slice(0, 3)
+    .map(([word]) => word);
 }
 
+// ============================================
 // تصدير
+// ============================================
 if (typeof window !== 'undefined') {
   window.smartSearch = smartSearch;
   window.suggestWords = suggestWords;
