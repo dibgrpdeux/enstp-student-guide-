@@ -204,14 +204,9 @@ function renderSection(id) {
 }
 
 // دالة مساعدة للترجمة الذكية
-function getSmartText(val, lang) {
+function getText(val, lang) {
   if (!val) return '';
   if (typeof val === 'object') return val[lang] || val.fr || '';
-  if (typeof val === 'string') {
-    const translated = window.t(val);
-    if (translated && translated !== val) return translated;
-    return val;
-  }
   return val;
 }
 
@@ -219,7 +214,9 @@ function getSmartText(val, lang) {
 function renderItem(item) {
   const lang = window.getCurrentLang();
 
+  // ==========================================
   // دعم قسم الأسئلة الشائعة (FAQ)
+  // ==========================================
   if (item.type === 'faq') {
     let html = `<div class="card-3d">
       <h3>${item.icon || '❓'} ${window.t(item.titleKey) || 'FAQ'}</h3>
@@ -230,6 +227,7 @@ function renderItem(item) {
       if (group.categoryKey) {
         html += `<h4 style="color:var(--acc);margin:15px 0 5px 0;font-size:1rem">${window.t(group.categoryKey)}</h4>`;
       }
+      
       group.items.forEach(faq => {
         const question = window.t(faq.q);
         const answer = window.t(faq.a);
@@ -241,6 +239,7 @@ function renderItem(item) {
         `;
       });
     });
+
     html += `</div></div>`;
     return html;
   }
@@ -266,7 +265,7 @@ function renderItem(item) {
       <div style="display:flex;flex-direction:column;gap:20px">`;
     
     item.videos.forEach(v => {
-      const vTitle = v.titleKey ? window.t(v.titleKey) : getSmartText(v.title, lang);
+      const vTitle = v.titleKey ? window.t(v.titleKey) : getText(v.title, lang);
       html += `
         <div>
           <h4 style="color:var(--acc);margin-bottom:8px;font-size:1rem">${v.icon || ''} ${vTitle}</h4>
@@ -281,18 +280,18 @@ function renderItem(item) {
   }
 
   // 3. العناصر العادية
-  let title = item.titleKey ? window.t(item.titleKey) : getSmartText(item.title, lang);
+  let title = item.titleKey ? window.t(item.titleKey) : getText(item.title, lang);
   if (!title && item.n) title = item.n;
 
-  let desc = item.descKey ? window.t(item.descKey) : getSmartText(item.desc, lang);
+  let desc = item.descKey ? window.t(item.descKey) : getText(item.desc, lang);
   if (!desc && item.note) desc = item.note;
 
   let html = '<div class="card-3d">';
   html += `<h3>${item.icon || ''} ${title || 'Information'}</h3>`;
   if (desc) html += `<p>${desc}</p>`;
 
-  if (item.location) html += `<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ${getSmartText(item.location, lang)}</p>`;
-  if (item.hours) html += `<p style="font-size:.85rem;color:var(--mut)">🕐 ${getSmartText(item.hours, lang)}</p>`;
+  if (item.location) html += `<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ${getText(item.location, lang)}</p>`;
+  if (item.hours) html += `<p style="font-size:.85rem;color:var(--mut)">🕐 ${getText(item.hours, lang)}</p>`;
   
   if (item.email && item.email.includes('@')) {
     html += `<div style="margin-top:10px">
@@ -305,7 +304,7 @@ function renderItem(item) {
   if (item.details) {
     html += `<div style="margin-top:15px;padding:15px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.9rem;line-height:1.8;white-space:pre-line; border-left: 4px solid var(--acc);">
       <strong style="color:var(--ink); display:block; margin-bottom:8px;">📌 ${window.t('labelMission') || 'المهام / Missions'}</strong>
-      ${getSmartText(item.details, lang)}
+      ${getText(item.details, lang)}
     </div>`;
   }
 
@@ -334,7 +333,7 @@ function renderItem(item) {
     item.videos.forEach(v => {
       let vidId = v.id || v.video;
       if (vidId && vidId.includes("/shorts/")) vidId = vidId.split("/shorts/")[1].split("?")[0];
-      const vTitle = getSmartText(v.title, lang);
+      const vTitle = getText(v.title, lang);
       html += '<div style="margin-top:12px;">';
       if (vTitle) html += `<h4 style="margin-bottom:6px;font-size:.95rem">${vTitle}</h4>`;
       html += '<div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9">';
@@ -344,15 +343,17 @@ function renderItem(item) {
   }
 
   if (item.map) {
-    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(getSmartText(item.map, lang))}" target="_blank" class="btn">📍 ${window.t('viewMap') || 'Voir sur Maps'}</a></p>`;
+    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(getText(item.map, lang))}" target="_blank" class="btn">📍 ${window.t('viewMap') || 'Voir sur Maps'}</a></p>`;
   }
 
-  if (item.extra) html += `<span class="extra">${getSmartText(item.extra, lang)}</span>`;
+  if (item.extra) html += `<span class="extra">${getText(item.extra, lang)}</span>`;
   html += '</div>';
   return html;
 }
 
-// تصميم قسم الأساتذة
+// ==========================================
+// تصميم بطاقات الأساتذة (الجديد)
+// ==========================================
 async function renderProfsSection(sec) {
   const app = document.getElementById('app');
   app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><p style="text-align:center;padding:40px">Chargement…</p>';
@@ -373,36 +374,65 @@ async function renderProfsSection(sec) {
     html += `<h3 style="color:var(--acc);margin:24px 0 12px;font-size:1.2rem">${year.icon} ${year.title[lang] || year.title.fr}</h3>`;
     
     year.subjects.forEach(subj => {
-      html += `<div class="card-3d" style="padding:16px;margin-bottom:16px">`;
-      html += `<h4 style="margin:0 0 12px 0;color:var(--ink);font-size:1.05rem;border-bottom:1px solid var(--line);padding-bottom:8px">${subj.icon} ${subj.title[lang] || subj.title.fr}</h4>`;
+      html += `<h4 style="margin:20px 0 5px 0;color:var(--ink);font-size:1.05rem;border-bottom:2px solid var(--line);padding-bottom:8px">${subj.icon} ${subj.title[lang] || subj.title.fr}</h4>`;
       
       subj.profs.forEach(p => {
-        html += `<div style="display:flex;gap:12px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed var(--line)">`;
-        
+        html += `<div class="prof-card-wrapper">`;
+
+        // 1. بطاقة الاسم والصورة
+        html += `<div class="prof-header-card">`;
         if (p.photo) {
-          html += `<img src="${p.photo}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--acc)">`;
+          html += `<div class="prof-avatar-big"><img src="${p.photo}"></div>`;
         } else {
           const initial = p.name ? p.name.charAt(0).toUpperCase() : '?';
-          html += `<div style="width:50px;height:50px;border-radius:50%;background:var(--acc-soft);color:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2rem;border:2px solid var(--acc)">${initial}</div>`;
+          html += `<div class="prof-avatar-big">${initial}</div>`;
         }
-        
-        html += `<div style="flex:1">`;
-        html += `<div style="font-weight:700;color:var(--ink);font-size:.95rem">${p.name}</div>`;
-        
+        html += `<div class="prof-name-title">${p.name}</div>`;
+        if (p.status) {
+          html += `<div class="prof-role-badge">${p.status[lang] || p.status.fr}</div>`;
+        }
+        html += `</div>`;
+
+        // 2. صندوق البريد الإلكتروني
         if (p.email) {
-          html += `<a href="mailto:${p.email}" style="font-size:.8rem;color:var(--acc);text-decoration:none;display:inline-block;margin-top:4px">✉️ ${p.email}</a>`;
+          html += `<div class="prof-box email-box">
+            <div class="prof-box-title">✉️ EMAIL</div>
+            <a href="mailto:${p.email}">${p.email}</a>
+          </div>`;
         }
-        
+
+        // 3. صندوق النصيحة
         if (p.advice) {
           const adviceText = p.advice[lang] || p.advice.fr;
           if (adviceText) {
-            html += `<div style="margin-top:8px;font-size:.8rem;color:var(--mut);font-style:italic;background:var(--bg-3);padding:8px;border-radius:6px">💡 "${adviceText}"</div>`;
+            html += `<div class="prof-box advice-box">
+              <div class="prof-box-title">💡 CONSEIL</div>
+              <p>"${adviceText}"</p>
+            </div>`;
           }
         }
-        html += `</div></div>`;
+
+        // 4. صندوق الوحدات
+        if (p.modules && p.modules.length > 0) {
+          html += `<div class="prof-box modules-box">
+            <div class="prof-box-title">📚 MODULES</div>
+            <ul>${p.modules.map(m => `<li>${m}</li>`).join('')}</ul>
+          </div>`;
+        }
+
+        // 5. صندوق البحث العلمي
+        if (p.research) {
+          const researchText = p.research[lang] || p.research.fr;
+          if (researchText) {
+            html += `<div class="prof-box research-box">
+              <div class="prof-box-title">🔬 RECHERCHE</div>
+              <p>${researchText}</p>
+            </div>`;
+          }
+        }
+
+        html += `</div>`; // إغلاق prof-card-wrapper
       });
-      
-      html += `</div>`;
     });
   });
 
@@ -431,7 +461,7 @@ document.getElementById('q').addEventListener('input', (e) => {
     html += `<p style="color:var(--mut);text-align:center;padding:40px">${window.t('noResult')}</p>`;
   } else {
     results.slice(0, 20).forEach(r => {
-      let rTitle = r.item.titleKey ? window.t(r.item.titleKey) : getSmartText(r.item.title, window.getCurrentLang());
+      let rTitle = r.item.titleKey ? window.t(r.item.titleKey) : getText(r.item.title, window.getCurrentLang());
       html += `<div class="card-3d" style="cursor:pointer" onclick="openSection('${r.section.id}')">
         <h3>${r.section.icon} ${rTitle}</h3>
         <p style="font-size:.85rem;color:var(--mut)">${window.t(r.section.titleKey)}</p>
