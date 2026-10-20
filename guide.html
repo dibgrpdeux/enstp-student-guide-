@@ -26,7 +26,7 @@
 <div class="progress-bar" id="progress-bar"></div>
 <div class="offline-banner">📴 Mode hors ligne</div>
 
-<!-- الشريط العلوي -->
+<!-- الشريط العلوي: اللغة، الألوان، حجم الخط -->
 <div class="top-controls">
   <div class="pill">
     <button onclick="setLang('fr')" data-lang="fr">🇫🇷</button>
@@ -85,6 +85,7 @@
 <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <a href="feedback.html" class="feedback-float"><span class="fb-icon">💬</span> Votre avis</a>
 
+<!-- نافذة الذكاء الاصطناعي -->
 <div class="modal-overlay" id="aiModal" style="display:none">
   <div class="modal-box">
     <h3>🤖 Assistant IA</h3>
@@ -98,10 +99,12 @@
   </div>
 </div>
 
+<!-- تحميل السكربتات -->
 <script src="lang.js"></script>
 <script src="search.js"></script>
 <script src="ai-search.js"></script>
 
+<!-- تحميل البيانات -->
 <script src="data/config.js"></script>
 <script src="data/ecole.js"></script>
 <script src="data/admin.js"></script>
@@ -122,6 +125,7 @@
 let currentSection = null;
 let currentView = 'home';
 
+// تغيير اللغة
 function setLang(lang) {
   window.setCurrentLang(lang);
   document.documentElement.lang = lang;
@@ -131,6 +135,7 @@ function setLang(lang) {
   else if (currentSection) renderSection(currentSection.id);
 }
 
+// الصفحة الرئيسية
 function renderHome() {
   currentView = 'home';
   currentSection = null;
@@ -151,6 +156,7 @@ function renderHome() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// فتح قسم
 function openSection(id) {
   const sec = window.SECTIONS.find(s => s.id === id);
   if (!sec) return;
@@ -159,6 +165,7 @@ function openSection(id) {
   renderSection(id);
 }
 
+// عرض القسم
 function renderSection(id) {
   const sec = window.SECTIONS.find(s => s.id === id);
   if (!sec) return;
@@ -199,7 +206,7 @@ function renderSection(id) {
 function renderItem(item) {
   const lang = window.getCurrentLang();
 
-  // 1. الخريطة
+  // 1. الخريطة (iframe)
   if (item.type === 'iframe-map') {
     return `
       <div class="card-3d" style="padding-bottom:20px">
@@ -212,7 +219,20 @@ function renderItem(item) {
     `;
   }
 
-  // 2. مجموعة فيديوهات
+  // 2. زر الخريطة (map-button)
+  if (item.type === 'map-button') {
+    return `
+      <div class="card-3d" style="text-align:center; padding: 30px;">
+        <h3>${item.icon} ${item.title}</h3>
+        <p style="margin-bottom:20px">${item.desc}</p>
+        <a href="${item.mapLink}" target="_blank" class="btn" style="display:inline-block; padding:15px 30px; font-size:1.1rem;">
+          🗺️ Ouvrir la carte Google Maps
+        </a>
+      </div>
+    `;
+  }
+
+  // 3. مجموعة فيديوهات
   if (item.type === 'videos-group') {
     let html = `<div class="card-3d" style="padding-bottom:20px">
       <h3>${item.icon} ${item.title || window.t(item.titleKey)}</h3>
@@ -230,7 +250,7 @@ function renderItem(item) {
     return html;
   }
 
-  // 3. الأسئلة الشائعة
+  // 4. الأسئلة الشائعة
   if (item.type === 'faq') {
     let html = `<div class="card-3d" style="padding-bottom:20px">
       <h3>${item.icon} ${item.title || window.t(item.titleKey)}</h3>
@@ -250,7 +270,7 @@ function renderItem(item) {
     return html;
   }
 
-  // 4. العناصر العادية
+  // 5. العناصر العادية
   const title = item.title || (item.titleKey ? window.t(item.titleKey) : '');
   const desc = item.desc || (item.descKey ? window.t(item.descKey) : '');
 
@@ -281,7 +301,7 @@ function renderItem(item) {
     html += `<div style="margin-top:12px;padding:12px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">${window.t(item.detailsKey)}</div>`;
   }
 
-  // ✅ إصلاح: عرض الصور
+  // عرض الصور
   if (item.images && item.images.length > 0) {
     html += '<div style="display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:8px">';
     item.images.forEach(img => {
@@ -290,7 +310,7 @@ function renderItem(item) {
     html += '</div>';
   }
 
-  // ✅ إصلاح: عرض الفيديو الفردي
+  // عرض الفيديو
   if (item.video) {
     html += '<div style="margin-top:12px;border-radius:12px;overflow:hidden;aspect-ratio:16/9">';
     html += `<iframe src="https://www.youtube.com/embed/${item.video}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>`;
@@ -306,7 +326,7 @@ function renderItem(item) {
   return html;
 }
 
-// عرض الصور بحجم كبير عند الضغط عليها
+// عرض الصور بحجم كبير
 window.openImageViewer = (src) => {
   const o = document.createElement('div');
   o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out';
