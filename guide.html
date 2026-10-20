@@ -23,6 +23,7 @@
 <div class="progress-bar" id="progress-bar"></div>
 <div class="offline-banner">📴 Mode hors ligne</div>
 
+<!-- الشريط العلوي -->
 <div class="top-controls">
   <div class="pill">
     <button onclick="setLang('fr')" data-lang="fr">🇫🇷</button>
@@ -37,6 +38,7 @@
   </div>
 </div>
 
+<!-- لوحة الألوان -->
 <div class="theme-panel" id="theme-panel">
   <div class="theme-panel-header">
     <strong>Thème</strong>
@@ -55,6 +57,7 @@
   </div>
 </div>
 
+<!-- لوحة حجم النص -->
 <div class="text-size-panel" id="text-size-panel">
   <div class="tsp-header">
     <strong>Taille du texte</strong>
@@ -86,6 +89,7 @@
 <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <a href="feedback.html" class="feedback-float"><span class="fb-icon">💬</span> Votre avis</a>
 
+<!-- نافذة الذكاء الاصطناعي -->
 <div class="modal-overlay" id="aiModal" style="display:none">
   <div class="modal-box">
     <h3>🤖 Assistant IA</h3>
@@ -103,6 +107,7 @@
 <script src="search.js"></script>
 <script src="ai-search.js"></script>
 
+<!-- تحميل كل الأقسام -->
 <script src="data/config.js"></script>
 <script src="data/ecole.js"></script>
 <script src="data/admin.js"></script>
@@ -210,7 +215,48 @@ function renderItem(item) {
   const lang = window.getCurrentLang();
 
   // ==========================================
-  // دعم قسم الأسئلة الشائعة (FAQ)
+  // 1. دعم المتاجر (Shopping)
+  // ==========================================
+  if (item.c && item.n) { 
+    let isOpen = false;
+    const now = new Date();
+    const currentHour = now.getHours() + (now.getMinutes() / 60);
+    if (item.h && item.h.length > 0) {
+      const start = parseFloat(item.h[0][0].split(':')[0]);
+      const end = parseFloat(item.h[0][1].split(':')[0]);
+      if (end < start) {
+        isOpen = (currentHour >= start || currentHour < end);
+      } else {
+        isOpen = (currentHour >= start && currentHour < end);
+      }
+    }
+    
+    let html = `<div class="card-3d shop-card" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <h3 style="margin:0">${item.n}</h3>
+          <p style="color:var(--mut);font-size:.85rem;margin:4px 0">${item.note || ''}</p>
+        </div>
+        <span style="background:${isOpen ? '#d1fae5' : '#fee2e2'};color:${isOpen ? '#065f46' : '#991b1b'};padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:700">
+          ${isOpen ? window.t('shopOpen') : window.t('shopClosed')}
+        </span>
+      </div>`;
+
+    if (item.video) {
+      html += `<div style="margin-top:10px;border-radius:12px;overflow:hidden;aspect-ratio:16/9">
+        <iframe src="https://www.youtube.com/embed/${item.video}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>
+      </div>`;
+    }
+
+    html += `<div style="display:flex;gap:10px;margin-top:10px">
+      ${item.t ? `<a href="tel:${item.t}" class="btn" style="flex:1;text-align:center;justify-content:center;background:var(--acc-soft);color:var(--acc);box-shadow:none;border:1px solid var(--acc)">📞 ${window.t('shopCall')}</a>` : ''}
+      ${item.g ? `<a href="https://www.google.com/maps/search/?api=1&query=${item.g[0]},${item.g[1]}" target="_blank" class="btn" style="flex:1;text-align:center;justify-content:center;box-shadow:none;">📍 ${window.t('shopGo')}</a>` : ''}
+    </div></div>`;
+    return html;
+  }
+
+  // ==========================================
+  // 2. دعم الأسئلة الشائعة (FAQ)
   // ==========================================
   if (item.type === 'faq') {
     let html = `<div class="card-3d">
@@ -239,7 +285,9 @@ function renderItem(item) {
     return html;
   }
 
-  // 1. الخريطة
+  // ==========================================
+  // 3. الخريطة
+  // ==========================================
   if (item.type === 'iframe-map') {
     return `
       <div class="card-3d" style="padding-bottom:20px">
@@ -252,7 +300,9 @@ function renderItem(item) {
     `;
   }
 
-  // 2. مجموعة فيديوهات
+  // ==========================================
+  // 4. مجموعة فيديوهات
+  // ==========================================
   if (item.type === 'videos-group') {
     let html = `<div class="card-3d" style="padding-bottom:20px">
       <h3>${item.icon || ''} ${window.t(item.titleKey) || 'Vidéos'}</h3>
@@ -274,7 +324,9 @@ function renderItem(item) {
     return html;
   }
 
-  // 3. العناصر العادية (الخدمات، المتاجر، إلخ)
+  // ==========================================
+  // 5. العناصر العادية (الخدمات، الإدارة، إلخ)
+  // ==========================================
   let title = item.titleKey ? window.t(item.titleKey) : getText(item.title, lang);
   if (!title && item.n) title = item.n;
 
@@ -303,9 +355,7 @@ function renderItem(item) {
     </div>`;
   }
 
-  // ==========================================
-  // استعادة عرض الإجراءات والشروط (procedure & delay)
-  // ==========================================
+  // الإجراءات والشروط (الخدمات)
   if (item.procedure) {
     const procText = item.procedure.startsWith('srv') ? window.t(item.procedure) : getText(item.procedure, lang);
     html += `<div style="margin-top:12px; padding:15px; background:var(--bg-2, #fff); border: 1px solid var(--line); border-radius: 10px; font-size:.88rem; line-height: 1.7; white-space: pre-line;">
@@ -321,9 +371,7 @@ function renderItem(item) {
     </div>`;
   }
 
-  // ==========================================
-  // الصور والفيديوهات والخريطة
-  // ==========================================
+  // الصور والفيديوهات
   if (item.images && item.images.length > 0) {
     html += '<div style="display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:8px">';
     item.images.forEach(img => {
@@ -367,7 +415,9 @@ function renderItem(item) {
   return html;
 }
 
+// ==========================================
 // تصميم قسم الأساتذة (بطاقات)
+// ==========================================
 async function renderProfsSection(sec) {
   const app = document.getElementById('app');
   app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><p style="text-align:center;padding:40px">Chargement…</p>';
