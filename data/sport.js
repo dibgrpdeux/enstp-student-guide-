@@ -1,9 +1,12 @@
 // ============================================
 // data/sport.js — قسم الرياضة
+// Guide de survie ENSTP
+// Version 3.0 — Épuré + Vidéos
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
 
+// حذف أي نسخة قديمة
 for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
   if (window.SECTIONS[i].id === 'sport') window.SECTIONS.splice(i, 1);
 }
@@ -16,35 +19,7 @@ window.SECTIONS.push({
   type: "items",
 
   items: [
-    {
-      titleKey: "sportUniv",
-      icon: "🎓",
-      descKey: "sportUnivDesc",
-      extra: "🏆 Organisé par l'ONSU (Office National des Sports Universitaires)",
-      details: [
-        { icon: "🏀", fr: "Basket", ar: "كرة السلة", en: "Basketball" },
-        { icon: "⚽", fr: "Football", ar: "كرة القدم", en: "Football" },
-        { icon: "🏐", fr: "Volley", ar: "الكرة الطائرة", en: "Volleyball" },
-        { icon: "🏃", fr: "Athlétisme", ar: "ألعاب القوى", en: "Athletics" },
-        { icon: "🏓", fr: "Tennis de table", ar: "تنس الطاولة", en: "Table tennis" },
-        { icon: "♟️", fr: "Échecs", ar: "الشطرنج", en: "Chess" }
-      ]
-    },
-    {
-      titleKey: "sportHors",
-      icon: "🏋️",
-      descKey: "sportHorsDesc",
-      map: "salle de sport près de ENSTP Garidi Kouba",
-      extra: "💪 Salles de sport privées et clubs",
-      details: [
-        { icon: "🏋️", fr: "Musculation", ar: "كمال الأجسام", en: "Bodybuilding" },
-        { icon: "🥊", fr: "Boxe", ar: "الملاكمة", en: "Boxing" },
-        { icon: "🤸", fr: "Gymnastique", ar: "الجمباز", en: "Gymnastics" },
-        { icon: "🧘", fr: "Yoga", ar: "اليوغا", en: "Yoga" },
-        { icon: "🏊", fr: "Natation", ar: "السباحة", en: "Swimming" },
-        { icon: "🚴", fr: "Cyclisme", ar: "الدراجات", en: "Cycling" }
-      ]
-    },
+    // ========== 1. كرة القدم ==========
     {
       titleKey: "sportFootball",
       icon: "⚽",
@@ -56,28 +31,43 @@ window.SECTIONS.push({
         { icon: "👥", fr: "Organise avec tes amis", ar: "نظّم مع أصدقائك", en: "Organize with friends" }
       ]
     },
+
+    // ========== 2. المركب الرياضي القبة (فيديو) ==========
     {
-      titleKey: "sportRunning",
-      icon: "🏃",
-      descKey: "sportRunningDesc",
-      map: "parc près de ENSTP Garidi Kouba",
-      extra: "🏃 Cours le matin ou le soir",
-      details: [
-        { icon: "⏰", fr: "Meilleur moment : 6h-8h ou 17h-19h", ar: "أفضل وقت: 6-8 صباحاً أو 5-7 مساءً", en: "Best time: 6-8 AM or 5-7 PM" },
-        { icon: "📍", fr: "Parcs et stades autour de Kouba", ar: "حدائق وملاعب حول القبة", en: "Parks and stadiums around Kouba" },
-        { icon: "🥤", fr: "Apporte de l'eau", ar: "أحضر الماء", en: "Bring water" }
-      ]
+      title: { fr: "Complexe Sportif de Kouba", ar: "المركب الرياضي القبة", en: "Kouba Sports Complex" },
+      icon: "🏟️",
+      desc: { 
+        fr: "Découvrez le complexe sportif de Kouba en vidéo.", 
+        ar: "اكتشف المركب الرياضي القبة من خلال الفيديو.", 
+        en: "Discover the Kouba sports complex in video." 
+      },
+      video: "aqPng7nyFZU", // فيديو المركب الرياضي
+      extra: "📍 Kouba, Alger"
     },
+
+    // ========== 3. فيديو تحفيزي: Change your self guaridi ==========
     {
-      titleKey: "sportBasket",
-      icon: "🏀",
-      descKey: "sportBasketDesc",
-      extra: "🏐 Sports collectifs dynamiques",
-      details: [
-        { icon: "📍", fr: "Terrains de l'école et des cités", ar: "ملاعب المدرسة والإقامات", en: "School and residence courts" },
-        { icon: "👥", fr: "Dès 6 joueurs, organise un match", ar: "من 6 لاعبين، نظّم مباراة", en: "From 6 players, organize a match" },
-        { icon: "🏆", fr: "Tournois inter-cités possibles", ar: "دورات بين الإقامات ممكنة", en: "Inter-residence tournaments possible" }
-      ]
+      title: { fr: "Change Yourself (Garidi)", ar: "غيّر نفسك (قاريدي)", en: "Change Yourself (Garidi)" },
+      icon: "🔥",
+      desc: { 
+        fr: "Une vidéo motivante tournée à Garidi.", 
+        ar: "فيديو تحفيزي تم تصويره في قاريدي.", 
+        en: "A motivating video filmed in Garidi." 
+      },
+      video: "byDM5wQ3wcc" // فيديو Change your self
+    },
+
+    // ========== 4. فيديو Be différent (يوتيوب شورتس) ==========
+    {
+      title: { fr: "Be Different", ar: "كن مختلفاً", en: "Be Different" },
+      icon: "✨",
+      desc: { 
+        fr: "Un short inspirant pour te dépasser.", 
+        ar: "فيديو قصير ملهم لتجاوز نفسك.", 
+        en: "An inspiring short to push your limits." 
+      },
+      link: "https://youtube.com/shorts/s4IcvPRD5dY", 
+      extra: "🎬 YouTube Shorts — Cliquez pour ouvrir"
     }
   ]
 });
