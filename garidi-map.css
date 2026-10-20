@@ -1,385 +1,402 @@
-/* ============================================
-   garidi-map.css — تنسيقات الخريطة التفاعلية
-   متوافقة مع ثيمات الموقع (var(--acc))
-   ============================================ */
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Guide — ENSTP</title>
+<meta name="theme-color" content="#c2410c">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<script src="text-size.js"></script>
+<script src="theme.js"></script>
+</head>
+<body>
 
-/* ========== الحاوية ========== */
-.gm-container{
-  --gm-land:var(--bg-3, #e6ecda);
-  --gm-roadc:#C6CCBA;
-  --gm-roadf:var(--card, #faf8f1);
-  --gm-path:var(--mut-3, #ffffff);
-  --gm-bres:var(--acc-soft, #c9d3f2);
-  --gm-bsrv:#F4DDB8;
-  --gm-bsrvs:#B07A2B;
-  --gm-bgry:var(--bg-3, #d6d8de);
-  --gm-bgrys:var(--mut-2, #9097a8);
-  --gm-tree:#7FA46B;
-  --gm-field:#E3D8B5;
-  --gm-lbl:var(--ink, #0F1B3D);
-  --gm-lblh:var(--card, #fff);
-  --gm-amber:#FFB81C;
-  --gm-route:#0F1B3D;
-  margin-top:14px;
-}
-:root[data-mode="dark"] .gm-container{
-  --gm-land:#1B271F;
-  --gm-roadc:#0F1712;
-  --gm-roadf:#3B473E;
-  --gm-path:#7A8A7E;
-  --gm-bres:var(--acc-soft, #2C3D7A);
-  --gm-bsrv:#5A4426;
-  --gm-bsrvs:#D9A24C;
-  --gm-bgry:#3A3F4D;
-  --gm-bgrys:#6E7690;
-  --gm-tree:#3F6A45;
-  --gm-field:#4A4430;
-  --gm-lbl:#EAF0FF;
-  --gm-lblh:#0D1326;
-  --gm-route:#EAF0FF;
-}
+<div class="loading-screen" id="loading-screen">
+  <div class="logo-spin">🎓</div>
+  <div class="spin-ring"></div>
+  <p id="loading-text">Chargement…</p>
+</div>
 
-/* ========== شريط الانطلاق ========== */
-.gm-startrow{
-  display:flex;align-items:center;gap:10px;margin:14px 0 10px;
-}
-.gm-startrow label{
-  font-size:14px;color:var(--mut);white-space:nowrap;
-}
-.gm-startrow select{
-  flex:1;min-width:0;
-  background:var(--card);
-  border:1.5px solid var(--line);
-  border-radius:10px;
-  padding:9px 10px;
-  font-size:15px;
-  color:var(--ink);
-}
+<div class="progress-bar" id="progress-bar"></div>
+<div class="offline-banner">📴 Mode hors ligne</div>
 
-/* ========== التبويبات ========== */
-.gm-tabs{
-  display:grid;grid-template-columns:1fr 1fr;
-  background:var(--bg-3);
-  border-radius:12px;
-  padding:4px;
-  gap:4px;
-  margin-top:10px;
-}
-.gm-tabs button{
-  border:0;background:transparent;
-  border-radius:9px;padding:9px 0;
-  font-weight:500;font-size:15px;
-  color:var(--mut);
-  font-family:inherit;
-  cursor:pointer;
-  transition:var(--transition);
-}
-.gm-tabs button.on{
-  background:var(--card);
-  color:var(--acc);
-  font-weight:700;
-  box-shadow:0 1px 3px rgba(15,27,61,.18);
-}
+<div class="top-controls">
+  <div class="pill">
+    <button onclick="setLang('fr')" data-lang="fr">🇫🇷</button>
+    <button onclick="setLang('ar')" data-lang="ar">🇩🇿</button>
+    <button onclick="setLang('en')" data-lang="en">🇬🇧</button>
+  </div>
+  <div class="pill">
+    <button class="ctrl-btn" onclick="toggleThemePanel()" title="Thème" id="theme-btn">🎨</button>
+    <button class="ctrl-btn" onclick="toggleTextSizePanel()" title="Texte" id="text-size-btn">🅰️</button>
+    <button class="ctrl-btn" onclick="toggleMode()" data-mode-toggle title="Mode">🌙</button>
+    <a href="feedback.html" class="ctrl-btn" title="Avis">💬</a>
+  </div>
+</div>
 
-/* ========== chips الأماكن ========== */
-.gm-chips{
-  display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;
-}
-.gm-chip{
-  display:flex;align-items:center;gap:7px;
-  background:var(--card);
-  border:1.5px solid var(--line);
-  border-radius:var(--radius-full, 999px);
-  padding:8px 14px 8px 12px;
-  font-size:.9rem;
-  color:var(--ink);
-  cursor:pointer;
-  font-family:inherit;
-  transition:var(--transition);
-}
-.gm-chip:hover{border-color:var(--acc)}
-.gm-chip.on{
-  background:var(--acc);
-  border-color:var(--acc);
-  color:#fff;
-}
+<div class="theme-panel" id="theme-panel">
+  <div class="theme-panel-header">
+    <strong>Thème</strong>
+    <button class="tp-close" onclick="closeThemePanel()">×</button>
+  </div>
+  <div class="theme-swatches">
+    <button class="swatch orange" data-theme-btn="orange" onclick="setTheme('orange')"></button>
+    <button class="swatch red" data-theme-btn="red" onclick="setTheme('red')"></button>
+    <button class="swatch yellow" data-theme-btn="yellow" onclick="setTheme('yellow')"></button>
+    <button class="swatch green" data-theme-btn="green" onclick="setTheme('green')"></button>
+    <button class="swatch teal" data-theme-btn="teal" onclick="setTheme('teal')"></button>
+    <button class="swatch blue" data-theme-btn="blue" onclick="setTheme('blue')"></button>
+    <button class="swatch purple" data-theme-btn="purple" onclick="setTheme('purple')"></button>
+    <button class="swatch pink" data-theme-btn="pink" onclick="setTheme('pink')"></button>
+    <button class="swatch gray" data-theme-btn="gray" onclick="setTheme('gray')"></button>
+  </div>
+</div>
 
-/* ========== الأجنحة ========== */
-.gm-blocks{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px;
-}
-.gm-blocks button{
-  background:var(--card);
-  color:var(--acc);
-  border:2px solid var(--acc-soft);
-  border-radius:10px;
-  font-size:1.5rem;
-  font-weight:700;
-  padding:6px 0;
-  cursor:pointer;
-  font-family:inherit;
-  transition:var(--transition);
-}
-.gm-blocks button.on{
-  background:var(--acc);
-  color:#fff;
-  border-color:var(--acc);
-}
+<div class="text-size-panel" id="text-size-panel">
+  <div class="tsp-header">
+    <strong>Taille du texte</strong>
+    <button class="tsp-close" onclick="closeTextSizePanel()">×</button>
+  </div>
+  <div class="tsp-list">
+    <button class="tsp-btn" data-text-size-btn="small" onclick="setTextSize('small')"><span>🅰️- Petit</span><span class="tsp-label">14px</span></button>
+    <button class="tsp-btn" data-text-size-btn="normal" onclick="setTextSize('normal')"><span>🅰️ Normal</span><span class="tsp-label">16px</span></button>
+    <button class="tsp-btn" data-text-size-btn="large" onclick="setTextSize('large')"><span>🅰️+ Grand</span><span class="tsp-label">19px</span></button>
+    <button class="tsp-btn" data-text-size-btn="xlarge" onclick="setTextSize('xlarge')"><span>🅰️++ Très grand</span><span class="tsp-label">22px</span></button>
+  </div>
+</div>
 
-/* ========== الطوابق ========== */
-.gm-floors{
-  display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;
-}
-.gm-plate{
-  display:inline-flex;align-items:center;gap:6px;
-  background:var(--card);
-  color:var(--acc);
-  border:1.5px solid var(--acc-soft);
-  border-radius:7px;
-  padding:3px 9px 3px 8px;
-  direction:ltr;
-  font-family:inherit;
-  line-height:1;
-  cursor:pointer;
-  transition:var(--transition);
-}
-.gm-plate:hover{border-color:var(--acc)}
-.gm-plate.on{background:var(--acc);color:#fff;border-color:var(--acc)}
-.gm-plate .gm-L{font-size:1.8rem;font-weight:700}
-.gm-plate .gm-R{display:flex;flex-direction:column;align-items:flex-start;gap:1px}
-.gm-plate .gm-R i{font-style:normal;font-size:.7rem;font-weight:700;letter-spacing:.04em}
-.gm-plate .gm-R b{font-size:1rem;font-weight:700}
+<header>
+  <h1><span>Guide</span> de survie ENSTP</h1>
+  <p id="header-sub">Ton premier jour, dans ta poche.</p>
+  <a href="index.html">🏠 Accueil</a>
+</header>
 
-/* ========== البحث عن غرفة ========== */
-.gm-numrow{display:flex;gap:8px;margin-top:12px}
-.gm-numrow input{
-  flex:1;min-width:0;
-  background:var(--card);
-  border:1.5px solid var(--line);
-  border-radius:10px;
-  padding:10px 12px;
-  font-size:16px;
-  color:var(--ink);
-  font-family:inherit;
-  outline:none;
-}
-.gm-numrow input:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
-.gm-numrow button{
-  background:var(--acc);
-  color:#fff;
-  border:0;
-  border-radius:10px;
-  padding:0 20px;
-  font-weight:700;
-  font-family:inherit;
-  cursor:pointer;
-  transition:var(--transition);
-}
-.gm-numrow button:hover{background:var(--acc2,var(--acc))}
+<div class="search-container">
+  <div class="search-inner">
+    <input id="q" type="search" placeholder="🔎 Chercher : salle, prof, service…" autocomplete="off">
+    <button class="ai-btn" onclick="openAIModal()"><span class="ai-icon">🤖</span><span class="ai-text">IA</span></button>
+  </div>
+</div>
 
-.gm-msg{
-  margin-top:10px;
-  background:var(--acc-soft);
-  color:var(--acc);
-  border-radius:10px;
-  padding:9px 12px;
-  font-size:.9rem;
+<main id="app"></main>
+
+<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<a href="feedback.html" class="feedback-float"><span class="fb-icon">💬</span> Votre avis</a>
+
+<div class="modal-overlay" id="aiModal" style="display:none">
+  <div class="modal-box">
+    <h3>🤖 Assistant IA</h3>
+    <p style="color:var(--mut);font-size:.9rem;margin-bottom:12px">Pose ta question sur l'ENSTP.</p>
+    <textarea id="aiQuestion" rows="3" placeholder="Ex: Comment obtenir mon affiliation CNAS ?" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);font-family:inherit;resize:vertical"></textarea>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button onclick="closeAIModal()" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-family:inherit">Annuler</button>
+      <button onclick="submitAI()" id="aiSubmitBtn" style="flex:1;padding:12px;border-radius:12px;border:0;background:var(--acc);color:#fff;font-weight:700;cursor:pointer;font-family:inherit">Envoyer</button>
+    </div>
+    <div id="aiAnswer" style="display:none;margin-top:16px;padding:14px;background:var(--orange-soft,#fde8dc);border-radius:12px;font-size:.9rem;line-height:1.6"></div>
+  </div>
+</div>
+
+<script src="lang.js"></script>
+<script src="search.js"></script>
+<script src="ai-search.js"></script>
+
+<script src="data/config.js"></script>
+<script src="data/ecole.js"></script>
+<script src="data/admin.js"></script>
+<script src="data/profs.js"></script>
+<script src="data/forum.js"></script>
+<script src="data/services.js"></script>
+<script src="data/cite.js"></script>
+<script src="data/transport.js"></script>
+<script src="data/sport.js"></script>
+<script src="data/courses.js"></script>
+<script src="data/qr.js"></script>
+<script src="data/about.js"></script>
+<script src="data/shopping.js"></script>
+<script src="data/alger.js"></script>
+<script src="data/index.js"></script>
+
+<script>
+let currentSection = null;
+let currentView = 'home';
+
+function setLang(lang) {
+  window.setCurrentLang(lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('on', b.dataset.lang === lang));
+  if (currentView === 'home') renderHome();
+  else if (currentSection) renderSection(currentSection.id);
 }
 
-/* ========== بطاقة الخريطة ========== */
-.gm-mapcard{
-  margin-top:14px;
-  background:var(--card);
-  border-radius:14px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  position:relative;
-}
-.gm-scroller{
-  direction:ltr;
-  overflow:auto;
-  aspect-ratio:1/1;
-  max-height:68vh;
-  width:100%;
-  -webkit-overflow-scrolling:touch;
-  background:var(--gm-land);
-}
-.gm-stage{
-  position:relative;
-  width:100%;
-  aspect-ratio:705/596;
-  direction:ltr;
-}
-.gm-stage>img{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  display:none;
-  user-select:none;
-  -webkit-user-drag:none;
-}
-.gm-stage.sat>img{display:block}
-.gm-stage.sat .gm-basemap{display:none}
-.gm-stage svg{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  pointer-events:none;
-}
-.gm-land{fill:var(--gm-land)}
-.gm-rcase{fill:none;stroke:var(--gm-roadc);stroke-width:12;stroke-linecap:round;stroke-linejoin:round}
-.gm-rfill{fill:none;stroke:var(--gm-roadf);stroke-width:8.5;stroke-linecap:round;stroke-linejoin:round}
-.gm-pth{stroke:var(--gm-path);stroke-width:1.6;stroke-dasharray:4 3;fill:none;vector-effect:non-scaling-stroke;opacity:.9}
-.gm-bres{fill:var(--gm-bres);stroke:var(--acc);stroke-width:1.6;stroke-linejoin:round}
-.gm-bsrv{fill:var(--gm-bsrv);stroke:var(--gm-bsrvs);stroke-width:1.4;stroke-linejoin:round}
-.gm-bgry{fill:var(--gm-bgry);stroke:var(--gm-bgrys);stroke-width:1.2;stroke-linejoin:round}
-.gm-tree{fill:var(--gm-tree);opacity:.8}
-.gm-field{fill:var(--gm-field);stroke:var(--gm-bgrys);stroke-width:1;stroke-dasharray:5 4}
-.gm-lb{
-  position:absolute;
-  transform:translate(-50%,-50%);
-  font-size:11.5px;font-weight:700;
-  color:var(--gm-lbl);
-  white-space:nowrap;
-  pointer-events:none;
-  text-shadow:0 0 3px var(--gm-lblh),0 0 3px var(--gm-lblh),0 0 5px var(--gm-lblh);
-  z-index:1;
-}
-.gm-route-case{
-  fill:none;stroke:var(--gm-route);
-  stroke-width:8;stroke-linecap:round;stroke-linejoin:round;opacity:.85;
-}
-.gm-route-line{
-  fill:none;stroke:var(--gm-amber);
-  stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;
-  stroke-dasharray:1 9;
-  animation:gmFlow 1.1s linear infinite;
-}
-@keyframes gmFlow{to{stroke-dashoffset:-10}}
-
-/* ========== أزرار التكبير ========== */
-.gm-zoom{
-  position:absolute;left:10px;top:10px;
-  display:flex;flex-direction:column;gap:6px;z-index:5;
-}
-.gm-zoom button{
-  width:38px;height:38px;border-radius:10px;border:0;
-  background:var(--card);color:var(--ink);
-  font-size:1.3rem;font-weight:700;
-  box-shadow:0 1px 4px rgba(0,0,0,.35);
-  padding:0;cursor:pointer;font-family:inherit;
-  transition:var(--transition);
-}
-.gm-zoom button.on{background:var(--gm-amber)}
-
-/* ========== العلامات (pins) ========== */
-.gm-pin{
-  position:absolute;transform:translate(-50%,-50%);
-  width:27px;height:27px;border-radius:50%;
-  background:var(--card);
-  border:2.5px solid var(--acc);
-  display:grid;place-items:center;
-  padding:0;font-size:13.5px;line-height:1;
-  box-shadow:0 2px 5px rgba(0,0,0,.4);
-  z-index:2;cursor:pointer;
-  transition:var(--transition);
-}
-.gm-pin .gm-cap{
-  position:absolute;top:calc(100% + 4px);left:50%;
-  transform:translateX(-50%);
-  white-space:nowrap;
-  background:var(--acc);color:#fff;
-  font-size:11.5px;font-weight:500;
-  padding:2px 7px;border-radius:6px;
-  display:none;
-}
-.gm-pin.on,.gm-pin.start{z-index:4}
-.gm-pin.on .gm-cap,.gm-pin.start .gm-cap,.gm-zoomed .gm-pin .gm-cap{display:block}
-.gm-pin.on{background:var(--gm-amber);border-color:var(--ink)}
-.gm-pin.on::before{
-  content:"";position:absolute;inset:-9px;border-radius:50%;
-  border:3px solid var(--gm-amber);
-  animation:gmRing 1.6s ease-out infinite;
-}
-@keyframes gmRing{from{transform:scale(.6);opacity:1}to{transform:scale(1.25);opacity:0}}
-.gm-pin.start{border-color:var(--card);background:var(--ink);color:var(--card)}
-.gm-pin.start .gm-cap{background:var(--ink)}
-
-/* ========== بطاقات الأجنحة ========== */
-.gm-bp{
-  position:absolute;transform:translate(-50%,-50%);
-  background:var(--card);color:var(--acc);
-  border:2px solid var(--acc);
-  border-radius:7px;padding:0 9px;
-  font:700 17px Arial,sans-serif;
-  box-shadow:0 2px 5px rgba(0,0,0,.4);
-  z-index:3;cursor:pointer;
-  transition:var(--transition);
-}
-.gm-bp.on{background:var(--gm-amber);color:var(--ink);border-color:var(--ink);z-index:4}
-.gm-bp.start{background:var(--ink);color:var(--card);border-color:var(--card);z-index:4}
-
-/* ========== المفتاح ========== */
-.gm-legend{
-  display:flex;gap:14px;flex-wrap:wrap;
-  padding:8px 12px;font-size:.78rem;
-  color:var(--mut);
-  border-top:1px solid var(--line);
-}
-.gm-legend i{
-  display:inline-block;width:11px;height:11px;border-radius:50%;
-  margin-inline-end:5px;vertical-align:-1px;
+function renderHome() {
+  currentView = 'home';
+  currentSection = null;
+  const app = document.getElementById('app');
+  let html = '<h2>' + window.t('welcomeTitle') + '</h2>';
+  html += '<p style="color:var(--mut);margin-bottom:24px;font-size:1.05rem">' + window.t('welcomeSubtitle') + '</p>';
+  html += '<div class="tile-grid">';
+  window.SECTIONS.forEach(sec => {
+    html += `<button class="tile-3d" onclick="openSection('${sec.id}')">
+      <span class="tile-icon">${sec.icon}</span>
+      <span class="tile-label">${window.t(sec.titleKey)}</span>
+    </button>`;
+  });
+  html += '</div>';
+  app.innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ========== النتيجة ========== */
-.gm-result{
-  margin-top:14px;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:14px;
-  animation:fadeInUp .4s ease-out;
+function openSection(id) {
+  const sec = window.SECTIONS.find(s => s.id === id);
+  if (!sec) return;
+  currentSection = sec;
+  currentView = 'section';
+  renderSection(id);
 }
-.gm-result h2{margin:0 0 4px;font-size:1.15rem;color:var(--ink)}
-.gm-result .gm-sub{margin:0;color:var(--mut);font-size:.88rem}
-.gm-empty{color:var(--mut);font-size:.9rem;text-align:center;padding:20px}
-.gm-photo{display:flex;gap:12px;align-items:flex-start;margin:12px 0}
-.gm-photo img{
-  width:96px;height:128px;object-fit:cover;
-  border-radius:10px;border:1px solid var(--line);flex:none;
-}
-.gm-photo p{margin:0;font-size:.88rem;color:var(--mut);line-height:1.6}
-.gm-gal{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
-.gm-gal figure{margin:0}
-.gm-gal img{
-  width:100%;height:180px;object-fit:cover;
-  border-radius:10px;border:1px solid var(--line);display:block;
-}
-.gm-gal figure:nth-child(odd):last-child{grid-column:1/-1}
-.gm-gal figcaption{font-size:.8rem;color:var(--mut);margin-top:4px}
 
-/* ========== خطوات المسار ========== */
-.gm-steps{list-style:none;margin:12px 0 0;padding:0}
-.gm-steps li{
-  position:relative;padding:0 0 14px;
-  padding-inline-start:30px;
-  font-size:.95rem;
-}
-.gm-steps li::before{
-  content:"";position:absolute;inset-inline-start:8px;top:9px;bottom:-4px;
-  width:2px;background:var(--line);
-}
-.gm-steps li:last-child::before{display:none}
-.gm-steps li::after{
-  content:"";position:absolute;inset-inline-start:3px;top:7px;
-  width:12px;height:12px;border-radius:50%;
-  background:var(--card);border:3px solid var(--acc);
-}
-.gm-steps li.end::after{background:var(--gm-amber);border-color:var(--ink)}
+function renderSection(id) {
+  const sec = window.SECTIONS.find(s => s.id === id);
+  if (!sec) return;
+  const app = document.getElementById('app');
+  const lang = window.getCurrentLang();
 
-.gm-note{margin:6px 2px 0;font-size:.75rem;color:var(--mut)}
+  if (sec.type === 'custom' && typeof sec.render === 'function') {
+    app.innerHTML = sec.render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
 
-@media(max-width:600px){
-  .gm-plate .gm-L{font-size:1.5rem}
-  .gm-plate .gm-R b{font-size:.85rem}
-  .gm-blocks button{font-size:1.2rem}
-  .gm-photo img{width:80px;height:110px}
+  if (sec.type === 'profs-custom') {
+    renderProfsSection(sec);
+    return;
+  }
+
+  let html = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button>';
+  html += '<h2>' + sec.icon + ' ' + window.t(sec.titleKey) + '</h2>';
+
+  if (sec.introKey) html += '<p style="color:var(--mut);margin-bottom:20px">' + window.t(sec.introKey) + '</p>';
+
+  if (sec.items) sec.items.forEach(item => { html += renderItem(item); });
+
+  if (sec.categories) {
+    sec.categories.forEach(cat => {
+      let catTitle = cat.titleKey ? window.t(cat.titleKey) : (cat.title ? (cat.title[lang] || cat.title.fr) : '');
+      // إذا كان التصنيف يحتوي على كائن ترجمة
+      if (cat.title && typeof cat.title === 'object') catTitle = cat.title[lang] || cat.title.fr;
+      
+      html += '<h3 style="color:var(--acc);margin:24px 0 12px">' + cat.icon + ' ' + catTitle + '</h3>';
+      
+      if (cat.items) cat.items.forEach(item => { html += renderItem(item); });
+    });
+  }
+
+  app.innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// ==========================================
+// الدالة الأهم: عرض العناصر والصور والفيديوهات والخريطة
+// ==========================================
+function renderItem(item) {
+  const lang = window.getCurrentLang();
+
+  // --- دعم الخريطة التفاعلية (iframe-map) ---
+  if (item.type === 'iframe-map') {
+    return `
+      <div class="card-3d" style="padding-bottom:20px">
+        <h3>${item.icon} ${window.t(item.titleKey)}</h3>
+        <p style="margin-bottom:15px">${window.t(item.descKey)}</p>
+        <div style="border-radius:12px;overflow:hidden;height:600px;width:100%;background:#eee;border:1px solid var(--line)">
+          <iframe src="${item.iframeUrl}" width="100%" height="100%" style="border:0" title="خريطة المدرسة التفاعلية"></iframe>
+        </div>
+      </div>
+    `;
+  }
+
+  // --- دعم مجموعة الفيديوهات (videos-group) ---
+  if (item.type === 'videos-group') {
+    let html = `<div class="card-3d" style="padding-bottom:20px">
+      <h3>${item.icon} ${window.t(item.titleKey)}</h3>
+      <p style="margin-bottom:15px">${window.t(item.descKey)}</p>
+      <div style="display:flex;flex-direction:column;gap:20px">`;
+    
+    item.videos.forEach(v => {
+      const videoTitle = v.titleKey ? window.t(v.titleKey) : (v.title ? (v.title[lang] || v.title.fr) : '');
+      html += `
+        <div>
+          <h4 style="color:var(--acc);margin-bottom:8px;font-size:1rem">${v.icon} ${videoTitle}</h4>
+          <div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 4px 12px rgba(0,0,0,0.1)">
+            <iframe src="https://www.youtube.com/embed/${v.video}" width="100%" height="100%" style="border:0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += `</div></div>`;
+    return html;
+  }
+
+  // --- دعم العناصر العادية (Items) ---
+  let title = '';
+  if (item.titleKey) title = window.t(item.titleKey);
+  else if (item.title) title = item.title[lang] || item.title.fr;
+  else if (item.n) title = item.n;
+
+  let desc = '';
+  if (item.descKey) desc = window.t(item.descKey);
+  else if (item.desc) desc = item.desc[lang] || item.desc.fr;
+  else if (item.note) desc = item.note;
+
+  let html = '<div class="card-3d">';
+  html += `<h3>${item.icon || ''} ${title}</h3>`;
+  if (desc) html += `<p>${desc}</p>`;
+
+  if (item.location) html += `<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ${item.location}</p>`;
+  if (item.hours) html += `<p style="font-size:.85rem;color:var(--mut)">🕐 ${item.hours}</p>`;
+  
+  // عرض الصور المتعددة
+  if (item.images && item.images.length > 0) {
+    html += '<div style="display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:8px">';
+    item.images.forEach(img => {
+      html += `<img src="${img}" style="height:150px;border-radius:12px;object-fit:cover;cursor:pointer" onclick="window.openImageViewer('${img}')">`;
+    });
+    html += '</div>';
+  }
+
+  // عرض الفيديو الفردي
+  if (item.video) {
+    html += '<div style="margin-top:12px;border-radius:12px;overflow:hidden;aspect-ratio:16/9">';
+    html += `<iframe src="https://www.youtube.com/embed/${item.video}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>`;
+    html += '</div>';
+  }
+
+  // عرض فيديوهات (شورتس أو غيره) داخل كائن videos
+  if (item.videos && item.videos.length > 0 && !item.video) {
+    item.videos.forEach(v => {
+      let vidId = v.id || v.video;
+      if (vidId && vidId.includes("/shorts/")) {
+        vidId = vidId.split("/shorts/")[1].split("?")[0];
+      }
+      const vTitle = v.title ? (v.title[lang] || v.title.fr) : '';
+      html += '<div style="margin-top:12px;">';
+      if (vTitle) html += `<h4 style="margin-bottom:6px;font-size:.95rem">${vTitle}</h4>`;
+      html += '<div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9">';
+      html += `<iframe src="https://www.youtube.com/embed/${vidId}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>`;
+      html += '</div></div>';
+    });
+  }
+
+  // عرض الخريطة (Google Maps)
+  if (item.map) {
+    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(item.map)}" target="_blank" class="btn">📍 ${window.t('viewMap') || 'Voir sur Maps'}</a></p>`;
+  }
+
+  if (item.extra) html += `<span class="extra">${item.extra}</span>`;
+  html += '</div>';
+  return html;
+}
+
+// عرض الصور بشكل مكبر
+window.openImageViewer = (src) => {
+  const o = document.createElement('div');
+  o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out';
+  o.onclick = () => o.remove();
+  o.innerHTML = `<img src="${src}" style="max-width:95vw;max-height:90vh;border-radius:12px;">`;
+  document.body.appendChild(o);
+};
+
+// أساتذتي
+async function renderProfsSection(sec) {
+  const app = document.getElementById('app');
+  app.innerHTML = '<button class="back" onclick="renderHome()">Retour</button><p>Chargement...</p>';
+  const data = await window.loadProfsData();
+  if (!data) { app.innerHTML = '<p>Erreur de chargement.</p>'; return; }
+
+  let html = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button>';
+  html += '<h2>👨‍🏫 ' + window.t('sectionProfs') + '</h2>';
+  Object.keys(data.years).forEach(yearId => {
+    const year = data.years[yearId];
+    const lang = window.getCurrentLang();
+    html += `<h3 style="color:var(--acc);margin:24px 0 12px">${year.icon} ${year.title[lang] || year.title.fr}</h3>`;
+    year.subjects.forEach(subj => {
+      html += `<details style="margin-bottom:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px">`;
+      html += `<summary style="cursor:pointer;font-weight:700">${subj.icon} ${subj.title[lang] || subj.title.fr}</summary>`;
+      html += '<div style="margin-top:12px">';
+      subj.profs.forEach(p => {
+        html += `<div style="padding:10px;border-bottom:1px solid var(--line);font-size:.9rem"><strong>${p.name}</strong>`;
+        if (p.email) html += ` — <a href="mailto:${p.email}">${p.email}</a>`;
+        html += '</div>';
+      });
+      html += '</div></details>';
+    });
+  });
+  app.innerHTML = html;
+}
+
+// البحث
+document.getElementById('q').addEventListener('input', (e) => {
+  const q = e.target.value.trim();
+  if (!q) { if (currentView === 'search') renderHome(); return; }
+  currentView = 'search';
+  const results = window.smartSearch(q, window.SECTIONS);
+  const app = document.getElementById('app');
+  let html = `<h2>🔎 ${window.t('search')} "${q}"</h2>`;
+  if (results.length === 0) {
+    html += `<p style="color:var(--mut);text-align:center;padding:40px">${window.t('noResult')}</p>`;
+  } else {
+    results.slice(0, 20).forEach(r => {
+      let rTitle = r.item.titleKey ? window.t(r.item.titleKey) : (r.item.title ? (r.item.title[window.getCurrentLang()] || r.item.title.fr) : r.item.n);
+      html += `<div class="card-3d" style="cursor:pointer" onclick="openSection('${r.section.id}')">
+        <h3>${r.section.icon} ${rTitle}</h3>
+        <p style="font-size:.85rem;color:var(--mut)">${window.t(r.section.titleKey)}</p>
+      </div>`;
+    });
+  }
+  app.innerHTML = html;
+});
+
+// الذكاء الاصطناعي
+function openAIModal() { document.getElementById('aiModal').style.display = 'flex'; }
+function closeAIModal() { document.getElementById('aiModal').style.display = 'none'; }
+async function submitAI() {
+  const q = document.getElementById('aiQuestion').value.trim();
+  if (q.length < 3) return;
+  const btn = document.getElementById('aiSubmitBtn');
+  const answer = document.getElementById('aiAnswer');
+  btn.disabled = true; btn.textContent = '⏳...';
+  answer.style.display = 'block'; answer.textContent = '⏳ En cours...';
+  try {
+    const res = await window.askWithFallback(q, window.getCurrentLang());
+    answer.innerHTML = res.source === 'ai' ? '🤖 ' + res.answer : '⚠️ Erreur IA. Résultats locaux...';
+  } catch (e) { answer.innerHTML = '❌ ' + e.message; }
+  finally { btn.disabled = false; btn.textContent = 'Envoyer'; }
+}
+
+// السهم لأعلى
+window.addEventListener('scroll', () => {
+  document.getElementById('back-to-top').classList.toggle('show', window.scrollY > 400);
+});
+
+// تشغيل التطبيق
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loading-screen').classList.add('hide'), 300);
+  if (typeof applyTheme === 'function') applyTheme();
+  if (typeof applyTextSize === 'function') applyTextSize();
+  setLang(localStorage.getItem('lang') || 'fr');
+  renderHome();
+  if (typeof window.loadProfsData === 'function') window.loadProfsData();
+});
+
+window.renderHome = renderHome;
+window.openSection = openSection;
+window.setLang = setLang;
+window.openAIModal = openAIModal;
+window.closeAIModal = closeAIModal;
+window.submitAI = submitAI;
+</script>
+</body>
+</html>
