@@ -203,10 +203,15 @@ function renderSection(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// دالة مساعدة للترجمة
-function getText(val, lang) {
+// دالة مساعدة للترجمة الذكية
+function getSmartText(val, lang) {
   if (!val) return '';
   if (typeof val === 'object') return val[lang] || val.fr || '';
+  if (typeof val === 'string') {
+    const translated = window.t(val);
+    if (translated && translated !== val) return translated;
+    return val;
+  }
   return val;
 }
 
@@ -214,9 +219,7 @@ function getText(val, lang) {
 function renderItem(item) {
   const lang = window.getCurrentLang();
 
-  // ==========================================
   // دعم قسم الأسئلة الشائعة (FAQ)
-  // ==========================================
   if (item.type === 'faq') {
     let html = `<div class="card-3d">
       <h3>${item.icon || '❓'} ${window.t(item.titleKey) || 'FAQ'}</h3>
@@ -227,7 +230,6 @@ function renderItem(item) {
       if (group.categoryKey) {
         html += `<h4 style="color:var(--acc);margin:15px 0 5px 0;font-size:1rem">${window.t(group.categoryKey)}</h4>`;
       }
-      
       group.items.forEach(faq => {
         const question = window.t(faq.q);
         const answer = window.t(faq.a);
@@ -239,7 +241,6 @@ function renderItem(item) {
         `;
       });
     });
-
     html += `</div></div>`;
     return html;
   }
@@ -265,7 +266,7 @@ function renderItem(item) {
       <div style="display:flex;flex-direction:column;gap:20px">`;
     
     item.videos.forEach(v => {
-      const vTitle = v.titleKey ? window.t(v.titleKey) : getText(v.title, lang);
+      const vTitle = v.titleKey ? window.t(v.titleKey) : getSmartText(v.title, lang);
       html += `
         <div>
           <h4 style="color:var(--acc);margin-bottom:8px;font-size:1rem">${v.icon || ''} ${vTitle}</h4>
@@ -280,18 +281,18 @@ function renderItem(item) {
   }
 
   // 3. العناصر العادية
-  let title = item.titleKey ? window.t(item.titleKey) : getText(item.title, lang);
+  let title = item.titleKey ? window.t(item.titleKey) : getSmartText(item.title, lang);
   if (!title && item.n) title = item.n;
 
-  let desc = item.descKey ? window.t(item.descKey) : getText(item.desc, lang);
+  let desc = item.descKey ? window.t(item.descKey) : getSmartText(item.desc, lang);
   if (!desc && item.note) desc = item.note;
 
   let html = '<div class="card-3d">';
   html += `<h3>${item.icon || ''} ${title || 'Information'}</h3>`;
   if (desc) html += `<p>${desc}</p>`;
 
-  if (item.location) html += `<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ${getText(item.location, lang)}</p>`;
-  if (item.hours) html += `<p style="font-size:.85rem;color:var(--mut)">🕐 ${getText(item.hours, lang)}</p>`;
+  if (item.location) html += `<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ${getSmartText(item.location, lang)}</p>`;
+  if (item.hours) html += `<p style="font-size:.85rem;color:var(--mut)">🕐 ${getSmartText(item.hours, lang)}</p>`;
   
   if (item.email && item.email.includes('@')) {
     html += `<div style="margin-top:10px">
@@ -304,7 +305,7 @@ function renderItem(item) {
   if (item.details) {
     html += `<div style="margin-top:15px;padding:15px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.9rem;line-height:1.8;white-space:pre-line; border-left: 4px solid var(--acc);">
       <strong style="color:var(--ink); display:block; margin-bottom:8px;">📌 ${window.t('labelMission') || 'المهام / Missions'}</strong>
-      ${getText(item.details, lang)}
+      ${getSmartText(item.details, lang)}
     </div>`;
   }
 
@@ -333,7 +334,7 @@ function renderItem(item) {
     item.videos.forEach(v => {
       let vidId = v.id || v.video;
       if (vidId && vidId.includes("/shorts/")) vidId = vidId.split("/shorts/")[1].split("?")[0];
-      const vTitle = getText(v.title, lang);
+      const vTitle = getSmartText(v.title, lang);
       html += '<div style="margin-top:12px;">';
       if (vTitle) html += `<h4 style="margin-bottom:6px;font-size:.95rem">${vTitle}</h4>`;
       html += '<div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9">';
@@ -343,10 +344,10 @@ function renderItem(item) {
   }
 
   if (item.map) {
-    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(getText(item.map, lang))}" target="_blank" class="btn">📍 ${window.t('viewMap') || 'Voir sur Maps'}</a></p>`;
+    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(getSmartText(item.map, lang))}" target="_blank" class="btn">📍 ${window.t('viewMap') || 'Voir sur Maps'}</a></p>`;
   }
 
-  if (item.extra) html += `<span class="extra">${getText(item.extra, lang)}</span>`;
+  if (item.extra) html += `<span class="extra">${getSmartText(item.extra, lang)}</span>`;
   html += '</div>';
   return html;
 }
@@ -430,7 +431,7 @@ document.getElementById('q').addEventListener('input', (e) => {
     html += `<p style="color:var(--mut);text-align:center;padding:40px">${window.t('noResult')}</p>`;
   } else {
     results.slice(0, 20).forEach(r => {
-      let rTitle = r.item.titleKey ? window.t(r.item.titleKey) : getText(r.item.title, window.getCurrentLang());
+      let rTitle = r.item.titleKey ? window.t(r.item.titleKey) : getSmartText(r.item.title, window.getCurrentLang());
       html += `<div class="card-3d" style="cursor:pointer" onclick="openSection('${r.section.id}')">
         <h3>${r.section.icon} ${rTitle}</h3>
         <p style="font-size:.85rem;color:var(--mut)">${window.t(r.section.titleKey)}</p>
