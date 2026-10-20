@@ -9,10 +9,9 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="style.css">
+<!-- تحميل السكريبتات الأساسية أولاً -->
 <script src="text-size.js"></script>
 <script src="theme.js"></script>
-<!-- مكتبة توليد رموز QR -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 
@@ -125,6 +124,9 @@
 <script src="data/alger.js"></script>
 <script src="data/index.js"></script>
 
+<!-- مكتبة QR في الأسفل لتجنب تعارض التحميل -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script>
 let currentSection = null;
 let currentView = 'home';
@@ -181,7 +183,7 @@ function getText(val, lang) {
 }
 
 // ==========================================
-// نظام التنقل الهرمي للأقسام (مجلدات -> عناصر -> تفاصيل)
+// نظام التنقل الهرمي
 // ==========================================
 function renderSection(id) {
   const sec = window.SECTIONS.find(s => s.id === id);
@@ -204,7 +206,6 @@ function renderSection(id) {
     return;
   }
 
-  // قسم رموز QR
   if (sec.type === 'qr') {
     let html = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button>';
     html += '<h2>📱 ' + window.t(sec.titleKey) + '</h2>';
@@ -236,7 +237,6 @@ function renderSection(id) {
     return;
   }
 
-  // دالة مساعدة لرسم زر الرجوع
   const getBackBtn = () => {
     let txt = window.t('back');
     if (currentViewState.itemId) txt = `← ${window.t('back')}`;
@@ -254,14 +254,12 @@ function renderSection(id) {
     html += '<p style="color:var(--mut);margin-bottom:20px">' + window.t(sec.introKey) + '</p>';
   }
 
-  // نظام التصنيفات (Shops / Alger)
   if (sec.type === 'shops' || sec.type === 'services') {
     if (!currentViewState.categoryId) {
       html += '<div class="tile-grid">';
       sec.categories.forEach(cat => {
         let catTitle = cat.titleKey ? window.t(cat.titleKey) : (cat.title ? (cat.title[lang] || cat.title.fr) : '');
         if (cat.title && typeof cat.title === 'object') catTitle = cat.title[lang] || cat.title.fr;
-        
         html += `<button class="tile-3d" onclick="openCategory('${sec.id}', '${cat.id}')">
           <span class="tile-icon">${cat.icon}</span>
           <span class="tile-label">${catTitle}</span>
@@ -279,7 +277,6 @@ function renderSection(id) {
     if (!currentViewState.itemId) {
       let catTitle = activeCat.titleKey ? window.t(activeCat.titleKey) : (activeCat.title ? (activeCat.title[lang] || activeCat.title.fr) : '');
       if (activeCat.title && typeof activeCat.title === 'object') catTitle = activeCat.title[lang] || activeCat.title.fr;
-      
       html += `<h3 style="color:var(--acc);margin:0 0 15px">${activeCat.icon} ${catTitle}</h3>`;
       
       if (sec.type === 'shops') {
@@ -304,32 +301,25 @@ function renderSection(id) {
           </div>`;
         });
       }
-      
       app.innerHTML = html;
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
     const activeItem = activeCat.items[parseInt(currentViewState.itemId)];
-    if (sec.type === 'shops') {
-      html += renderShopItem(activeItem);
-    } else {
-      html += renderItem(activeItem);
-    }
+    if (sec.type === 'shops') html += renderShopItem(activeItem);
+    else html += renderItem(activeItem);
     
     app.innerHTML = html;
     window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
 
-  // الأقسام العادية
   if (sec.items) sec.items.forEach(item => { html += renderItem(item); });
-
   if (sec.categories) {
     sec.categories.forEach(cat => {
       let catTitle = cat.titleKey ? window.t(cat.titleKey) : (cat.title ? (cat.title[lang] || cat.title.fr) : '');
       if (cat.title && typeof cat.title === 'object') catTitle = cat.title[lang] || cat.title.fr;
-      
       html += '<h3 style="color:var(--acc);margin:24px 0 12px">' + cat.icon + ' ' + catTitle + '</h3>';
       if (cat.items) cat.items.forEach(item => { html += renderItem(item); });
     });
@@ -339,9 +329,6 @@ function renderSection(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ==========================================
-// دوال التنقل الهرمي
-// ==========================================
 window.openCategory = function(secId, catId) {
   currentViewState = { sectionId: secId, categoryId: catId, itemId: null };
   renderSection(secId);
@@ -356,12 +343,10 @@ window.handleBack = function(secId) {
   renderSection(secId);
 };
 
-// دالة عرض المتجر (Shopping)
 function renderShopItem(item) {
   const lang = window.getCurrentLang();
   let isOpen = false;
   let timeMsg = '';
-
   const now = new Date();
   const currentHour = now.getHours() + (now.getMinutes() / 60);
   if (item.h && item.h.length > 0) {
@@ -369,14 +354,11 @@ function renderShopItem(item) {
     const end = parseFloat(item.h[0][1].split(':')[0]);
     if (end < start) isOpen = (currentHour >= start || currentHour < end);
     else isOpen = (currentHour >= start && currentHour < end);
-
     if (isOpen && end > start) {
       const hoursLeft = end - currentHour;
       if (hoursLeft > 0) timeMsg = ` (يغلق بعد ${Math.round(hoursLeft)} ساعة)`;
     }
-  } else {
-    isOpen = true;
-  }
+  } else { isOpen = true; }
 
   let html = `<div class="card-3d" style="margin-bottom:15px">
     <div style="display:flex;justify-content:space-between;align-items:flex-start">
@@ -393,13 +375,11 @@ function renderShopItem(item) {
     </div>`;
 
   if (item.r) html += `<div style="margin-top:10px;font-weight:700;color:#f59e0b">⭐ ${item.r} / 5</div>`;
-
   if (item.video) {
     html += `<div style="margin-top:15px;border-radius:12px;overflow:hidden;aspect-ratio:16/9">
       <iframe src="https://www.youtube.com/embed/${item.video}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>
     </div>`;
   }
-
   html += `<div style="display:flex;gap:10px;margin-top:15px">
     ${item.t ? `<a href="tel:${item.t}" class="btn" style="flex:1;text-align:center;justify-content:center;background:var(--acc-soft);color:var(--acc);box-shadow:none;border:1px solid var(--acc)">${window.t('shopCall') || 'Appeler'}</a>` : ''}
     ${item.g ? `<a href="https://www.google.com/maps/search/?api=1&query=${item.g[0]},${item.g[1]}" target="_blank" class="btn" style="flex:1;text-align:center;justify-content:center">${window.t('shopGo') || 'Y aller'}</a>` : ''}
@@ -408,9 +388,6 @@ function renderShopItem(item) {
   return html;
 }
 
-// ==========================================
-// دالة عرض العناصر العادية (الخريطة، الفيديوهات، إلخ)
-// ==========================================
 function renderItem(item) {
   const lang = window.getCurrentLang();
 
@@ -521,104 +498,66 @@ function renderItem(item) {
   return html;
 }
 
-// ==========================================
-// قسم الأساتذة (تصفح هرمي)
-// ==========================================
+// قسم الأساتذة
 async function renderProfsSection(sec) {
   const app = document.getElementById('app');
   app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><p style="text-align:center;padding:40px">Chargement…</p>';
-  
   const data = await window.loadProfsData();
   if (!data) { app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><p style="color:#dc2626;text-align:center;padding:40px">❌ Erreur.</p>'; return; }
-
   const lang = window.getCurrentLang();
 
   if (!currentProfState.year) {
-    let html = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button>';
-    html += '<h2>👨‍🏫 ' + window.t('sectionProfs') + '</h2>';
-    html += '<p style="color:var(--mut);margin-bottom:20px">' + window.t('profsIntro') + '</p>';
-    html += '<div class="tile-grid">';
+    let html = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><h2>👨‍🏫 ' + window.t('sectionProfs') + '</h2><p style="color:var(--mut);margin-bottom:20px">' + window.t('profsIntro') + '</p><div class="tile-grid">';
     Object.keys(data.years).forEach(yearId => {
       const year = data.years[yearId];
-      html += `<button class="tile-3d" onclick="selectProfYear('${yearId}')">
-        <span class="tile-icon">${year.icon}</span>
-        <span class="tile-label">${year.title[lang] || year.title.fr}</span>
-      </button>`;
+      html += `<button class="tile-3d" onclick="selectProfYear('${yearId}')"><span class="tile-icon">${year.icon}</span><span class="tile-label">${year.title[lang] || year.title.fr}</span></button>`;
     });
-    html += '</div>';
-    app.innerHTML = html;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    return;
+    html += '</div>'; app.innerHTML = html; window.scrollTo({ top: 0, behavior: 'smooth' }); return;
   }
 
   const yearData = data.years[currentProfState.year];
 
   if (!currentProfState.subject) {
-    let html = '<button class="back" onclick="backToProfYears()">' + window.t('back') + '</button>';
-    html += `<h2>${yearData.icon} ${yearData.title[lang] || yearData.title.fr}</h2>`;
-    html += '<div class="tile-grid" style="margin-top:20px">';
+    let html = '<button class="back" onclick="backToProfYears()">' + window.t('back') + '</button><h2>' + yearData.icon + ' ' + (yearData.title[lang] || yearData.title.fr) + '</h2><div class="tile-grid" style="margin-top:20px">';
     yearData.subjects.forEach(subj => {
-      html += `<button class="tile-3d" onclick="selectProfSubject('${subj.id}')">
-        <span class="tile-icon">${subj.icon}</span>
-        <span class="tile-label">${subj.title[lang] || subj.title.fr}</span>
-      </button>`;
+      html += `<button class="tile-3d" onclick="selectProfSubject('${subj.id}')"><span class="tile-icon">${subj.icon}</span><span class="tile-label">${subj.title[lang] || subj.title.fr}</span></button>`;
     });
-    html += '</div>';
-    app.innerHTML = html;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    return;
+    html += '</div>'; app.innerHTML = html; window.scrollTo({ top: 0, behavior: 'smooth' }); return;
   }
 
   const subjectData = yearData.subjects.find(s => s.id === currentProfState.subject);
 
   if (!currentProfState.prof) {
-    let html = '<button class="back" onclick="backToProfSubjects()">' + window.t('back') + '</button>';
-    html += `<h2>${subjectData.icon} ${subjectData.title[lang] || subjectData.title.fr}</h2>`;
-    html += '<div style="display:flex;flex-direction:column;gap:12px;margin-top:20px">';
+    let html = '<button class="back" onclick="backToProfSubjects()">' + window.t('back') + '</button><h2>' + subjectData.icon + ' ' + (subjectData.title[lang] || subjectData.title.fr) + '</h2><div style="display:flex;flex-direction:column;gap:12px;margin-top:20px">';
     subjectData.profs.forEach(p => {
       html += `<button class="card-3d" onclick="selectProf('${p.id}')" style="display:flex;align-items:center;gap:15px;cursor:pointer;text-align:left;width:100%">
         ${p.photo ? `<img src="${p.photo}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--acc)">` : `<div style="width:50px;height:50px;border-radius:50%;background:var(--acc-soft);color:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2rem;border:2px solid var(--acc)">${p.name.charAt(0)}</div>`}
-        <div style="flex:1">
-          <div style="font-weight:700;font-size:1.05rem;color:var(--ink)">${p.name}</div>
-          <div style="font-size:.85rem;color:var(--mut)">${p.status ? (p.status[lang] || p.status.fr) : ''}</div>
-        </div>
+        <div style="flex:1"><div style="font-weight:700;font-size:1.05rem;color:var(--ink)">${p.name}</div><div style="font-size:.85rem;color:var(--mut)">${p.status ? (p.status[lang] || p.status.fr) : ''}</div></div>
         <div style="font-size:1.2rem;color:var(--mut)">›</div>
       </button>`;
     });
-    html += '</div>';
-    app.innerHTML = html;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    return;
+    html += '</div>'; app.innerHTML = html; window.scrollTo({ top: 0, behavior: 'smooth' }); return;
   }
 
   const prof = subjectData.profs.find(p => p.id === currentProfState.prof);
-  let html = '<button class="back" onclick="backToProfList()">' + window.t('back') + '</button>';
-  html += `<div class="prof-card-wrapper">`;
-  
+  let html = '<button class="back" onclick="backToProfList()">' + window.t('back') + '</button><div class="prof-card-wrapper">';
   html += `<div class="prof-header-card">`;
   if (prof.photo) html += `<div class="prof-avatar-big"><img src="${prof.photo}"></div>`;
   else html += `<div class="prof-avatar-big">${prof.name ? prof.name.charAt(0).toUpperCase() : '?'}</div>`;
   html += `<div class="prof-name-title">${prof.name}</div>`;
   if (prof.status) html += `<div class="prof-role-badge">${prof.status[lang] || prof.status.fr}</div>`;
   html += `</div>`;
-
-  if (prof.email) {
-    html += `<div class="prof-box email-box"><div class="prof-box-title">✉️ EMAIL</div><a href="mailto:${prof.email}">${prof.email}</a></div>`;
-  }
+  if (prof.email) html += `<div class="prof-box email-box"><div class="prof-box-title">✉️ EMAIL</div><a href="mailto:${prof.email}">${prof.email}</a></div>`;
   if (prof.advice) {
     const adviceText = prof.advice[lang] || prof.advice.fr;
     if (adviceText) html += `<div class="prof-box advice-box"><div class="prof-box-title">💡 CONSEIL</div><p>"${adviceText}"</p></div>`;
   }
-  if (prof.modules && prof.modules.length > 0) {
-    html += `<div class="prof-box modules-box"><div class="prof-box-title">📚 MODULES</div><ul>${prof.modules.map(m => `<li>${m}</li>`).join('')}</ul></div>`;
-  }
+  if (prof.modules && prof.modules.length > 0) html += `<div class="prof-box modules-box"><div class="prof-box-title">📚 MODULES</div><ul>${prof.modules.map(m => `<li>${m}</li>`).join('')}</ul></div>`;
   if (prof.research) {
     const researchText = prof.research[lang] || prof.research.fr;
     if (researchText) html += `<div class="prof-box research-box"><div class="prof-box-title">🔬 RECHERCHE</div><p>${researchText}</p></div>`;
   }
-  html += `</div>`;
-  app.innerHTML = html;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  html += `</div>`; app.innerHTML = html; window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 window.selectProfYear = function(yearId) { currentProfState = { year: yearId, subject: null, prof: null }; renderProfsSection(window.SECTIONS.find(s => s.id === 'profs')); };
@@ -628,7 +567,6 @@ window.backToProfYears = function() { currentProfState = { year: null, subject: 
 window.backToProfSubjects = function() { currentProfState.subject = null; currentProfState.prof = null; renderProfsSection(window.SECTIONS.find(s => s.id === 'profs')); };
 window.backToProfList = function() { currentProfState.prof = null; renderProfsSection(window.SECTIONS.find(s => s.id === 'profs')); };
 
-// عرض الصور بشكل مكبر
 window.openImageViewer = (src) => {
   const o = document.createElement('div');
   o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out';
@@ -637,7 +575,6 @@ window.openImageViewer = (src) => {
   document.body.appendChild(o);
 };
 
-// البحث
 document.getElementById('q').addEventListener('input', (e) => {
   const q = e.target.value.trim();
   if (!q) { if (currentView === 'search') renderHome(); return; }
@@ -645,22 +582,17 @@ document.getElementById('q').addEventListener('input', (e) => {
   const results = window.smartSearch(q, window.SECTIONS);
   const app = document.getElementById('app');
   let html = `<h2>🔎 ${window.t('search')} "${q}"</h2>`;
-  if (results.length === 0) {
-    html += `<p style="color:var(--mut);text-align:center;padding:40px">${window.t('noResult')}</p>`;
-  } else {
+  if (results.length === 0) { html += `<p style="color:var(--mut);text-align:center;padding:40px">${window.t('noResult')}</p>`; }
+  else {
     results.slice(0, 20).forEach(r => {
       let rTitle = r.item.titleKey ? window.t(r.item.titleKey) : getText(r.item.title, window.getCurrentLang());
       if(!rTitle) rTitle = r.item.n || 'Info';
-      html += `<div class="card-3d" style="cursor:pointer" onclick="openSection('${r.section.id}')">
-        <h3>${r.section.icon} ${rTitle}</h3>
-        <p style="font-size:.85rem;color:var(--mut)">${window.t(r.section.titleKey)}</p>
-      </div>`;
+      html += `<div class="card-3d" style="cursor:pointer" onclick="openSection('${r.section.id}')"><h3>${r.section.icon} ${rTitle}</h3><p style="font-size:.85rem;color:var(--mut)">${window.t(r.section.titleKey)}</p></div>`;
     });
   }
   app.innerHTML = html;
 });
 
-// الذكاء الاصطناعي
 function openAIModal() { document.getElementById('aiModal').style.display = 'flex'; }
 function closeAIModal() { document.getElementById('aiModal').style.display = 'none'; }
 async function submitAI() {
@@ -688,13 +620,11 @@ window.addEventListener('load', () => {
   setLang(localStorage.getItem('lang') || 'fr');
   renderHome();
   if (typeof window.loadProfsData === 'function') window.loadProfsData();
-
-  // قراءة الرابط لفتح القسم المطلوب عند مسح QR
+  
+  // فتح القسم من الرابط (QR)
   const params = new URLSearchParams(window.location.search);
   const sectionId = params.get('section');
-  if (sectionId) {
-    setTimeout(() => { openSection(sectionId); }, 500);
-  }
+  if (sectionId) { setTimeout(() => { openSection(sectionId); }, 500); }
 });
 
 window.renderHome = renderHome;
