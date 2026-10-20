@@ -38,7 +38,7 @@
   </div>
 </div>
 
-<!-- لوحة الألوان المخفية -->
+<!-- لوحة الألوان -->
 <div class="theme-panel" id="theme-panel">
   <div class="theme-panel-header">
     <strong>Thème</strong>
@@ -57,7 +57,7 @@
   </div>
 </div>
 
-<!-- لوحة حجم النص المخفية -->
+<!-- لوحة حجم النص -->
 <div class="text-size-panel" id="text-size-panel">
   <div class="tsp-header">
     <strong>Taille du texte</strong>
@@ -106,6 +106,7 @@
 <script src="search.js"></script>
 <script src="ai-search.js"></script>
 
+<!-- تحميل كل الأقسام -->
 <script src="data/config.js"></script>
 <script src="data/ecole.js"></script>
 <script src="data/admin.js"></script>
@@ -123,7 +124,6 @@
 <script src="data/index.js"></script>
 
 <script>
-// ... (كل كود JavaScript الخاص بـ guide.html من الرسالة السابقة، لا تغيره) ...
 let currentSection = null;
 let currentView = 'home';
 
@@ -143,12 +143,15 @@ function renderHome() {
   let html = '<h2>' + window.t('welcomeTitle') + '</h2>';
   html += '<p style="color:var(--mut);margin-bottom:24px;font-size:1.05rem">' + window.t('welcomeSubtitle') + '</p>';
   html += '<div class="tile-grid">';
+  
+  // عرض جميع الأقسام
   window.SECTIONS.forEach(sec => {
     html += `<button class="tile-3d" onclick="openSection('${sec.id}')">
       <span class="tile-icon">${sec.icon}</span>
       <span class="tile-label">${window.t(sec.titleKey)}</span>
     </button>`;
   });
+  
   html += '</div>';
   app.innerHTML = html;
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -184,8 +187,10 @@ function renderSection(id) {
 
   if (sec.introKey) html += '<p style="color:var(--mut);margin-bottom:20px">' + window.t(sec.introKey) + '</p>';
 
+  // عرض العناصر العادية
   if (sec.items) sec.items.forEach(item => { html += renderItem(item); });
 
+  // عرض التصنيفات (مثل المتاجر والترفيه)
   if (sec.categories) {
     sec.categories.forEach(cat => {
       let catTitle = cat.titleKey ? window.t(cat.titleKey) : (cat.title ? (cat.title[lang] || cat.title.fr) : '');
@@ -200,9 +205,11 @@ function renderSection(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// دالة عرض العناصر (تدعم كل شيء)
 function renderItem(item) {
   const lang = window.getCurrentLang();
 
+  // 1. الخريطة
   if (item.type === 'iframe-map') {
     return `
       <div class="card-3d" style="padding-bottom:20px">
@@ -215,6 +222,7 @@ function renderItem(item) {
     `;
   }
 
+  // 2. مجموعة فيديوهات
   if (item.type === 'videos-group') {
     let html = `<div class="card-3d" style="padding-bottom:20px">
       <h3>${item.icon} ${window.t(item.titleKey)}</h3>
@@ -236,6 +244,7 @@ function renderItem(item) {
     return html;
   }
 
+  // 3. العناصر العادية
   let title = '';
   if (item.titleKey) title = window.t(item.titleKey);
   else if (item.title) title = item.title[lang] || item.title.fr;
