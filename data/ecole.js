@@ -1,8 +1,14 @@
  // ============================================
 // data/ecole.js — قسم مدرستي
+// Guide de survie ENSTP
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
+
+// احذف أي نسخة قديمة
+for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
+  if (window.SECTIONS[i].id === 'ecole') window.SECTIONS.splice(i, 1);
+}
 
 window.SECTIONS.push({
   id: "ecole",
@@ -10,31 +16,31 @@ window.SECTIONS.push({
   titleKey: "sectionEcole",
   introKey: "ecoleIntro",
   type: "items",
-  
+
   items: [
     // ========== 1. الخريطة التفاعلية ==========
     {
-      titleKey: "ecole Map",
+      titleKey: "ecoleMapTitle",
       icon: "🗺️",
-      descKey: "ecole Map ",
-      type: "garidi-map", // نوع خاص يتم التعرف عليه في guide.html
+      descKey: "ecoleMapDesc",
+      type: "garidi-map",
       mapUrl: "https://www.google.com/maps/d/u/1/edit?mid=1nT-Wvfqo8A3wdoHnadLzZHFYB_qdH_U&usp=sharing"
     },
-    
+
     // ========== 2. الفيديوهات التعريفية ==========
     {
       titleKey: "ecoleVideosTitle",
       icon: "🎬",
       descKey: "ecoleVideosDesc",
-      type: "videos-group", // نوع خاص لعرض مجموعة فيديوهات
+      type: "videos-group",
       videos: [
-        { titleKey: "Tour dans l'enstp", icon: "🏢", video: "8LfUbr6JoVE" },
-        { titleKey: "département de classe préparatoire", icon: "📘", video: "DQLbKFkIJh0" },
-        { titleKey: "Amphi A", icon: "🏛️", video: "5LSyChDF-hA" },
-        { titleKey: "Infrastructures de l'école", icon: "🏗️", video: "uZ7HbehM_UU" },
-        { titleKey: "Entree à l'école", icon: "🚪", video: "GUCHDgEJaIk" },
-        { titleKey: "centre d'informatiques", icon: "💻", video: "sFwHEHhgAbQ" }
+        { titleKey: "ecoleVideoTour",   icon: "🏢", video: "8LfUbr6JoVE" },
+        { titleKey: "ecoleVideoPrep",   icon: "📘", video: "DQLbKFkIJh0" },
+        { titleKey: "ecoleVideoAmphi",  icon: "🏛️", video: "5LSyChDF-hA" },
+        { titleKey: "ecoleVideoInfra",  icon: "🏗️", video: "uZ7HbehM_UU" },
+        { titleKey: "ecoleVideoEntree", icon: "🚪", video: "GUCHDgEJaIk" },
+        { titleKey: "ecoleVideoInfo",   icon: "💻", video: "sFwHEHhgAbQ" }
       ]
     }
   ]
-}); 
+});
