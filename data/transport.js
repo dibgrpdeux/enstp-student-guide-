@@ -1,5 +1,5 @@
 // ============================================
-// data/transport.js — قسم النقل (شامل ومترجم)
+// data/transport.js — قسم النقل (مع الخريطة التفاعلية)
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
@@ -16,6 +16,20 @@ window.SECTIONS.push({
   type: "items",
 
   items: [
+    // ========== 0. الخريطة التفاعلية (في الأعلى) ==========
+    {
+      title: { fr: "Carte interactive des transports", ar: "خريطة النقل التفاعلية", en: "Interactive transport map" },
+      icon: "🗺️",
+      desc: { 
+        fr: "Consultez notre carte interactive pour localiser les arrêts de bus, les points de transport et les itinéraires utiles autour de l'ENSTP.", 
+        ar: "تصفح خريطتنا التفاعلية لتحديد مواقع الحافلات، نقاط النقل والمسارات المفيدة حول المدرسة.", 
+        en: "View our interactive map to locate bus stops, transport points and useful routes around ENSTP." 
+      },
+      type: "iframe-map",
+      // رابط التضمين الصحيح لخريطة My Maps الخاصة بك
+      iframeUrl: "https://www.google.com/maps/d/embed?mid=1F5jfgmT1iBuBm3UY6&ll=36.7255818,3.0695956&z=15"
+    },
+
     // ========== 1. مواقف الحافلات ==========
     {
       title: { fr: "Arrêt 1 - C", ar: "الموقف 1 - C", en: "Stop 1 - C" },
@@ -133,7 +147,7 @@ window.SECTIONS.push({
   ]
 });
 
-// إضافة الترجمة للقسم نفسه
+// إضافة الترجمات
 window.LANG_DATA = window.LANG_DATA || {};
 const trans = {
   fr: { sectionTransport: "Transport", transportIntro: "Découvrez les transports autour de l'ENSTP." },
