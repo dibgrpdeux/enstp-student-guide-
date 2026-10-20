@@ -1,9 +1,12 @@
 // ============================================
 // data/services.js — قسم الخدمات
-// Guide de survie ENSTP
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
+
+for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
+  if (window.SECTIONS[i].id === 'services') window.SECTIONS.splice(i, 1);
+}
 
 window.SECTIONS.push({
   id: "services",
@@ -52,7 +55,7 @@ window.SECTIONS.push({
       titleKey: "srvFaqTitle",
       icon: "❓",
       descKey: "srvFaqDesc",
-      type: "faq", // نوع خاص ليتم عرضه كأسئلة وأجوبة
+      type: "faq",
       faqItems: [
         {
           categoryKey: "srvFaqCat1",
@@ -77,9 +80,7 @@ window.SECTIONS.push({
         },
         {
           categoryKey: "srvFaqCat4",
-          items: [
-            { q: "srvFaqQ7", a: "srvFaqA7" }
-          ]
+          items: [{ q: "srvFaqQ7", a: "srvFaqA7" }]
         }
       ]
     }
