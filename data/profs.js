@@ -18,7 +18,6 @@ async function loadProfsData() {
     })
     .then(data => {
       PROFS_DATA = data;
-      window.dispatchEvent(new CustomEvent('profs-ready', { detail: data }));
       return data;
     })
     .catch(err => {
@@ -44,26 +43,3 @@ window.SECTIONS.push({
 });
 
 window.loadProfsData = loadProfsData;
-
-window.getProfsFor = function(yearId) {
-  if (!PROFS_DATA) return null;
-  return PROFS_DATA.years[yearId] || null;
-};
-
-window.getAllProfsSubjects = function(yearId) {
-  const year = window.getProfsFor(yearId);
-  if (!year) return [];
-  return year.subjects || [];
-};
-
-window.findProf = function(yearId, subjectId, profId) {
-  const subjects = window.getAllProfsSubjects(yearId);
-  const subj = subjects.find(s => s.id === subjectId);
-  if (!subj) return null;
-  return subj.profs.find(p => p.id === profId) || null;
-};
-
-window.findSubject = function(yearId, subjectId) {
-  const subjects = window.getAllProfsSubjects(yearId);
-  return subjects.find(s => s.id === subjectId) || null;
-};
