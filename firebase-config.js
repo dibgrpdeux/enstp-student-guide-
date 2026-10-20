@@ -1,35 +1,20 @@
 // ============================================
-// firebase-config.js — إعداد Firebase
-// ENSTP Forum
+// firebase-config.js — إعدادات Firebase + Cloudinary
 // ============================================
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  updateProfile
+import {
+  getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  signOut, updateProfile, sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { 
-  getFirestore, 
-  collection, 
-  doc, 
-  setDoc, 
-  getDoc, 
-  getDocs, 
-  addDoc, 
-  query, 
-  where, 
-  orderBy, 
-  limit, 
-  serverTimestamp,
-  onSnapshot,
-  deleteDoc,
-  updateDoc
+import {
+  getFirestore, collection, query, orderBy, limit, where, addDoc, getDoc, getDocs,
+  setDoc, updateDoc, deleteDoc, doc, onSnapshot, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// ============================================
+// Firebase Configuration
+// ============================================
 const firebaseConfig = {
   apiKey: "AIzaSyD35OVZ9JPlWr7ayQJMu8yVPFu3N_gZD1g",
   authDomain: "enstp-forum-19a28.firebaseapp.com",
@@ -43,40 +28,69 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const ALLOWED_DOMAIN = '@enstp.edu.dz';
+// ============================================
+// ⚠️ Cloudinary — املأ بياناتك هنا
+// ============================================
+const CLOUDINARY_CLOUD_NAME = "YOUR_CLOUD_NAME";
+const CLOUDINARY_UPLOAD_PRESET = "YOUR_UPLOAD_PRESET";
 
-function isEnstpEmail(email) {
-  if (!email) return false;
-  return email.toLowerCase().trim().endsWith(ALLOWED_DOMAIN);
+async function uploadToCloudinary(file, onProgress) {
+  const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable && onProgress) {
+        onProgress((e.loaded / e.total) * 100);
+      }
+    };
+
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        try {
+          const data = JSON.parse(xhr.responseText);
+          resolve(data.secure_url);
+        } catch (e) {
+          reject(new Error('Réponse Cloudinary invalide'));
+        }
+      } else {
+        reject(new Error('Échec upload: ' + xhr.responseText));
+      }
+    };
+
+    xhr.onerror = () => reject(new Error('Erreur réseau pendant l\'upload'));
+    xhr.send(formData);
+  });
 }
 
+// ============================================
+// 58 Wilayas
+// ============================================
 const WILAYAS = [
-  "أدرار", "الشلف", "الأغواط", "أم البواقي", "باتنة", "بجاية", "بسكرة", "بشار",
-  "البليدة", "البويرة", "تمنراست", "تبسة", "تلمسان", "تيارت", "تيزي وزو", "الجزائر",
-  "الجلفة", "جيجل", "سطيف", "سعيدة", "سكيكدة", "سيدي بلعباس", "عنابة", "قالمة",
-  "قسنطينة", "المدية", "مستغانم", "المسيلة", "معسكر", "ورقلة", "وهران", "البيض",
-  "إليزي", "برج بوعريريج", "بومرداس", "الطارف", "تندوف", "تيسمسيلت", "الوادي", "خنشلة",
-  "سوق أهراس", "تيبازة", "ميلة", "عين الدفلى", "النعامة", "عين تموشنت", "غرداية", "غليزان",
-  "تيميمون", "برج باجي مختار", "أولاد جلال", "بني عباس", "عين صالح", "عين قزام",
-  "تقرت", "جانت", "المغير", "المنيعة",
-  "تيمياوين (منتدبة)", "عين غار (منتدبة)", "قصر البخاري (منتدبة)", 
-  "بوسعادة (منتدبة)", "العريشة (منتدبة)", "جانت (منتدبة)",
-  "عين صالح (منتدبة)", "عين قزام (منتدبة)", "المغير (منتدبة)",
-  "برج باجي مختار (منتدبة)", "تندوف (منتدبة)"
+  "أدرار", "الشلف", "الأغواط", "أم البواقي", "باتنة", "بجاية", "بسكرة",
+  "بشار", "البليدة", "البويرة", "تمنراست", "تبسة", "تلمسان", "تيارت",
+  "تيزي وزو", "الجزائر", "الجلفة", "جيجل", "سطيف", "سعيدة", "سكيكدة",
+  "سيدي بلعباس", "عنابة", "قالمة", "قسنطينة", "المدية", "مستغانم",
+  "المسيلة", "معسكر", "ورقلة", "وهران", "البيض", "إليزي", "برج بوعريريج",
+  "بومرداس", "الطارف", "تندوف", "تيسمسيلت", "الوادي", "خنشلة", "سوق أهراس",
+  "تيبازة", "ميلة", "عين الدفلى", "النعامة", "عين تموشنت", "غرداية",
+  "غليزان", "تيميمون", "برج باجي مختار", "أولاد جلال", "بني عباس",
+  "عين صالح", "عين قزام", "تقرت", "جانت", "المغير", "المنيعة"
 ];
 
-export { 
-  app, auth, db, 
-  firebaseConfig, 
-  ALLOWED_DOMAIN, 
-  WILAYAS,
-  isEnstpEmail,
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  updateProfile,
-  collection, doc, setDoc, getDoc, getDocs,
-  addDoc, query, where, orderBy, limit,
-  serverTimestamp, onSnapshot, deleteDoc, updateDoc
+function isEnstpEmail(email) {
+  return email && email.toLowerCase().endsWith('@enstp.edu.dz');
+}
+
+export {
+  auth, db, WILAYAS, isEnstpEmail, uploadToCloudinary,
+  onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  signOut, updateProfile, sendPasswordResetEmail,
+  collection, query, orderBy, limit, where, addDoc, getDoc, getDocs,
+  setDoc, updateDoc, deleteDoc, doc, onSnapshot, serverTimestamp
 };
