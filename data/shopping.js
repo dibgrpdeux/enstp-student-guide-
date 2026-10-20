@@ -1,18 +1,14 @@
 // ============================================
 // data/shopping.js — التسوق والأكل
-// Guide de survie ENSTP
-// 60 commerces autour de l'ENSTP (Kouba, Alger)
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
 
 (function() {
-  // احذف أي نسخة قديمة
   for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
     if (window.SECTIONS[i].id === 'shopping') window.SECTIONS.splice(i, 1);
   }
 
-  // ============ التصنيفات ============
   const CATS = {
     manger:   { icon: "🍽️", fr: "Manger",       ar: "المطاعم",       en: "Food" },
     cafe:     { icon: "☕", fr: "Cafés",         ar: "المقاهي",       en: "Cafés" },
@@ -27,28 +23,20 @@ window.SECTIONS = window.SECTIONS || [];
     mosquee:  { icon: "🕌", fr: "Mosquées",      ar: "المساجد",       en: "Mosques" }
   };
 
-  // ============ نقطة ENSTP ============
   const ENSTP = [36.7255818, 3.0695956];
 
-  // ============ دالة تحويل GPS بأمان ============
   function parseGPS(str) {
     if (!str) return null;
     try {
       if (Array.isArray(str)) return str;
       if (typeof str === 'string') {
         const cleaned = str.replace(/[\[\]]/g, '').split(',').map(Number);
-        if (cleaned.length === 2 && !isNaN(cleaned[0]) && !isNaN(cleaned[1])) {
-          return cleaned;
-        }
+        if (cleaned.length === 2 && !isNaN(cleaned[0]) && !isNaN(cleaned[1])) return cleaned;
       }
-    } catch (e) {
-      console.warn('GPS parse error:', str, e);
-    }
+    } catch (e) {}
     return null;
   }
 
-  // ============ البيانات ============
-  // [cat, nom, tel, note, prix, horaires, exceptions, note_desc, gps, links, videoId]
   const RAW = [
     // ============ MANGER (🍽️) ============
     ["manger","Ovni Burger","+213791389001",4.6,1,[["11:00","02:00"]],{5:[["17:00","02:00"]]},"Burgers","[36.7294789,3.0727182]",{}, ""],
@@ -141,143 +129,78 @@ window.SECTIONS = window.SECTIONS || [];
     ["mosquee","مسجد عبد اللطيف سلطاني","",4.9,0,[],{},"مسجد","[36.7280, 3.0740]",{}, "q9iK6P3XsYA"]
   ];
 
-  // ============ بناء البيانات النهائية ============
   const items = RAW.map(function(a, i) {
     return {
       i: i,
-      c: a[0] || 'manger',          // catégorie
-      n: a[1] || 'Sans nom',        // nom
-      t: a[2] || '',                // téléphone
-      r: a[3] || 0,                 // note
-      p: a[4] || 0,                 // prix
-      h: a[5] || [],                // horaires
-      x: a[6] || {},                // exceptions
-      note: a[7] || '',             // description
-      g: parseGPS(a[8]),            // GPS (sécurisé)
-      l: a[9] || {},                // liens
-      video: a[10] || ""            // Video ID
+      c: a[0] || 'manger',
+      n: a[1] || 'Sans nom',
+      t: a[2] || '',
+      r: a[3] || 0,
+      p: a[4] || 0,
+      h: a[5] || [],
+      x: a[6] || {},
+      note: a[7] || '',
+      g: parseGPS(a[8]),
+      l: a[9] || {},
+      video: a[10] || ""
     };
   });
 
-  // ============ الإضافة إلى SECTIONS ============
   window.SECTIONS.push({
     id: "shopping",
     icon: "🍽️",
     titleKey: "sectionShopping",
     introKey: "shoppingIntro",
-    type: "shops", // هذا النوع مهم جداً لكي يعرض الفيديوهات
+    type: "shops",
     categories: Object.keys(CATS).map(function(key) {
+      // ترتيب المتاجر: التي تحتوي على فيديو أولاً
+      const catItems = items.filter(function(x) { return x.c === key; });
+      catItems.sort((a, b) => {
+        if (a.video && !b.video) return -1;
+        if (!a.video && b.video) return 1;
+        return 0;
+      });
+
       return {
         id: key,
         icon: CATS[key].icon,
         titleKey: "shop_" + key,
         title: CATS[key].fr,
-        items: items.filter(function(x) { return x.c === key; })
+        items: catItems
       };
     }).filter(function(c) { return c.items.length > 0; })
   });
 
-  // ============ دوال مساعدة عامة ============
   window.SHOP_DATA = { items: items, cats: CATS, enstp: ENSTP };
 
-  // ============ الترجمة ============
   window.LANG_DATA = window.LANG_DATA || {};
   const trans = {
     fr: {
       sectionShopping: "Manger & Shopping",
       shoppingIntro: "Tous les commerces autour de l'ENSTP : restos, cafés, pharmacies, sport...",
-      shop_manger: "🍽️ Manger",
-      shop_cafe: "☕ Cafés",
-      shop_courses: "🛒 Courses",
-      shop_pharma: "💊 Pharmacies",
-      shop_copie: "🖨️ Copie & Print",
-      shop_sport: "🏋️ Sport",
-      shop_beaute: "💈 Beauté",
-      shop_tel: "📱 Téléphonie",
-      shop_vetements: "👕 Vêtements",
-      shop_services: "🏦 Services",
-      shop_mosquee: "🕌 Mosquées",
-      shopOpen: "Ouvert",
-      shopClosed: "Fermé",
-      shopUnknown: "Horaires ?",
-      shopOpenNow: "Ouvert maintenant",
-      shopClosedNow: "Fermé maintenant",
-      shopCall: "📞 Appeler",
-      shopGo: "🚶 Y aller",
-      shopFav: "❤️ Favori",
-      shopShare: "↗️ Partager",
-      shopHours: "Horaires",
-      shopAll: "Tout",
-      shopFilterOpen: "🟢 Ouvert",
-      shopFilterCheap: "💸 Pas cher",
-      shopFilterFav: "❤️ Favoris",
-      shopSearch: "🔎 Rechercher un commerce...",
-      shopNoResult: "Aucun commerce trouvé.",
-      shopMinWalk: "min à pied"
+      shop_manger: "🍽️ Manger", shop_cafe: "☕ Cafés", shop_courses: "🛒 Courses",
+      shop_pharma: "💊 Pharmacies", shop_copie: "🖨️ Copie & Print", shop_sport: "🏋️ Sport",
+      shop_beaute: "💈 Beauté", shop_tel: "📱 Téléphonie", shop_vetements: "👕 Vêtements",
+      shop_services: "🏦 Services", shop_mosquee: "🕌 Mosquées",
+      shopOpen: "Ouvert", shopClosed: "Fermé", shopCall: "📞 Appeler", shopGo: "🚶 Y aller"
     },
     ar: {
       sectionShopping: "الأكل والتسوق",
       shoppingIntro: "كل المتاجر حول ENSTP: مطاعم، مقاهي، صيدليات، رياضة...",
-      shop_manger: "🍽️ المطاعم",
-      shop_cafe: "☕ المقاهي",
-      shop_courses: "🛒 التسوق اليومي",
-      shop_pharma: "💊 الصيدليات",
-      shop_copie: "🖨️ النسخ والطبع",
-      shop_sport: "🏋️ الرياضة",
-      shop_beaute: "💈 الحلاقة",
-      shop_tel: "📱 الهواتف",
-      shop_vetements: "👕 الملابس",
-      shop_services: "🏦 الخدمات",
-      shop_mosquee: "🕌 المساجد",
-      shopOpen: "مفتوح",
-      shopClosed: "مغلق",
-      shopUnknown: "الساعات؟",
-      shopOpenNow: "مفتوح الآن",
-      shopClosedNow: "مغلق الآن",
-      shopCall: "📞 اتصل",
-      shopGo: "🚶 اذهب",
-      shopFav: "❤️ المفضلة",
-      shopShare: "↗️ شارك",
-      shopHours: "الساعات",
-      shopAll: "الكل",
-      shopFilterOpen: "🟢 مفتوح",
-      shopFilterCheap: "💸 رخيص",
-      shopFilterFav: "❤️ المفضلة",
-      shopSearch: "🔎 ابحث عن متجر...",
-      shopNoResult: "لا يوجد متجر.",
-      shopMinWalk: "دقيقة مشي"
+      shop_manger: "🍽️ المطاعم", shop_cafe: "☕ المقاهي", shop_courses: "🛒 التسوق اليومي",
+      shop_pharma: "💊 الصيدليات", shop_copie: "🖨️ النسخ والطبع", shop_sport: "🏋️ الرياضة",
+      shop_beaute: "💈 الحلاقة", shop_tel: "📱 الهواتف", shop_vetements: "👕 الملابس",
+      shop_services: "🏦 الخدمات", shop_mosquee: "🕌 المساجد",
+      shopOpen: "مفتوح", shopClosed: "مغلق", shopCall: "📞 اتصل", shopGo: "🚶 اذهب"
     },
     en: {
       sectionShopping: "Food & Shopping",
       shoppingIntro: "All shops around ENSTP: food, cafés, pharmacies, sports...",
-      shop_manger: "🍽️ Food",
-      shop_cafe: "☕ Cafés",
-      shop_courses: "🛒 Groceries",
-      shop_pharma: "💊 Pharmacies",
-      shop_copie: "🖨️ Print & Copy",
-      shop_sport: "🏋️ Sports",
-      shop_beaute: "💈 Beauty",
-      shop_tel: "📱 Phones",
-      shop_vetements: "👕 Clothing",
-      shop_services: "🏦 Services",
-      shop_mosquee: "🕌 Mosques",
-      shopOpen: "Open",
-      shopClosed: "Closed",
-      shopUnknown: "Hours?",
-      shopOpenNow: "Open now",
-      shopClosedNow: "Closed now",
-      shopCall: "📞 Call",
-      shopGo: "🚶 Go",
-      shopFav: "❤️ Favorite",
-      shopShare: "↗️ Share",
-      shopHours: "Hours",
-      shopAll: "All",
-      shopFilterOpen: "🟢 Open",
-      shopFilterCheap: "💸 Cheap",
-      shopFilterFav: "❤️ Favorites",
-      shopSearch: "🔎 Search a shop...",
-      shopNoResult: "No shop found.",
-      shopMinWalk: "min walk"
+      shop_manger: "🍽️ Food", shop_cafe: "☕ Cafés", shop_courses: "🛒 Groceries",
+      shop_pharma: "💊 Pharmacies", shop_copie: "🖨️ Print & Copy", shop_sport: "🏋️ Sports",
+      shop_beaute: "💈 Beauty", shop_tel: "📱 Phones", shop_vetements: "👕 Clothing",
+      shop_services: "🏦 Services", shop_mosquee: "🕌 Mosques",
+      shopOpen: "Open", shopClosed: "Closed", shopCall: "📞 Call", shopGo: "🚶 Go"
     }
   };
   Object.keys(trans).forEach(function(lang) {
@@ -285,5 +208,5 @@ window.SECTIONS = window.SECTIONS || [];
     Object.assign(window.LANG_DATA[lang], trans[lang]);
   });
 
-  console.log('✅ Section shopping chargée — ' + items.length + ' commerces');
 })();
+      
