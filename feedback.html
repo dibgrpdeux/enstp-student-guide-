@@ -5,327 +5,59 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Votre avis — ENSTP Guide</title>
 <style>
-:root{
-  --acc:#c2410c;--acc2:#9a3412;--acc-soft:#fde8dc;
-  --bg:#f6f4ef;--card:#fff;
-  --ink:#1d2433;--mut:#667085;--line:#e5e1d8;
-}
+:root{--acc:#c2410c;--acc2:#9a3412;--acc-soft:#fde8dc;--bg:#f6f4ef;--card:#fff;--ink:#1d2433;--mut:#667085;--line:#e5e1d8}
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  min-height:100vh;
-  background:var(--bg);
-  color:var(--ink);
-  padding:20px;
-}
-
-.feedback-container{
-  max-width:600px;
-  margin:0 auto;
-  animation:fadeInUp .6s ease-out;
-}
-
-.feedback-header{
-  text-align:center;
-  margin-bottom:24px;
-}
-.feedback-header .icon{
-  font-size:4rem;
-  margin-bottom:12px;
-  display:block;
-  animation:float 3s ease-in-out infinite;
-}
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
-}
-.feedback-header h1{
-  color:var(--acc);
-  font-size:1.6rem;
-  font-weight:800;
-  margin-bottom:8px;
-  animation:fadeInUp .6s ease-out .1s both;
-}
-.feedback-header p{
-  color:var(--mut);
-  font-size:.95rem;
-  line-height:1.6;
-  animation:fadeInUp .6s ease-out .2s both;
-}
-
-.stats-card{
-  background:linear-gradient(135deg,#fef3c7,#fffbeb);
-  border-radius:20px;
-  padding:24px;
-  text-align:center;
-  border:1px solid #fde68a;
-  margin-bottom:18px;
-  animation:scaleIn .5s ease-out .3s both;
-}
-.stats-card .avg-rating{
-  font-size:3rem;
-  font-weight:900;
-  color:var(--acc);
-  line-height:1;
-  margin-bottom:8px;
-}
-.stats-card .avg-stars{
-  font-size:1.5rem;
-  margin-bottom:8px;
-  letter-spacing:3px;
-}
-.stats-card .total-count{
-  font-size:.9rem;
-  color:#92400e;
-  font-weight:600;
-}
-
-.feedback-card{
-  background:var(--card);
-  border-radius:20px;
-  padding:24px;
-  box-shadow:0 4px 20px rgba(0,0,0,.06);
-  border:1px solid var(--line);
-  animation:fadeInUp .6s ease-out .4s both;
-}
-
+body{font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;background:var(--bg);color:var(--ink);padding:20px}
+.feedback-container{max-width:600px;margin:0 auto}
+.feedback-header{text-align:center;margin-bottom:24px}
+.feedback-header .icon{font-size:4rem;margin-bottom:12px;display:block;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.feedback-header h1{color:var(--acc);font-size:1.6rem;font-weight:800;margin-bottom:8px}
+.feedback-header p{color:var(--mut);font-size:.95rem;line-height:1.6}
+.stats-card{background:linear-gradient(135deg,#fef3c7,#fffbeb);border-radius:20px;padding:24px;text-align:center;border:1px solid #fde68a;margin-bottom:18px}
+.stats-card .avg-rating{font-size:3rem;font-weight:900;color:var(--acc);line-height:1;margin-bottom:8px}
+.stats-card .avg-stars{font-size:1.5rem;margin-bottom:8px;letter-spacing:3px}
+.stats-card .total-count{font-size:.9rem;color:#92400e;font-weight:600}
+.feedback-card{background:var(--card);border-radius:20px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.06);border:1px solid var(--line)}
 .form-group{margin-bottom:20px}
-
-.form-group label{
-  display:block;
-  margin-bottom:8px;
-  color:var(--ink);
-  font-weight:600;
-  font-size:.9rem;
-}
-.form-group label span{
-  color:#94a3b8;
-  font-weight:400;
-  font-size:.8rem;
-}
-
-.stars{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin:16px 0;
-  padding:16px;
-  background:var(--bg);
-  border-radius:16px;
-}
-.star{
-  font-size:2.8rem;
-  cursor:pointer;
-  transition:all .25s cubic-bezier(.2,.8,.2,1);
-  filter:grayscale(1);
-  opacity:.35;
-  user-select:none;
-  padding:0;
-  border:0;
-  background:none;
-  font-family:inherit;
-  line-height:1;
-}
-.star:hover{
-  filter:grayscale(0);
-  opacity:1;
-  transform:scale(1.3) rotate(-10deg);
-}
-.star.active{
-  filter:grayscale(0);
-  opacity:1;
-  transform:scale(1.15);
-}
-.star.active:hover{
-  transform:scale(1.3) rotate(-10deg);
-}
-
-.rating-label{
-  text-align:center;
-  font-size:.95rem;
-  color:var(--mut);
-  margin-bottom:4px;
-  min-height:24px;
-  font-weight:600;
-  transition:all .3s;
-}
-
-.form-group input,
-.form-group textarea{
-  width:100%;
-  padding:12px 14px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  font-size:1rem;
-  background:var(--bg);
-  outline:none;
-  transition:all .3s;
-  font-family:inherit;
-  color:var(--ink);
-  resize:vertical;
-}
-.form-group input:focus,
-.form-group textarea:focus{
-  border-color:var(--acc);
-  background:#fff;
-  box-shadow:0 0 0 3px rgba(194,65,12,.1);
-  transform:translateY(-2px);
-}
-.form-group textarea{
-  min-height:110px;
-  line-height:1.5;
-}
-
-.btn-submit{
-  width:100%;
-  padding:15px;
-  background:linear-gradient(135deg,var(--acc),var(--acc2));
-  color:#fff;
-  border:0;
-  border-radius:12px;
-  font-size:1.05rem;
-  font-weight:700;
-  cursor:pointer;
-  transition:all .3s;
-  font-family:inherit;
-  margin-top:8px;
-  box-shadow:0 4px 15px rgba(194,65,12,.3);
-}
-.btn-submit:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 30px rgba(194,65,12,.5);
-}
-.btn-submit:active{
-  transform:translateY(-1px);
-}
-.btn-submit:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-  transform:none;
-}
-
-.error-msg{
-  display:none;
-  background:#fee2e2;
-  color:#991b1b;
-  padding:12px 14px;
-  border-radius:12px;
-  margin-bottom:16px;
-  font-size:.9rem;
-  border-left:4px solid #dc2626;
-  animation:shake .5s ease-out;
-}
-.error-msg.show{display:block}
-@keyframes shake{
-  0%,100%{transform:translateX(0)}
-  10%,30%,50%,70%,90%{transform:translateX(-4px)}
-  20%,40%,60%,80%{transform:translateX(4px)}
-}
-
-.success-msg{
-  display:none;
-  background:#d1fae5;
-  color:#065f46;
-  padding:14px;
-  border-radius:12px;
-  margin-bottom:16px;
-  font-size:.95rem;
-  border-left:4px solid #10b981;
-  animation:bounceIn .5s ease-out;
-  text-align:center;
-  font-weight:600;
-}
-.success-msg.show{display:block}
-@keyframes bounceIn{
-  0%{opacity:0;transform:scale(.3)}
-  50%{opacity:1;transform:scale(1.05)}
-  70%{transform:scale(.95)}
-  100%{transform:scale(1)}
-}
-
-.back-link{
-  display:block;
-  text-align:center;
-  margin-top:24px;
-  color:var(--acc);
-  font-weight:600;
-  text-decoration:none;
-  transition:all .3s;
-  animation:fadeInUp .6s ease-out .6s both;
-}
-.back-link:hover{
-  color:var(--acc2);
-  transform:translateX(-5px);
-}
-
-.spinner{
-  display:inline-block;
-  width:16px;
-  height:16px;
-  border:2px solid rgba(255,255,255,.3);
-  border-top-color:#fff;
-  border-radius:50%;
-  animation:spin .6s linear infinite;
-  margin-right:8px;
-  vertical-align:middle;
-}
+.form-group label{display:block;margin-bottom:8px;color:var(--ink);font-weight:600;font-size:.9rem}
+.form-group label span{color:#94a3b8;font-weight:400;font-size:.8rem}
+.stars{display:flex;justify-content:center;gap:8px;margin:16px 0;padding:16px;background:var(--bg);border-radius:16px}
+.star{font-size:2.8rem;cursor:pointer;transition:all .25s;filter:grayscale(1);opacity:.35;user-select:none;padding:0;border:0;background:none;font-family:inherit;line-height:1}
+.star:hover,.star.active{filter:grayscale(0);opacity:1;transform:scale(1.15)}
+.rating-label{text-align:center;font-size:.95rem;color:var(--mut);margin-bottom:4px;min-height:24px;font-weight:600}
+.form-group input,.form-group textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font-size:1rem;background:var(--bg);outline:none;font-family:inherit;color:var(--ink);resize:vertical}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--acc);background:#fff;box-shadow:0 0 0 3px rgba(194,65,12,.1)}
+.form-group textarea{min-height:110px;line-height:1.5}
+.btn-submit{width:100%;padding:15px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;border-radius:12px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit;box-shadow:0 4px 15px rgba(194,65,12,.3)}
+.btn-submit:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(194,65,12,.5)}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.error-msg,.success-msg{display:none;padding:12px 14px;border-radius:12px;margin-bottom:16px;font-size:.9rem;text-align:center;font-weight:600}
+.error-msg{background:#fee2e2;color:#991b1b;border-left:4px solid #dc2626}
+.success-msg{background:#d1fae5;color:#065f46;border-left:4px solid #10b981}
+.error-msg.show,.success-msg.show{display:block}
+.back-link{display:block;text-align:center;margin-top:24px;color:var(--acc);font-weight:600;text-decoration:none}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;margin-right:8px;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-@keyframes fadeInUp{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@keyframes scaleIn{
-  from{opacity:0;transform:scale(.9)}
-  to{opacity:1;transform:scale(1)}
-}
-
-/* Counter animation */
-.counter-anim{
-  display:inline-block;
-  animation:countUp .8s ease-out;
-}
-@keyframes countUp{
-  from{transform:translateY(20px);opacity:0}
-  to{transform:translateY(0);opacity:1}
-}
-
-@media(max-width:600px){
-  .star{font-size:2.2rem;gap:4px}
-  .feedback-header h1{font-size:1.3rem}
-  .stats-card .avg-rating{font-size:2.5rem}
-}
+@media(max-width:600px){.star{font-size:2.2rem}.feedback-header h1{font-size:1.3rem}}
 </style>
 </head>
 <body>
-
 <div class="feedback-container">
-  
-  <!-- Header -->
   <div class="feedback-header">
     <span class="icon">💬</span>
     <h1>Votre avis compte</h1>
-    <p>Notez le guide ENSTP et laissez-nous vos suggestions pour l'améliorer.</p>
+    <p>Notez le guide ENSTP et laissez-nous vos suggestions.</p>
   </div>
-
-  <!-- Stats -->
   <div class="stats-card">
-    <div class="avg-rating" id="avgRating">
-      <span class="counter-anim">—</span>
-    </div>
+    <div class="avg-rating" id="avgRating">—</div>
     <div class="avg-stars" id="avgStars">⭐⭐⭐⭐⭐</div>
     <div class="total-count" id="totalCount">Chargement...</div>
   </div>
-
-  <!-- Form -->
   <div class="feedback-card">
-    
     <div class="error-msg" id="errorMsg"></div>
     <div class="success-msg" id="successMsg"></div>
-    
     <form id="feedbackForm">
-      
-      <!-- Rating -->
       <div class="form-group">
         <label>Votre note <span>(obligatoire)</span></label>
         <div class="stars" id="starsContainer">
@@ -337,178 +69,82 @@ body{
         </div>
         <div class="rating-label" id="ratingLabel">Cliquez sur une étoile</div>
       </div>
-      
-      <!-- Suggestion -->
       <div class="form-group">
-        <label for="suggestion">Vos suggestions <span>(optionnel, max 1000 caractères)</span></label>
-        <textarea id="suggestion" placeholder="Que peut-on améliorer ? Que voulez-vous voir ajouté ?" maxlength="1000" rows="4"></textarea>
+        <label for="suggestion">Vos suggestions <span>(optionnel)</span></label>
+        <textarea id="suggestion" placeholder="Que peut-on améliorer ?" maxlength="1000" rows="4"></textarea>
       </div>
-      
-      <!-- Email -->
       <div class="form-group">
-        <label for="email">Votre email <span>(optionnel, pour vous répondre)</span></label>
+        <label for="email">Votre email <span>(optionnel)</span></label>
         <input type="email" id="email" placeholder="prenom.nom@enstp.edu.dz" maxlength="100">
       </div>
-      
-      <button type="submit" class="btn-submit" id="submitBtn">
-        📤 Envoyer mon avis
-      </button>
-      
+      <button type="submit" class="btn-submit" id="submitBtn">📤 Envoyer mon avis</button>
     </form>
   </div>
-
   <a href="guide.html" class="back-link">← Retour au guide</a>
-
 </div>
-
 <script type="module">
-import { 
-  db, 
-  collection, 
-  addDoc, 
-  getDocs, 
-  serverTimestamp 
-} from './firebase-config.js';
-
+import { db, collection, addDoc, getDocs, serverTimestamp } from './firebase-config.js';
 let selectedRating = 0;
-
-const ratingLabels = {
-  1: '😞 Très mauvais',
-  2: '😕 Mauvais',
-  3: '😐 Moyen',
-  4: '😊 Bon',
-  5: '🤩 Excellent'
+const labels = {1:'😞 Très mauvais',2:'😕 Mauvais',3:'😐 Moyen',4:'😊 Bon',5:'🤩 Excellent'};
+window.setRating = function(v) {
+  selectedRating = v;
+  document.getElementById('ratingLabel').textContent = labels[v];
+  document.querySelectorAll('.star').forEach(s => s.classList.toggle('active', parseInt(s.dataset.value) <= v));
 };
-
-// ============================================
-// تحديد التقييم
-// ============================================
-function setRating(value) {
-  selectedRating = value;
-  document.getElementById('ratingLabel').textContent = ratingLabels[value];
-  
-  document.querySelectorAll('.star').forEach(s => {
-    const v = parseInt(s.dataset.value);
-    s.classList.toggle('active', v <= value);
-  });
-}
-
-// ============================================
-// تحميل الإحصائيات
-// ============================================
 async function loadStats() {
   try {
     const snap = await getDocs(collection(db, 'feedback'));
     const ratings = [];
-    snap.forEach(d => {
-      const data = d.data();
-      if (data.rating) ratings.push(data.rating);
-    });
-    
+    snap.forEach(d => { const data = d.data(); if (data.rating) ratings.push(data.rating); });
     if (ratings.length === 0) {
-      document.getElementById('avgRating').innerHTML = '<span class="counter-anim">—</span>';
-      document.getElementById('avgStars').textContent = '⭐⭐⭐⭐⭐';
+      document.getElementById('avgRating').textContent = '—';
       document.getElementById('totalCount').textContent = '🌟 Soyez le premier à donner votre avis !';
       return;
     }
-    
-    const sum = ratings.reduce((a, b) => a + b, 0);
-    const avg = (sum / ratings.length).toFixed(1);
-    
-    document.getElementById('avgRating').innerHTML = '<span class="counter-anim">' + avg + ' / 5</span>';
-    document.getElementById('avgStars').textContent = getStars(parseFloat(avg));
-    document.getElementById('totalCount').textContent = '👥 ' + ratings.length + ' avis' + (ratings.length > 1 ? 's' : '');
-    
-  } catch(e) {
-    console.error('Erreur stats:', e);
-    document.getElementById('totalCount').textContent = '⚠️ Erreur de chargement';
-  }
+    const avg = (ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(1);
+    document.getElementById('avgRating').textContent = avg + ' / 5';
+    document.getElementById('totalCount').textContent = '👥 ' + ratings.length + ' avis';
+  } catch(e) { document.getElementById('totalCount').textContent = '⚠️ Erreur'; }
 }
-
-function getStars(avg) {
-  const full = Math.floor(avg);
-  const half = (avg - full) >= 0.5 ? 1 : 0;
-  const empty = 5 - full - half;
-  return '⭐'.repeat(full) + (half ? '✨' : '') + '☆'.repeat(empty);
-}
-
-// ============================================
-// إرسال التقييم
-// ============================================
 document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  
   const errorMsg = document.getElementById('errorMsg');
   const successMsg = document.getElementById('successMsg');
   const submitBtn = document.getElementById('submitBtn');
-  
-  errorMsg.classList.remove('show');
-  successMsg.classList.remove('show');
-  
-  // التحقق
-  if (!selectedRating) {
-    errorMsg.textContent = '⚠️ Veuillez sélectionner une note (1 à 5 étoiles)';
-    errorMsg.classList.add('show');
-    return;
+  errorMsg.classList.remove('show'); successMsg.classList.remove('show');
+  if (!selectedRating) { errorMsg.textContent = '⚠️ Sélectionnez une note'; errorMsg.classList.add('show'); return; }
+  const last = localStorage.getItem('lastFeedback');
+  if (last && (Date.now()-parseInt(last)) < 86400000) {
+    errorMsg.textContent = '⚠️ Vous avez déjà voté aujourd\'hui. Merci !';
+    errorMsg.classList.add('show'); return;
   }
-  
-  const suggestion = document.getElementById('suggestion').value.trim();
-  const email = document.getElementById('email').value.trim();
-  
-  // منع الإرسال المتكرر من نفس المتصفح (24 ساعة)
-  const lastFeedback = localStorage.getItem('lastFeedback');
-  if (lastFeedback) {
-    const diff = Date.now() - parseInt(lastFeedback);
-    const hours = diff / (1000 * 60 * 60);
-    if (hours < 24) {
-      const remaining = Math.ceil(24 - hours);
-      errorMsg.textContent = '⚠️ Vous avez déjà donné votre avis. Revenez dans ' + remaining + 'h. Merci !';
-      errorMsg.classList.add('show');
-      return;
-    }
-  }
-  
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span class="spinner"></span> Envoi...';
-  
   try {
     await addDoc(collection(db, 'feedback'), {
       rating: selectedRating,
-      suggestion: suggestion || '',
-      email: email || '',
-      page: 'guide.html',
-      userAgent: navigator.userAgent.substring(0, 200),
+      suggestion: document.getElementById('suggestion').value.trim(),
+      email: document.getElementById('email').value.trim(),
       createdAt: serverTimestamp()
     });
-    
     localStorage.setItem('lastFeedback', Date.now().toString());
-    
-    successMsg.innerHTML = '✅ Merci pour votre avis !<br><small style="font-size:.85rem">Il nous aide à améliorer le guide.</small>';
+    successMsg.textContent = '✅ Merci pour votre avis !';
     successMsg.classList.add('show');
-    
     setTimeout(() => {
       document.getElementById('feedbackForm').reset();
       selectedRating = 0;
       document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
       document.getElementById('ratingLabel').textContent = 'Cliquez sur une étoile';
-      submitBtn.disabled = false;
-      submitBtn.textContent = '📤 Envoyer mon avis';
+      submitBtn.disabled = false; submitBtn.textContent = '📤 Envoyer mon avis';
       loadStats();
-    }, 2500);
-    
+    }, 2000);
   } catch(err) {
-    console.error(err);
-    errorMsg.textContent = '❌ Erreur : ' + err.message;
+    errorMsg.textContent = '❌ ' + err.message;
     errorMsg.classList.add('show');
-    submitBtn.disabled = false;
-    submitBtn.textContent = '📤 Envoyer mon avis';
+    submitBtn.disabled = false; submitBtn.textContent = '📤 Envoyer mon avis';
   }
 });
-
-window.setRating = setRating;
-
 loadStats();
 </script>
-
 </body>
 </html>
