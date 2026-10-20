@@ -1,11 +1,10 @@
 // ============================================
 // data/ecole.js — قسم مدرستي
-// Guide de survie ENSTP
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
 
-// احذف أي نسخة قديمة
+// حذف أي نسخة قديمة
 for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
   if (window.SECTIONS[i].id === 'ecole') window.SECTIONS.splice(i, 1);
 }
@@ -23,8 +22,8 @@ window.SECTIONS.push({
       titleKey: "ecoleMapTitle",
       icon: "🗺️",
       descKey: "ecoleMapDesc",
-      type: "iframe-map", // النوع الجديد الذي أضفناه
-      iframeUrl: "data/campus-map.html" // مسار الخريطة داخل مجلد data
+      type: "iframe-map", 
+      iframeUrl: "data/campus-map.html" // المسار الصحيح
     },
 
     // ========== 2. الفيديوهات التعريفية ==========
