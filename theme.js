@@ -1,7 +1,5 @@
 // ============================================
 // theme.js — نظام الألوان والوضع الليلي
-// Guide de survie ENSTP
-// 9 ألوان + وضع ليلي + حفظ تلقائي
 // ============================================
 
 const THEMES = {
@@ -52,9 +50,6 @@ const THEMES = {
   }
 };
 
-// ============================================
-// تطبيق الثيم
-// ============================================
 function applyTheme() {
   const theme = localStorage.getItem('theme') || 'orange';
   const mode = localStorage.getItem('mode') || 'auto';
@@ -81,14 +76,8 @@ function applyTheme() {
   document.querySelectorAll('[data-mode-toggle]').forEach(b => {
     b.textContent = modeIcon;
   });
-
-  const metaTheme = document.querySelector('meta[name="theme-color"]');
-  if (metaTheme) metaTheme.setAttribute('content', colors.acc);
 }
 
-// ============================================
-// تبديل الوضع
-// ============================================
 function toggleMode() {
   const current = localStorage.getItem('mode') || 'auto';
   let next;
@@ -99,18 +88,12 @@ function toggleMode() {
   applyTheme();
 }
 
-// ============================================
-// تعيين اللون
-// ============================================
 function setTheme(themeName) {
   localStorage.setItem('theme', themeName);
   applyTheme();
   closeThemePanel();
 }
 
-// ============================================
-// لوحة الألوان
-// ============================================
 function toggleThemePanel() {
   const panel = document.getElementById('theme-panel');
   if (panel) panel.classList.toggle('show');
@@ -121,22 +104,14 @@ function closeThemePanel() {
   if (panel) panel.classList.remove('show');
 }
 
-// ============================================
-// راقب تغيير تفضيلات النظام
-// ============================================
 if (window.matchMedia) {
   try {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-      if ((localStorage.getItem('mode') || 'auto') === 'auto') {
-        applyTheme();
-      }
+      if ((localStorage.getItem('mode') || 'auto') === 'auto') applyTheme();
     });
   } catch(e) {}
 }
 
-// ============================================
-// تطبيق فوري قبل التحميل
-// ============================================
 (function() {
   const theme = localStorage.getItem('theme') || 'orange';
   const mode = localStorage.getItem('mode') || 'auto';
