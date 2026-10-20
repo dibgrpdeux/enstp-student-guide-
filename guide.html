@@ -3,142 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Guide de survie ENSTP</title>
-
-<script src="theme.js"></script>
-<script src="text-size.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
+<title>Guide — ENSTP</title>
 <meta name="theme-color" content="#c2410c">
-<meta name="description" content="Guide de survie ENSTP — 3 langues, hors ligne">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="ENSTP Guide">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="garidi-map.css">
-<link rel="stylesheet" href="profs-card.css">
-
-<style>
-.loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .4s ease,visibility .4s ease}
-.loading-screen.hide{opacity:0;visibility:hidden}
-.loading-screen .logo-spin{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#fff;margin-bottom:20px;animation:pulse 1.5s ease-in-out infinite;box-shadow:0 10px 30px rgba(194,65,12,.4)}
-.loading-screen .spin-ring{width:40px;height:40px;border:4px solid var(--acc-soft);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
-.loading-screen p{color:var(--mut);font-size:.9rem;font-weight:600}
-.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--acc),var(--acc2));z-index:9999;width:0%;transition:width .3s ease;box-shadow:0 0 10px var(--acc)}
-.progress-bar.active{animation:progressLoad 1s ease-out forwards}
-@keyframes progressLoad{0%{width:0%}50%{width:70%}100%{width:100%;opacity:0}}
-#app{animation:fadeIn .5s ease-out}
-#app.section-change{animation:fadeInUp .4s ease-out}
-.items-list .card-3d:nth-child(1){animation-delay:.05s}
-.items-list .card-3d:nth-child(2){animation-delay:.1s}
-.items-list .card-3d:nth-child(3){animation-delay:.15s}
-.items-list .card-3d:nth-child(4){animation-delay:.2s}
-.items-list .card-3d:nth-child(5){animation-delay:.25s}
-.items-list .card-3d:nth-child(6){animation-delay:.3s}
-.scroll-anim{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
-.scroll-anim.visible{opacity:1;transform:translateY(0)}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;backdrop-filter:blur(6px);animation:fadeIn .3s ease-out}
-.modal-box{background:var(--card);color:var(--ink);padding:28px;border-radius:24px;text-align:center;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:bounceIn .4s cubic-bezier(.2,.8,.2,1)}
-.back-to-top{position:fixed;bottom:20px;left:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(194,65,12,.4);transition:all .3s;opacity:0;visibility:hidden;z-index:998;font-family:inherit}
-.back-to-top.show{opacity:1;visibility:visible;animation:slideInBottom .4s ease-out}
-.back-to-top:hover{transform:translateY(-5px) scale(1.1)}
-html[dir="rtl"] .back-to-top{left:auto;right:20px}
-.feedback-float{position:fixed;bottom:20px;right:20px;padding:14px 22px;border-radius:50px;background:linear-gradient(135deg,#c2410c,#9a3412);color:#fff;border:0;font-size:.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(194,65,12,.4);transition:all .3s;z-index:998;font-family:inherit;text-decoration:none}
-.feedback-float:hover{transform:translateY(-4px) scale(1.05)}
-.feedback-float .fb-icon{font-size:1.2rem;animation:float 2s ease-in-out infinite}
-html[dir="rtl"] .feedback-float{right:auto;left:20px}
-.ai-btn{padding:12px 18px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:0;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;transition:all .3s;box-shadow:0 4px 12px rgba(139,92,246,.3);white-space:nowrap;flex-shrink:0}
-.ai-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(139,92,246,.5)}
-.ai-btn .ai-icon{font-size:1.2rem;animation:float 2s ease-in-out infinite}
-#aiSearchModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:10000;padding:20px;backdrop-filter:blur(8px);animation:fadeIn .3s ease-out;align-items:flex-start;justify-content:center;padding-top:60px;overflow-y:auto}
-#aiSearchModal.show{display:flex}
-.ai-modal-content{background:var(--card);color:var(--ink);padding:28px;border-radius:24px;max-width:600px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:bounceIn .4s cubic-bezier(.2,.8,.2,1)}
-.ai-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.ai-modal-header h3{margin:0;color:#8b5cf6;font-size:1.3rem;display:flex;align-items:center;gap:8px}
-.ai-modal-header .ai-close{background:none;border:0;font-size:1.5rem;color:var(--mut);cursor:pointer;padding:0;width:32px;height:32px;border-radius:50%;font-family:inherit;transition:all .2s}
-.ai-modal-header .ai-close:hover{background:var(--acc-soft);color:var(--acc);transform:rotate(90deg)}
-.ai-modal-desc{color:var(--mut);font-size:.9rem;margin-bottom:16px;line-height:1.6}
-#aiQuestion{width:100%;padding:14px;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font-size:1rem;font-family:inherit;outline:none;resize:vertical;transition:all .3s;line-height:1.5;min-height:80px}
-#aiQuestion:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.1)}
-.ai-submit-btn{width:100%;padding:14px;margin-top:12px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:0;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .3s;box-shadow:0 8px 20px rgba(139,92,246,.4)}
-.ai-submit-btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(139,92,246,.6)}
-.ai-submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
-#aiAnswer{display:none;margin-top:20px;padding:16px;background:linear-gradient(135deg,rgba(139,92,246,.05),rgba(124,58,237,.05));border-radius:12px;border-left:4px solid #8b5cf6;animation:fadeInUp .4s ease-out}
-#aiAnswer.show{display:block}
-.ai-quota{margin-top:16px;padding:10px;background:var(--bg);border-radius:8px;font-size:.75rem;color:var(--mut);text-align:center}
-.spinner-small{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;margin-right:8px;vertical-align:middle}
-#custom-toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--acc);color:#fff;padding:12px 24px;border-radius:30px;font-weight:600;font-size:.95rem;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:10001;opacity:0;transition:all .3s ease-out;pointer-events:none;max-width:90%;text-align:center}
-#custom-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-#installBanner{position:fixed;bottom:20px;left:20px;right:20px;max-width:440px;margin:0 auto;background:var(--card);color:var(--ink);padding:14px 18px;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.3);border:1px solid var(--line);display:none;align-items:center;gap:12px;z-index:1000}
-#installBanner.show{display:flex;animation:slideInBottom .4s ease-out}
-#installBanner .ib-icon{font-size:1.8rem;flex-shrink:0;animation:float 2s ease-in-out infinite}
-#installBanner .ib-text{flex:1;font-size:.88rem;line-height:1.4}
-#installBanner .ib-text strong{display:block;color:var(--acc);font-size:.95rem;margin-bottom:2px}
-#installBanner .ib-btn{background:var(--acc);color:#fff;padding:10px 18px;border-radius:10px;font-weight:600;cursor:pointer;font-family:inherit;font-size:.88rem;border:0;flex-shrink:0}
-#installBanner .ib-close{background:none;border:0;color:var(--mut);font-size:1.3rem;cursor:pointer;padding:0 4px;font-family:inherit}
-.map-wrapper{margin:16px 0 24px;border-radius:16px;overflow:hidden;border:2px solid var(--acc);box-shadow:0 8px 30px rgba(194,65,12,.15);animation:fadeInUp .5s ease-out}
-.map-header{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px}
-.map-header .map-icon{font-size:1.5rem}
-.map-header .map-info{flex:1}
-.map-header .map-title{font-weight:800;font-size:.95rem}
-.map-header .map-sub{font-size:.75rem;opacity:.9}
-.map-iframe{width:100%;height:420px;border:0;display:block}
-.map-footer{padding:12px;background:var(--card);text-align:center}
-.map-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-radius:50px;text-decoration:none;font-weight:700;font-size:.9rem;box-shadow:0 4px 15px rgba(194,65,12,.3);transition:all .3s}
-.map-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(194,65,12,.5)}
-@media(max-width:600px){
-  .feedback-float{padding:12px 18px;font-size:.85rem;bottom:80px}
-  .back-to-top{bottom:80px;width:44px;height:44px}
-  #aiSearchModal{padding-top:20px}
-  .ai-modal-content{padding:20px}
-  .ai-btn{padding:12px 14px}
-  .ai-btn .ai-text{display:none}
-  .map-iframe{height:300px}
-}
-</style>
+<script src="text-size.js"></script>
+<script src="theme.js"></script>
 </head>
 <body>
 
-<div class="progress-bar" id="progressBar"></div>
-
-<div class="loading-screen" id="loadingScreen">
+<div class="loading-screen" id="loading-screen">
   <div class="logo-spin">🎓</div>
   <div class="spin-ring"></div>
-  <p>Chargement du guide...</p>
+  <p id="loading-text">Chargement…</p>
 </div>
 
-<div class="offline-banner" id="offline-banner">📴 Mode hors ligne</div>
+<div class="progress-bar" id="progress-bar"></div>
+<div class="offline-banner">📴 Mode hors ligne</div>
 
 <div class="top-controls">
   <div class="pill">
-    <button onclick="setLang('fr')" data-lang="fr">🇫🇷 FR</button>
-    <button onclick="setLang('ar')" data-lang="ar">🇩🇿 AR</button>
-    <button onclick="setLang('en')" data-lang="en">🇬🇧 EN</button>
+    <button onclick="setLang('fr')" data-lang="fr">🇫🇷</button>
+    <button onclick="setLang('ar')" data-lang="ar">🇩🇿</button>
+    <button onclick="setLang('en')" data-lang="en">🇬🇧</button>
   </div>
   <div class="pill">
+    <button class="ctrl-btn" onclick="toggleThemePanel()" title="Thème" id="theme-btn">🎨</button>
+    <button class="ctrl-btn" onclick="toggleTextSizePanel()" title="Texte" id="text-size-btn">🅰️</button>
     <button class="ctrl-btn" onclick="toggleMode()" data-mode-toggle title="Mode">🌙</button>
-    <button class="ctrl-btn" onclick="toggleThemePanel()" title="Couleurs">🎨</button>
-    <button class="ctrl-btn" onclick="toggleTextSizePanel()" title="Taille du texte">🅰️</button>
+    <a href="feedback.html" class="ctrl-btn" title="Avis">💬</a>
   </div>
 </div>
 
 <div class="theme-panel" id="theme-panel">
   <div class="theme-panel-header">
-    <strong id="tp-title">Couleur</strong>
+    <strong id="tp-title">Thème</strong>
     <button class="tp-close" onclick="closeThemePanel()">×</button>
   </div>
   <div class="theme-swatches">
-    <button class="swatch orange" onclick="setTheme('orange')" data-theme-btn="orange" title="Orange"></button>
-    <button class="swatch red" onclick="setTheme('red')" data-theme-btn="red" title="Rouge"></button>
-    <button class="swatch yellow" onclick="setTheme('yellow')" data-theme-btn="yellow" title="Jaune"></button>
-    <button class="swatch green" onclick="setTheme('green')" data-theme-btn="green" title="Vert"></button>
-    <button class="swatch teal" onclick="setTheme('teal')" data-theme-btn="teal" title="Turquoise"></button>
-    <button class="swatch blue" onclick="setTheme('blue')" data-theme-btn="blue" title="Bleu"></button>
-    <button class="swatch purple" onclick="setTheme('purple')" data-theme-btn="purple" title="Violet"></button>
-    <button class="swatch pink" onclick="setTheme('pink')" data-theme-btn="pink" title="Rose"></button>
-    <button class="swatch gray" onclick="setTheme('gray')" data-theme-btn="gray" title="Gris"></button>
+    <button class="swatch orange" data-theme-btn="orange" onclick="setTheme('orange')"></button>
+    <button class="swatch red" data-theme-btn="red" onclick="setTheme('red')"></button>
+    <button class="swatch yellow" data-theme-btn="yellow" onclick="setTheme('yellow')"></button>
+    <button class="swatch green" data-theme-btn="green" onclick="setTheme('green')"></button>
+    <button class="swatch teal" data-theme-btn="teal" onclick="setTheme('teal')"></button>
+    <button class="swatch blue" data-theme-btn="blue" onclick="setTheme('blue')"></button>
+    <button class="swatch purple" data-theme-btn="purple" onclick="setTheme('purple')"></button>
+    <button class="swatch pink" data-theme-btn="pink" onclick="setTheme('pink')"></button>
+    <button class="swatch gray" data-theme-btn="gray" onclick="setTheme('gray')"></button>
   </div>
 </div>
 
@@ -148,96 +61,47 @@ html[dir="rtl"] .feedback-float{right:auto;left:20px}
     <button class="tsp-close" onclick="closeTextSizePanel()">×</button>
   </div>
   <div class="tsp-list">
-    <button class="tsp-btn" data-text-size-btn="small" onclick="setTextSize('small')">
-      <span>🅰️- <span id="ts-small-label">Petit</span></span>
-      <span class="tsp-label">14px</span>
-    </button>
-    <button class="tsp-btn" data-text-size-btn="normal" onclick="setTextSize('normal')">
-      <span>🅰️ <span id="ts-normal-label">Normal</span></span>
-      <span class="tsp-label">16px</span>
-    </button>
-    <button class="tsp-btn" data-text-size-btn="large" onclick="setTextSize('large')">
-      <span>🅰️+ <span id="ts-large-label">Grand</span></span>
-      <span class="tsp-label">19px</span>
-    </button>
-    <button class="tsp-btn" data-text-size-btn="xlarge" onclick="setTextSize('xlarge')">
-      <span>🅰️++ <span id="ts-xlarge-label">Très grand</span></span>
-      <span class="tsp-label">22px</span>
-    </button>
+    <button class="tsp-btn" data-text-size-btn="small" onclick="setTextSize('small')"><span>🅰️- Petit</span><span class="tsp-label">14px</span></button>
+    <button class="tsp-btn" data-text-size-btn="normal" onclick="setTextSize('normal')"><span>🅰️ Normal</span><span class="tsp-label">16px</span></button>
+    <button class="tsp-btn" data-text-size-btn="large" onclick="setTextSize('large')"><span>🅰️+ Grand</span><span class="tsp-label">19px</span></button>
+    <button class="tsp-btn" data-text-size-btn="xlarge" onclick="setTextSize('xlarge')"><span>🅰️++ Très grand</span><span class="tsp-label">22px</span></button>
   </div>
 </div>
 
-<header style="background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;padding:18px 16px 14px;position:relative;animation:fadeInDown .5s ease-out">
-  <a href="index.html" id="home-link" style="position:absolute;top:18px;right:16px;color:#fff;text-decoration:none;font-size:.85rem;opacity:.9;font-weight:600">🏠 <span id="home-text">Accueil</span></a>
-  <h1 id="siteName" style="margin:0;font-size:1.35rem;font-weight:800">Guide de survie ENSTP</h1>
-  <p id="tagline" style="margin:4px 0 0;opacity:.9;font-size:.9rem">Ton premier jour, dans ta poche.</p>
+<header>
+  <h1><span>Guide</span> de survie ENSTP</h1>
+  <p id="header-sub">Ton premier jour, dans ta poche.</p>
+  <a href="index.html">🏠 Accueil</a>
 </header>
 
 <div class="search-container">
   <div class="search-inner">
-    <input id="q" placeholder="🔎 Chercher…" oninput="doSearch(this.value)">
-    <button class="ai-btn" onclick="openAISearch()" id="aiBtn" title="Assistant IA">
-      <span class="ai-icon">✨</span>
-      <span class="ai-text">IA</span>
-    </button>
+    <input id="q" type="search" placeholder="🔎 Chercher : salle, prof, service…" autocomplete="off">
+    <button class="ai-btn" onclick="openAIModal()"><span class="ai-icon">🤖</span><span class="ai-text">IA</span></button>
   </div>
 </div>
 
-<main id="app" style="max-width:900px;margin:0 auto;padding:14px"></main>
+<main id="app"></main>
 
-<div id="aiSearchModal">
-  <div class="ai-modal-content">
-    <div class="ai-modal-header">
-      <h3>
-        <span style="font-size:1.5rem">✨</span>
-        <span id="aiTitle">Assistant IA</span>
-      </h3>
-      <button class="ai-close" onclick="closeAISearch()">×</button>
+<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<a href="feedback.html" class="feedback-float"><span class="fb-icon">💬</span> Votre avis</a>
+
+<div class="modal-overlay" id="aiModal" style="display:none">
+  <div class="modal-box">
+    <h3>🤖 Assistant IA</h3>
+    <p style="color:var(--mut);font-size:.9rem;margin-bottom:12px">Pose ta question sur l'ENSTP.</p>
+    <textarea id="aiQuestion" rows="3" placeholder="Ex: Comment obtenir mon affiliation CNAS ?" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);font-family:inherit;resize:vertical"></textarea>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button onclick="closeAIModal()" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-family:inherit">Annuler</button>
+      <button onclick="submitAI()" id="aiSubmitBtn" style="flex:1;padding:12px;border-radius:12px;border:0;background:var(--acc);color:#fff;font-weight:700;cursor:pointer;font-family:inherit">Envoyer</button>
     </div>
-    <p class="ai-modal-desc" id="aiDesc">
-      Posez une question en langage naturel. L'IA vous répondra en utilisant les informations du guide.
-    </p>
-    <textarea id="aiQuestion" placeholder="Ex: Où puis-je manger pas cher près de l'école ?" rows="3" maxlength="300"></textarea>
-    <button class="ai-submit-btn" onclick="submitAIQuestion()" id="aiSubmitBtn">🚀 Demander à l'IA</button>
-    <div id="aiAnswer"></div>
-    <div class="ai-quota" id="aiQuota">⚡ Limite : 30 questions/jour</div>
+    <div id="aiAnswer" style="display:none;margin-top:16px;padding:14px;background:var(--orange-soft,#fde8dc);border-radius:12px;font-size:.9rem;line-height:1.6"></div>
   </div>
 </div>
-
-<a href="feedback.html" class="feedback-float">
-  <span class="fb-icon">💬</span>
-  <span>Votre avis</span>
-</a>
-
-<button class="back-to-top" id="backToTop" onclick="scrollToTop()" title="Haut de page">↑</button>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyD35OVZ9JPlWr7ayQJMu8yVPFu3N_gZD1g",
-  authDomain: "enstp-forum-19a28.firebaseapp.com",
-  projectId: "enstp-forum-19a28",
-  storageBucket: "enstp-forum-19a28.firebasestorage.app",
-  messagingSenderId: "598736412518",
-  appId: "1:598736412518:web:a2a7c69a537e6567ffb2a7"
-};
-
-try {
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  window.__firebaseAuth = auth;
-  console.log('✅ Firebase Auth initialisé dans guide.html');
-  onAuthStateChanged(auth, (user) => {
-    window.__currentFirebaseUser = user;
-  });
-} catch(e) {
-  console.warn('⚠️ Firebase non initialisé:', e.message);
-}
-</script>
 
 <script src="lang.js"></script>
+<script src="search.js"></script>
+<script src="ai-search.js"></script>
 
 <script src="data/config.js"></script>
 <script src="data/ecole.js"></script>
@@ -247,1283 +111,301 @@ try {
 <script src="data/services.js"></script>
 <script src="data/cite.js"></script>
 <script src="data/transport.js"></script>
-<!-- <script src="data/metro.js"></script> تم حذفه -->
 <script src="data/sport.js"></script>
-<script src="data/alger.js"></script>
-<script src="data/podcast.js"></script>
 <script src="data/courses.js"></script>
-<!-- <script src="data/green.js"></script> تم حذفه -->
 <script src="data/qr.js"></script>
 <script src="data/about.js"></script>
 <script src="data/shopping.js"></script>
+<script src="data/alger.js"></script>
 <script src="data/index.js"></script>
 
-<script src="search.js"></script>
-<script src="ai-search.js"></script>
-<script src="garidi-map.js"></script>
-
 <script>
-let LANG = localStorage.getItem('lang') || 'fr';
-let CURRENT_SECTION = null;
-let CURRENT_CATEGORY = null;
+// ============================================
+// الحالة
+// ============================================
+let currentSection = null;
+let currentView = 'home';
 
-function hideLoading() {
-  const el = document.getElementById('loadingScreen');
-  if (el) {
-    setTimeout(() => {
-      el.classList.add('hide');
-      setTimeout(() => el.remove(), 500);
-    }, 400);
-  }
-}
-
-function showProgress() {
-  const bar = document.getElementById('progressBar');
-  if (!bar) return;
-  bar.classList.add('active');
-  setTimeout(() => {
-    bar.classList.remove('active');
-    bar.style.width = '0%';
-  }, 1200);
-}
-
+// ============================================
+// تغيير اللغة
+// ============================================
 function setLang(lang) {
-  LANG = lang;
-  localStorage.setItem('lang', lang);
+  window.setCurrentLang(lang);
   document.documentElement.lang = lang;
   document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-  
-  if (typeof CONFIG !== 'undefined' && CONFIG.siteName) {
-    const sn = document.getElementById('siteName');
-    const tg = document.getElementById('tagline');
-    const ht = document.getElementById('home-text');
-    if (sn) sn.textContent = CONFIG.siteName[lang] || CONFIG.siteName.fr;
-    if (tg) tg.textContent = CONFIG.tagline[lang] || CONFIG.tagline.fr;
-    if (ht) ht.textContent = (lang === 'ar') ? 'الرئيسية' : (lang === 'en') ? 'Home' : 'Accueil';
-  }
-  
-  const q = document.getElementById('q');
-  if (q && typeof LANG_DATA !== 'undefined' && LANG_DATA[lang]) {
-    q.placeholder = LANG_DATA[lang].search || '🔎 Chercher…';
-  }
-  
-  const aiQ = document.getElementById('aiQuestion');
-  if (aiQ) {
-    const placeholders = {
-      fr: "Ex: Où puis-je manger pas cher près de l'école ?",
-      ar: "مثال: أين آكل رخيص قرب المدرسة؟",
-      en: "Ex: Where can I eat cheap near school?"
-    };
-    aiQ.placeholder = placeholders[lang] || placeholders.fr;
-  }
-  
-  const aiT = document.getElementById('aiTitle');
-  if (aiT) {
-    const titles = { fr: "Assistant IA", ar: "المساعد الذكي", en: "AI Assistant" };
-    aiT.textContent = titles[lang] || titles.fr;
-  }
-  
-  const aiD = document.getElementById('aiDesc');
-  if (aiD) {
-    const descs = {
-      fr: "Posez une question en langage naturel. L'IA vous répondra en utilisant les informations du guide.",
-      ar: "اطرح سؤالاً بلغة طبيعية. سيجيبك الذكاء الاصطناعي باستخدام معلومات الدليل.",
-      en: "Ask a question in natural language. The AI will answer using the guide's information."
-    };
-    aiD.textContent = descs[lang] || descs.fr;
-  }
-  
-  const aiBtn = document.getElementById('aiSubmitBtn');
-  if (aiBtn) {
-    const btns = { fr: "🚀 Demander à l'IA", ar: "🚀 اسأل الذكاء الاصطناعي", en: "🚀 Ask AI" };
-    aiBtn.innerHTML = btns[lang] || btns.fr;
-  }
-  
-  if (typeof LANG_DATA !== 'undefined' && LANG_DATA[lang]) {
-    const d = LANG_DATA[lang];
-    const tsMap = {
-      'tsp-title': 'tspTitle',
-      'ts-small-label': 'tsSmall',
-      'ts-normal-label': 'tsNormal',
-      'ts-large-label': 'tsLarge',
-      'ts-xlarge-label': 'tsXLarge'
-    };
-    Object.keys(tsMap).forEach(id => {
-      const el = document.getElementById(id);
-      if (el && d[tsMap[id]]) el.textContent = d[tsMap[id]];
-    });
-  }
-  
-  document.querySelectorAll('[data-lang]').forEach(b => {
-    b.classList.toggle('on', b.dataset.lang === lang);
-  });
-  
-  if (CURRENT_SECTION) {
-    if (CURRENT_CATEGORY) renderCategory(CURRENT_SECTION, CURRENT_CATEGORY);
-    else renderSection(CURRENT_SECTION);
-  } else {
-    renderHome();
-  }
+  document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('on', b.dataset.lang === lang));
+  if (currentView === 'home') renderHome();
+  else if (currentSection) renderSection(currentSection.id);
 }
 
+// ============================================
+// الصفحة الرئيسية
+// ============================================
 function renderHome() {
-  CURRENT_SECTION = null;
-  CURRENT_CATEGORY = null;
-  
+  currentView = 'home';
+  currentSection = null;
   const app = document.getElementById('app');
-  app.classList.add('section-change');
-  setTimeout(() => app.classList.remove('section-change'), 500);
-  
-  if (typeof window.SECTIONS === 'undefined' || !window.SECTIONS.length) {
-    app.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mut)"><b style="font-size:3rem;display:block;margin-bottom:10px">⏳</b>Chargement…</div>';
-    return;
-  }
-  
-  // تصفية الأقسام المحذوفة (green, metro)
-  const hiddenSections = ['green', 'metro'];
-  const visibleSections = window.SECTIONS.filter(s => !hiddenSections.includes(s.id));
+  const lang = window.getCurrentLang();
 
-  let html = '<div class="tile-grid">';
-  visibleSections.forEach((s) => {
-    const title = (window.t ? window.t(s.titleKey, LANG) : s.titleKey);
-    html += '<button class="tile-3d ripple" onclick="openSection(\'' + s.id + '\')">';
-    html += '<span class="tile-icon">' + s.icon + '</span>';
+  let html = '';
+  html += '<h2>' + window.t('welcomeTitle') + '</h2>';
+  html += '<p style="color:var(--mut);margin-bottom:24px;font-size:1.05rem">' + window.t('welcomeSubtitle') + '</p>';
+
+  html += '<div class="tile-grid">';
+  window.SECTIONS.forEach(sec => {
+    const title = window.t(sec.titleKey);
+    html += '<button class="tile-3d" onclick="openSection(\'' + sec.id + '\')" style="animation-delay:' + (window.SECTIONS.indexOf(sec) * 0.03) + 's">';
+    html += '<span class="tile-icon">' + sec.icon + '</span>';
     html += '<span class="tile-label">' + title + '</span>';
     html += '</button>';
   });
   html += '</div>';
-  
+
   app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setupScrollAnimations();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// ============================================
+// فتح قسم
+// ============================================
 function openSection(id) {
-  showProgress();
-  CURRENT_SECTION = id;
-  CURRENT_CATEGORY = null;
-  const s = window.SECTIONS.find(x => x.id === id);
-  if (!s) return;
-  
+  const sec = window.SECTIONS.find(s => s.id === id);
+  if (!sec) return;
+  currentSection = sec;
+  currentView = 'section';
+  renderSection(id);
+}
+
+function renderSection(id) {
+  const sec = window.SECTIONS.find(s => s.id === id);
+  if (!sec) return;
   const app = document.getElementById('app');
-  app.classList.add('section-change');
-  setTimeout(() => app.classList.remove('section-change'), 500);
-  
-  if (s.type === 'custom' && typeof s.render === 'function') {
-    document.getElementById('app').innerHTML = s.render();
-    window.scrollTo(0, 0);
-    setupScrollAnimations();
+
+  // نوع custom
+  if (sec.type === 'custom' && typeof sec.render === 'function') {
+    app.innerHTML = sec.render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
-  
-  if (s.type === 'profs-custom') {
-    renderProfsTabs(s);
+
+  // نوع profs-custom
+  if (sec.type === 'profs-custom') {
+    renderProfsSection(sec);
     return;
   }
-  
-  if (s.type === 'metro-map') { renderMetroMap(s); return; }
-  if (s.type === 'qr') { renderQR(s); return; }
-  if (s.categories && s.categories.length > 0) { renderCategoriesList(id); return; }
-  if (s.items && s.items.length > 0) { renderItems(s, s.items); return; }
-  if (s.buildings) { renderMap(s); return; }
+
+  let html = '';
+  html += '<button class="back" onclick="renderHome()">' + window.t('back') + '</button>';
+  html += '<h2>' + sec.icon + ' ' + window.t(sec.titleKey) + '</h2>';
+
+  if (sec.introKey) {
+    html += '<p style="color:var(--mut);margin-bottom:20px;line-height:1.6">' + window.t(sec.introKey) + '</p>';
+  }
+
+  // items
+  if (sec.items) {
+    sec.items.forEach(item => {
+      html += renderItem(item);
+    });
+  }
+
+  // categories
+  if (sec.categories) {
+    sec.categories.forEach(cat => {
+      html += '<h3 style="color:var(--acc);margin:24px 0 12px;font-size:1.1rem">' + cat.icon + ' ' + (cat.titleKey ? window.t(cat.titleKey) : cat.title) + '</h3>';
+      if (cat.items) cat.items.forEach(item => { html += renderItem(item); });
+    });
+  }
+
+  app.innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ============================================
-// قسم أساتذتي
+// عرض عنصر
 // ============================================
-async function renderProfsTabs(section) {
-  const app = document.getElementById('app');
-  const L = window.LANG || localStorage.getItem('lang') || 'ar';
-  const FL = {
-    fr: { y1: "1ère année Préparatoire", y2: "2ème année Préparatoire", y3: "1ère année Ingénieur", y4: "2ème année Ingénieur", y5: "3ème année Ingénieur", loading: "Chargement..." },
-    ar: { y1: "السنة الأولى تحضيري", y2: "السنة الثانية تحضيري", y3: "السنة الأولى مهندس", y4: "السنة الثانية مهندس", y5: "السنة الثالثة مهندس", loading: "جاري التحميل..." },
-    en: { y1: "1st year Preparatory", y2: "2nd year Preparatory", y3: "1st year Engineering", y4: "2nd year Engineering", y5: "3rd year Engineering", loading: "Loading..." }
-  };
-  const T = FL[L] || FL.ar;
+function renderItem(item) {
+  const lang = window.getCurrentLang();
+  const title = item.titleKey ? window.t(item.titleKey)
+    : (item.title ? (item.title[lang] || item.title.fr) : '');
+  const desc = item.descKey ? window.t(item.descKey)
+    : (item.desc ? (item.desc[lang] || item.desc.fr) : '');
 
-  app.innerHTML = `
-    <button class="back" onclick="renderHome()">${window.t ? window.t('back', L) : '←'}</button>
-    <h2>${section.icon} ${window.t ? window.t(section.titleKey, L) : 'أساتذتي'}</h2>
-    <div style="text-align:center;padding:40px;color:var(--mut)">
-      <div style="width:30px;height:30px;border:3px solid var(--acc-soft);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px"></div>
-      ${T.loading}
-    </div>
-  `;
+  let html = '<div class="card-3d">';
+  html += '<h3>' + (item.icon || '') + ' ' + title + '</h3>';
 
-  if (typeof window.loadProfsData !== 'function') {
-    app.innerHTML = '<p style="text-align:center;padding:40px;color:var(--mut)">Erreur : profs.js non chargé</p>';
-    return;
+  if (desc) html += '<p>' + desc + '</p>';
+
+  if (item.location) {
+    const loc = item.location.startsWith('srv') ? window.t(item.location) : item.location;
+    html += '<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ' + loc + '</p>';
   }
-  const data = await window.loadProfsData();
-  if (!data) {
-    app.innerHTML = '<p style="text-align:center;padding:40px;color:var(--mut)">Erreur de chargement des données</p>';
-    return;
+  if (item.hours) html += '<p style="font-size:.85rem;color:var(--mut)">🕐 ' + item.hours + '</p>';
+  if (item.phone && item.phone !== 'À compléter') html += '<p style="font-size:.85rem">📞 ' + item.phone + '</p>';
+  if (item.email) html += '<p style="font-size:.85rem">✉️ <a href="mailto:' + item.email + '">' + item.email + '</a></p>';
+
+  if (item.procedure) {
+    const proc = item.procedure.startsWith('srv') ? window.t(item.procedure) : item.procedure;
+    html += '<div style="margin-top:12px;padding:12px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">' + proc + '</div>';
   }
-
-  window.__PROFS_DATA__ = data;
-
-  let html = `<button class="back" onclick="renderHome()">${window.t ? window.t('back', L) : '←'}</button>`;
-  html += `<h2>${section.icon} ${window.t ? window.t(section.titleKey, L) : 'أساتذتي'}</h2>`;
-  html += `<div class="profs-tabs-years">`;
-  html += `<button class="profs-tab on" data-year="1acp" onclick="switchProfsYear('1acp')">📘 ${T.y1}</button>`;
-  html += `<button class="profs-tab" data-year="2acp" onclick="switchProfsYear('2acp')">📗 ${T.y2}</button>`;
-  html += `<button class="profs-tab" data-year="1ing" onclick="switchProfsYear('1ing')" style="grid-column:1/-1">🎓 ${T.y3}</button>`;
-  html += `<button class="profs-tab" data-year="2ing" onclick="switchProfsYear('2ing')" style="grid-column:1/-1">🎓 ${T.y4}</button>`;
-  html += `<button class="profs-tab" data-year="3ing" onclick="switchProfsYear('3ing')" style="grid-column:1/-1">🎓 ${T.y5}</button>`;
-  html += `</div>`;
-  html += `<div id="profs-content"></div>`;
-
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-
-  renderProfsSubjects('1acp');
-}
-
-function switchProfsYear(yearId) {
-  document.querySelectorAll('.profs-tab').forEach(t => {
-    t.classList.toggle('on', t.dataset.year === yearId);
-  });
-  renderProfsSubjects(yearId);
-}
-
-function renderProfsSubjects(yearId) {
-  const L = window.LANG || localStorage.getItem('lang') || 'ar';
-  const data = window.__PROFS_DATA__;
-  if (!data) return;
-
-  const year = data.years[yearId];
-  if (!year) {
-    document.getElementById('profs-content').innerHTML = 
-      '<div style="text-align:center;padding:40px;color:var(--mut)"><b style="font-size:3rem;display:block;margin-bottom:10px">⏳</b>قيد الإعداد</div>';
-    return;
+  if (item.delay) {
+    const delay = item.delay.startsWith('srv') ? window.t(item.delay) : item.delay;
+    html += '<div style="margin-top:8px;padding:12px;background:var(--orange-soft,#fde8dc);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">' + delay + '</div>';
   }
 
-  const content = document.getElementById('profs-content');
-  const T = { fr: "Choisissez une matière", ar: "اختر مادة", en: "Choose a subject" };
+  if (item.link) html += '<p style="margin-top:10px"><a href="' + item.link + '" target="_blank" rel="noopener" class="btn">🔗 ' + window.t('open') + '</a></p>';
 
-  if (!year.subjects || year.subjects.length === 0) {
-    content.innerHTML = '<div style="text-align:center;padding:40px;color:var(--mut)"><b style="font-size:3rem;display:block;margin-bottom:10px">⏳</b>قيد الإعداد</div>';
-    return;
+  if (item.map) {
+    html += '<p style="margin-top:10px"><a href="https://www.google.com/maps/search/' + encodeURIComponent(item.map) + '" target="_blank" rel="noopener" class="btn">📍 ' + window.t('viewMap') + '</a></p>';
   }
 
-  let html = `<p style="color:var(--mut);font-size:.9rem;margin-bottom:12px;text-align:center">${T[L] || T.ar}</p>`;
-  html += `<div class="tile-grid">`;
-
-  year.subjects.forEach(subj => {
-    const title = (typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title;
-    const count = subj.profs ? subj.profs.length : 0;
-    html += `<button class="tile-3d ripple" onclick="renderProfsList('${yearId}', '${subj.id}')" style="position:relative">`;
-    html += `<span class="tile-icon">${subj.icon || '📚'}</span>`;
-    html += `<span class="tile-label">${title}</span>`;
-    if (count > 0) {
-      html += `<span style="position:absolute;top:10px;inset-inline-end:10px;background:var(--acc-soft);color:var(--acc);font-size:.7rem;font-weight:800;padding:3px 10px;border-radius:999px">${count} 👤</span>`;
-    }
-    html += `</button>`;
-  });
-
-  html += `</div>`;
-  content.innerHTML = html;
-  window.scrollTo(0, 0);
-}
-
-function renderProfsList(yearId, subjectId) {
-  const L = window.LANG || localStorage.getItem('lang') || 'ar';
-  const data = window.__PROFS_DATA__;
-  if (!data) return;
-
-  const year = data.years[yearId];
-  if (!year) return;
-  const subj = year.subjects.find(s => s.id === subjectId);
-  if (!subj) return;
-
-  const app = document.getElementById('app');
-  const title = (typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title;
-  const T = { fr: "Choisissez un enseignant", ar: "اختر الأستاذ", en: "Choose a teacher" };
-
-  let html = `<button class="back" onclick="renderProfsTabs(window.SECTIONS.find(s => s.id === 'profs'))">${window.t ? window.t('back', L) : '←'}</button>`;
-  html += `<h2>${subj.icon || ''} ${title}</h2>`;
-  html += `<p style="color:var(--mut);margin-bottom:16px;text-align:center">${T[L] || T.ar}</p>`;
-  html += `<div style="display:flex;flex-direction:column;gap:10px">`;
-
-  subj.profs.forEach(prof => {
-    const initial = prof.name.charAt(0);
-    const photoPath = prof.photo && prof.photo.trim() !== '' ? prof.photo : '';
-    
-    let avatarHtml;
-    if (photoPath) {
-      avatarHtml = `<div class="profs-list-avatar"><img src="${photoPath}" alt="${prof.name}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'prof-avatar-fallback\\'>${initial}</div>'"></div>`;
-    } else {
-      avatarHtml = `<div class="profs-list-avatar"><div class="prof-avatar-fallback">${initial}</div></div>`;
-    }
-
-    html += `
-      <button class="profs-list-item" onclick="renderProfCard('${yearId}', '${subjectId}', '${prof.id}')">
-        ${avatarHtml}
-        <div style="flex:1;min-width:0">
-          <div style="font-weight:700;font-size:1.05rem;color:var(--ink);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${prof.name}</div>
-          <div style="font-size:.82rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${prof.email || ''}</div>
-          ${prof.vacataire ? '<span style="display:inline-block;background:#fef3c7;color:#92400e;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:999px;margin-top:6px">Vacataire</span>' : ''}
-        </div>
-        <span style="font-size:1.4rem;color:var(--acc);flex-shrink:0">›</span>
-      </button>
-    `;
-  });
-
-  html += `</div>`;
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-}
-
-function renderProfCard(yearId, subjectId, profId) {
-  const L = window.LANG || localStorage.getItem('lang') || 'ar';
-  const data = window.__PROFS_DATA__;
-  if (!data) return;
-
-  const year = data.years[yearId];
-  const subj = year.subjects.find(s => s.id === subjectId);
-  const prof = subj.profs.find(p => p.id === profId);
-  if (!prof) return;
-
-  const app = document.getElementById('app');
-
-  let html = `<button class="back" onclick="renderProfsList('${yearId}', '${subjectId}')">${window.t ? window.t('back', L) : '←'}</button>`;
-  html += `<h2 style="margin-bottom:14px">${subj.icon} ${(typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title}</h2>`;
-
-  if (!prof.full) {
-    html += `<div class="prof-card-wrapper"><div class="prof-card prof-simple-card">`;
-    html += `<div class="prof-simple-name">${prof.name}</div>`;
-    html += `<div class="prof-simple-module">${(typeof subj.title === 'object') ? (subj.title[L] || subj.title.fr) : subj.title}</div>`;
-    if (prof.email) {
-      html += `<a href="mailto:${prof.email}" class="prof-simple-email">📧 ${prof.email}</a>`;
-    } else {
-      html += `<div class="prof-simple-no-email">📧 ${L === 'ar' ? 'البريد غير متوفر' : 'Email non disponible'}</div>`;
-    }
-    if (prof.vacataire) {
-      html += `<div><span class="prof-badge-vacataire">${L === 'ar' ? 'متطوع' : 'Vacataire'}</span></div>`;
-    }
-    html += `</div></div>`;
-    app.innerHTML = html;
-    window.scrollTo(0, 0);
-    return;
+  if (item.video) {
+    html += '<div style="margin-top:12px;border-radius:12px;overflow:hidden;aspect-ratio:16/9"><iframe src="https://www.youtube.com/embed/' + item.video + '" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe></div>';
   }
 
-  html += `<div class="prof-card-wrapper">`;
-
-  const initial = prof.name.charAt(0);
-  const photoPath = prof.photo && prof.photo.trim() !== '' ? prof.photo : '';
-  let photoHtml;
-  if (photoPath) {
-    photoHtml = `<img src="${photoPath}" alt="${prof.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none" class="prof-avatar-fallback">${initial}</div>`;
-  } else {
-    photoHtml = `<div class="prof-avatar-fallback">${initial}</div>`;
+  if (item.extra) {
+    html += '<span class="extra">' + item.extra + '</span>';
   }
 
-  html += `<div class="prof-card prof-id-card">`;
-  html += `<div class="prof-photo">${photoHtml}</div>`;
-  html += `<div class="prof-id-info">`;
-  html += `<div class="prof-name">${prof.name}</div>`;
-  html += `<div class="prof-title-line">`;
-  html += `<span class="prof-role">PROFESSOR</span>`;
-  html += `<span class="prof-location">ALGERIA</span>`;
-  html += `</div>`;
-  if (prof.status) {
-    html += `<div class="prof-status">${prof.status[L] || prof.status.fr}</div>`;
-  }
-  html += `</div></div>`;
-
-  if (prof.email) {
-    html += `<div class="prof-card prof-email-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'البريد الإلكتروني' : 'e-mail'}</div>`;
-    html += `<div class="prof-section-subtitle">${L === 'ar' ? 'المهني' : 'professionnel'}</div>`;
-    html += `<a href="mailto:${prof.email}" class="prof-email-link">${prof.email}</a>`;
-    html += `</div>`;
-  }
-
-  if (prof.modules || prof.year) {
-    html += `<div class="prof-card prof-modules-card">`;
-    if (prof.modules) {
-      html += `<div class="prof-section-title">${L === 'ar' ? 'الوحدات المدرَّسة' : 'Module enseigner'}</div>`;
-      html += `<ul class="prof-modules-list">`;
-      prof.modules.forEach(m => { html += `<li>${m}</li>`; });
-      html += `</ul>`;
-    }
-    if (prof.year) {
-      html += `<div class="prof-year-title">${L === 'ar' ? 'السنة المدرَّسة' : 'Année enseigner'}</div>`;
-      html += `<ul class="prof-modules-list"><li>${prof.year[L] || prof.year.fr}</li></ul>`;
-    }
-    html += `</div>`;
-  }
-
-  if (prof.advice) {
-    html += `<div class="prof-card prof-advice-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'نصيحة للطلبة' : 'Un conseil aux étudiants'}</div>`;
-    html += `<div class="prof-advice-text">${prof.advice[L] || prof.advice.fr}</div>`;
-    html += `</div>`;
-  }
-
-  if (prof.research) {
-    html += `<div class="prof-card prof-research-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'البحث' : 'Recherche'}</div>`;
-    html += `<div class="prof-research-text">${prof.research[L] || prof.research.fr}</div>`;
-    html += `</div>`;
-  }
-
-  if (prof.links && prof.links.length) {
-    html += `<div class="prof-card prof-links-card">`;
-    html += `<div class="prof-section-title">${L === 'ar' ? 'الروابط' : 'Liens'}</div>`;
-    html += `<div class="prof-links-list">`;
-    prof.links.forEach(l => {
-      html += `<a href="${l.url}" target="_blank" rel="noopener" class="prof-link"><span class="prof-link-icon">${l.icon || '🔗'}</span><span>${l.name}</span></a>`;
-    });
-    html += `</div></div>`;
-  }
-
-  html += `</div>`;
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-}
-
-function renderCategoriesList(sectionId) {
-  const s = window.SECTIONS.find(x => x.id === sectionId);
-  if (!s || !s.categories) return;
-  
-  const app = document.getElementById('app');
-  const title = window.t(s.titleKey, LANG);
-  const intro = window.t(s.introKey, LANG);
-  
-  let html = '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-  html += '<h2>' + s.icon + ' ' + title + '</h2>';
-  html += '<p style="color:var(--mut);margin-bottom:16px">' + intro + '</p>';
-  
-  if (s.mapEmbed) {
-    html += '<div class="map-wrapper">';
-    html += '<div class="map-header"><span class="map-icon">🗺️</span><div class="map-info"><div class="map-title">' + (typeof s.mapTitle === 'object' ? (s.mapTitle[LANG] || s.mapTitle.fr) : (s.mapTitle || 'Carte')) + '</div></div></div>';
-    html += '<iframe class="map-iframe" src="' + s.mapEmbed + '" allowfullscreen loading="lazy"></iframe>';
-    html += '</div>';
-  }
-  
-  html += '<div class="tile-grid">';
-  s.categories.forEach(c => {
-    const ct = c.titleKey ? window.t(c.titleKey, LANG) : (c.title || '');
-    html += '<button class="tile-3d ripple" onclick="renderCategory(\'' + s.id + '\',\'' + c.id + '\')">';
-    html += '<span class="tile-icon">' + (c.icon || '📁') + '</span>';
-    html += '<span class="tile-label">' + ct + '</span>';
-    html += '</button>';
-  });
-  html += '</div>';
-  
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setupScrollAnimations();
-}
-
-function renderCategory(sectionId, categoryId) {
-  const s = window.SECTIONS.find(x => x.id === sectionId);
-  if (!s || !s.categories) return;
-  const c = s.categories.find(x => x.id === categoryId);
-  if (!c) return;
-  
-  CURRENT_SECTION = sectionId;
-  CURRENT_CATEGORY = categoryId;
-  
-  const app = document.getElementById('app');
-  app.classList.add('section-change');
-  setTimeout(() => app.classList.remove('section-change'), 500);
-  
-  if (c.type === 'garidi-map') { renderGaridiMap(s, c); return; }
-  if (c.type === 'map' && c.buildings) { renderMap(s, c); return; }
-  if (c.items) { renderItems(s, c.items, c); return; }
-}
-
-function renderGaridiMap(section, category) {
-  const app = document.getElementById('app');
-  const L = window.LANG || localStorage.getItem('lang') || 'ar';
-  
-  let html = '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', L) + '</button>';
-  html += '<h2>' + (category.icon || '🗺️') + ' ' + window.t(category.titleKey, L) + '</h2>';
-  
-  html += `
-    <div class="gm-container" id="garidi-map-container">
-      <div class="gm-startrow">
-        <label data-gm="startLabel" for="gm-start">أنا الآن عند</label>
-        <select id="gm-start"></select>
-      </div>
-      <div class="gm-tabs">
-        <button id="gm-tab-places" class="on" data-gm="tabPlaces">أماكن</button>
-        <button id="gm-tab-rooms" data-gm="tabRooms">غرف</button>
-      </div>
-      <div id="gm-panel-places"><div class="gm-chips" id="gm-chips"></div></div>
-      <div id="gm-panel-rooms" hidden>
-        <div class="gm-blocks" id="gm-blocks"></div>
-        <div class="gm-floors" id="gm-floors"></div>
-        <div class="gm-numrow">
-          <input id="gm-num" type="text" inputmode="numeric" pattern="[0-9]*">
-          <button id="gm-go" data-gm="go">ابحث</button>
-        </div>
-        <div id="gm-msg"></div>
-      </div>
-      <div class="gm-mapcard">
-        <div class="gm-zoom">
-          <button id="gm-zin">+</button>
-          <button id="gm-zout">−</button>
-          <button id="gm-zhome">⌂</button>
-          <button id="gm-tsat" aria-pressed="false">🛰️</button>
-        </div>
-        <div class="gm-scroller" id="gm-scroller">
-          <div class="gm-stage" id="gm-stage">
-            <img id="gm-sat" alt="" style="display:none">
-            <svg class="gm-basemap" viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true"></svg>
-            <svg viewBox="0 0 705 596" preserveAspectRatio="none" aria-hidden="true">
-              <polyline id="gm-rcase" class="gm-route-case" vector-effect="non-scaling-stroke" points=""/>
-              <polyline id="gm-rline" class="gm-route-line" vector-effect="non-scaling-stroke" points=""/>
-            </svg>
-          </div>
-        </div>
-        <div class="gm-legend">
-          <span><i style="background:#0F1B3D"></i><span data-gm="here"></span></span>
-          <span><i style="background:#FFB81C;border:2px solid #0F1B3D"></i><span data-gm="dest"></span></span>
-          <span data-gm="tap"></span>
-        </div>
-      </div>
-      <div class="gm-result" id="gm-result" aria-live="polite"></div>
-      <p class="gm-note" data-gm="foot"></p>
-    </div>
-  `;
-  
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  
-  if (window.garidiMap && window.garidiMap.init) {
-    window.garidiMap.init();
-  }
-}
-
-function renderServiceItems(section, items, category) {
-  const app = document.getElementById('app');
-  const L = LANG;
-  
-  const T = {
-    fr: { back: '← Retour', location: 'Emplacement', procedure: 'Procédure', delay: 'Délai / Horaires' },
-    ar: { back: '← رجوع', location: 'المكان', procedure: 'الإجراءات', delay: 'الآجال / الأوقات' },
-    en: { back: '← Back', location: 'Location', procedure: 'Procedure', delay: 'Delay / Hours' }
-  }[L] || { back: '←', location: 'Emplacement', procedure: 'Procédure', delay: 'Délai' };
-  
-  let html = '<button class="back" onclick="renderHome()">' + T.back + '</button>';
-  html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, L) + '</h2>';
-  html += '<p style="color:var(--mut);margin-bottom:16px">' + window.t(section.introKey, L) + '</p>';
-  html += '<div class="items-list">';
-  
-  items.forEach(function(item) {
-    const title = window.t(item.titleKey, L);
-    const desc = item.descKey ? window.t(item.descKey, L) : '';
-    
-    if (item.type === 'faq') {
-       html += renderFAQHtml(item, L);
-       return;
-    }
-    
-    html += '<div class="card-3d scroll-anim" style="margin-bottom:14px;padding:16px">';
-    html += '<h3 style="margin:0 0 12px;color:var(--acc);font-size:1.1rem">' + (item.icon || '') + ' ' + title + '</h3>';
-    if (desc) html += '<p style="color:var(--mut);margin:8px 0;font-size:.95rem;line-height:1.6">' + desc + '</p>';
-    
-    if (item.images && item.images.length > 0) {
-      html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:12px 0">';
-      item.images.forEach(function(imgUrl) {
-        html += '<div onclick="openImageViewer(\'' + imgUrl + '\')" style="cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg-3)">';
-        html += '<img src="' + imgUrl + '" style="width:100%;height:100%;object-fit:cover" loading="lazy" alt="" onerror="this.parentElement.style.display=\'none\'">';
-        html += '</div>';
-      });
-      html += '</div>';
-    }
-    
-    const loc = item.location ? window.t(item.location, L) : '';
-    const proc = item.procedure ? window.t(item.procedure, L) : '';
-    const dly = item.delay ? window.t(item.delay, L) : '';
-
-    if (loc) {
-      html += '<div style="margin:12px 0;padding:12px;background:var(--acc-soft);border-radius:12px;border-left:4px solid var(--acc)">';
-      html += '<div style="font-weight:700;color:var(--acc);font-size:.85rem;margin-bottom:6px">📍 ' + T.location + '</div>';
-      html += '<div style="font-size:.9rem;color:var(--ink);line-height:1.6;white-space:pre-line">' + loc + '</div>';
-      html += '</div>';
-    }
-    
-    if (proc) {
-      html += '<div style="margin:12px 0;padding:12px;background:rgba(59,130,246,.08);border-radius:12px;border-left:4px solid #3b82f6">';
-      html += '<div style="font-weight:700;color:#3b82f6;font-size:.85rem;margin-bottom:6px">📋 ' + T.procedure + '</div>';
-      html += '<div style="font-size:.9rem;color:var(--ink);line-height:1.7;white-space:pre-line">' + proc + '</div>';
-      html += '</div>';
-    }
-    
-    if (dly) {
-      html += '<div style="margin:12px 0;padding:12px;background:rgba(16,185,129,.08);border-radius:12px;border-left:4px solid #10b981">';
-      html += '<div style="font-weight:700;color:#10b981;font-size:.85rem;margin-bottom:6px">🕐 ' + T.delay + '</div>';
-      html += '<div style="font-size:.9rem;color:var(--ink);line-height:1.7;white-space:pre-line">' + dly + '</div>';
-      html += '</div>';
-    }
-    
-    if (item.link) {
-      html += '<a href="' + item.link + '" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:10px 18px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.85rem;font-weight:600;word-break:break-all">🔗 ' + item.link + '</a>';
-    }
-    
-    html += '</div>';
-  });
-  
-  html += '</div>';
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setupScrollAnimations();
-}
-
-function renderFAQHtml(item, L) {
-  let html = '<div class="card-3d scroll-anim" style="margin-bottom:14px;padding:16px;background:linear-gradient(135deg, rgba(139,92,246,0.05), var(--card))">';
-  html += '<h3 style="margin:0 0 16px;color:#8b5cf6;font-size:1.1rem">' + (item.icon || '❓') + ' ' + window.t(item.titleKey, L) + '</h3>';
-  if (item.descKey) {
-    html += '<p style="color:var(--mut);margin-bottom:16px;font-size:.9rem">' + window.t(item.descKey, L) + '</p>';
-  }
-  
-  item.faqItems.forEach(cat => {
-    html += '<div style="margin-bottom:16px">';
-    html += '<h4 style="color:var(--acc);margin:0 0 10px;font-size:1rem;border-bottom:2px solid var(--acc-soft);padding-bottom:6px">' + window.t(cat.categoryKey, L) + '</h4>';
-    
-    cat.items.forEach(qa => {
-      html += '<details style="margin-bottom:10px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)">';
-      html += '<summary style="padding:12px;background:rgba(139,92,246,0.05);cursor:pointer;font-weight:700;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center">';
-      html += '<span style="flex:1;font-size:.9rem">' + window.t(qa.q, L) + '</span>';
-      html += '<span style="color:#8b5cf6;font-size:1.2rem;margin-inline-start:10px">+</span>';
-      html += '</summary>';
-      html += '<div style="padding:12px;font-size:.9rem;line-height:1.7;color:var(--mut);border-top:1px solid var(--line)">' + window.t(qa.a, L) + '</div>';
-      html += '</details>';
-    });
-    html += '</div>';
-  });
-  
   html += '</div>';
   return html;
 }
 
-function renderShoppingItems(section, items, category) {
+// ============================================
+// أساتذتي
+// ============================================
+async function renderProfsSection(sec) {
   const app = document.getElementById('app');
-  const L = LANG;
-  
-  const T = {
-    fr: { back: '← Retour', call: '📞 Appeler', go: '🚶 Y aller', hours: 'Horaires', video: '🎥 Regarder la vidéo' },
-    ar: { back: '← رجوع', call: '📞 اتصل', go: '🚶 اذهب', hours: 'الساعات', video: '🎥 شاهد الفيديو' },
-    en: { back: '← Back', call: '📞 Call', go: '🚶 Go', hours: 'Hours', video: '🎥 Watch Video' }
-  }[L] || { back: '←', call: '📞', go: '🚶', hours: 'Horaires', video: '🎥 Vidéo' };
-  
-  let html = '';
-  if (category) {
-    html += '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + T.back + '</button>';
-    const ct = category.titleKey ? window.t(category.titleKey, L) : (category.title || '');
-    html += '<h2>' + (category.icon || '') + ' ' + ct + '</h2>';
-  } else {
-    html += '<button class="back" onclick="renderHome()">' + T.back + '</button>';
-    html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, L) + '</h2>';
-  }
-  
-  html += '<div class="items-list">';
-  items.forEach(function(item) {
-    const name = item.n || 'Sans nom';
-    const note = item.note || '';
-    const phone = item.t || '';
-    const rating = item.r || 0;
-    const gps = item.g;
-    const hours = item.h || [];
-    const videoId = item.video;
-    
-    let mapUrl = '';
-    if (Array.isArray(gps) && gps.length === 2) {
-      mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + gps[0] + ',' + gps[1];
-    }
-    const telUrl = phone ? 'tel:' + phone.replace(/\s/g, '') : '';
-    let hoursText = '';
-    if (Array.isArray(hours) && hours.length > 0 && hours[0]) {
-      hoursText = hours[0][0] + ' — ' + hours[0][1];
-    }
-    
-    html += '<div class="card-3d scroll-anim" style="margin-bottom:14px;padding:16px">';
-    html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px">';
-    html += '<h3 style="margin:0;color:var(--acc);font-size:1.1rem;flex:1">' + name + '</h3>';
-    if (rating > 0) {
-      html += '<span style="background:var(--acc-soft);color:var(--acc);padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:700;white-space:nowrap">⭐ ' + rating + '</span>';
-    }
-    html += '</div>';
-    
-    if (videoId) {
-      html += '<div style="margin:12px 0">';
-      html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
-      html += '<iframe src="https://www.youtube.com/embed/' + videoId + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
-      html += '</div></div>';
-    }
+  app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><h2>👨‍🏫 ' + window.t('sectionProfs') + '</h2><p style="color:var(--mut)">Chargement…</p>';
 
-    if (note) html += '<p style="color:var(--mut);margin:8px 0;font-size:.9rem;line-height:1.6">' + note + '</p>';
-    if (hoursText) html += '<p style="margin:6px 0;font-size:.85rem;color:var(--mut)"><b>🕐 ' + T.hours + ':</b> ' + hoursText + '</p>';
-    
-    html += '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">';
-    if (telUrl) {
-      html += '<a href="' + telUrl + '" style="flex:1;min-width:120px;padding:10px 16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-radius:12px;text-decoration:none;font-size:.85rem;font-weight:600;text-align:center">' + T.call + '</a>';
-    }
-    if (mapUrl) {
-      html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="flex:1;min-width:120px;padding:10px 16px;background:var(--acc-soft);color:var(--acc);border-radius:12px;text-decoration:none;font-size:.85rem;font-weight:600;text-align:center">' + T.go + '</a>';
-    }
-    html += '</div></div>';
-  });
-  
-  html += '</div>';
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setupScrollAnimations();
-}
-
-function renderItems(section, items, category) {
-  if (section.id === 'services') return renderServiceItems(section, items, category);
-  if (section.id === 'shopping' || (items[0] && items[0].n !== undefined && items[0].title === undefined)) {
-    return renderShoppingItems(section, items, category);
+  const data = await window.loadProfsData();
+  if (!data) {
+    app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><p style="color:#dc2626">❌ Erreur de chargement des données.</p>';
+    return;
   }
-  
-  const app = document.getElementById('app');
-  const L = LANG;
-  
-  let html = '';
-  if (category) {
-    html += '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', L) + '</button>';
-    const ct = category.titleKey ? window.t(category.titleKey, L) : (category.title || '');
-    html += '<h2>' + (category.icon || '') + ' ' + ct + '</h2>';
-  } else {
-    html += '<button class="back" onclick="renderHome()">' + window.t('back', L) + '</button>';
-    html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, L) + '</h2>';
-    if (section.introKey) {
-      html += '<p style="color:var(--mut);margin-bottom:16px">' + window.t(section.introKey, L) + '</p>';
-    }
-  }
-  
-  html += '<div class="items-list" style="display:flex;flex-direction:column;gap:20px">';
-  
-  items.forEach((item, idx) => {
-    const title = (typeof item.title === 'object') ? (item.title[L] || item.title.fr) : window.t(item.titleKey, L);
-    const desc = item.desc 
-      ? ((typeof item.desc === 'object') ? (item.desc[L] || item.desc.fr) : item.desc)
-      : (item.descKey ? window.t(item.descKey, L) : '');
-    
-    // 1. عرض الخريطة التفاعلية
-    if (item.type === 'garidi-map') {
-      html += '<div class="card-3d" style="padding:16px">';
-      html += '<h3 style="margin:0 0 8px;color:var(--acc);font-size:1.2rem">' + (item.icon || '') + ' ' + title + '</h3>';
-      if (desc) html += '<p style="color:var(--mut);margin-bottom:12px;font-size:.9rem">' + desc + '</p>';
-      
-      const mapUrl = item.mapUrl || "https://www.google.com/maps/d/embed?mid=1nT-Wvfqo8A3wdoHnadLzZHFYB_qdH_U";
-      html += '<div style="position:relative;padding-bottom:75%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.1)">';
-      html += '<iframe src="' + mapUrl + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
-      html += '</div>';
-      
-      html += '<div style="text-align:center;margin-top:12px">';
-      html += '<a href="' + mapUrl.replace('/edit?', '/view?') + '" target="_blank" style="display:inline-block;padding:8px 16px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.85rem;font-weight:600">🗺️ Ouvrir dans Google Maps</a>';
-      html += '</div></div>';
-      return;
-    }
 
-    // 2. عرض مجموعة الفيديوهات
-    if (item.type === 'videos-group') {
-      html += '<div class="card-3d" style="padding:16px">';
-      html += '<h3 style="margin:0 0 8px;color:var(--acc);font-size:1.2rem">' + (item.icon || '') + ' ' + title + '</h3>';
-      if (desc) html += '<p style="color:var(--mut);margin-bottom:16px;font-size:.9rem">' + desc + '</p>';
-      
-      html += '<div style="display:flex;flex-direction:column;gap:16px">';
-      item.videos.forEach(vid => {
-        const vTitle = window.t(vid.titleKey, L);
-        html += '<div>';
-        html += '<p style="margin:0 0 8px;font-size:.95rem;font-weight:700;color:var(--ink)">' + (vid.icon || '🎥') + ' ' + vTitle + '</p>';
-        html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.1)">';
-        html += '<iframe src="https://www.youtube.com/embed/' + vid.video + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
-        html += '</div></div>';
-      });
-      html += '</div></div>';
-      return;
-    }
-    
-    // 3. العرض العادي
-    html += '<div class="card-3d scroll-anim" style="padding:16px">';
-    html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">';
-    html += '<h3 style="margin:0;color:var(--acc);font-size:1.1rem">' + (item.icon || '') + ' ' + title + '</h3>';
-    html += '<button onclick="showQR(\'' + section.id + '\',' + idx + ',\'' + (category ? category.id : '') + '\')" style="background:var(--acc-soft);border:0;color:var(--acc);padding:6px 10px;border-radius:10px;cursor:pointer;font-size:1rem">📱</button>';
-    html += '</div>';
-    
-    if (item.images && item.images.length > 0) {
-      html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0">';
-      item.images.forEach(function(imgUrl) {
-        html += '<div onclick="openImageViewer(\'' + imgUrl.replace(/'/g, "\\'") + '\')" style="cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg-3)">';
-        html += '<img src="' + imgUrl + '" style="width:100%;height:100%;object-fit:cover" loading="lazy" alt="" onerror="this.parentElement.style.display=\'none\'">';
+  const years = Object.keys(data.years);
+  let html = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button>';
+  html += '<h2>👨‍🏫 ' + window.t('sectionProfs') + '</h2>';
+  html += '<p style="color:var(--mut);margin-bottom:20px">' + window.t('profsIntro') + '</p>';
+
+  years.forEach(yearId => {
+    const year = data.years[yearId];
+    const lang = window.getCurrentLang();
+    html += '<h3 style="color:var(--acc);margin:24px 0 12px">' + year.icon + ' ' + (year.title[lang] || year.title.fr) + '</h3>';
+    year.subjects.forEach(subj => {
+      html += '<details style="margin-bottom:12px;background:var(--card,#fff);border:1px solid var(--line,#e5e1d8);border-radius:12px;padding:12px">';
+      html += '<summary style="cursor:pointer;font-weight:700;color:var(--ink);padding:4px">' + subj.icon + ' ' + (subj.title[lang] || subj.title.fr) + '</summary>';
+      html += '<div style="margin-top:12px">';
+      subj.profs.forEach(p => {
+        html += '<div style="padding:10px;border-bottom:1px solid var(--line);font-size:.9rem">';
+        html += '<strong>' + p.name + '</strong>';
+        if (p.email) html += ' — <a href="mailto:' + p.email + '">' + p.email + '</a>';
         html += '</div>';
       });
-      html += '</div>';
-    }
-    
-    if (item.video && typeof item.video === 'string') {
-      html += '<div style="margin:14px 0">';
-      html += '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15)">';
-      html += '<iframe src="https://www.youtube.com/embed/' + item.video + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
-      html += '</div></div>';
-    }
-    
-    if (desc) html += '<p style="color:var(--mut);margin:8px 0;font-size:.95rem;line-height:1.6;white-space:pre-line">' + desc + '</p>';
-    if (item.location) html += '<p style="margin:6px 0;font-size:.9rem">📍 ' + item.location + '</p>';
-    if (item.map) {
-      const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.map);
-      html += '<a href="' + mapUrl + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 16px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.88rem;font-weight:600">🗺️ Voir sur la carte</a>';
-    }
-    if (item.link) {
-      html += '<a href="' + item.link + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 18px;background:var(--acc);color:#fff;border-radius:20px;text-decoration:none;font-size:.9rem;font-weight:600">🔗 Ouvrir</a>';
-    }
-    
-    html += '</div>';
-  });
-  
-  html += '</div>';
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setupScrollAnimations();
-}
-
-function renderSection(id) {
-  const s = window.SECTIONS.find(x => x.id === id);
-  if (!s) return;
-  CURRENT_SECTION = id;
-  CURRENT_CATEGORY = null;
-  
-  if (s.type === 'custom' && typeof s.render === 'function') {
-    document.getElementById('app').innerHTML = s.render();
-    window.scrollTo(0, 0);
-    return;
-  }
-  if (s.type === 'profs-custom') { renderProfsTabs(s); return; }
-  if (s.type === 'metro-map') renderMetroMap(s);
-  else if (s.categories && s.categories.length > 0) renderCategoriesList(id);
-  else if (s.type === 'qr') renderQR(s);
-  else if (s.items) renderItems(s, s.items);
-  else if (s.buildings) renderMap(s);
-}
-
-function renderMap(section, category) {
-  const app = document.getElementById('app');
-  const buildings = (category ? category.buildings : section.buildings) || [];
-  let html = '';
-  if (category) {
-    html += '<button class="back" onclick="renderCategoriesList(\'' + section.id + '\')">' + window.t('back', LANG) + '</button>';
-    const ct = category.titleKey ? window.t(category.titleKey, LANG) : (category.title || '');
-    html += '<h2>' + (category.icon || '🗺️') + ' ' + ct + '</h2>';
-  } else {
-    html += '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-    html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, LANG) + '</h2>';
-  }
-  const desc = (category && category.descKey) ? window.t(category.descKey, LANG) : window.t(section.introKey, LANG);
-  html += '<p style="color:var(--mut);margin-bottom:16px">' + desc + '</p>';
-  html += '<div style="position:relative;width:100%;aspect-ratio:1;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:12px 0">';
-  html += '<div style="position:relative;width:100%;height:100%;background:linear-gradient(135deg,var(--acc-soft),var(--card))">';
-  buildings.forEach((b, i) => {
-    const name = b.nameKey ? window.t(b.nameKey, LANG) : (b.name || '');
-    html += '<button onclick="showPlace(\'' + section.id + '\',\'' + b.id + '\',\'' + (category ? category.id : '') + '\')" style="position:absolute;left:' + b.x + '%;top:' + b.y + '%;transform:translate(-50%,-50%);background:var(--card);border:2px solid var(--acc);border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0">' + b.icon + '</button>';
-  });
-  html += '</div></div>';
-  buildings.forEach(b => {
-    const name = b.nameKey ? window.t(b.nameKey, LANG) : (b.name || '');
-    html += '<button class="scroll-anim" style="width:100%;text-align:left;margin-bottom:10px;cursor:pointer;padding:14px;display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--ink);font-family:inherit;font-size:1rem" onclick="showPlace(\'' + section.id + '\',\'' + b.id + '\',\'' + (category ? category.id : '') + '\')">';
-    html += '<span style="font-size:1.5rem">' + b.icon + '</span>';
-    html += '<span style="font-weight:600">' + name + '</span>';
-    html += '</button>';
-  });
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setupScrollAnimations();
-}
-
-function showPlace(sectionId, buildingId, categoryId) {
-  const s = window.SECTIONS.find(x => x.id === sectionId);
-  if (!s) return;
-  let buildings;
-  if (categoryId && s.categories) {
-    const c = s.categories.find(x => x.id === categoryId);
-    buildings = c ? c.buildings : [];
-  } else buildings = s.buildings;
-  if (!buildings) return;
-  const b = buildings.find(x => x.id === buildingId);
-  if (!b) return;
-  const name = b.nameKey ? window.t(b.nameKey, LANG) : (b.name || '');
-  const overlay = document.createElement('div');
-  overlay.className = 'modal-overlay';
-  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
-  overlay.innerHTML = '<div class="modal-box">' +
-    '<div style="font-size:3rem;margin-bottom:12px">' + b.icon + '</div>' +
-    '<h3 style="margin:0 0 8px;color:var(--acc);font-size:1.3rem">' + name + '</h3>' +
-    '<button onclick="this.closest(\'.modal-overlay\').remove()" style="margin-top:16px;padding:12px 32px;background:var(--acc);color:#fff;border:0;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit">OK</button>' +
-    '</div>';
-  document.body.appendChild(overlay);
-}
-
-function renderMetroMap(section) {
-  // تم إبقاء الدالة فارغة لتجنب الأخطاء إذا تم استدعاؤها بالخطأ
-}
-
-function showMetroType(type) {
-  // تم إبقاء الدالة فارغة
-}
-
-function showStation(type, index) {
-  // تم إبقاء الدالة فارغة
-}
-
-function renderQR(section) {
-  const app = document.getElementById('app');
-  let html = '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-  html += '<h2>' + section.icon + ' ' + window.t(section.titleKey, LANG) + '</h2>';
-  html += '<div id="qr-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px"></div>';
-  app.innerHTML = html;
-  window.scrollTo(0, 0);
-  setTimeout(() => {
-    const grid = document.getElementById('qr-grid');
-    if (!grid) return;
-    const base = location.origin + location.pathname;
-    window.SECTIONS.filter(x => x.id !== 'qr').forEach((sec) => {
-      const title = window.t(sec.titleKey, LANG);
-      const div = document.createElement('div');
-      div.style.cssText = 'background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center';
-      const qrId = 'qrc-' + sec.id;
-      div.innerHTML = '<div style="background:#fff;padding:8px;display:inline-block;border-radius:8px;margin-bottom:8px" id="' + qrId + '"></div><div style="font-size:.85rem;font-weight:600">' + sec.icon + ' ' + title + '</div>';
-      grid.appendChild(div);
-      if (typeof QRCode !== 'undefined') {
-        new QRCode(document.getElementById(qrId), { text: base + '#' + sec.id, width: 120, height: 120, colorDark: '#1d2433', colorLight: '#ffffff' });
-      }
+      html += '</div></details>';
     });
-  }, 100);
-}
-
-function showQR(sectionId, itemIndex, categoryId) {
-  const s = window.SECTIONS.find(x => x.id === sectionId);
-  if (!s) return;
-  let item;
-  if (categoryId && s.categories) {
-    const c = s.categories.find(x => x.id === categoryId);
-    if (c && c.items) item = c.items[itemIndex];
-  } else if (s.items) item = s.items[itemIndex];
-  if (!item) return;
-  const url = location.origin + location.pathname + '#' + sectionId;
-  const title = (typeof item.title === 'object') ? (item.title[LANG] || item.title.fr) : (item.n || window.t(item.titleKey, LANG));
-  const overlay = document.createElement('div');
-  overlay.className = 'modal-overlay';
-  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
-  overlay.innerHTML = '<div class="modal-box">' +
-    '<h3>' + title + '</h3>' +
-    '<div id="qr-popup-box" style="background:#fff;padding:12px;display:inline-block;border-radius:12px;border:1px solid #e5e1d8"></div>' +
-    '<button onclick="this.closest(\'.modal-overlay\').remove()" style="margin-top:16px;padding:10px 24px;background:var(--acc);color:#fff;border:0;border-radius:20px;font-weight:600;cursor:pointer;font-family:inherit">Fermer</button>' +
-    '</div>';
-  document.body.appendChild(overlay);
-  setTimeout(() => {
-    const qrBox = document.getElementById('qr-popup-box');
-    if (qrBox && typeof QRCode !== 'undefined') {
-      qrBox.innerHTML = '';
-      new QRCode(qrBox, { text: url, width: 200, height: 200, colorDark: '#1d2433', colorLight: '#ffffff' });
-    }
-  }, 50);
-}
-
-// ============================================
-// البحث الذكي + الذكاء الاصطناعي
-// ============================================
-function doSearch(q) {
-  q = q.trim();
-  if (!q) { renderHome(); return; }
-  
-  const app = document.getElementById('app');
-  app.classList.add('section-change');
-  setTimeout(() => app.classList.remove('section-change'), 500);
-  
-  const results = (typeof smartSearch === 'function') ? smartSearch(q, window.SECTIONS) : [];
-  
-  if (results.length === 0) {
-    app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>' +
-      '<div style="text-align:center;padding:40px 20px">' +
-        '<b style="font-size:4rem;display:block;margin-bottom:16px">🔍</b>' +
-        '<h2 style="color:var(--acc);margin-bottom:8px">Aucun résultat pour</h2>' +
-        '<p style="color:var(--mut);font-size:1rem;margin-bottom:24px">"' + escapeHtmlSearch(q) + '"</p>' +
-        '<div style="padding:24px;background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(124,58,237,.08));border-radius:20px;border:2px solid #8b5cf6;max-width:480px;margin:0 auto">' +
-          '<div style="font-size:3rem;margin-bottom:12px">✨</div>' +
-          '<h3 style="color:#8b5cf6;margin:0 0 8px;font-size:1.1rem">Essayez l\'Assistant IA</h3>' +
-          '<p style="color:var(--mut);font-size:.9rem;line-height:1.6;margin-bottom:16px">Posez votre question en langage naturel.</p>' +
-          '<button onclick="askAIWithQuery(\'' + q.replace(/'/g, "\\'") + '\')" style="width:100%;padding:14px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:0;border-radius:14px;font-weight:800;cursor:pointer;font-family:inherit;font-size:1rem;box-shadow:0 8px 20px rgba(139,92,246,.4)">🚀 Demander à l\'IA</button>' +
-        '</div>' +
-      '</div>';
-    return;
-  }
-  
-  let html = '<button class="back" onclick="renderHome()">' + window.t('back', LANG) + '</button>';
-  html += '<h2>🔍 ' + results.length + ' résultat' + (results.length > 1 ? 's' : '') + '</h2>';
-  html += '<p style="color:var(--mut);margin-bottom:16px;font-size:.9rem">Recherche : <b>' + escapeHtmlSearch(q) + '</b></p>';
-  
-  results.forEach((r) => {
-    const title = (typeof r.item.title === 'object') 
-      ? (r.item.title[LANG] || r.item.title.fr) 
-      : (r.item.n || window.t(r.item.titleKey, LANG));
-    const desc = r.item.desc 
-      ? ((typeof r.item.desc === 'object') ? (r.item.desc[LANG] || r.item.desc.fr) : r.item.desc)
-      : (r.item.note || (r.item.descKey ? window.t(r.item.descKey, LANG) : ''));
-    
-    html += '<div class="card-3d" style="margin-bottom:12px;cursor:pointer" onclick="openResult(\'' + r.section.id + '\',\'' + (r.categoryId || '') + '\')">';
-    html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">';
-    html += '<h3 style="color:var(--acc);margin:0 0 6px;flex:1">' + (r.item.icon || r.section.icon) + ' ' + title + '</h3>';
-    html += '<span style="font-size:.7rem;background:var(--acc-soft);color:var(--acc);padding:3px 8px;border-radius:10px;font-weight:700;white-space:nowrap">' + r.section.icon + '</span>';
-    html += '</div>';
-    if (desc) html += '<p style="color:var(--mut);font-size:.9rem;margin:6px 0 0">' + desc + '</p>';
-    html += '</div>';
   });
-  
-  html += '<div style="text-align:center;margin-top:24px;padding:20px;background:linear-gradient(135deg,rgba(139,92,246,.05),rgba(124,58,237,.05));border-radius:16px;border:1px dashed #8b5cf6">';
-  html += '<p style="color:var(--mut);font-size:.9rem;margin:0 0 12px">Vous ne trouvez pas ?</p>';
-  html += '<button onclick="askAIWithQuery(\'' + q.replace(/'/g, "\\'") + '\')" style="padding:12px 24px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:0;border-radius:50px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 8px 20px rgba(139,92,246,.4)">✨ Demander à l\'IA</button>';
-  html += '</div>';
-  
+
   app.innerHTML = html;
 }
 
-function openResult(sectionId, categoryId) {
-  if (categoryId) renderCategory(sectionId, categoryId);
-  else openSection(sectionId);
-}
-
-function askAIWithQuery(query) {
-  openAISearch();
-  setTimeout(() => {
-    const input = document.getElementById('aiQuestion');
-    if (input) { input.value = query; input.focus(); }
-  }, 300);
-}
-
-function escapeHtmlSearch(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
 // ============================================
-// الذكاء الاصطناعي
+// البحث
 // ============================================
-function openAISearch() {
-  const modal = document.getElementById('aiSearchModal');
-  if (!modal) return;
-  modal.classList.add('show');
-  
-  setTimeout(() => document.getElementById('aiQuestion')?.focus(), 100);
-  
-  if (typeof getRemainingQuota === 'function') {
-    const remaining = getRemainingQuota();
-    const quota = document.getElementById('aiQuota');
-    if (quota) quota.textContent = '⚡ ' + remaining + ' question(s) restante(s) aujourd\'hui';
-  }
-  
-  addAISuggestions();
-}
-
-function addAISuggestions() {
-  if (document.getElementById('aiSuggestions')) return;
-  if (typeof getSuggestions !== 'function') return;
-  
-  const suggestions = getSuggestions(LANG);
-  if (!suggestions.length) return;
-  
-  const suggestionsDiv = document.createElement('div');
-  suggestionsDiv.id = 'aiSuggestions';
-  suggestionsDiv.style.cssText = 'margin-top:14px;display:flex;flex-wrap:wrap;gap:6px';
-  
-  suggestions.forEach(s => {
-    const btn = document.createElement('button');
-    btn.textContent = s;
-    btn.style.cssText = 'padding:8px 12px;background:rgba(139,92,246,.08);color:#8b5cf6;border:1px solid rgba(139,92,246,.25);border-radius:20px;font-size:.78rem;cursor:pointer;font-family:inherit;transition:all .2s';
-    btn.onclick = () => {
-      const q = document.getElementById('aiQuestion');
-      if (q) { q.value = s; q.focus(); }
-    };
-    suggestionsDiv.appendChild(btn);
-  });
-  
-  const answerDiv = document.getElementById('aiAnswer');
-  if (answerDiv && answerDiv.parentNode) {
-    answerDiv.parentNode.insertBefore(suggestionsDiv, answerDiv);
-  }
-}
-
-function closeAISearch() {
-  const modal = document.getElementById('aiSearchModal');
-  if (!modal) return;
-  modal.classList.remove('show');
-  const answer = document.getElementById('aiAnswer');
-  if (answer) { answer.classList.remove('show'); answer.innerHTML = ''; }
-  const q = document.getElementById('aiQuestion');
-  if (q) q.value = '';
-  const suggestions = document.getElementById('aiSuggestions');
-  if (suggestions) suggestions.remove();
-}
-
-async function submitAIQuestion() {
-  const question = document.getElementById('aiQuestion')?.value.trim();
-  const answerDiv = document.getElementById('aiAnswer');
-  const submitBtn = document.getElementById('aiSubmitBtn');
-  
-  if (!question || question.length < 3) {
-    showToast('⚠️ Posez une question plus longue');
-    return;
-  }
-  
-  if (typeof askGemini !== 'function') {
-    answerDiv.classList.add('show');
-    answerDiv.innerHTML = '<p style="color:#dc2626">❌ Module IA non chargé.</p>';
-    return;
-  }
-  
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = '<span class="spinner-small"></span> Réflexion...';
-  answerDiv.classList.add('show');
-  answerDiv.innerHTML = '<div style="color:var(--mut)">🤖 L\'IA réfléchit...</div>';
-  
-  try {
-    const answer = await askGemini(question, LANG);
-    answerDiv.innerHTML = 
-      '<div style="display:flex;gap:10px">' +
-        '<span style="font-size:1.5rem">🤖</span>' +
-        '<div style="flex:1;line-height:1.7;white-space:pre-wrap">' + escapeHtmlAI(answer) + '</div>' +
-      '</div>' +
-      '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:.75rem;color:var(--mut);text-align:center">✨ Réponse générée par Google Gemini</div>';
-    
-    if (typeof getRemainingQuota === 'function') {
-      const remaining = getRemainingQuota();
-      const quota = document.getElementById('aiQuota');
-      if (quota) quota.textContent = '⚡ ' + remaining + ' question(s) restante(s) aujourd\'hui';
-    }
-  } catch(err) {
-    console.error('AI Error:', err);
-    answerDiv.innerHTML = '<div style="color:#dc2626">⚠️ ' + escapeHtmlAI(err.message) + '</div>';
-  }
-  
-  submitBtn.disabled = false;
-  const btns = { fr: "🚀 Demander à l'IA", ar: "🚀 اسأل الذكاء الاصطناعي", en: "🚀 Ask AI" };
-  submitBtn.innerHTML = btns[LANG] || btns.fr;
-}
-
-function escapeHtmlAI(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-function showToast(message, duration = 3000) {
-  const existing = document.getElementById('custom-toast');
-  if (existing) existing.remove();
-  const toast = document.createElement('div');
-  toast.id = 'custom-toast';
-  toast.textContent = message;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.classList.add('show'), 50);
-  setTimeout(() => {
-    toast.classList.remove('show');
-    setTimeout(() => toast.remove(), 300);
-  }, duration);
-}
-
-function setupScrollAnimations() {
-  const els = document.querySelectorAll('.scroll-anim');
-  if (!els.length) return;
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    els.forEach(el => observer.observe(el));
-  } else {
-    els.forEach(el => el.classList.add('visible'));
-  }
-}
-
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-window.addEventListener('scroll', () => {
-  const btn = document.getElementById('backToTop');
-  if (btn) btn.classList.toggle('show', window.scrollY > 300);
+const searchInput = document.getElementById('q');
+searchInput.addEventListener('input', (e) => {
+  const q = e.target.value.trim();
+  if (!q) { if (currentView === 'search') renderHome(); return; }
+  if (currentView !== 'search') currentView = 'search';
+  const results = window.smartSearch(q, window.SECTIONS);
+  renderSearchResults(results, q);
 });
 
-function handleHash() {
-  const h = location.hash.slice(1);
-  if (h && window.SECTIONS.find(s => s.id === h)) openSection(h);
-  else renderHome();
-}
-window.addEventListener('hashchange', handleHash);
+function renderSearchResults(results, query) {
+  const app = document.getElementById('app');
+  let html = '<h2>🔎 Résultats pour « ' + query + ' »</h2>';
 
-function updateOnlineStatus() {
-  document.body.classList.toggle('offline', !navigator.onLine);
-}
-window.addEventListener('online', updateOnlineStatus);
-window.addEventListener('offline', updateOnlineStatus);
-updateOnlineStatus();
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => {});
-  });
-}
-
-function openImageViewer(src) {
-  var overlay = document.createElement('div');
-  overlay.className = 'modal-overlay';
-  overlay.style.background = 'rgba(0,0,0,.95)';
-  overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
-  overlay.innerHTML = 
-    '<div style="position:relative;max-width:95vw;max-height:95vh">' +
-      '<img src="' + src + '" style="max-width:95vw;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.8)" alt="">' +
-      '<button onclick="this.closest(\'.modal-overlay\').remove()" style="position:absolute;top:-40px;right:0;background:#fff;color:#000;border:0;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;font-family:inherit">✕</button>' +
-    '</div>';
-  document.body.appendChild(overlay);
+  if (results.length === 0) {
+    html += '<p style="color:var(--mut);text-align:center;padding:40px 20px">' + window.t('noResult') + '<br><br>' + window.t('tryOther') + '</p>';
+    const suggestions = window.suggestWords ? window.suggestWords(query) : [];
+    if (suggestions.length) {
+      html += '<p style="text-align:center;color:var(--mut)">' + window.t('suggestions') + ' ';
+      html += suggestions.map(s => '<button class="btn" style="margin:4px" onclick="document.getElementById(\'q\').value=\'' + s + '\';document.getElementById(\'q\').dispatchEvent(new Event(\'input\'))">' + s + '</button>').join(' ');
+      html += '</p>';
+    }
+  } else {
+    results.slice(0, 20).forEach(r => {
+      html += '<div class="card-3d" style="cursor:pointer" onclick="openSection(\'' + r.section.id + '\')">';
+      html += '<h3>' + r.section.icon + ' ' + (r.item.icon || '') + ' ' + (r.item.titleKey ? window.t(r.item.titleKey) : (typeof r.item.title === 'object' ? r.item.title.fr : r.item.title || '')) + '</h3>';
+      html += '<p style="font-size:.85rem;color:var(--mut)">' + window.t(r.section.titleKey) + '</p>';
+      html += '</div>';
+    });
+  }
+  app.innerHTML = html;
 }
 
-(function init() {
+// ============================================
+// AI Modal
+// ============================================
+function openAIModal() {
+  document.getElementById('aiModal').style.display = 'flex';
+  document.getElementById('aiQuestion').focus();
+}
+function closeAIModal() {
+  document.getElementById('aiModal').style.display = 'none';
+  document.getElementById('aiAnswer').style.display = 'none';
+}
+async function submitAI() {
+  const q = document.getElementById('aiQuestion').value.trim();
+  if (q.length < 3) return;
+  const btn = document.getElementById('aiSubmitBtn');
+  const answer = document.getElementById('aiAnswer');
+  btn.disabled = true;
+  btn.textContent = '⏳…';
+  answer.style.display = 'block';
+  answer.textContent = '⏳ En cours…';
+  try {
+    const res = await window.askWithFallback(q, window.getCurrentLang());
+    if (res.source === 'ai') {
+      answer.innerHTML = '🤖 ' + res.answer;
+    } else {
+      answer.innerHTML = '⚠️ ' + res.error + '<br><br>Résultats locaux :<br>' + res.results.map(r =>
+        '• <a href="#" onclick="event.preventDefault();openSection(\'' + r.section.id + '\')">' + (r.item.titleKey ? window.t(r.item.titleKey) : r.item.title) + '</a>'
+      ).join('<br>');
+    }
+  } catch (e) {
+    answer.innerHTML = '❌ ' + e.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Envoyer';
+  }
+}
+
+// ============================================
+// Back to top
+// ============================================
+window.addEventListener('scroll', () => {
+  document.getElementById('back-to-top').classList.toggle('show', window.scrollY > 400);
+});
+
+// ============================================
+// Boot
+// ============================================
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loading-screen').classList.add('hide'), 300);
   if (typeof applyTheme === 'function') applyTheme();
   if (typeof applyTextSize === 'function') applyTextSize();
   setLang(localStorage.getItem('lang') || 'fr');
-  setTimeout(() => {
-    handleHash();
-    hideLoading();
-    setupScrollAnimations();
-  }, 300);
-})();
+  renderHome();
+  if (typeof window.loadProfsData === 'function') window.loadProfsData();
+});
 
-window.openSection = openSection;
+// إتاحة الدوال عالمياً
 window.renderHome = renderHome;
-window.renderCategory = renderCategory;
-window.renderCategoriesList = renderCategoriesList;
-window.showMetroType = showMetroType;
-window.showStation = showStation;
-window.showQR = showQR;
-window.showPlace = showPlace;
-window.doSearch = doSearch;
+window.openSection = openSection;
+window.renderSection = renderSection;
 window.setLang = setLang;
-window.scrollToTop = scrollToTop;
-window.openAISearch = openAISearch;
-window.closeAISearch = closeAISearch;
-window.submitAIQuestion = submitAIQuestion;
-window.showToast = showToast;
-window.renderGaridiMap = renderGaridiMap;
-window.renderProfsTabs = renderProfsTabs;
-window.renderProfsSubjects = renderProfsSubjects;
-window.renderProfsList = renderProfsList;
-window.renderProfCard = renderProfCard;
-window.switchProfsYear = switchProfsYear;
-window.openImageViewer = openImageViewer;
-window.renderServiceItems = renderServiceItems;
-window.renderShoppingItems = renderShoppingItems;
-window.renderItems = renderItems;
-window.askAIWithQuery = askAIWithQuery;
-window.openResult = openResult;
 </script>
 
 </body>
