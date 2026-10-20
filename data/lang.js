@@ -1,7 +1,7 @@
 // ============================================
 // lang.js — نظام اللغات الثلاث
 // Guide de survie ENSTP
-// Version 4.0 — Complet (Ecole + Services + FAQ)
+// Version 4.0 — Complet (Toutes les sections)
 // ============================================
 
 const LANG_DATA = {
@@ -167,6 +167,14 @@ const LANG_DATA = {
     adminRHDesc: "Gestion du personnel.",
     adminFinances: "Finances",
     adminFinancesDesc: "Bourses, paiements, frais.",
+    
+    // --- إدارتي الجديدة (الأسماء) ---
+    adminTebani: "Meriem Tebani",
+    adminTebaniDesc: "Chef de Service des Classes Préparatoires (1ACP-2ACP).",
+    adminMobarki: "M. Mobarki Ahmed",
+    adminMobarkiDesc: "Chef de Département des Classes Préparatoires.",
+    adminFedghouch: "M. Fedghouch Ferhat",
+    adminFedghouchDesc: "Responsable d'Études et Directeur de Conseil de Discipline.",
 
     // ============ 4. الخدمات ============
     servicesIntro: "Toutes les démarches administratives et étudiants.",
@@ -531,6 +539,14 @@ const LANG_DATA = {
     adminRHDesc: "إدارة الموظفين.",
     adminFinances: "المالية",
     adminFinancesDesc: "المنح، المدفوعات، الرسوم.",
+    
+    // --- إدارتي الجديدة ---
+    adminTebani: "مريم تيباني",
+    adminTebaniDesc: "رئيسة مصلحة الأقسام التحضيرية (1ACP-2ACP).",
+    adminMobarki: "أ. مباركي أحمد",
+    adminMobarkiDesc: "رئيس قسم الأقسام التحضيرية.",
+    adminFedghouch: "أ. فدغوش فرحات",
+    adminFedghouchDesc: "مسؤول الدراسات ورئيس مجلس التأديب.",
 
     // --- الخدمات ---
     servicesIntro: "كل الإجراءات الإدارية والطلابية.",
@@ -893,6 +909,14 @@ const LANG_DATA = {
     adminRHDesc: "Staff management.",
     adminFinances: "Finance",
     adminFinancesDesc: "Scholarships, payments, fees.",
+    
+    // --- إدارتي الجديدة ---
+    adminTebani: "Meriem Tebani",
+    adminTebaniDesc: "Head of Preparatory Classes Service (1ACP-2ACP).",
+    adminMobarki: "Mr. Mobarki Ahmed",
+    adminMobarkiDesc: "Head of Preparatory Classes Department.",
+    adminFedghouch: "Mr. Fedghouch Ferhat",
+    adminFedghouchDesc: "Head of Studies and Director of Discipline Council.",
 
     // --- الخدمات ---
     servicesIntro: "All administrative and student procedures.",
