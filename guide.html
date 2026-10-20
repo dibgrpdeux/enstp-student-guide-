@@ -162,6 +162,7 @@ function renderSection(id) {
   const sec = window.SECTIONS.find(s => s.id === id);
   if (!sec) return;
   const app = document.getElementById('app');
+  const lang = window.getCurrentLang();
 
   if (sec.type === 'custom' && typeof sec.render === 'function') {
     app.innerHTML = sec.render();
@@ -183,7 +184,12 @@ function renderSection(id) {
 
   if (sec.categories) {
     sec.categories.forEach(cat => {
-      html += '<h3 style="color:var(--acc);margin:24px 0 12px">' + cat.icon + ' ' + (cat.titleKey ? window.t(cat.titleKey) : cat.title) + '</h3>';
+      let catTitle = cat.titleKey ? window.t(cat.titleKey) : (cat.title ? (cat.title[lang] || cat.title.fr) : '');
+      // إذا كان التصنيف يحتوي على كائن ترجمة
+      if (cat.title && typeof cat.title === 'object') catTitle = cat.title[lang] || cat.title.fr;
+      
+      html += '<h3 style="color:var(--acc);margin:24px 0 12px">' + cat.icon + ' ' + catTitle + '</h3>';
+      
       if (cat.items) cat.items.forEach(item => { html += renderItem(item); });
     });
   }
@@ -219,9 +225,10 @@ function renderItem(item) {
       <div style="display:flex;flex-direction:column;gap:20px">`;
     
     item.videos.forEach(v => {
+      const videoTitle = v.titleKey ? window.t(v.titleKey) : (v.title ? (v.title[lang] || v.title.fr) : '');
       html += `
         <div>
-          <h4 style="color:var(--acc);margin-bottom:8px;font-size:1rem">${v.icon} ${window.t(v.titleKey)}</h4>
+          <h4 style="color:var(--acc);margin-bottom:8px;font-size:1rem">${v.icon} ${videoTitle}</h4>
           <div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 4px 12px rgba(0,0,0,0.1)">
             <iframe src="https://www.youtube.com/embed/${v.video}" width="100%" height="100%" style="border:0" allowfullscreen loading="lazy"></iframe>
           </div>
@@ -234,8 +241,15 @@ function renderItem(item) {
   }
 
   // --- دعم العناصر العادية (Items) ---
-  const title = item.titleKey ? window.t(item.titleKey) : (item.title ? (item.title[lang] || item.title.fr) : '');
-  const desc = item.descKey ? window.t(item.descKey) : (item.desc ? (item.desc[lang] || item.desc.fr) : '');
+  let title = '';
+  if (item.titleKey) title = window.t(item.titleKey);
+  else if (item.title) title = item.title[lang] || item.title.fr;
+  else if (item.n) title = item.n;
+
+  let desc = '';
+  if (item.descKey) desc = window.t(item.descKey);
+  else if (item.desc) desc = item.desc[lang] || item.desc.fr;
+  else if (item.note) desc = item.note;
 
   let html = '<div class="card-3d">';
   html += `<h3>${item.icon || ''} ${title}</h3>`;
@@ -253,36 +267,32 @@ function renderItem(item) {
     html += '</div>';
   }
 
-  // عرض فيديو يوتيوب عادي (برقم الفيديو)
+  // عرض الفيديو الفردي
   if (item.video) {
     html += '<div style="margin-top:12px;border-radius:12px;overflow:hidden;aspect-ratio:16/9">';
     html += `<iframe src="https://www.youtube.com/embed/${item.video}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>`;
     html += '</div>';
   }
 
-  // عرض فيديو الشورتس (برابط كامل)
-  if (item.videoUrl) {
-    // استخراج رقم الفيديو من رابط الشورتس ليعمل داخل الإطار
-    let videoId = "";
-    if (item.videoUrl.includes("/shorts/")) {
-      videoId = item.videoUrl.split("/shorts/")[1].split("?")[0];
-    } else {
-      videoId = item.videoUrl; // احتياطي
-    }
-    
-    html += '<div style="margin-top:12px;border-radius:12px;overflow:hidden;aspect-ratio:9/16;max-width:350px;margin-left:auto;margin-right:auto;">';
-    html += `<iframe src="https://www.youtube.com/embed/${videoId}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>`;
-    html += '</div>';
+  // عرض فيديوهات (شورتس أو غيره) داخل كائن videos
+  if (item.videos && item.videos.length > 0 && !item.video) {
+    item.videos.forEach(v => {
+      let vidId = v.id || v.video;
+      if (vidId && vidId.includes("/shorts/")) {
+        vidId = vidId.split("/shorts/")[1].split("?")[0];
+      }
+      const vTitle = v.title ? (v.title[lang] || v.title.fr) : '';
+      html += '<div style="margin-top:12px;">';
+      if (vTitle) html += `<h4 style="margin-bottom:6px;font-size:.95rem">${vTitle}</h4>`;
+      html += '<div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9">';
+      html += `<iframe src="https://www.youtube.com/embed/${vidId}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>`;
+      html += '</div></div>';
+    });
   }
 
   // عرض الخريطة (Google Maps)
   if (item.map) {
-    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(item.map)}" target="_blank" class="btn">📍 Voir sur Maps</a></p>`;
-  }
-
-  // عرض الرابط (مثل زر فيديو)
-  if (item.link && !item.video && !item.videoUrl) {
-    html += `<p style="margin-top:10px"><a href="${item.link}" target="_blank" class="btn">▶️ ${window.t('open') || 'Ouvrir'}</a></p>`;
+    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(item.map)}" target="_blank" class="btn">📍 ${window.t('viewMap') || 'Voir sur Maps'}</a></p>`;
   }
 
   if (item.extra) html += `<span class="extra">${item.extra}</span>`;
@@ -334,13 +344,14 @@ document.getElementById('q').addEventListener('input', (e) => {
   currentView = 'search';
   const results = window.smartSearch(q, window.SECTIONS);
   const app = document.getElementById('app');
-  let html = `<h2>🔎 Résultats pour « ${q} »</h2>`;
+  let html = `<h2>🔎 ${window.t('search')} "${q}"</h2>`;
   if (results.length === 0) {
     html += `<p style="color:var(--mut);text-align:center;padding:40px">${window.t('noResult')}</p>`;
   } else {
     results.slice(0, 20).forEach(r => {
+      let rTitle = r.item.titleKey ? window.t(r.item.titleKey) : (r.item.title ? (r.item.title[window.getCurrentLang()] || r.item.title.fr) : r.item.n);
       html += `<div class="card-3d" style="cursor:pointer" onclick="openSection('${r.section.id}')">
-        <h3>${r.section.icon} ${r.item.titleKey ? window.t(r.item.titleKey) : (r.item.title || '')}</h3>
+        <h3>${r.section.icon} ${rTitle}</h3>
         <p style="font-size:.85rem;color:var(--mut)">${window.t(r.section.titleKey)}</p>
       </div>`;
     });
