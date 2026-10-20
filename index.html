@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -18,265 +18,70 @@
 <link rel="icon" type="image/png" href="icon-192.png">
 
 <style>
-:root{
-  --acc:#c2410c;
-  --acc2:#9a3412;
-  --acc-soft:#fde8dc;
-  --bg:#0f1117;
-  --ink:#fff;
-}
+:root{--acc:#c2410c;--acc2:#9a3412;--acc-soft:#fde8dc;--bg:#0f1117;--ink:#fff}
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  background:var(--bg);color:var(--ink);
-  overflow-x:hidden;
-}
+body{font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
 img{max-width:100%;height:auto;display:block}
 
-/* ============ الشريط العلوي ============ */
-.top-controls{
-  position:fixed;top:16px;right:16px;z-index:1000;
-  display:flex;gap:8px;align-items:center;flex-wrap:wrap;
-  max-width:calc(100vw - 32px);
-}
-.pill{
-  display:flex;gap:4px;
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  padding:5px;border-radius:30px;
-  border:1px solid rgba(255,255,255,.15);
-}
-.pill button{
-  background:transparent;color:#fff;
-  padding:6px 11px;border-radius:20px;
-  font-size:.75rem;font-weight:600;
-  cursor:pointer;transition:all .2s;
-  font-family:inherit;border:0;
-}
+.top-controls{position:fixed;top:16px;right:16px;z-index:1000;display:flex;gap:8px;align-items:center;flex-wrap:wrap;max-width:calc(100vw - 32px)}
+.pill{display:flex;gap:4px;background:rgba(0,0,0,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:5px;border-radius:30px;border:1px solid rgba(255,255,255,.15)}
+.pill button{background:transparent;color:#fff;padding:6px 11px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;border:0}
 .pill button:hover{background:rgba(255,255,255,.15)}
 .pill button.on{background:#fff;color:var(--acc)}
-
-.ctrl-btn{
-  width:38px;height:38px;padding:0;
-  font-size:1rem;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  background:transparent;color:#fff;
-  cursor:pointer;transition:all .2s;border:0;font-family:inherit;
-}
+.ctrl-btn{width:38px;height:38px;padding:0;font-size:1rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:transparent;color:#fff;cursor:pointer;transition:all .2s;border:0;font-family:inherit}
 .ctrl-btn:hover{background:rgba(255,255,255,.15)}
 
-/* Text Size Panel */
-.text-size-panel{
-  position:fixed;top:70px;right:16px;z-index:999;
-  background:#fff;color:#1d2433;
-  padding:16px;border-radius:16px;
-  box-shadow:0 20px 50px rgba(0,0,0,.25);
-  border:1px solid #e5e1d8;
-  display:none;min-width:240px;
-}
+.text-size-panel{position:fixed;top:70px;right:16px;z-index:999;background:#fff;color:#1d2433;padding:16px;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.25);border:1px solid #e5e1d8;display:none;min-width:240px}
 .text-size-panel.show{display:block;animation:fadeSlide .25s ease-out}
 @keyframes fadeSlide{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
-.text-size-panel .tsp-header{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:14px;
-}
+.text-size-panel .tsp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
 .text-size-panel .tsp-header strong{font-size:.9rem;color:#c2410c}
-.text-size-panel .tsp-close{
-  background:none;border:0;font-size:1.4rem;color:#94a3b8;
-  cursor:pointer;padding:0;line-height:1;font-family:inherit;
-}
-.text-size-panel .tsp-list{
-  display:flex;flex-direction:column;gap:8px;
-}
-.text-size-panel .tsp-btn{
-  padding:12px 14px;
-  border:2px solid #e5e1d8;
-  background:#fff;color:#1d2433;
-  border-radius:10px;cursor:pointer;
-  text-align:left;font-family:inherit;
-  transition:all .2s;
-  display:flex;justify-content:space-between;align-items:center;
-}
-.text-size-panel .tsp-btn:hover{
-  border-color:#c2410c;
-  transform:translateX(3px);
-}
-.text-size-panel .tsp-btn.active{
-  border-color:#c2410c;
-  background:#fde8dc;
-  color:#c2410c;
-  font-weight:700;
-}
-.text-size-panel .tsp-btn .tsp-label{
-  font-size:.8rem;color:#94a3b8;
-}
-.text-size-panel .tsp-btn.active .tsp-label{
-  color:#c2410c;
-}
+.text-size-panel .tsp-close{background:none;border:0;font-size:1.4rem;color:#94a3b8;cursor:pointer;padding:0;line-height:1;font-family:inherit}
+.text-size-panel .tsp-list{display:flex;flex-direction:column;gap:8px}
+.text-size-panel .tsp-btn{padding:12px 14px;border:2px solid #e5e1d8;background:#fff;color:#1d2433;border-radius:10px;cursor:pointer;text-align:left;font-family:inherit;transition:all .2s;display:flex;justify-content:space-between;align-items:center}
+.text-size-panel .tsp-btn:hover{border-color:#c2410c;transform:translateX(3px)}
+.text-size-panel .tsp-btn.active{border-color:#c2410c;background:#fde8dc;color:#c2410c;font-weight:700}
+.text-size-panel .tsp-btn .tsp-label{font-size:.8rem;color:#94a3b8}
+.text-size-panel .tsp-btn.active .tsp-label{color:#c2410c}
 
-/* ============ Hero ============ */
-.hero{
-  position:relative;min-height:100vh;
-  display:flex;flex-direction:column;justify-content:center;
-  padding:6.25rem 1.25rem 3.75rem;text-align:center;
-  background-image:linear-gradient(135deg,rgba(194,65,12,.55),rgba(15,17,23,.72)),url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80');
-  background-size:cover;
-  background-position:center 40%;
-  background-attachment:fixed;
-  background-color:#0f1117;
-}
-.hero::after{
-  content:"";position:absolute;inset:0;
-  background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.08),transparent 70%);
-  z-index:0;
-}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:6.25rem 1.25rem 3.75rem;text-align:center;background-image:linear-gradient(135deg,rgba(194,65,12,.55),rgba(15,17,23,.72)),url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80');background-size:cover;background-position:center 40%;background-attachment:fixed;background-color:#0f1117}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.08),transparent 70%);z-index:0}
 .hero>*{position:relative;z-index:1}
-
-.logo-3d{
-  width:6.875rem;height:6.875rem;margin:0 auto 1.625rem;
-  background:linear-gradient(135deg,#fff,#f8f5ef);
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:3rem;
-  box-shadow:
-    0 20px 40px rgba(0,0,0,.4),
-    0 8px 16px rgba(0,0,0,.3),
-    inset 0 -4px 10px rgba(0,0,0,.08),
-    inset 0 4px 10px rgba(255,255,255,.9);
-  animation:floatLogo 4s ease-in-out infinite;
-}
-@keyframes floatLogo{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
-}
-
-.hero h1{
-  font-size:clamp(1.7rem,6vw,3.2rem);
-  font-weight:900;
-  margin-bottom:1rem;
-  line-height:1.2;
-  letter-spacing:-.8px;
-  color:#fff;
-  text-shadow:0 4px 30px rgba(0,0,0,.5);
-}
-.hero .subtitle{
-  font-size:clamp(1rem,3.5vw,1.35rem);
-  opacity:.95;margin-bottom:.625rem;
-  font-weight:300;color:#fff;
-  text-shadow:0 2px 10px rgba(0,0,0,.5);
-}
-.hero .tagline{
-  font-size:clamp(.9rem,3vw,1.1rem);
-  opacity:.9;margin-bottom:2.25rem;font-style:italic;
-  max-width:40rem;margin-left:auto;margin-right:auto;
-  line-height:1.5;color:#fff;
-  text-shadow:0 2px 10px rgba(0,0,0,.5);
-}
-
-.badges{
-  display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;
-  margin-bottom:2.5rem;max-width:47.5rem;
-  margin-left:auto;margin-right:auto;
-}
-.badge{
-  background:rgba(255,255,255,.18);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.3);
-  padding:.5rem 1rem;border-radius:1.5rem;
-  font-size:.82rem;font-weight:500;color:#fff;
-  transition:all .25s;
-}
+.logo-3d{width:6.875rem;height:6.875rem;margin:0 auto 1.625rem;background:linear-gradient(135deg,#fff,#f8f5ef);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;box-shadow:0 20px 40px rgba(0,0,0,.4),0 8px 16px rgba(0,0,0,.3),inset 0 -4px 10px rgba(0,0,0,.08),inset 0 4px 10px rgba(255,255,255,.9);animation:floatLogo 4s ease-in-out infinite}
+@keyframes floatLogo{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero h1{font-size:clamp(1.7rem,6vw,3.2rem);font-weight:900;margin-bottom:1rem;line-height:1.2;letter-spacing:-.8px;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.5)}
+.hero .subtitle{font-size:clamp(1rem,3.5vw,1.35rem);opacity:.95;margin-bottom:.625rem;font-weight:300;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.hero .tagline{font-size:clamp(.9rem,3vw,1.1rem);opacity:.9;margin-bottom:2.25rem;font-style:italic;max-width:40rem;margin-left:auto;margin-right:auto;line-height:1.5;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.badges{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:2.5rem;max-width:47.5rem;margin-left:auto;margin-right:auto}
+.badge{background:rgba(255,255,255,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.3);padding:.5rem 1rem;border-radius:1.5rem;font-size:.82rem;font-weight:500;color:#fff;transition:all .25s}
 .badge:hover{background:rgba(255,255,255,.28);transform:translateY(-2px)}
-
-.cta-group{
-  display:flex;flex-wrap:wrap;gap:.875rem;
-  justify-content:center;align-items:center;
-}
-
-.btn-3d{
-  display:inline-flex;align-items:center;gap:.625rem;
-  background:linear-gradient(180deg,#fff,#f0ebe2);
-  color:var(--acc);
-  padding:1.125rem 3.25rem;border-radius:3.125rem;
-  font-size:1.15rem;font-weight:800;
-  text-decoration:none;
-  box-shadow:
-    0 12px 30px rgba(0,0,0,.35),
-    0 6px 12px rgba(0,0,0,.2),
-    inset 0 -3px 6px rgba(0,0,0,.06),
-    inset 0 3px 6px rgba(255,255,255,.9);
-  transition:all .25s;
-  border:0;cursor:pointer;font-family:inherit;
-}
-.btn-3d:hover{
-  transform:translateY(-4px);
-  box-shadow:
-    0 18px 40px rgba(0,0,0,.4),
-    0 10px 20px rgba(0,0,0,.25),
-    inset 0 -3px 6px rgba(0,0,0,.06),
-    inset 0 3px 6px rgba(255,255,255,.9);
-}
+.cta-group{display:flex;flex-wrap:wrap;gap:.875rem;justify-content:center;align-items:center}
+.btn-3d{display:inline-flex;align-items:center;gap:.625rem;background:linear-gradient(180deg,#fff,#f0ebe2);color:var(--acc);padding:1.125rem 3.25rem;border-radius:3.125rem;font-size:1.15rem;font-weight:800;text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,.35),0 6px 12px rgba(0,0,0,.2),inset 0 -3px 6px rgba(0,0,0,.06),inset 0 3px 6px rgba(255,255,255,.9);transition:all .25s;border:0;cursor:pointer;font-family:inherit}
+.btn-3d:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.4),0 10px 20px rgba(0,0,0,.25),inset 0 -3px 6px rgba(0,0,0,.06),inset 0 3px 6px rgba(255,255,255,.9)}
 .btn-3d .arrow{transition:transform .3s}
 .btn-3d:hover .arrow{transform:translateX(6px)}
 html[dir="rtl"] .btn-3d .arrow{transform:scaleX(-1)}
 html[dir="rtl"] .btn-3d:hover .arrow{transform:scaleX(-1) translateX(6px)}
-
-.btn-install{
-  display:none;align-items:center;gap:.5rem;
-  background:linear-gradient(135deg,#10b981,#059669);
-  color:#fff;padding:.9375rem 1.875rem;border-radius:3.125rem;
-  font-size:1rem;font-weight:700;
-  box-shadow:
-    0 10px 25px rgba(16,185,129,.4),
-    0 4px 10px rgba(0,0,0,.2),
-    inset 0 -3px 6px rgba(0,0,0,.1),
-    inset 0 3px 6px rgba(255,255,255,.25);
-  transition:all .25s;
-  border:0;cursor:pointer;font-family:inherit;
-}
+.btn-install{display:none;align-items:center;gap:.5rem;background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:.9375rem 1.875rem;border-radius:3.125rem;font-size:1rem;font-weight:700;box-shadow:0 10px 25px rgba(16,185,129,.4),0 4px 10px rgba(0,0,0,.2),inset 0 -3px 6px rgba(0,0,0,.1),inset 0 3px 6px rgba(255,255,255,.25);transition:all .25s;border:0;cursor:pointer;font-family:inherit}
 .btn-install:hover{transform:translateY(-3px)}
 .btn-install.show{display:inline-flex}
 
-/* ============ Sections ============ */
 section{padding:4.375rem 1.25rem}
 .about{background:#fff;color:#1d2433}
 .about-inner{max-width:51.25rem;margin:0 auto}
 .about h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:1.5rem;text-align:center}
 .about p{font-size:1.05rem;line-height:1.85;color:#475569;margin-bottom:1rem;text-align:justify}
 .about p strong{color:var(--acc)}
-
-.stats{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1.25rem;max-width:43.75rem;margin:2.5rem auto 0;
-  padding:0 .625rem;
-}
-.stat{
-  text-align:center;
-  background:linear-gradient(180deg,#fff,#f8fafc);
-  padding:1.625rem .875rem;border-radius:1rem;
-  border:1px solid #e2e8f0;
-  box-shadow:0 4px 12px rgba(0,0,0,.04);
-}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;max-width:43.75rem;margin:2.5rem auto 0;padding:0 .625rem}
+.stat{text-align:center;background:linear-gradient(180deg,#fff,#f8fafc);padding:1.625rem .875rem;border-radius:1rem;border:1px solid #e2e8f0;box-shadow:0 4px 12px rgba(0,0,0,.04)}
 .stat b{display:block;font-size:2rem;color:var(--acc);font-weight:900;margin-bottom:.25rem}
 .stat span{font-size:.85rem;color:#64748b;font-weight:500}
 
 .features{background:#f8fafc}
 .features-inner{max-width:62.5rem;margin:0 auto}
 .features h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:1.875rem;text-align:center}
-.features-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
-  gap:1.25rem;
-}
-.feature{
-  background:#fff;padding:1.75rem 1.25rem;border-radius:1rem;
-  box-shadow:0 4px 15px rgba(0,0,0,.05);
-  text-align:center;
-  border:1px solid #e2e8f0;
-  transition:all .3s;
-}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.25rem}
+.feature{background:#fff;padding:1.75rem 1.25rem;border-radius:1rem;box-shadow:0 4px 15px rgba(0,0,0,.05);text-align:center;border:1px solid #e2e8f0;transition:all .3s}
 .feature:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,.1)}
 .feature .icon{font-size:2.5rem;margin-bottom:.75rem;display:block}
 .feature h3{color:var(--acc);margin-bottom:.5rem;font-size:1.05rem}
@@ -285,25 +90,11 @@ section{padding:4.375rem 1.25rem}
 .gallery{background:#fff}
 .gallery-inner{max-width:62.5rem;margin:0 auto}
 .gallery h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:1.875rem;text-align:center}
-.gallery-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(13.75rem,1fr));
-  gap:1rem;
-}
-.gallery-item{
-  border-radius:1rem;overflow:hidden;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);
-  aspect-ratio:4/3;background:#e2e8f0;
-  position:relative;transition:transform .3s;
-}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(13.75rem,1fr));gap:1rem}
+.gallery-item{border-radius:1rem;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);aspect-ratio:4/3;background:#e2e8f0;position:relative;transition:transform .3s}
 .gallery-item:hover{transform:scale(1.03)}
 .gallery-item img{width:100%;height:100%;object-fit:cover;display:block}
-.gallery-item .cap{
-  position:absolute;bottom:0;left:0;right:0;
-  background:linear-gradient(transparent,rgba(0,0,0,.85));
-  color:#fff;padding:1.5rem .875rem .75rem;
-  font-size:.9rem;font-weight:600;
-}
+.gallery-item .cap{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.85));color:#fff;padding:1.5rem .875rem .75rem;font-size:.9rem;font-weight:600}
 
 .team{background:linear-gradient(135deg,#fef3c7,#fff)}
 .team-inner{max-width:51.25rem;margin:0 auto}
@@ -311,55 +102,24 @@ section{padding:4.375rem 1.25rem}
 .team p{font-size:1.05rem;line-height:1.85;color:#475569;margin-bottom:1rem;text-align:justify}
 .team p strong{color:var(--acc)}
 .values{display:flex;flex-wrap:wrap;gap:.625rem;justify-content:center;margin:1.875rem 0}
-.value{
-  background:#fff;border:2px solid var(--acc-soft);
-  padding:.5625rem 1.25rem;border-radius:1.875rem;
-  font-size:.9rem;font-weight:600;color:var(--acc);
-  box-shadow:0 2px 8px rgba(0,0,0,.04);
-}
+.value{background:#fff;border:2px solid var(--acc-soft);padding:.5625rem 1.25rem;border-radius:1.875rem;font-size:.9rem;font-weight:600;color:var(--acc);box-shadow:0 2px 8px rgba(0,0,0,.04)}
 .quote{text-align:center;margin-top:1.875rem;font-style:italic;color:#94a3b8;font-size:1.05rem}
 
-.final-cta{
-  background:linear-gradient(135deg,var(--acc),var(--acc2));
-  text-align:center;color:#fff;
-}
+.final-cta{background:linear-gradient(135deg,var(--acc),var(--acc2));text-align:center;color:#fff}
 .final-cta h2{font-size:clamp(1.3rem,4vw,1.8rem);margin-bottom:.75rem}
 .final-cta p{opacity:.95;margin-bottom:1.875rem;max-width:37.5rem;margin-left:auto;margin-right:auto}
 
-footer{
-  background:#0f1117;color:#94a3b8;
-  text-align:center;padding:2.25rem 1.25rem;
-  font-size:.9rem;line-height:1.7;
-}
+footer{background:#0f1117;color:#94a3b8;text-align:center;padding:2.25rem 1.25rem;font-size:.9rem;line-height:1.7}
 footer strong{color:#e2e8f0}
 footer a{color:var(--acc);text-decoration:none;font-weight:600}
 
-.install-banner{
-  display:none;position:fixed;bottom:1.25rem;
-  left:1.25rem;right:1.25rem;
-  background:#fff;color:#1d2433;
-  padding:.875rem 1.125rem;border-radius:1rem;
-  box-shadow:0 20px 50px rgba(0,0,0,.3);
-  z-index:1000;align-items:center;gap:.75rem;
-  max-width:27.5rem;margin:0 auto;
-  border:1px solid #e2e8f0;
-}
+.install-banner{display:none;position:fixed;bottom:1.25rem;left:1.25rem;right:1.25rem;background:#fff;color:#1d2433;padding:.875rem 1.125rem;border-radius:1rem;box-shadow:0 20px 50px rgba(0,0,0,.3);z-index:1000;align-items:center;gap:.75rem;max-width:27.5rem;margin:0 auto;border:1px solid #e2e8f0}
 .install-banner.show{display:flex}
 .install-banner .ib-icon{font-size:1.8rem;flex-shrink:0}
 .install-banner .ib-text{flex:1;font-size:.88rem;line-height:1.4}
 .install-banner .ib-text strong{display:block;color:var(--acc);font-size:.95rem;margin-bottom:.125rem}
-.install-banner .ib-btn{
-  background:var(--acc);color:#fff;
-  padding:.625rem 1.125rem;border-radius:.625rem;
-  font-weight:600;cursor:pointer;
-  font-family:inherit;font-size:.88rem;
-  flex-shrink:0;border:0;
-}
-.install-banner .ib-close{
-  background:none;border:0;color:#94a3b8;
-  font-size:1.3rem;cursor:pointer;
-  padding:0 .25rem;font-family:inherit;
-}
+.install-banner .ib-btn{background:var(--acc);color:#fff;padding:.625rem 1.125rem;border-radius:.625rem;font-weight:600;cursor:pointer;font-family:inherit;font-size:.88rem;flex-shrink:0;border:0}
+.install-banner .ib-close{background:none;border:0;color:#94a3b8;font-size:1.3rem;cursor:pointer;padding:0 .25rem;font-family:inherit}
 
 @media(max-width:600px){
   .hero{background-attachment:scroll;background-position:center 30%;padding:5rem 1rem 3.125rem}
@@ -375,9 +135,6 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
 </head>
 <body>
 
-<!-- ============================================ -->
-<!-- الشريط العلوي -->
-<!-- ============================================ -->
 <div class="top-controls">
   <div class="pill">
     <button onclick="setLang('fr')" data-lang="fr">🇫🇷 FR</button>
@@ -389,9 +146,6 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
   </div>
 </div>
 
-<!-- ============================================ -->
-<!-- لوحة حجم النص -->
-<!-- ============================================ -->
 <div class="text-size-panel" id="text-size-panel">
   <div class="tsp-header">
     <strong id="tsp-title">Taille du texte</strong>
@@ -399,33 +153,25 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
   </div>
   <div class="tsp-list">
     <button class="tsp-btn" data-text-size-btn="small" onclick="setTextSize('small')">
-      <span>🅰️- <span id="ts-small-label">Petit</span></span>
-      <span class="tsp-label">14px</span>
+      <span>🅰️- <span id="ts-small-label">Petit</span></span><span class="tsp-label">14px</span>
     </button>
     <button class="tsp-btn" data-text-size-btn="normal" onclick="setTextSize('normal')">
-      <span>🅰️ <span id="ts-normal-label">Normal</span></span>
-      <span class="tsp-label">16px</span>
+      <span>🅰️ <span id="ts-normal-label">Normal</span></span><span class="tsp-label">16px</span>
     </button>
     <button class="tsp-btn" data-text-size-btn="large" onclick="setTextSize('large')">
-      <span>🅰️+ <span id="ts-large-label">Grand</span></span>
-      <span class="tsp-label">19px</span>
+      <span>🅰️+ <span id="ts-large-label">Grand</span></span><span class="tsp-label">19px</span>
     </button>
     <button class="tsp-btn" data-text-size-btn="xlarge" onclick="setTextSize('xlarge')">
-      <span>🅰️++ <span id="ts-xlarge-label">Très grand</span></span>
-      <span class="tsp-label">22px</span>
+      <span>🅰️++ <span id="ts-xlarge-label">Très grand</span></span><span class="tsp-label">22px</span>
     </button>
   </div>
 </div>
 
-<!-- ============================================ -->
-<!-- HERO -->
-<!-- ============================================ -->
 <section class="hero">
   <div class="logo-3d">🎓</div>
   <h1 id="hero-title">École Nationale Supérieure<br>des Travaux Publics</h1>
   <p class="subtitle" id="hero-subtitle">ENSTP — Alger, Garidi Kouba</p>
   <p class="tagline" id="hero-tagline">« Former les ingénieurs qui construisent l'Algérie de demain »</p>
-
   <div class="badges">
     <span class="badge">🏗️ Génie Civil</span>
     <span class="badge">🛣️ Routes</span>
@@ -435,25 +181,17 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
     <span class="badge">💧 Hydraulique</span>
     <span class="badge">📐 Topographie</span>
   </div>
-
   <div class="cta-group">
-    <a href="guide.html" class="btn-3d">
-      <span id="hero-btn">ابدأ</span> <span class="arrow">→</span>
-    </a>
-    <button id="install-btn-hero" class="btn-install" onclick="installApp()">
-      <span>📱</span> <span id="install-text-hero">Installer</span>
-    </button>
+    <a href="guide.html" class="btn-3d"><span id="hero-btn">Commencer</span> <span class="arrow">→</span></a>
+    <button id="install-btn-hero" class="btn-install" onclick="installApp()"><span>📱</span> <span id="install-text-hero">Installer</span></button>
   </div>
 </section>
 
-<!-- ============================================ -->
-<!-- ABOUT -->
-<!-- ============================================ -->
 <section class="about">
   <div class="about-inner">
     <h2 id="about-title">🏫 À propos de l'ENSTP</h2>
     <p id="about-p1">L'École Nationale Supérieure des Travaux Publics (ENSTP) est un établissement public algérien d'enseignement supérieur et de recherche, placé sous la tutelle du Ministère des Travaux Publics. Située à Garidi, Kouba (Alger), elle forme depuis des décennies des ingénieurs d'État spécialisés dans les domaines stratégiques des travaux publics.</p>
-    <p id="about-p2">L'école assure une formation d'excellence à travers un cycle préparatoire intégré suivi d'un cycle ingénieur, couvrant des spécialités telles que les routes, les ouvrages d'art, la géotechnique, l'hydraulique et la topographie. Ses diplômés contribuent activement au développement des infrastructures à travers tout le territoire national.</p>
+    <p id="about-p2">L'école assure une formation d'excellence à travers un cycle préparatoire intégré suivi d'un cycle ingénieur, couvrant des spécialités telles que les routes, les ouvrages d'art, la géotechnique, l'hydraulique et la topographie.</p>
   </div>
   <div class="stats">
     <div class="stat"><b>1967</b><span id="stat1">Année de création</span></div>
@@ -462,9 +200,6 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
   </div>
 </section>
 
-<!-- ============================================ -->
-<!-- FEATURES -->
-<!-- ============================================ -->
 <section class="features">
   <div class="features-inner">
     <h2 id="features-title">✨ Pourquoi cette app ?</h2>
@@ -479,9 +214,6 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
   </div>
 </section>
 
-<!-- ============================================ -->
-<!-- GALLERY -->
-<!-- ============================================ -->
 <section class="gallery">
   <div class="gallery-inner">
     <h2 id="gallery-title">📸 Découvrir l'école</h2>
@@ -494,9 +226,6 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
   </div>
 </section>
 
-<!-- ============================================ -->
-<!-- TEAM -->
-<!-- ============================================ -->
 <section class="team">
   <div class="team-inner">
     <h2 id="team-title">👥 Qui sommes-nous ?</h2>
@@ -519,15 +248,10 @@ footer a{color:var(--acc);text-decoration:none;font-weight:600}
   </div>
 </section>
 
-<!-- ============================================ -->
-<!-- FINAL CTA -->
-<!-- ============================================ -->
 <section class="final-cta">
   <h2 id="final-title">Prêt à découvrir ton guide ?</h2>
   <p id="final-p">Tout ce dont tu as besoin pour ton premier jour à l'ENSTP.</p>
-  <a href="guide.html" class="btn-3d">
-    <span id="final-btn">ابدأ</span> <span class="arrow">→</span>
-  </a>
+  <a href="guide.html" class="btn-3d"><span id="final-btn">Commencer</span> <span class="arrow">→</span></a>
 </section>
 
 <footer>
@@ -552,7 +276,7 @@ const LANG_DATA_INDEX = {
     heroTitle: "École Nationale Supérieure<br>des Travaux Publics",
     heroSubtitle: "ENSTP — Alger, Garidi Kouba",
     heroTagline: "« Former les ingénieurs qui construisent l'Algérie de demain »",
-    heroBtn: "ابدأ", installBtn: "Installer",
+    heroBtn: "Commencer", installBtn: "Installer",
     aboutTitle: "🏫 À propos de l'ENSTP",
     aboutP1: "L'École Nationale Supérieure des Travaux Publics (ENSTP) est un établissement public algérien d'enseignement supérieur et de recherche, placé sous la tutelle du Ministère des Travaux Publics. Située à Garidi, Kouba (Alger), elle forme depuis des décennies des ingénieurs d'État spécialisés dans les domaines stratégiques des travaux publics.",
     aboutP2: "L'école assure une formation d'excellence à travers un cycle préparatoire intégré suivi d'un cycle ingénieur, couvrant des spécialités telles que les routes, les ouvrages d'art, la géotechnique, l'hydraulique et la topographie.",
@@ -574,7 +298,7 @@ const LANG_DATA_INDEX = {
     teamQuote: "« Ne jamais rester sans savoir quoi faire. »",
     finalTitle: "Prêt à découvrir ton guide ?",
     finalP: "Tout ce dont tu as besoin pour ton premier jour.",
-    finalBtn: "ابدأ",
+    finalBtn: "Commencer",
     ibTitle: "Installer l'app", ibDesc: "Accès rapide, hors ligne", ibBtn: "Installer",
     tspTitle: "Taille du texte",
     tsSmall: "Petit", tsNormal: "Normal", tsLarge: "Grand", tsXLarge: "Très grand"
@@ -649,7 +373,6 @@ function setLang(lang) {
   document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
   const d = LANG_DATA_INDEX[lang];
   if (!d) return;
-
   const map = {
     'hero-title': 'heroTitle', 'hero-subtitle': 'heroSubtitle', 'hero-tagline': 'heroTagline',
     'hero-btn': 'heroBtn', 'install-text-hero': 'installBtn',
@@ -673,7 +396,6 @@ function setLang(lang) {
     'ts-small-label': 'tsSmall', 'ts-normal-label': 'tsNormal',
     'ts-large-label': 'tsLarge', 'ts-xlarge-label': 'tsXLarge'
   };
-
   Object.keys(map).forEach(id => {
     const el = document.getElementById(id);
     if (el && d[map[id]]) {
@@ -681,10 +403,7 @@ function setLang(lang) {
       else el.textContent = d[map[id]];
     }
   });
-
-  document.querySelectorAll('[data-lang]').forEach(b => {
-    b.classList.toggle('on', b.dataset.lang === lang);
-  });
+  document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('on', b.dataset.lang === lang));
 }
 
 let deferredPrompt = null;
@@ -720,14 +439,13 @@ function dismissBanner() {
 }
 
 function isInstalled() {
-  return window.matchMedia('(display-mode: standalone)').matches ||
-         window.navigator.standalone === true;
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js', { scope: './' })
-      .then(() => console.log('✅ SW'))
+      .then(() => console.log('✅ SW registered'))
       .catch((err) => console.log('❌ SW:', err));
   });
 }
@@ -735,7 +453,5 @@ if ('serviceWorker' in navigator) {
 setLang(localStorage.getItem('lang') || 'fr');
 if (typeof applyTextSize === 'function') applyTextSize();
 </script>
- <script data-goatcounter="https://benaliakheira2004.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script> 
 </body>
 </html>
