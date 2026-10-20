@@ -4,7 +4,6 @@
 
 window.SECTIONS = window.SECTIONS || [];
 
-// حذف أي نسخة قديمة
 for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
   if (window.SECTIONS[i].id === 'ecole') window.SECTIONS.splice(i, 1);
 }
@@ -17,16 +16,13 @@ window.SECTIONS.push({
   type: "items",
 
   items: [
-    // ========== 1. الخريطة التفاعلية ==========
     {
       titleKey: "ecoleMapTitle",
       icon: "🗺️",
       descKey: "ecoleMapDesc",
-      type: "iframe-map", 
-      iframeUrl: "data/campus-map.html" // المسار الصحيح
+      type: "iframe-map",
+      iframeUrl: "data/campus-map.html"
     },
-
-    // ========== 2. الفيديوهات التعريفية ==========
     {
       titleKey: "ecoleVideosTitle",
       icon: "🎬",
