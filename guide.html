@@ -8,7 +8,6 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
-<!-- ملفات التنسيق والألوان -->
 <link rel="stylesheet" href="style.css">
 <script src="text-size.js"></script>
 <script src="theme.js"></script>
@@ -24,7 +23,6 @@
 <div class="progress-bar" id="progress-bar"></div>
 <div class="offline-banner">📴 Mode hors ligne</div>
 
-<!-- الشريط العلوي: اللغة، الثيم، حجم الخط -->
 <div class="top-controls">
   <div class="pill">
     <button onclick="setLang('fr')" data-lang="fr">🇫🇷</button>
@@ -39,7 +37,6 @@
   </div>
 </div>
 
-<!-- لوحة الألوان (الثيمات) -->
 <div class="theme-panel" id="theme-panel">
   <div class="theme-panel-header">
     <strong>Thème</strong>
@@ -58,7 +55,6 @@
   </div>
 </div>
 
-<!-- لوحة حجم النص -->
 <div class="text-size-panel" id="text-size-panel">
   <div class="tsp-header">
     <strong>Taille du texte</strong>
@@ -74,6 +70,7 @@
 
 <header>
   <h1><span>Guide</span> de survie ENSTP</h1>
+  <p id="header-sub">Ton premier jour, dans ta poche.</p>
   <a href="index.html">🏠 Accueil</a>
 </header>
 
@@ -89,16 +86,16 @@
 <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <a href="feedback.html" class="feedback-float"><span class="fb-icon">💬</span> Votre avis</a>
 
-<!-- نافذة الذكاء الاصطناعي -->
 <div class="modal-overlay" id="aiModal" style="display:none">
   <div class="modal-box">
     <h3>🤖 Assistant IA</h3>
-    <textarea id="aiQuestion" rows="3" placeholder="Ex: Comment obtenir mon affiliation CNAS ?" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);font-family:inherit"></textarea>
+    <p style="color:var(--mut);font-size:.9rem;margin-bottom:12px">Pose ta question sur l'ENSTP.</p>
+    <textarea id="aiQuestion" rows="3" placeholder="Ex: Comment obtenir mon affiliation CNAS ?" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);font-family:inherit;resize:vertical"></textarea>
     <div style="display:flex;gap:8px;margin-top:12px">
-      <button onclick="closeAIModal()" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);cursor:pointer">Annuler</button>
-      <button onclick="submitAI()" id="aiSubmitBtn" style="flex:1;padding:12px;border-radius:12px;border:0;background:var(--acc);color:#fff;font-weight:700;cursor:pointer">Envoyer</button>
+      <button onclick="closeAIModal()" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-family:inherit">Annuler</button>
+      <button onclick="submitAI()" id="aiSubmitBtn" style="flex:1;padding:12px;border-radius:12px;border:0;background:var(--acc);color:#fff;font-weight:700;cursor:pointer;font-family:inherit">Envoyer</button>
     </div>
-    <div id="aiAnswer" style="display:none;margin-top:16px;padding:14px;background:var(--acc-soft);border-radius:12px;font-size:.9rem;line-height:1.6"></div>
+    <div id="aiAnswer" style="display:none;margin-top:16px;padding:14px;background:var(--orange-soft,#fde8dc);border-radius:12px;font-size:.9rem;line-height:1.6"></div>
   </div>
 </div>
 
@@ -106,7 +103,6 @@
 <script src="search.js"></script>
 <script src="ai-search.js"></script>
 
-<!-- تحميل البيانات -->
 <script src="data/config.js"></script>
 <script src="data/ecole.js"></script>
 <script src="data/admin.js"></script>
@@ -197,10 +193,47 @@ function renderSection(id) {
 }
 
 // ==========================================
-// الدالة الأهم: عرض العناصر والصور والفيديوهات
+// الدالة الأهم: عرض العناصر والصور والفيديوهات والخريطة
 // ==========================================
 function renderItem(item) {
   const lang = window.getCurrentLang();
+
+  // --- دعم الخريطة التفاعلية (iframe-map) ---
+  if (item.type === 'iframe-map') {
+    return `
+      <div class="card-3d" style="padding-bottom:20px">
+        <h3>${item.icon} ${window.t(item.titleKey)}</h3>
+        <p style="margin-bottom:15px">${window.t(item.descKey)}</p>
+        <div style="border-radius:12px;overflow:hidden;height:600px;width:100%;background:#eee;border:1px solid var(--line)">
+          <iframe src="${item.iframeUrl}" width="100%" height="100%" style="border:0" title="خريطة المدرسة التفاعلية"></iframe>
+        </div>
+      </div>
+    `;
+  }
+
+  // --- دعم مجموعة الفيديوهات (videos-group) ---
+  if (item.type === 'videos-group') {
+    let html = `<div class="card-3d" style="padding-bottom:20px">
+      <h3>${item.icon} ${window.t(item.titleKey)}</h3>
+      <p style="margin-bottom:15px">${window.t(item.descKey)}</p>
+      <div style="display:flex;flex-direction:column;gap:20px">`;
+    
+    item.videos.forEach(v => {
+      html += `
+        <div>
+          <h4 style="color:var(--acc);margin-bottom:8px;font-size:1rem">${v.icon} ${window.t(v.titleKey)}</h4>
+          <div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 4px 12px rgba(0,0,0,0.1)">
+            <iframe src="https://www.youtube.com/embed/${v.video}" width="100%" height="100%" style="border:0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += `</div></div>`;
+    return html;
+  }
+
+  // --- دعم العناصر العادية (Items) ---
   const title = item.titleKey ? window.t(item.titleKey) : (item.title ? (item.title[lang] || item.title.fr) : '');
   const desc = item.descKey ? window.t(item.descKey) : (item.desc ? (item.desc[lang] || item.desc.fr) : '');
 
@@ -227,18 +260,7 @@ function renderItem(item) {
     html += '</div>';
   }
 
-  // عرض مجموعة فيديوهات
-  if (item.videos) {
-    item.videos.forEach(v => {
-      html += '<div style="margin-top:16px;">';
-      html += `<h4>${v.icon || ''} ${window.t(v.titleKey)}</h4>`;
-      html += '<div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;margin-top:8px">';
-      html += `<iframe src="https://www.youtube.com/embed/${v.video}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>`;
-      html += '</div></div>';
-    });
-  }
-
-  // عرض الخريطة
+  // عرض الخريطة (Google Maps)
   if (item.map) {
     html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(item.map)}" target="_blank" class="btn">📍 Voir sur Maps</a></p>`;
   }
