@@ -212,6 +212,40 @@ function getText(val, lang) {
 
 // دالة عرض العناصر
 function renderItem(item) {
+  function renderItem(item) {
+  const lang = window.getCurrentLang();
+
+  // ==========================================
+  // دعم قسم الأسئلة الشائعة (FAQ)
+  // ==========================================
+  if (item.type === 'faq') {
+    let html = `<div class="card-3d">
+      <h3>${item.icon || '❓'} ${window.t(item.titleKey) || 'FAQ'}</h3>
+      <p style="margin-bottom:15px;color:var(--mut)">${window.t(item.descKey) || ''}</p>
+      <div style="display:flex;flex-direction:column;gap:10px">`;
+
+    item.faqItems.forEach(group => {
+      // عنوان المجموعة (مثل: التسجيلات، الدراسة)
+      if (group.categoryKey) {
+        html += `<h4 style="color:var(--acc);margin:15px 0 5px 0;font-size:1rem">${window.t(group.categoryKey)}</h4>`;
+      }
+      
+      // الأسئلة داخل المجموعة
+      group.items.forEach(faq => {
+        const question = window.t(faq.q);
+        const answer = window.t(faq.a);
+        html += `
+          <details style="background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 15px;cursor:pointer">
+            <summary style="font-weight:700;font-size:.95rem;color:var(--ink);outline:none">${question}</summary>
+            <p style="margin-top:10px;font-size:.9rem;color:var(--mut);line-height:1.7;white-space:pre-line">${answer}</p>
+          </details>
+        `;
+      });
+    });
+
+    html += `</div></div>`;
+    return html;
+  }
   const lang = window.getCurrentLang();
 
   // 1. الخريطة
