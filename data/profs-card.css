@@ -1,7 +1,7 @@
 /* ============================================
    🎓 profs-card.css — تصميم بطاقات الأساتذة
    Guide de survie ENSTP
-   Version 4.0 — تصميم عصري 2025
+   Version 5.0 — تصميم عصري 2025
    ============================================ */
 
 /* ============================================
@@ -264,6 +264,7 @@
   gap: 20px;
   align-items: center;
   flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
 /* صورة الأستاذ الكبيرة */
@@ -280,16 +281,6 @@
   flex-shrink: 0;
   position: relative;
   background: linear-gradient(135deg, #c2410c, #9a3412);
-}
-
-.prof-photo::before {
-  content: "";
-  position: absolute;
-  inset: -10px;
-  border: 2px solid rgba(194, 65, 12, 0.25);
-  border-radius: 34px;
-  pointer-events: none;
-  z-index: 2;
 }
 
 .prof-photo img {
@@ -361,24 +352,22 @@
   box-shadow: 0 4px 10px rgba(29, 36, 51, 0.35);
 }
 
-.prof-status {
-  margin-top: 8px;
-  font-size: 0.85rem;
-  color: #64748b;
-  font-weight: 600;
-}
-
 /* ============================================
    📧 بطاقة البريد (ذهبية)
    ============================================ */
-.prof-email-card {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.5) !important;
+.prof-section-card {
   border-radius: 20px !important;
   padding: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
-  animation: cardFadeIn 0.5s ease-out 0.1s both;
+  margin-top: 15px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
+  position: relative;
 }
+
+.prof-email-card { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important; border: 3px solid rgba(255, 255, 255, 0.5) !important; }
+.prof-modules-card { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important; border: 3px solid rgba(255, 255, 255, 0.5) !important; }
+.prof-advice-card { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%) !important; border: 3px solid rgba(255, 255, 255, 0.5) !important; }
+.prof-research-card { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important; border: 3px solid rgba(255, 255, 255, 0.5) !important; }
+.prof-links-card { background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%) !important; border: 3px solid rgba(255, 255, 255, 0.5) !important; }
 
 .prof-section-title {
   font-weight: 800 !important;
@@ -387,13 +376,6 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 6px !important;
-}
-
-.prof-section-subtitle {
-  font-size: 0.8rem !important;
-  color: #64748b !important;
-  font-style: italic;
-  margin-bottom: 10px !important;
 }
 
 .prof-email-link {
@@ -419,15 +401,6 @@
 /* ============================================
    📚 بطاقة الوحدات (زرقاء)
    ============================================ */
-.prof-modules-card {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.5) !important;
-  border-radius: 20px !important;
-  padding: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
-  animation: cardFadeIn 0.5s ease-out 0.2s both;
-}
-
 .prof-modules-list {
   list-style: none;
   padding: 0;
@@ -460,27 +433,9 @@ html[dir="rtl"] .prof-modules-list li::before {
   right: 0;
 }
 
-.prof-year-title {
-  font-weight: 800;
-  color: #1d2433;
-  margin-top: 14px;
-  font-size: 0.95rem;
-  padding-top: 12px;
-  border-top: 2px dashed rgba(29, 36, 51, 0.15);
-}
-
 /* ============================================
    💡 بطاقة النصيحة (وردية)
    ============================================ */
-.prof-advice-card {
-  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.5) !important;
-  border-radius: 20px !important;
-  padding: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
-  animation: cardFadeIn 0.5s ease-out 0.3s both;
-}
-
 .prof-advice-text {
   font-size: 0.92rem;
   line-height: 1.75;
@@ -501,15 +456,6 @@ html[dir="rtl"] .prof-advice-text {
 /* ============================================
    🔬 بطاقة البحث (خضراء)
    ============================================ */
-.prof-research-card {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.5) !important;
-  border-radius: 20px !important;
-  padding: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
-  animation: cardFadeIn 0.5s ease-out 0.4s both;
-}
-
 .prof-research-text {
   font-size: 0.9rem;
   line-height: 1.7;
@@ -523,15 +469,6 @@ html[dir="rtl"] .prof-advice-text {
 /* ============================================
    🔗 بطاقة الروابط (بنفسجية)
    ============================================ */
-.prof-links-card {
-  background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.5) !important;
-  border-radius: 20px !important;
-  padding: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
-  animation: cardFadeIn 0.5s ease-out 0.5s both;
-}
-
 .prof-links-list {
   display: flex;
   flex-direction: column;
@@ -710,9 +647,4 @@ body.dark .prof-email-link {
 body.dark .prof-simple-no-email {
   background: #1e293b;
   color: #94a3b8;
-}
-
-body.dark .prof-year-title {
-  color: #f1f5f9;
-  border-top-color: rgba(255, 255, 255, 0.15);
 }
