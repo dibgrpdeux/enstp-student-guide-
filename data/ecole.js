@@ -14,9 +14,9 @@ window.SECTIONS.push({
   items: [
     // ========== 1. الخريطة التفاعلية ==========
     {
-      titleKey: "ecoleMapTitle",
+      titleKey: "ecole Map",
       icon: "🗺️",
-      descKey: "ecoleMapDesc",
+      descKey: "ecole Map ",
       type: "garidi-map", // نوع خاص يتم التعرف عليه في guide.html
       mapUrl: "https://www.google.com/maps/d/u/1/edit?mid=1nT-Wvfqo8A3wdoHnadLzZHFYB_qdH_U&usp=sharing"
     },
@@ -28,12 +28,12 @@ window.SECTIONS.push({
       descKey: "ecoleVideosDesc",
       type: "videos-group", // نوع خاص لعرض مجموعة فيديوهات
       videos: [
-        { titleKey: "ecoleVideoTour", icon: "🏢", video: "8LfUbr6JoVE" },
-        { titleKey: "ecoleVideoPrep", icon: "📘", video: "DQLbKFkIJh0" },
-        { titleKey: "ecoleVideoAmphi", icon: "🏛️", video: "5LSyChDF-hA" },
-        { titleKey: "ecoleVideoInfra", icon: "🏗️", video: "uZ7HbehM_UU" },
-        { titleKey: "ecoleVideoEntree", icon: "🚪", video: "GUCHDgEJaIk" },
-        { titleKey: "ecoleVideoInfo", icon: "💻", video: "sFwHEHhgAbQ" }
+        { titleKey: "Tour dans l'enstp", icon: "🏢", video: "8LfUbr6JoVE" },
+        { titleKey: "département de classe préparatoire", icon: "📘", video: "DQLbKFkIJh0" },
+        { titleKey: "Amphi A", icon: "🏛️", video: "5LSyChDF-hA" },
+        { titleKey: "Infrastructures de l'école", icon: "🏗️", video: "uZ7HbehM_UU" },
+        { titleKey: "Entree à l'école", icon: "🚪", video: "GUCHDgEJaIk" },
+        { titleKey: "centre d'informatiques", icon: "💻", video: "sFwHEHhgAbQ" }
       ]
     }
   ]
