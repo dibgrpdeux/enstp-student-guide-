@@ -1,0 +1,53 @@
+{
+  "name": "Guide de survie ENSTP",
+  "short_name": "ENSTP Guide",
+  "description": "Le guide complet pour les étudiants de l'ENSTP — 3 langues, hors ligne, gratuit.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "/enstp-guide",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#0f1117",
+  "theme_color": "#c2410c",
+  "lang": "fr",
+  "dir": "ltr",
+  "categories": ["education", "utilities"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Forum",
+      "short_name": "Forum",
+      "description": "Accéder au forum étudiant",
+      "url": "./forum.html",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Guide",
+      "short_name": "Guide",
+      "description": "Accéder au guide de survie",
+      "url": "./guide.html",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
