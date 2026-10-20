@@ -23,6 +23,7 @@
 <div class="progress-bar" id="progress-bar"></div>
 <div class="offline-banner">📴 Mode hors ligne</div>
 
+<!-- الشريط العلوي: اللغة، الثيم، حجم الخط -->
 <div class="top-controls">
   <div class="pill">
     <button onclick="setLang('fr')" data-lang="fr">🇫🇷</button>
@@ -37,6 +38,7 @@
   </div>
 </div>
 
+<!-- لوحة الألوان المخفية -->
 <div class="theme-panel" id="theme-panel">
   <div class="theme-panel-header">
     <strong>Thème</strong>
@@ -55,6 +57,7 @@
   </div>
 </div>
 
+<!-- لوحة حجم النص المخفية -->
 <div class="text-size-panel" id="text-size-panel">
   <div class="tsp-header">
     <strong>Taille du texte</strong>
@@ -120,6 +123,7 @@
 <script src="data/index.js"></script>
 
 <script>
+// ... (كل كود JavaScript الخاص بـ guide.html من الرسالة السابقة، لا تغيره) ...
 let currentSection = null;
 let currentView = 'home';
 
@@ -185,11 +189,9 @@ function renderSection(id) {
   if (sec.categories) {
     sec.categories.forEach(cat => {
       let catTitle = cat.titleKey ? window.t(cat.titleKey) : (cat.title ? (cat.title[lang] || cat.title.fr) : '');
-      // إذا كان التصنيف يحتوي على كائن ترجمة
       if (cat.title && typeof cat.title === 'object') catTitle = cat.title[lang] || cat.title.fr;
       
       html += '<h3 style="color:var(--acc);margin:24px 0 12px">' + cat.icon + ' ' + catTitle + '</h3>';
-      
       if (cat.items) cat.items.forEach(item => { html += renderItem(item); });
     });
   }
@@ -198,26 +200,21 @@ function renderSection(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ==========================================
-// الدالة الأهم: عرض العناصر والصور والفيديوهات والخريطة
-// ==========================================
 function renderItem(item) {
   const lang = window.getCurrentLang();
 
-  // --- دعم الخريطة التفاعلية (iframe-map) ---
   if (item.type === 'iframe-map') {
     return `
       <div class="card-3d" style="padding-bottom:20px">
         <h3>${item.icon} ${window.t(item.titleKey)}</h3>
         <p style="margin-bottom:15px">${window.t(item.descKey)}</p>
         <div style="border-radius:12px;overflow:hidden;height:600px;width:100%;background:#eee;border:1px solid var(--line)">
-          <iframe src="${item.iframeUrl}" width="100%" height="100%" style="border:0" title="خريطة المدرسة التفاعلية"></iframe>
+          <iframe src="${item.iframeUrl}" width="100%" height="100%" style="border:0" title="Map"></iframe>
         </div>
       </div>
     `;
   }
 
-  // --- دعم مجموعة الفيديوهات (videos-group) ---
   if (item.type === 'videos-group') {
     let html = `<div class="card-3d" style="padding-bottom:20px">
       <h3>${item.icon} ${window.t(item.titleKey)}</h3>
@@ -225,22 +222,20 @@ function renderItem(item) {
       <div style="display:flex;flex-direction:column;gap:20px">`;
     
     item.videos.forEach(v => {
-      const videoTitle = v.titleKey ? window.t(v.titleKey) : (v.title ? (v.title[lang] || v.title.fr) : '');
+      const vTitle = v.titleKey ? window.t(v.titleKey) : (v.title ? (v.title[lang] || v.title.fr) : '');
       html += `
         <div>
-          <h4 style="color:var(--acc);margin-bottom:8px;font-size:1rem">${v.icon} ${videoTitle}</h4>
+          <h4 style="color:var(--acc);margin-bottom:8px;font-size:1rem">${v.icon} ${vTitle}</h4>
           <div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 4px 12px rgba(0,0,0,0.1)">
             <iframe src="https://www.youtube.com/embed/${v.video}" width="100%" height="100%" style="border:0" allowfullscreen loading="lazy"></iframe>
           </div>
         </div>
       `;
     });
-    
     html += `</div></div>`;
     return html;
   }
 
-  // --- دعم العناصر العادية (Items) ---
   let title = '';
   if (item.titleKey) title = window.t(item.titleKey);
   else if (item.title) title = item.title[lang] || item.title.fr;
@@ -258,7 +253,6 @@ function renderItem(item) {
   if (item.location) html += `<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ${item.location}</p>`;
   if (item.hours) html += `<p style="font-size:.85rem;color:var(--mut)">🕐 ${item.hours}</p>`;
   
-  // عرض الصور المتعددة
   if (item.images && item.images.length > 0) {
     html += '<div style="display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:8px">';
     item.images.forEach(img => {
@@ -267,20 +261,23 @@ function renderItem(item) {
     html += '</div>';
   }
 
-  // عرض الفيديو الفردي
   if (item.video) {
     html += '<div style="margin-top:12px;border-radius:12px;overflow:hidden;aspect-ratio:16/9">';
     html += `<iframe src="https://www.youtube.com/embed/${item.video}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>`;
     html += '</div>';
   }
 
-  // عرض فيديوهات (شورتس أو غيره) داخل كائن videos
-  if (item.videos && item.videos.length > 0 && !item.video) {
+  if (item.videoUrl) {
+    let vidId = item.videoUrl.includes("/shorts/") ? item.videoUrl.split("/shorts/")[1].split("?")[0] : item.videoUrl;
+    html += '<div style="margin-top:12px;border-radius:12px;overflow:hidden;aspect-ratio:9/16;max-width:350px;margin-left:auto;margin-right:auto;">';
+    html += `<iframe src="https://www.youtube.com/embed/${vidId}" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>`;
+    html += '</div>';
+  }
+
+  if (item.videos && item.videos.length > 0 && !item.video && !item.videoUrl) {
     item.videos.forEach(v => {
       let vidId = v.id || v.video;
-      if (vidId && vidId.includes("/shorts/")) {
-        vidId = vidId.split("/shorts/")[1].split("?")[0];
-      }
+      if (vidId && vidId.includes("/shorts/")) vidId = vidId.split("/shorts/")[1].split("?")[0];
       const vTitle = v.title ? (v.title[lang] || v.title.fr) : '';
       html += '<div style="margin-top:12px;">';
       if (vTitle) html += `<h4 style="margin-bottom:6px;font-size:.95rem">${vTitle}</h4>`;
@@ -290,9 +287,8 @@ function renderItem(item) {
     });
   }
 
-  // عرض الخريطة (Google Maps)
   if (item.map) {
-    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(item.map)}" target="_blank" class="btn">📍 ${window.t('viewMap') || 'Voir sur Maps'}</a></p>`;
+    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(item.map)}" target="_blank" class="btn">📍 Voir sur Maps</a></p>`;
   }
 
   if (item.extra) html += `<span class="extra">${item.extra}</span>`;
@@ -300,7 +296,6 @@ function renderItem(item) {
   return html;
 }
 
-// عرض الصور بشكل مكبر
 window.openImageViewer = (src) => {
   const o = document.createElement('div');
   o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out';
@@ -309,7 +304,6 @@ window.openImageViewer = (src) => {
   document.body.appendChild(o);
 };
 
-// أساتذتي
 async function renderProfsSection(sec) {
   const app = document.getElementById('app');
   app.innerHTML = '<button class="back" onclick="renderHome()">Retour</button><p>Chargement...</p>';
@@ -337,7 +331,6 @@ async function renderProfsSection(sec) {
   app.innerHTML = html;
 }
 
-// البحث
 document.getElementById('q').addEventListener('input', (e) => {
   const q = e.target.value.trim();
   if (!q) { if (currentView === 'search') renderHome(); return; }
@@ -359,7 +352,6 @@ document.getElementById('q').addEventListener('input', (e) => {
   app.innerHTML = html;
 });
 
-// الذكاء الاصطناعي
 function openAIModal() { document.getElementById('aiModal').style.display = 'flex'; }
 function closeAIModal() { document.getElementById('aiModal').style.display = 'none'; }
 async function submitAI() {
@@ -376,12 +368,10 @@ async function submitAI() {
   finally { btn.disabled = false; btn.textContent = 'Envoyer'; }
 }
 
-// السهم لأعلى
 window.addEventListener('scroll', () => {
   document.getElementById('back-to-top').classList.toggle('show', window.scrollY > 400);
 });
 
-// تشغيل التطبيق
 window.addEventListener('load', () => {
   setTimeout(() => document.getElementById('loading-screen').classList.add('hide'), 300);
   if (typeof applyTheme === 'function') applyTheme();
