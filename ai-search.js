@@ -1,152 +1,158 @@
 // ============================================
-// ai-search.js — البحث بالذكاء الاصطناعي
+// ai-search.js — البحث بالذكاء الاصطناعي (آمن)
 // Guide de survie ENSTP
-// Powered by Google Gemini
+// يعتمد على Vercel Function /api/ask-gemini
 // ============================================
 
-// ⚠️ ضع مفتاح Gemini هنا
-const GEMINI_API_KEY = 'AQ.Ab8RN6LbEF26WGPXsddXUtP0Yfn94FNDiBAONIMuUki1swa_HQ ';
+const FUNCTION_URL = '/api/ask-gemini';
 
-const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+// حد يومي محلي (ليس آمناً — الحد الحقيقي على الخادم)
+const DAILY_LIMIT = 30;
 
-// الحد اليومي (1500)
-const DAILY_LIMIT = 1500;
-
-// ============================================
-// تتبع الاستخدام
-// ============================================
-function getUsageToday() {
-  const today = new Date().toDateString();
-  const stored = localStorage.getItem('gemini_usage');
-  if (!stored) return { date: today, count: 0 };
-  
-  try {
-    const data = JSON.parse(stored);
-    if (data.date !== today) return { date: today, count: 0 };
-    return data;
-  } catch(e) {
-    return { date: today, count: 0 };
-  }
-}
-
-function incrementUsage() {
-  const data = getUsageToday();
-  data.count++;
-  localStorage.setItem('gemini_usage', JSON.stringify(data));
-  return data.count;
-}
-
-function canUseAI() {
-  const usage = getUsageToday();
-  return usage.count < DAILY_LIMIT;
+function getTodayKey() {
+  const d = new Date();
+  return `aiQuota_${d.getFullYear()}_${d.getMonth()}_${d.getDate()}`;
 }
 
 function getRemainingQuota() {
-  const usage = getUsageToday();
-  return Math.max(0, DAILY_LIMIT - usage.count);
+  const key = getTodayKey();
+  const used = parseInt(localStorage.getItem(key) || '0', 10);
+  return Math.max(0, DAILY_LIMIT - used);
+}
+
+function incrementQuota() {
+  const key = getTodayKey();
+  const used = parseInt(localStorage.getItem(key) || '0', 10);
+  localStorage.setItem(key, String(used + 1));
 }
 
 // ============================================
-// جمع السياق من الموقع
+// بناء السياق من نتائج smartSearch
 // ============================================
-function buildSiteContext() {
-  let context = '';
-  
-  if (typeof window.SECTIONS === 'undefined') return context;
-  
-  window.SECTIONS.forEach(s => {
-    const title = (typeof window.t === 'function') ? window.t(s.titleKey, 'fr') : s.titleKey;
-    context += `\n• ${s.icon} ${title} (id: ${s.id})`;
-    
-    if (s.items) {
-      s.items.forEach(item => {
-        const itemTitle = (typeof item.title === 'object') ? item.title.fr : 
-                          ((typeof window.t === 'function') ? window.t(item.titleKey, 'fr') : item.titleKey);
-        context += `\n  - ${itemTitle}`;
-      });
+function buildGuideContext(query) {
+  if (typeof window.smartSearch !== 'function' || !window.SECTIONS) return '';
+
+  const lang = localStorage.getItem('lang') || 'fr';
+  const results = window.smartSearch(query, window.SECTIONS);
+  if (!results.length) return '';
+
+  const t = (typeof window.t === 'function')
+    ? (k) => window.t(k, lang)
+    : (k) => '';
+
+  let context = '=== EXTRAITS DU GUIDE ENSTP ===\n\n';
+
+  results.slice(0, 8).forEach((r, i) => {
+    const item = r.item;
+    const section = r.section;
+
+    const sectionTitle = section.titleKey ? t(section.titleKey) : section.id;
+
+    let itemTitle = '';
+    if (item.titleKey) itemTitle = t(item.titleKey);
+    else if (typeof item.title === 'object' && item.title) itemTitle = item.title[lang] || item.title.fr || '';
+    else if (typeof item.title === 'string') itemTitle = item.title;
+    else if (item.n) itemTitle = item.n;
+
+    let itemDesc = '';
+    if (item.descKey) itemDesc = t(item.descKey);
+    else if (typeof item.desc === 'object' && item.desc) itemDesc = item.desc[lang] || item.desc.fr || '';
+    else if (typeof item.desc === 'string') itemDesc = item.desc;
+    else if (item.note) itemDesc = item.note;
+
+    context += `[${i + 1}] ${sectionTitle} — ${itemTitle}\n`;
+    if (itemDesc) context += `    ${itemDesc}\n`;
+    if (item.location) context += `    Lieu: ${item.location}\n`;
+    if (item.hours) context += `    Horaires: ${item.hours}\n`;
+    if (item.t) context += `    Tél: ${item.t}\n`;
+    if (item.procedure) {
+      const proc = t(item.procedure);
+      if (proc) context += `    Procédure: ${proc}\n`;
     }
-    
-    if (s.categories) {
-      s.categories.forEach(cat => {
-        const catTitle = cat.title || cat.titleKey;
-        context += `\n  → ${catTitle}`;
-      });
-    }
+    if (item.services) context += `    Services: ${item.services}\n`;
+    context += '\n';
   });
-  
+
   return context;
 }
 
 // ============================================
-// السؤال Gemini
+// الاقتراحات
 // ============================================
-async function askGemini(question, lang = 'fr') {
-  if (!GEMINI_API_KEY || GEMINI_API_KEY.includes('ضع_')) {
-    throw new Error('API key non configurée');
-  }
-  
-  if (!canUseAI()) {
-    throw new Error('Limite quotidienne atteinte (' + DAILY_LIMIT + ' requêtes). Réessayez demain.');
-  }
-  
-  const siteContext = buildSiteContext();
-  
-  const langInstructions = {
-    fr: 'Réponds en français.',
-    ar: 'أجب بالعربية.',
-    en: 'Answer in English.'
-  };
-  
-  const systemPrompt = `Tu es un assistant pour les étudiants de l'ENSTP (École Nationale Supérieure des Travaux Publics) à Alger.
+const SUGGESTIONS = {
+  fr: [
+    "Où puis-je manger pas cher près de l'école ?",
+    "Comment obtenir mon affiliation CNAS ?",
+    "Quels bus pour aller au centre-ville ?",
+    "Comment justifier une absence ?",
+    "Comment s'inscrire à la bibliothèque ?"
+  ],
+  ar: [
+    "أين آكل رخيص قرب المدرسة؟",
+    "كيف أحصل على الانتساب لـ CNAS؟",
+    "ما هي الحافلات للذهاب إلى وسط المدينة؟",
+    "كيف أبرر الغياب؟",
+    "كيف أسجل في المكتبة؟"
+  ],
+  en: [
+    "Where can I eat cheap near school?",
+    "How to get CNAS affiliation?",
+    "Which buses go downtown?",
+    "How to justify an absence?",
+    "How to register at the library?"
+  ]
+};
 
-Voici les sections du guide ENSTP :
-${siteContext}
+function getSuggestions(lang) {
+  return SUGGESTIONS[lang] || SUGGESTIONS.fr;
+}
 
-Instructions :
-- Réponds de manière claire et concise (max 4 phrases).
-- Utilise les informations du guide ci-dessus quand c'est possible.
-- Si tu ne sais pas, dis "Je ne sais pas, consulte l'administration."
-- Ne jamais inventer d'informations.
-- ${langInstructions[lang] || langInstructions.fr}`;
-  
-  const response = await fetch(GEMINI_URL + '?key=' + GEMINI_API_KEY, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{
-        parts: [{
-          text: systemPrompt + '\n\nQuestion : ' + question
-        }]
-      }],
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 300,
-        topP: 0.9,
-        topK: 40
-      },
-      safetySettings: [
-        { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-        { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' }
-      ]
-    })
-  });
-  
+// ============================================
+// استدعاء Gemini عبر الخادم
+// ============================================
+async function askGemini(question, lang) {
+  lang = lang || 'fr';
+
+  if (!question || question.trim().length < 3) {
+    throw new Error('Pose une question plus précise.');
+  }
+
+  if (getRemainingQuota() <= 0) {
+    throw new Error('⏳ Limite quotidienne atteinte. Réessayez demain.');
+  }
+
+  const context = buildGuideContext(question);
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
+
+  let response;
+  try {
+    response = await fetch(FUNCTION_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
+      body: JSON.stringify({ question: question.trim(), lang, context })
+    });
+  } catch (e) {
+    if (e.name === 'AbortError') throw new Error('⏱️ Délai dépassé. Réessayez.');
+    throw new Error('❌ Erreur réseau. Vérifiez votre connexion.');
+  } finally {
+    clearTimeout(timeout);
+  }
+
   if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(error.error?.message || 'Erreur API (' + response.status + ')');
+    const errorData = await response.json().catch(() => ({}));
+    if (response.status === 429) throw new Error('⏳ Trop de requêtes. Attendez un instant.');
+    if (response.status === 504) throw new Error('⏱️ L\'IA met trop de temps. Réessayez.');
+    throw new Error(errorData.error || '❌ Erreur. Réessayez.');
   }
-  
+
   const data = await response.json();
-  const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  
-  if (!answer) {
-    throw new Error('Pas de réponse');
-  }
-  
-  incrementUsage();
-  return answer.trim();
+  if (!data.answer) throw new Error('🤖 Réponse vide.');
+
+  incrementQuota();
+  return data.answer;
 }
 
 // ============================================
@@ -154,7 +160,7 @@ Instructions :
 // ============================================
 if (typeof window !== 'undefined') {
   window.askGemini = askGemini;
-  window.canUseAI = canUseAI;
   window.getRemainingQuota = getRemainingQuota;
-  window.GEMINI_API_KEY = GEMINI_API_KEY;
+  window.getSuggestions = getSuggestions;
+  window.buildGuideContext = buildGuideContext;
 }
