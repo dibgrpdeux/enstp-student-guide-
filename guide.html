@@ -212,7 +212,6 @@ function getText(val, lang) {
 
 // دالة عرض العناصر
 function renderItem(item) {
-  function renderItem(item) {
   const lang = window.getCurrentLang();
 
   // ==========================================
@@ -225,12 +224,10 @@ function renderItem(item) {
       <div style="display:flex;flex-direction:column;gap:10px">`;
 
     item.faqItems.forEach(group => {
-      // عنوان المجموعة (مثل: التسجيلات، الدراسة)
       if (group.categoryKey) {
         html += `<h4 style="color:var(--acc);margin:15px 0 5px 0;font-size:1rem">${window.t(group.categoryKey)}</h4>`;
       }
       
-      // الأسئلة داخل المجموعة
       group.items.forEach(faq => {
         const question = window.t(faq.q);
         const answer = window.t(faq.a);
@@ -246,7 +243,6 @@ function renderItem(item) {
     html += `</div></div>`;
     return html;
   }
-  const lang = window.getCurrentLang();
 
   // 1. الخريطة
   if (item.type === 'iframe-map') {
