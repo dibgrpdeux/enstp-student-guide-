@@ -1,5 +1,5 @@
 {
-  "version": "1.1",
+  "version": "2.0",
   "years": {
     "1acp": {
       "icon": "📘",
@@ -43,7 +43,7 @@
           "title": { "fr": "Analyse 1", "ar": "تحليل 1", "en": "Analysis 1" },
           "profs": [
             { "id": "bellal", "name": "Mme Bellal", "photo": "", "full": false, "email": "r.bellal@enstp.edu.dz", "modules": ["Analyse 1"] },
-            { "id": "kechiche", "name": "Mme Kechiche", "photo": "", "full": false, "email": "k.kechiche@enstp.edu.dz", "modules": ["Analyse 1"] },
+            { "id": "kechiche", "name": "Mme Kechiche", "photo": "", "full": false, "email": "k.kerchouche@enstp.edu.dz", "modules": ["Analyse 1"] },
             { "id": "benahmed", "name": "Mr Benahmed", "photo": "", "full": false, "email": "a.benahmed@enstp.edu.dz", "modules": ["Analyse 1"] }
           ]
         },
@@ -82,8 +82,16 @@
               "modules": ["Physics 1", "Physics 2", "Electromagnetism", "Optics"],
               "year": { "fr": "1ère année préparatoire", "ar": "السنة الأولى تحضيري", "en": "1st year preparatory" },
               "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" },
-              "advice": { "fr": "Time management + self confidence.", "ar": "تنظيم الوقت + الثقة بالنفس.", "en": "Time management + self confidence." },
-              "research": { "fr": "Quantum Supersymmetry, Theoretical Nuclear Structure", "ar": "التناظر الفائق الكمومي، البنية النووية النظرية", "en": "Quantum Supersymmetry, Theoretical Nuclear Structure" },
+              "advice": {
+                "fr": "Time management + self confidence.",
+                "ar": "تنظيم الوقت + الثقة بالنفس.",
+                "en": "Time management + self confidence."
+              },
+              "research": {
+                "fr": "Quantum Supersymmetry, Theoretical Nuclear Structure",
+                "ar": "التناظر الفائق الكمومي، البنية النووية النظرية",
+                "en": "Quantum Supersymmetry, Theoretical Nuclear Structure"
+              },
               "links": [
                 { "icon": "🔗", "name": "LinkedIn", "url": "https://www.linkedin.com/in/abdeslam-haddouche-46a420a6" }
               ]
@@ -98,9 +106,9 @@
               "year": { "fr": "1ère année préparatoire", "ar": "السنة الأولى تحضيري", "en": "1st year preparatory" },
               "status": { "fr": "Enseignante permanente", "ar": "أستاذة دائمة", "en": "Permanent teacher" },
               "advice": {
-                "fr": "À l'université, vous allez parfois rencontrer des difficultés. Ne laissez pas ces moments vous faire douter de vos capacités. Soyez réguliers, curieux et persévérants.",
-                "ar": "في الجامعة، ستواجهون أحياناً صعوبات. لا تدعوا هذه اللحظات تجعلكم تشكّون في قدراتكم. كونوا منتظمين، فضوليين ومثابرين.",
-                "en": "At university, you will sometimes face difficulties. Don't let these moments make you doubt your abilities. Be consistent, curious, and persistent."
+                "fr": "À l'université, vous allez parfois rencontrer des difficultés, avoir de mauvaises notes ou vous sentir dépassés par la quantité de travail. Mais ne laissez pas ces moments vous faire douter de vos capacités. Vous n'avez pas besoin d'être excellents dès le départ. Vous avez besoin d'être réguliers, curieux et persévérants.",
+                "ar": "في الجامعة، ستواجهون أحياناً صعوبات، أو تحصلون على نقاط سيئة، أو تشعرون بالإرهاق من كثرة العمل. لكن لا تدعوا هذه اللحظات تجعلكم تشكّون في قدراتكم. لا تحتاجون أن تكونوا ممتازين من البداية. تحتاجون أن تكونوا منتظمين، فضوليين ومثابرين.",
+                "en": "At university, you will sometimes face difficulties, get bad grades, or feel overwhelmed by the workload. But don't let these moments make you doubt your abilities. You don't need to be excellent from the start. You need to be consistent, curious, and persistent."
               },
               "research": {
                 "fr": "Contribution to the study of the physical properties of some double perovskite crystals via first principles methods",
@@ -155,7 +163,7 @@
               "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" },
               "advice": {
                 "fr": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems.",
-                "ar": "لا تدرسوا الهندسة فقط لاجتياز الامتحانات؛ ادرسوها لتصبحوا أشخاصاً قادرين على حل المشاكل الحقيقية.",
+                "ar": "لا تدرسوا الهندسة فقط لاجتياز الامتحانات؛ ادرسوها لتصبحوا أشخاصاً قادرين على حل المشاكل الحقيقية في الحياة.",
                 "en": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems."
               },
               "research": {
@@ -312,7 +320,11 @@
                 "ar": "اعملوا بانتظام، لا تدعوا الأمور تتراكم. الفيزياء تتطلب ممارسة يومية.",
                 "en": "Work regularly, don't let things pile up. Physics requires daily practice."
               },
-              "research": { "fr": "Physique théorique", "ar": "الفيزياء النظرية", "en": "Theoretical Physics" },
+              "research": {
+                "fr": "Physique théorique",
+                "ar": "الفيزياء النظرية",
+                "en": "Theoretical Physics"
+              },
               "links": [
                 { "icon": "🔗", "name": "LinkedIn", "url": "https://www.linkedin.com/in/sid-ahmed-berroudji/" }
               ]
@@ -373,23 +385,7 @@
                 { "icon": "📚", "name": "Google Scholar", "url": "https://scholar.google.fr/citations?user=28i_t1EAAAAJ&hl=fr&oi=ao" }
               ]
             },
-            {
-              "id": "benyettou-elec",
-              "name": "Benyettou Fethi",
-              "photo": "",
-              "full": true,
-              "email": "f.benyettou@enstp.edu.dz",
-              "modules": ["Électricité/Électronique"],
-              "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" },
-              "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" },
-              "advice": { "fr": "Cherchez, vous trouvez.", "ar": "ابحثوا، تجدوا.", "en": "Search, you will find." },
-              "research": {
-                "fr": "Modélisation et simulation des nano-structures pour le photovoltaïque",
-                "ar": "نمذجة ومحاكاة البنى النانوية للخلايا الكهروضوئية",
-                "en": "Modeling and simulation of nanostructures for photovoltaics"
-              },
-              "links": [{ "icon": "🎓", "name": "ResearchGate", "url": "https://www.researchgate.net/profile/Benyettou-Fethi-2" }]
-            },
+            { "id": "benyettou-elec", "name": "Benyettou Fethi", "photo": "", "full": true, "email": "f.benyettou@enstp.edu.dz", "modules": ["Électricité/Électronique"], "year": { "fr": "2ème année préparatoire", "ar": "السنة الثانية تحضيري", "en": "2nd year preparatory" }, "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" }, "advice": { "fr": "Cherchez, vous trouvez.", "ar": "ابحثوا، تجدوا.", "en": "Search, you will find." }, "research": { "fr": "Modélisation et simulation des nano-structures pour le photovoltaïque", "ar": "نمذجة ومحاكاة البنى النانوية للخلايا الكهروضوئية", "en": "Modeling and simulation of nanostructures for photovoltaics" }, "links": [{ "icon": "🎓", "name": "ResearchGate", "url": "https://www.researchgate.net/profile/Benyettou-Fethi-2" }] },
             {
               "id": "boudina",
               "name": "Boudina Nour El Houda",
@@ -466,7 +462,7 @@
               "status": { "fr": "Enseignant permanent", "ar": "أستاذ دائم", "en": "Permanent teacher" },
               "advice": {
                 "fr": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems.",
-                "ar": "لا تدرسوا الهندسة فقط لاجتياز الامتحانات؛ ادرسوها لتصبحوا أشخاصاً قادرين على حل المشاكل الحقيقية.",
+                "ar": "لا تدرسوا الهندسة فقط لاجتياز الامتحانات؛ ادرسوها لتصبحوا أشخاصاً قادرين على حل المشاكل الحقيقية في الحياة.",
                 "en": "Do not study engineering only to pass exams; study it to become someone who can solve real life problems."
               },
               "research": {
