@@ -89,6 +89,7 @@
 <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <a href="feedback.html" class="feedback-float"><span class="fb-icon">💬</span> Votre avis</a>
 
+<!-- نافذة الذكاء الاصطناعي -->
 <div class="modal-overlay" id="aiModal" style="display:none">
   <div class="modal-box">
     <h3>🤖 Assistant IA</h3>
@@ -144,7 +145,6 @@ function renderHome() {
   html += '<p style="color:var(--mut);margin-bottom:24px;font-size:1.05rem">' + window.t('welcomeSubtitle') + '</p>';
   html += '<div class="tile-grid">';
   
-  // عرض جميع الأقسام
   window.SECTIONS.forEach(sec => {
     html += `<button class="tile-3d" onclick="openSection('${sec.id}')">
       <span class="tile-icon">${sec.icon}</span>
@@ -171,14 +171,12 @@ function renderSection(id) {
   const app = document.getElementById('app');
   const lang = window.getCurrentLang();
 
-  // إذا كان القسم يحتوي على دالة عرض مخصصة
   if (sec.type === 'custom' && typeof sec.render === 'function') {
     app.innerHTML = sec.render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
 
-  // إذا كان قسم الأساتذة
   if (sec.type === 'profs-custom') {
     renderProfsSection(sec);
     return;
@@ -189,10 +187,8 @@ function renderSection(id) {
 
   if (sec.introKey) html += '<p style="color:var(--mut);margin-bottom:20px">' + window.t(sec.introKey) + '</p>';
 
-  // عرض العناصر (items)
   if (sec.items) sec.items.forEach(item => { html += renderItem(item); });
 
-  // عرض التصنيفات (categories) مثل المتاجر والترفيه
   if (sec.categories) {
     sec.categories.forEach(cat => {
       let catTitle = cat.titleKey ? window.t(cat.titleKey) : (cat.title ? (cat.title[lang] || cat.title.fr) : '');
@@ -207,25 +203,18 @@ function renderSection(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ==========================================
-// دالة عرض العناصر (تدعم كل شيء)
-// ==========================================
+// دالة مساعدة للترجمة
+function getText(val, lang) {
+  if (!val) return '';
+  if (typeof val === 'object') return val[lang] || val.fr || '';
+  return val;
+}
+
+// دالة عرض العناصر
 function renderItem(item) {
   const lang = window.getCurrentLang();
 
-  // دالة مساعدة للترجمة الذكية (تقرأ النصوص المباشرة أو المفاتيح)
-  function getText(val) {
-    if (!val) return '';
-    if (typeof val === 'object') return val[lang] || val.fr || '';
-    if (typeof val === 'string' && val.startsWith('srv')) {
-      // إذا كان مفتاح ترجمة (مثل نصوص الخدمات)
-      const trans = window.t(val);
-      return trans !== val ? trans : val; 
-    }
-    return val;
-  }
-
-  // 1. الخريطة التفاعلية
+  // 1. الخريطة
   if (item.type === 'iframe-map') {
     return `
       <div class="card-3d" style="padding-bottom:20px">
@@ -238,7 +227,7 @@ function renderItem(item) {
     `;
   }
 
-  // 2. مجموعة فيديوهات (مثل مدرستي)
+  // 2. مجموعة فيديوهات
   if (item.type === 'videos-group') {
     let html = `<div class="card-3d" style="padding-bottom:20px">
       <h3>${item.icon || ''} ${window.t(item.titleKey) || 'Vidéos'}</h3>
@@ -246,7 +235,7 @@ function renderItem(item) {
       <div style="display:flex;flex-direction:column;gap:20px">`;
     
     item.videos.forEach(v => {
-      const vTitle = v.titleKey ? window.t(v.titleKey) : getText(v.title);
+      const vTitle = v.titleKey ? window.t(v.titleKey) : getText(v.title, lang);
       html += `
         <div>
           <h4 style="color:var(--acc);margin-bottom:8px;font-size:1rem">${v.icon || ''} ${vTitle}</h4>
@@ -261,29 +250,32 @@ function renderItem(item) {
   }
 
   // 3. العناصر العادية
-  let title = item.titleKey ? window.t(item.titleKey) : getText(item.title);
+  let title = item.titleKey ? window.t(item.titleKey) : getText(item.title, lang);
   if (!title && item.n) title = item.n;
 
-  let desc = item.descKey ? window.t(item.descKey) : getText(item.desc);
+  let desc = item.descKey ? window.t(item.descKey) : getText(item.desc, lang);
   if (!desc && item.note) desc = item.note;
 
   let html = '<div class="card-3d">';
   html += `<h3>${item.icon || ''} ${title || 'Information'}</h3>`;
   if (desc) html += `<p>${desc}</p>`;
 
-  if (item.location) html += `<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ${getText(item.location)}</p>`;
-  if (item.hours) html += `<p style="font-size:.85rem;color:var(--mut)">🕐 ${getText(item.hours)}</p>`;
-  if (item.phone && item.phone !== "À compléter") html += `<p style="font-size:.85rem;color:var(--mut)">📞 ${item.phone}</p>`;
-  if (item.email) html += `<p style="font-size:.85rem;color:var(--mut)">✉️ <a href="mailto:${item.email}">${item.email}</a></p>`;
-
-  // دعم التفاصيل (details) مثل المهام الإدارية
-  if (item.details) {
-    html += `<div style="margin-top:12px;padding:12px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">${getText(item.details)}</div>`;
+  if (item.location) html += `<p style="font-size:.85rem;color:var(--mut);margin-top:6px">📍 ${getText(item.location, lang)}</p>`;
+  if (item.hours) html += `<p style="font-size:.85rem;color:var(--mut)">🕐 ${getText(item.hours, lang)}</p>`;
+  
+  if (item.email && item.email.includes('@')) {
+    html += `<div style="margin-top:10px">
+      <a href="mailto:${item.email}" class="btn" style="background:var(--acc-soft); color:var(--acc); box-shadow:none; border:1px solid var(--acc);">
+        ✉️ ${item.email}
+      </a>
+    </div>`;
   }
 
-  // دعم الإجراءات (procedure) مثل خدمات CNAS والمكتبة
-  if (item.procedure) {
-    html += `<div style="margin-top:12px;padding:12px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">${getText(item.procedure)}</div>`;
+  if (item.details) {
+    html += `<div style="margin-top:15px;padding:15px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.9rem;line-height:1.8;white-space:pre-line; border-left: 4px solid var(--acc);">
+      <strong style="color:var(--ink); display:block; margin-bottom:8px;">📌 ${window.t('labelMission') || 'المهام / Missions'}</strong>
+      ${getText(item.details, lang)}
+    </div>`;
   }
 
   if (item.images && item.images.length > 0) {
@@ -311,7 +303,7 @@ function renderItem(item) {
     item.videos.forEach(v => {
       let vidId = v.id || v.video;
       if (vidId && vidId.includes("/shorts/")) vidId = vidId.split("/shorts/")[1].split("?")[0];
-      const vTitle = getText(v.title);
+      const vTitle = getText(v.title, lang);
       html += '<div style="margin-top:12px;">';
       if (vTitle) html += `<h4 style="margin-bottom:6px;font-size:.95rem">${vTitle}</h4>`;
       html += '<div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9">';
@@ -321,14 +313,73 @@ function renderItem(item) {
   }
 
   if (item.map) {
-    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(getText(item.map))}" target="_blank" class="btn">📍 ${window.t('viewMap') || 'Voir sur Maps'}</a></p>`;
+    html += `<p style="margin-top:10px"><a href="https://www.google.com/maps/search/${encodeURIComponent(getText(item.map, lang))}" target="_blank" class="btn">📍 ${window.t('viewMap') || 'Voir sur Maps'}</a></p>`;
   }
 
-  if (item.extra) html += `<span class="extra">${getText(item.extra)}</span>`;
+  if (item.extra) html += `<span class="extra">${getText(item.extra, lang)}</span>`;
   html += '</div>';
   return html;
 }
 
+// تصميم قسم الأساتذة
+async function renderProfsSection(sec) {
+  const app = document.getElementById('app');
+  app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><p style="text-align:center;padding:40px">Chargement…</p>';
+  
+  const data = await window.loadProfsData();
+  if (!data) { 
+    app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><p style="color:#dc2626;text-align:center;padding:40px">❌ Erreur.</p>'; 
+    return; 
+  }
+
+  const lang = window.getCurrentLang();
+  let html = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button>';
+  html += '<h2>👨‍🏫 ' + window.t('sectionProfs') + '</h2>';
+  html += '<p style="color:var(--mut);margin-bottom:20px">' + window.t('profsIntro') + '</p>';
+
+  Object.keys(data.years).forEach(yearId => {
+    const year = data.years[yearId];
+    html += `<h3 style="color:var(--acc);margin:24px 0 12px;font-size:1.2rem">${year.icon} ${year.title[lang] || year.title.fr}</h3>`;
+    
+    year.subjects.forEach(subj => {
+      html += `<div class="card-3d" style="padding:16px;margin-bottom:16px">`;
+      html += `<h4 style="margin:0 0 12px 0;color:var(--ink);font-size:1.05rem;border-bottom:1px solid var(--line);padding-bottom:8px">${subj.icon} ${subj.title[lang] || subj.title.fr}</h4>`;
+      
+      subj.profs.forEach(p => {
+        html += `<div style="display:flex;gap:12px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed var(--line)">`;
+        
+        if (p.photo) {
+          html += `<img src="${p.photo}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--acc)">`;
+        } else {
+          const initial = p.name ? p.name.charAt(0).toUpperCase() : '?';
+          html += `<div style="width:50px;height:50px;border-radius:50%;background:var(--acc-soft);color:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2rem;border:2px solid var(--acc)">${initial}</div>`;
+        }
+        
+        html += `<div style="flex:1">`;
+        html += `<div style="font-weight:700;color:var(--ink);font-size:.95rem">${p.name}</div>`;
+        
+        if (p.email) {
+          html += `<a href="mailto:${p.email}" style="font-size:.8rem;color:var(--acc);text-decoration:none;display:inline-block;margin-top:4px">✉️ ${p.email}</a>`;
+        }
+        
+        if (p.advice) {
+          const adviceText = p.advice[lang] || p.advice.fr;
+          if (adviceText) {
+            html += `<div style="margin-top:8px;font-size:.8rem;color:var(--mut);font-style:italic;background:var(--bg-3);padding:8px;border-radius:6px">💡 "${adviceText}"</div>`;
+          }
+        }
+        html += `</div></div>`;
+      });
+      
+      html += `</div>`;
+    });
+  });
+
+  app.innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// عرض الصور بشكل مكبر
 window.openImageViewer = (src) => {
   const o = document.createElement('div');
   o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out';
@@ -337,33 +388,7 @@ window.openImageViewer = (src) => {
   document.body.appendChild(o);
 };
 
-async function renderProfsSection(sec) {
-  const app = document.getElementById('app');
-  app.innerHTML = '<button class="back" onclick="renderHome()">Retour</button><p>Chargement...</p>';
-  const data = await window.loadProfsData();
-  if (!data) { app.innerHTML = '<p>Erreur de chargement.</p>'; return; }
-
-  let html = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button>';
-  html += '<h2>👨‍🏫 ' + window.t('sectionProfs') + '</h2>';
-  Object.keys(data.years).forEach(yearId => {
-    const year = data.years[yearId];
-    const lang = window.getCurrentLang();
-    html += `<h3 style="color:var(--acc);margin:24px 0 12px">${year.icon} ${year.title[lang] || year.title.fr}</h3>`;
-    year.subjects.forEach(subj => {
-      html += `<details style="margin-bottom:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px">`;
-      html += `<summary style="cursor:pointer;font-weight:700">${subj.icon} ${subj.title[lang] || subj.title.fr}</summary>`;
-      html += '<div style="margin-top:12px">';
-      subj.profs.forEach(p => {
-        html += `<div style="padding:10px;border-bottom:1px solid var(--line);font-size:.9rem"><strong>${p.name}</strong>`;
-        if (p.email) html += ` — <a href="mailto:${p.email}">${p.email}</a>`;
-        html += '</div>';
-      });
-      html += '</div></details>';
-    });
-  });
-  app.innerHTML = html;
-}
-
+// البحث
 document.getElementById('q').addEventListener('input', (e) => {
   const q = e.target.value.trim();
   if (!q) { if (currentView === 'search') renderHome(); return; }
@@ -375,7 +400,7 @@ document.getElementById('q').addEventListener('input', (e) => {
     html += `<p style="color:var(--mut);text-align:center;padding:40px">${window.t('noResult')}</p>`;
   } else {
     results.slice(0, 20).forEach(r => {
-      let rTitle = r.item.titleKey ? window.t(r.item.titleKey) : (r.item.title ? (r.item.title[window.getCurrentLang()] || r.item.title.fr) : r.item.n);
+      let rTitle = r.item.titleKey ? window.t(r.item.titleKey) : getText(r.item.title, window.getCurrentLang());
       html += `<div class="card-3d" style="cursor:pointer" onclick="openSection('${r.section.id}')">
         <h3>${r.section.icon} ${rTitle}</h3>
         <p style="font-size:.85rem;color:var(--mut)">${window.t(r.section.titleKey)}</p>
@@ -385,6 +410,7 @@ document.getElementById('q').addEventListener('input', (e) => {
   app.innerHTML = html;
 });
 
+// الذكاء الاصطناعي
 function openAIModal() { document.getElementById('aiModal').style.display = 'flex'; }
 function closeAIModal() { document.getElementById('aiModal').style.display = 'none'; }
 async function submitAI() {
@@ -401,10 +427,12 @@ async function submitAI() {
   finally { btn.disabled = false; btn.textContent = 'Envoyer'; }
 }
 
+// السهم لأعلى
 window.addEventListener('scroll', () => {
   document.getElementById('back-to-top').classList.toggle('show', window.scrollY > 400);
 });
 
+// تشغيل التطبيق
 window.addEventListener('load', () => {
   setTimeout(() => document.getElementById('loading-screen').classList.add('hide'), 300);
   if (typeof applyTheme === 'function') applyTheme();
