@@ -9,6 +9,8 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="style.css">
+<!-- ملف تصميم بطاقات الأساتذة -->
+<link rel="stylesheet" href="data/profs-card.css">
 <script src="text-size.js"></script>
 <script src="theme.js"></script>
 </head>
@@ -302,32 +304,100 @@ window.openImageViewer = (src) => {
   document.body.appendChild(o);
 };
 
-// قسم الأساتذة
+// ==========================================
+// قسم الأساتذة (مع دعم بطاقات profs-card.css)
+// ==========================================
 async function renderProfsSection(sec) {
   const app = document.getElementById('app');
-  app.innerHTML = '<button class="back" onclick="renderHome()">Retour</button><p>Chargement...</p>';
+  app.innerHTML = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button><p>Chargement...</p>';
+  
   const data = await window.loadProfsData();
   if (!data) { app.innerHTML = '<p>Erreur de chargement.</p>'; return; }
 
+  const lang = window.getCurrentLang();
   let html = '<button class="back" onclick="renderHome()">' + window.t('back') + '</button>';
   html += '<h2>👨‍🏫 ' + window.t('sectionProfs') + '</h2>';
+  html += '<div class="prof-card-wrapper">';
+
   Object.keys(data.years).forEach(yearId => {
     const year = data.years[yearId];
-    const lang = window.getCurrentLang();
     html += `<h3 style="color:var(--acc);margin:24px 0 12px">${year.icon} ${year.title[lang] || year.title.fr}</h3>`;
+    
     year.subjects.forEach(subj => {
       html += `<details style="margin-bottom:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px">`;
       html += `<summary style="cursor:pointer;font-weight:700">${subj.icon} ${subj.title[lang] || subj.title.fr}</summary>`;
       html += '<div style="margin-top:12px">';
+      
       subj.profs.forEach(p => {
-        html += `<div style="padding:10px;border-bottom:1px solid var(--line);font-size:.9rem"><strong>${p.name}</strong>`;
-        if (p.email) html += ` — <a href="mailto:${p.email}">${p.email}</a>`;
-        html += '</div>';
+        if (p.full) {
+          // بطاقة كاملة (ID Card)
+          html += `
+          <div class="prof-id-card">
+            <div class="prof-photo">
+              ${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : `<div class="prof-avatar-fallback">${p.name.charAt(0)}</div>`}
+            </div>
+            <div class="prof-id-info">
+              <div class="prof-name">${p.name}</div>
+              <div class="prof-title-line">
+                <span class="prof-role">${p.status ? p.status[lang] : 'PROFESSOR'}</span>
+                <span class="prof-location">${p.year ? p.year[lang] : ''}</span>
+              </div>
+            </div>
+          </div>`;
+          
+          if (p.email) {
+            html += `<div class="prof-section-card prof-email-card">
+              <div class="prof-section-title">📧 Email</div>
+              <a href="mailto:${p.email}" class="prof-email-link">${p.email}</a>
+            </div>`;
+          }
+          
+          if (p.advice) {
+            html += `<div class="prof-section-card prof-advice-card">
+              <div class="prof-section-title">💡 Conseil</div>
+              <div class="prof-advice-text">"${p.advice[lang] || p.advice.fr}"</div>
+            </div>`;
+          }
+          
+          if (p.modules) {
+            html += `<div class="prof-section-card prof-modules-card">
+              <div class="prof-section-title">📚 Modules</div>
+              <ul class="prof-modules-list">${p.modules.map(m => `<li>${m}</li>`).join('')}</ul>
+            </div>`;
+          }
+          
+          if (p.research) {
+            html += `<div class="prof-section-card prof-research-card">
+              <div class="prof-section-title">🔬 Recherche</div>
+              <div class="prof-research-text">${p.research[lang] || p.research.fr}</div>
+            </div>`;
+          }
+          
+          if (p.links && p.links.length > 0) {
+            html += `<div class="prof-section-card prof-links-card">
+              <div class="prof-section-title">🔗 Liens</div>
+              <div class="prof-links-list">${p.links.map(l => `<a href="${l.url}" target="_blank" class="prof-link">${l.icon} ${l.name}</a>`).join('')}</div>
+            </div>`;
+          }
+        } else {
+          // بطاقة بسيطة (Fallback)
+          html += `
+          <div class="prof-simple-card">
+            <div class="prof-simple-name">${p.name}</div>
+            <div class="prof-simple-module">${subj.title[lang] || subj.title.fr}</div>
+            ${p.email ? `<a href="mailto:${p.email}" class="prof-simple-email">✉️ ${p.email}</a>` : `<div class="prof-simple-no-email">Email non disponible</div>`}
+          </div>`;
+        }
+        html += '<div style="margin-bottom:20px"></div>';
       });
+      
       html += '</div></details>';
     });
   });
+
+  html += '</div>';
   app.innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // البحث
