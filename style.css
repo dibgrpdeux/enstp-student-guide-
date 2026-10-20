@@ -1306,3 +1306,18 @@ input:focus-visible{
   transform:translateY(-2px);
   box-shadow:var(--shadow-md);
 }
+/* ============================================
+   #app — الحاوية الرئيسية (guide.html)
+   ============================================ */
+#app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+  min-height: 60vh;
+  animation: fadeIn .5s ease-out;
+}
+
+#app:has(.prof-card-wrapper) {
+  max-width: none;
+  padding: 20px 14px !important;
+}
