@@ -196,6 +196,10 @@ function renderSection(id) {
 // الدالة الأهم: عرض العناصر والصور والفيديوهات والخريطة
 // ==========================================
 function renderItem(item) {
+    // في دالة renderItem، أضف هذا السطر:
+  if (item.detailsKey) {
+    html += `<div style="margin-top:12px;padding:12px;background:var(--bg-3,#f1f5f9);border-radius:10px;font-size:.88rem;line-height:1.7;white-space:pre-line">${window.t(item.detailsKey)}</div>`;
+  }
   const lang = window.getCurrentLang();
 
   // --- دعم الخريطة التفاعلية (iframe-map) ---
