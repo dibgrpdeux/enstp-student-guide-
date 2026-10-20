@@ -1,58 +1,52 @@
 // ============================================
 // data/profs.js — قسم أساتذتي
-// Guide de survie ENSTP
-// Version 3.0 — مع البطاقات والصور
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
 
-// ============================================
-// تحميل بيانات الأساتذة من JSON
-// ============================================
 let PROFS_DATA = null;
+let PROFS_LOADING = null;
 
 async function loadProfsData() {
   if (PROFS_DATA) return PROFS_DATA;
-  try {
-    const res = await fetch('data/profs.json');
-    PROFS_DATA = await res.json();
-    return PROFS_DATA;
-  } catch (err) {
-    console.error('❌ Erreur chargement profs.json:', err);
-    return null;
-  }
+  if (PROFS_LOADING) return PROFS_LOADING;
+
+  PROFS_LOADING = fetch('data/profs.json')
+    .then(res => {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(data => {
+      PROFS_DATA = data;
+      window.dispatchEvent(new CustomEvent('profs-ready', { detail: data }));
+      return data;
+    })
+    .catch(err => {
+      console.error('❌ Erreur chargement profs.json:', err);
+      PROFS_LOADING = null;
+      return null;
+    });
+
+  return PROFS_LOADING;
 }
 
-// ============================================
-// إنشاء قسم "أساتذتي" — structure
-// ============================================
-(function() {
-  // احذف أي قسم قديم باسم profs
-  for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
-    if (window.SECTIONS[i].id === 'profs') {
-      window.SECTIONS.splice(i, 1);
-    }
-  }
+for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
+  if (window.SECTIONS[i].id === 'profs') window.SECTIONS.splice(i, 1);
+}
 
-  // القسم الجديد — سيعرض تبويبين (السنة 1، السنة 2)
-  window.SECTIONS.push({
-    id: "profs",
-    icon: "👨‍🏫",
-    titleKey: "sectionProfs",
-    introKey: "profsIntro",
-    type: "profs-custom"  // نوع جديد — سيتعامل معه guide.html
-  });
+window.SECTIONS.push({
+  id: "profs",
+  icon: "👨‍🏫",
+  titleKey: "sectionProfs",
+  introKey: "profsIntro",
+  type: "profs-custom",
+  load: loadProfsData
+});
 
-  console.log('✅ Section profs ajoutée (type: profs-custom)');
-})();
-
-// ============================================
-// Helper: الوصول للبيانات
-// ============================================
 window.loadProfsData = loadProfsData;
 
 window.getProfsFor = function(yearId) {
-  if (!PROFS_DATA) return [];
+  if (!PROFS_DATA) return null;
   return PROFS_DATA.years[yearId] || null;
 };
 
