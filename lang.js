@@ -148,24 +148,22 @@ const LANG_DATA = {
     profInfoDesc: "Programmation et outils informatiques.",
 
     // ============ 3. إدارتي ============
-    adminIntro: "Bureaux administratifs et contacts.",
-    adminDirection: "Direction",
-    adminDirectionDesc: "Direction générale de l'école.",
-    adminScolarite: "Scolarité",
-    adminScolariteDesc: "Inscriptions, attestations, relevés de notes.",
-    adminDept: "Secrétariats des départements",
-    adminDeptDesc: "Un secrétariat par département.",
-    adminRH: "Ressources humaines",
-    adminRHDesc: "Gestion du personnel.",
-    adminFinances: "Finances",
-    adminFinancesDesc: "Bourses, paiements, frais.",
+        // --- Admin ---
+    adminDirection: "Direction de l'école",
+    adminDirectionDesc: "Direction générale de l'ENSTP.",
+    adminDirectionDetails: "Missions :\n- Gestion globale de l'établissement.\n- Prise de décisions stratégiques.\n- Supervision des départements et des services.",
+
     adminTebani: "Meriem Tebani",
     adminTebaniDesc: "Chef de Service des Classes Préparatoires (1ACP-2ACP).",
+    adminTebaniDetails: "Missions pour les étudiants :\n- Accompagnement administratif tout au long du parcours en Classes préparatoires.\n- Information et orientation concernant les procédures et formalités de scolarité.\n- Délivrance des attestations et documents administratifs relevant du service.\n- Suivi des inscriptions, des résultats et des dossiers scolaires.\n- Accompagnement dans l'utilisation des outils numériques mis à leur disposition (messagerie institutionnelle, Google Classroom).\n- Traitement des demandes et des réclamations relatives à leur scolarité.\n- Prise en charge de toute autre demande relevant de la scolarité et orientation des étudiants vers les services compétents selon leurs besoins.",
+
     adminMobarki: "M. Mobarki Ahmed",
     adminMobarkiDesc: "Chef de Département des Classes Préparatoires.",
+    adminMobarkiDetails: "Missions pour les étudiants :\n- Supervision générale du bon déroulement des études.\n- Validation des programmes et des emplois du temps.\n- Prise de décisions concernant les situations académiques particulières.\n- Orientation des étudiants vers les services compétents en cas de problème majeur.",
+
     adminFedghouch: "M. Fedghouch Ferhat",
     adminFedghouchDesc: "Responsable d'Études et Directeur de Conseil de Discipline.",
-
+    adminFedghouchDetails: "Missions pour les étudiants :\n- Suivi de l'assiduité et de la ponctualité aux cours et TD.\n- Gestion des absences et des justificatifs.\n- Veille au respect du règlement intérieur de l'école.\n- Traitement des dossiers disciplinaires (conseil de discipline).\n- Conseil et accompagnement des étudiants en difficulté d'adaptation.",
     // ============ 4. الخدمات ============
     servicesIntro: "Toutes les démarches administratives et étudiants.",
     servicesAdmin: "Administratif",
@@ -504,12 +502,22 @@ const LANG_DATA = {
     adminRHDesc: "إدارة الموظفين.",
     adminFinances: "المالية",
     adminFinancesDesc: "المنح، المدفوعات، الرسوم.",
+        // --- إدارتي ---
+    adminDirection: "إدارة المدرسة",
+    adminDirectionDesc: "الإدارة العامة للمدرسة الوطنية العليا للأشغال العمومية.",
+    adminDirectionDetails: "المهام:\n- التسيير الشامل للمؤسسة.\n- اتخاذ القرارات الاستراتيجية.\n- الإشراف على الأقسام والمصالح.",
+
     adminTebani: "مريم تيباني",
     adminTebaniDesc: "رئيسة مصلحة الأقسام التحضيرية (1ACP-2ACP).",
+    adminTebaniDetails: "المهام الموجهة للطلبة:\n- ضمان المتابعة الإدارية للطلبة طوال مسارهم في الأقسام التحضيرية.\n- الإعلام والتوجيه بخصوص إجراءات وشكليات التمدرس.\n- تسليم الشهادات والوثائق الإدارية التي تدخل في اختصاص المصلحة.\n- متابعة التسجيلات، النتائج والملفات المدرسية.\n- مرافقة الطلبة في استخدام الأدوات الرقمية الموضوعة تحت تصرفهم (البريد الإلكتروني المؤسسي، Google Classroom).\n- معالجة الطلبات والشكاوى المتعلقة بتمدرسهم.\n- التكفل بكل طلب آخر يتعلق بالتمدرس وتوجيه الطلبة نحو المصالح المختصة حسب احتياجاتهم.",
+
     adminMobarki: "أ. مباركي أحمد",
     adminMobarkiDesc: "رئيس قسم الأقسام التحضيرية.",
+    adminMobarkiDetails: "المهام الموجهة للطلبة:\n- الإشراف العام على سير الدراسة.\n- المصادقة على البرامج والتوقيتات.\n- اتخاذ القرارات المتعلقة بالحالات الأكاديمية الخاصة.\n- توجيه الطلبة نحو المصالح المختصة في حالة وجود مشكلة كبرى.",
+
     adminFedghouch: "أ. فدغوش فرحات",
     adminFedghouchDesc: "مسؤول الدراسات ورئيس مجلس التأديب.",
+    adminFedghouchDetails: "المهام الموجهة للطلبة:\n- متابعة المواظبة والانتظام في الدروس والأعمال الموجهة.\n- إدارة الغيابات والمبررات.\n- السهر على احترام النظام الداخلي للمدرسة.\n- معالجة الملفات التأديبية (مجلس التأديب).\n- تقديم المشورة ومرافقة الطلبة الذين يواجهون صعوبات في التكيف.",
 
     servicesIntro: "كل الإجراءات الإدارية والطلابية.",
     servicesAdmin: "إداري",
@@ -835,12 +843,22 @@ const LANG_DATA = {
     adminRHDesc: "Staff management.",
     adminFinances: "Finance",
     adminFinancesDesc: "Scholarships, payments, fees.",
+       // --- Admin ---
+    adminDirection: "School Direction",
+    adminDirectionDesc: "General management of ENSTP.",
+    adminDirectionDetails: "Missions:\n- Overall management of the institution.\n- Strategic decision-making.\n- Supervision of departments and services.",
+
     adminTebani: "Meriem Tebani",
     adminTebaniDesc: "Head of Preparatory Classes Service (1ACP-2ACP).",
+    adminTebaniDetails: "Missions for students:\n- Administrative support throughout the student's journey in Preparatory Classes.\n- Information and guidance regarding schooling procedures and formalities.\n- Issuance of certificates and administrative documents within the service's remit.\n- Monitoring of registrations, results, and school files.\n- Support in using digital tools available to them (institutional email, Google Classroom).\n- Processing requests and complaints related to their schooling.\n- Handling any other request related to schooling and directing students to the competent services according to their needs.",
+
     adminMobarki: "Mr. Mobarki Ahmed",
     adminMobarkiDesc: "Head of Preparatory Classes Department.",
+    adminMobarkiDetails: "Missions for students:\n- General supervision of the smooth running of studies.\n- Validation of programs and schedules.\n- Decision-making concerning special academic situations.\n- Guiding students to the competent services in case of a major problem.",
+
     adminFedghouch: "Mr. Fedghouch Ferhat",
     adminFedghouchDesc: "Head of Studies and Director of Discipline Council.",
+    adminFedghouchDetails: "Missions for students:\n- Monitoring attendance and punctuality in lectures and tutorials.\n- Managing absences and justifications.\n- Ensuring compliance with the school's internal regulations.\n- Processing disciplinary files (discipline council).\n- Advising and supporting students facing adaptation difficulties.",
 
     servicesIntro: "All administrative and student procedures.",
     servicesAdmin: "Administrative",
