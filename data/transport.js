@@ -1,5 +1,5 @@
 // ============================================
-// data/transport.js — قسم النقل (مع الخريطة التفاعلية)
+// data/transport.js — قسم النقل (مع زر الخريطة)
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
@@ -16,18 +16,17 @@ window.SECTIONS.push({
   type: "items",
 
   items: [
-    // ========== 0. الخريطة التفاعلية (في الأعلى) ==========
+    // ========== 0. الخريطة التفاعلية (كزر يفتح في نافذة جديدة) ==========
     {
       title: { fr: "Carte interactive des transports", ar: "خريطة النقل التفاعلية", en: "Interactive transport map" },
       icon: "🗺️",
       desc: { 
-        fr: "Consultez notre carte interactive pour localiser les arrêts de bus, les points de transport et les itinéraires utiles autour de l'ENSTP.", 
-        ar: "تصفح خريطتنا التفاعلية لتحديد مواقع الحافلات، نقاط النقل والمسارات المفيدة حول المدرسة.", 
-        en: "View our interactive map to locate bus stops, transport points and useful routes around ENSTP." 
+        fr: "Cliquez sur le bouton ci-dessous pour ouvrir la carte interactive dans une nouvelle fenêtre et localiser tous les arrêts autour de l'ENSTP.", 
+        ar: "اضغط على الزر أدناه لفتح الخريطة التفاعلية في نافذة جديدة وتحديد مواقع جميع المواقف حول المدرسة.", 
+        en: "Click the button below to open the interactive map in a new window and locate all stops around ENSTP." 
       },
-      type: "iframe-map",
-      // رابط التضمين الصحيح لخريطة My Maps الخاصة بك
-      iframeUrl: "https://www.google.com/maps/d/embed?mid=1F5jfgmT1iBuBm3UY6&ll=36.7255818,3.0695956&z=15"
+      link: "https://goo.gl/maps/FXANWVniRwkKJ4bv8", // الرابط الخاص بك
+      extra: { fr: "📍 S'ouvre dans Google Maps", ar: "📍 يفتح في خرائط جوجل", en: "📍 Opens in Google Maps" }
     },
 
     // ========== 1. مواقف الحافلات ==========
@@ -114,16 +113,6 @@ window.SECTIONS.push({
         ar: "اكتشف مسارات المشي المفيدة للوصول إلى مواقف النقل والأماكن المهمة حول المدرسة. المسارات متوفرة على الخريطة التفاعلية.", 
         en: "Find useful walking routes to reach transport stops and key places around ENSTP. Routes are available on the interactive map." 
       }
-    },
-    {
-      title: { fr: "Carte interactive", ar: "الخريطة التفاعلية", en: "Interactive Map" },
-      icon: "🗺️",
-      desc: { 
-        fr: "Consulter notre carte interactive pour localiser les arrêts de bus, les points de transport et les itinéraires utiles autour de l'ENSTP.", 
-        ar: "تصفح خريطتنا التفاعلية لتحديد مواقع الحافلات، نقاط النقل والمسارات المفيدة حول المدرسة.", 
-        en: "View our interactive map to locate bus stops, transport points and useful routes around ENSTP." 
-      },
-      link: "https://www.google.com/maps/d/u/0/viewer?mid=1F5jfgmT1iBuBm3UY6&ll=36.7255818,3.0695956&z=15"
     },
     {
       title: { fr: "Applications VTC", ar: "تطبيقات النقل", en: "VTC Apps" },
