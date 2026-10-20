@@ -1,7 +1,7 @@
 // ============================================
 // data/sport.js — قسم الرياضة
 // Guide de survie ENSTP
-// Version 3.0 — Épuré + Vidéos
+// Version 4.0 — Vidéos uniquement
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
@@ -19,20 +19,7 @@ window.SECTIONS.push({
   type: "items",
 
   items: [
-    // ========== 1. كرة القدم ==========
-    {
-      titleKey: "sportFootball",
-      icon: "⚽",
-      descKey: "sportFootballDesc",
-      extra: "⚽ Matchs libres entre étudiants",
-      details: [
-        { icon: "🕐", fr: "Week-end et jours fériés", ar: "نهاية الأسبوع والأعياد", en: "Weekends and holidays" },
-        { icon: "📍", fr: "Terrain de l'école ou de la cité", ar: "ملعب المدرسة أو الإقامة", en: "School or residence field" },
-        { icon: "👥", fr: "Organise avec tes amis", ar: "نظّم مع أصدقائك", en: "Organize with friends" }
-      ]
-    },
-
-    // ========== 2. المركب الرياضي القبة (فيديو) ==========
+    // ========== 1. المركب الرياضي القبة (فيديو) ==========
     {
       title: { fr: "Complexe Sportif de Kouba", ar: "المركب الرياضي القبة", en: "Kouba Sports Complex" },
       icon: "🏟️",
@@ -45,7 +32,7 @@ window.SECTIONS.push({
       extra: "📍 Kouba, Alger"
     },
 
-    // ========== 3. فيديو تحفيزي: Change your self guaridi ==========
+    // ========== 2. فيديو تحفيزي: Change your self guaridi ==========
     {
       title: { fr: "Change Yourself (Garidi)", ar: "غيّر نفسك (قاريدي)", en: "Change Yourself (Garidi)" },
       icon: "🔥",
@@ -57,7 +44,7 @@ window.SECTIONS.push({
       video: "byDM5wQ3wcc" // فيديو Change your self
     },
 
-    // ========== 4. فيديو Be différent (يوتيوب شورتس) ==========
+    // ========== 3. فيديو Be différent (يوتيوب شورتس) ==========
     {
       title: { fr: "Be Different", ar: "كن مختلفاً", en: "Be Different" },
       icon: "✨",
@@ -66,8 +53,9 @@ window.SECTIONS.push({
         ar: "فيديو قصير ملهم لتجاوز نفسك.", 
         en: "An inspiring short to push your limits." 
       },
-      link: "https://youtube.com/shorts/s4IcvPRD5dY", 
-      extra: "🎬 YouTube Shorts — Cliquez pour ouvrir"
+      // نستخدم رابط الشورتس، وسيقوم الكود في guide.html بتحويله تلقائياً
+      videoUrl: "https://youtube.com/shorts/s4IcvPRD5dY", 
+      extra: "🎬 YouTube Shorts"
     }
   ]
 });
