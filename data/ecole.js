@@ -1,4 +1,4 @@
- // ============================================
+// ============================================
 // data/ecole.js — قسم مدرستي
 // Guide de survie ENSTP
 // ============================================
@@ -23,8 +23,8 @@ window.SECTIONS.push({
       titleKey: "ecoleMapTitle",
       icon: "🗺️",
       descKey: "ecoleMapDesc",
-      type: "garidi-map",
-      mapUrl: "https://www.google.com/maps/d/u/1/edit?mid=1nT-Wvfqo8A3wdoHnadLzZHFYB_qdH_U&usp=sharing"
+      type: "iframe-map", // النوع الجديد الذي أضفناه
+      iframeUrl: "data/campus-map.html" // مسار الخريطة داخل مجلد data
     },
 
     // ========== 2. الفيديوهات التعريفية ==========
