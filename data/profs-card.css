@@ -6,137 +6,39 @@
 body.prof-theme-active {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
 }
-
-body.prof-theme-active #app {
-  position: relative;
-  z-index: 1;
-}
-
-/* زخرفة دائرية علوية */
 body.prof-theme-active #app::before {
-  content: "";
-  position: fixed;
-  top: -120px;
-  right: -120px;
-  width: 350px;
-  height: 350px;
+  content: ""; position: fixed; top: -120px; right: -120px; width: 350px; height: 350px;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
+  border-radius: 50%; pointer-events: none; z-index: -1;
 }
-
-/* زخرفة دائرية سفلية */
 body.prof-theme-active #app::after {
-  content: "";
-  position: fixed;
-  bottom: -180px;
-  left: -120px;
-  width: 450px;
-  height: 450px;
+  content: ""; position: fixed; bottom: -180px; left: -120px; width: 450px; height: 450px;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
+  border-radius: 50%; pointer-events: none; z-index: -1;
 }
 
-/* الحاوية الرئيسية */
-.prof-card-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  max-width: 600px;
-  margin: 0 auto;
-  padding-bottom: 50px;
-}
+.prof-card-wrapper { display: flex; flex-direction: column; gap: 18px; max-width: 600px; margin: 0 auto; padding-bottom: 50px; }
 
-/* زر الرجوع داخل قسم الأساتذة */
-body.prof-theme-active .back {
-  background: rgba(255, 255, 255, 0.95) !important;
-  color: #c2410c !important;
-  border: 0 !important;
-  padding: 10px 22px !important;
-  border-radius: 50px !important;
-  font-weight: 700 !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  margin-bottom: 16px !important;
-}
-body.prof-theme-active h2 {
-  color: #fff !important;
-  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.35);
-}
+body.prof-theme-active .back { background: rgba(255, 255, 255, 0.95) !important; color: #c2410c !important; border: 0 !important; padding: 10px 22px !important; border-radius: 50px !important; font-weight: 700 !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); margin-bottom: 16px !important; }
+body.prof-theme-active h2 { color: #fff !important; text-shadow: 0 2px 15px rgba(0, 0, 0, 0.35); }
 
-/* عناصر قائمة الأساتذة (List) */
-.profs-list-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%) !important;
-  border: 2px solid rgba(194, 65, 12, 0.12) !important;
-  border-radius: 20px !important;
-  padding: 14px 18px !important;
-  cursor: pointer;
-  font-family: inherit;
-  color: var(--ink);
-  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-  width: 100%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  text-align: inherit;
-  margin-bottom: 12px;
-}
-.profs-list-item:hover {
-  transform: translateY(-4px);
-  border-color: #c2410c !important;
-  box-shadow: 0 15px 30px rgba(194, 65, 12, 0.2);
-}
-.profs-list-avatar {
-  width: 62px !important;
-  height: 62px !important;
-  border-radius: 18px !important;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 3px solid #c2410c;
-  background: linear-gradient(135deg, #c2410c, #9a3412);
-}
-.profs-list-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-
-/* البطاقة البسيطة (Fallback) */
-.prof-simple-card {
-  background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 24px !important;
-  padding: 32px 24px !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important;
-  text-align: center;
-}
+.prof-simple-card { background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%) !important; border: 3px solid rgba(255, 255, 255, 0.4) !important; border-radius: 24px !important; padding: 32px 24px !important; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important; text-align: center; }
 .prof-simple-name { font-size: 1.5rem !important; font-weight: 800 !important; color: #c2410c !important; margin-bottom: 8px !important; }
 .prof-simple-module { font-size: 1rem !important; color: #64748b !important; margin-bottom: 20px !important; padding-bottom: 16px; border-bottom: 2px dashed #e2e8f0; }
 .prof-simple-email { background: linear-gradient(135deg, #c2410c, #9a3412) !important; color: #fff !important; padding: 12px 22px !important; border-radius: 50px !important; text-decoration: none !important; font-weight: 600 !important; display: inline-block !important; box-shadow: 0 8px 20px rgba(194, 65, 12, 0.35); }
 
-/* بطاقة الهوية الكاملة (ID Card) */
-.prof-id-card {
-  background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%) !important;
-  border: 3px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 24px !important;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3) !important;
-  padding: 26px;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.prof-photo { width: 130px !important; height: 130px !important; border-radius: 24px !important; border: 4px solid #fff !important; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25) !important; overflow: hidden; flex-shrink: 0; }
-.prof-photo img { width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: center top !important; }
+.prof-id-card { background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%) !important; border: 3px solid rgba(255, 255, 255, 0.4) !important; border-radius: 24px !important; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3) !important; padding: 26px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+.prof-photo { width: 130px !important; height: 130px !important; border-radius: 24px !important; border: 4px solid #fff !important; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25) !important; overflow: hidden; flex-shrink: 0; background: #c2410c; display: flex; align-items: center; justify-content: center; }
+.prof-photo img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+.prof-avatar-fallback { font-size: 3rem; color: #fff; font-weight: 800; }
 .prof-id-info { flex: 1; min-width: 200px; }
 .prof-name { font-size: 1.45rem !important; font-weight: 800 !important; color: #1d2433 !important; margin-bottom: 10px; }
 .prof-role, .prof-location { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.68rem; font-weight: 800; margin-right: 5px; }
 .prof-role { background: #c2410c; color: #fff; }
 .prof-location { background: #1d2433; color: #fff; }
 
-/* بطاقات المعلومات الإضافية */
 .prof-section-card { border-radius: 20px !important; padding: 20px; margin-top: 15px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important; }
 .prof-section-title { font-weight: 800 !important; font-size: 1rem !important; color: #1d2433 !important; text-transform: uppercase; margin-bottom: 6px !important; }
-
 .prof-email-card { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important; }
 .prof-modules-card { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important; }
 .prof-advice-card { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%) !important; }
@@ -147,4 +49,6 @@ body.prof-theme-active h2 {
 .prof-modules-list { list-style: none; padding: 0; margin: 8px 0 0 0; }
 .prof-modules-list li { padding: 6px 0 6px 22px; position: relative; font-size: 0.9rem; color: #334155; }
 .prof-modules-list li::before { content: "✦"; position: absolute; left: 0; color: #c2410c; font-weight: 700; }
-.prof-advice-text, .prof-research-text { font-size: 0.92rem
+.prof-advice-text, .prof-research-text { font-size: 0.92rem; line-height: 1.75; color: #334155; padding: 12px 14px; background: rgba(255, 255, 255, 0.6); border-radius: 8px; margin-top: 10px; }
+.prof-links-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.prof-link { display: flex !important; align-items: center; gap: 10px; padding: 12px 16px !important; background: #fff !important; color: #4c1d95 !important; text-decoration: none !important; border-radius: 12px !important; font-weight: 600 !important; font-size: 0.9rem !important; }
