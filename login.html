@@ -5,165 +5,82 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Connexion — ENSTP Forum</title>
 <style>
-:root{
-  --acc:#c2410c;--acc2:#9a3412;
-  --bg:#f6f4ef;--ink:#1d2433;
-  --mut:#667085;--line:#e5e1d8;
-}
+:root{--acc:#c2410c;--acc2:#9a3412;--bg:#f6f4ef;--ink:#1d2433;--mut:#667085;--line:#e5e1d8}
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  padding:20px;background:linear-gradient(135deg,var(--acc),var(--acc2));
-}
-.login-container{
-  width:100%;max-width:420px;background:#fff;
-  border-radius:24px;padding:32px;
-  box-shadow:0 20px 60px rgba(0,0,0,.3);
-}
-.logo-big{
-  width:80px;height:80px;margin:0 auto 20px;
-  background:linear-gradient(135deg,var(--acc),var(--acc2));
-  border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:2.5rem;color:#fff;
-}
+body{font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+.login-container{width:100%;max-width:420px;background:#fff;border-radius:24px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.logo-big{width:80px;height:80px;margin:0 auto 20px;background:linear-gradient(135deg,var(--acc),var(--acc2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#fff}
 h1{text-align:center;color:var(--ink);font-size:1.5rem;margin-bottom:8px}
 .sub{text-align:center;color:var(--mut);margin-bottom:24px;font-size:.9rem}
 .form-group{margin-bottom:16px}
-.form-group label{
-  display:block;margin-bottom:6px;color:var(--ink);
-  font-weight:600;font-size:.9rem;
-}
-.form-group input{
-  width:100%;padding:12px 14px;border:1px solid var(--line);
-  border-radius:12px;font-size:1rem;background:var(--bg);
-  outline:none;transition:all .2s;font-family:inherit;color:var(--ink);
-}
-.form-group input:focus{
-  border-color:var(--acc);background:#fff;
-  box-shadow:0 0 0 3px rgba(194,65,12,.1);
-}
-.form-group small{
-  display:block;margin-top:4px;color:#94a3b8;font-size:.78rem;
-}
-.btn-submit{
-  width:100%;padding:14px;
-  background:linear-gradient(135deg,var(--acc),var(--acc2));
-  color:#fff;border:0;border-radius:12px;font-size:1.05rem;
-  font-weight:700;cursor:pointer;transition:all .2s;
-  font-family:inherit;margin-top:8px;
-}
+.form-group label{display:block;margin-bottom:6px;color:var(--ink);font-weight:600;font-size:.9rem}
+.form-group input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font-size:1rem;background:var(--bg);outline:none;transition:all .2s;font-family:inherit;color:var(--ink)}
+.form-group input:focus{border-color:var(--acc);background:#fff;box-shadow:0 0 0 3px rgba(194,65,12,.1)}
+.form-group small{display:block;margin-top:4px;color:#94a3b8;font-size:.78rem}
+.btn-submit{width:100%;padding:14px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;border-radius:12px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;margin-top:8px}
 .btn-submit:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(194,65,12,.4)}
 .btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
-.error-msg{
-  display:none;background:#fee2e2;color:#991b1b;
-  padding:12px 14px;border-radius:12px;margin-bottom:16px;
-  font-size:.9rem;border-left:4px solid #dc2626;
-  white-space:pre-wrap;
-}
+.error-msg{display:none;background:#fee2e2;color:#991b1b;padding:12px 14px;border-radius:12px;margin-bottom:16px;font-size:.9rem;border-left:4px solid #dc2626;white-space:pre-wrap}
 .error-msg.show{display:block}
-.success-msg{
-  display:none;background:#d1fae5;color:#065f46;
-  padding:12px 14px;border-radius:12px;margin-bottom:16px;
-  font-size:.9rem;border-left:4px solid #10b981;
-}
+.success-msg{display:none;background:#d1fae5;color:#065f46;padding:12px 14px;border-radius:12px;margin-bottom:16px;font-size:.9rem;border-left:4px solid #10b981}
 .success-msg.show{display:block}
-.register-link{
-  text-align:center;margin-top:20px;
-  font-size:.9rem;color:var(--mut);
-}
+.register-link{text-align:center;margin-top:20px;font-size:.9rem;color:var(--mut)}
 .register-link a{color:var(--acc);font-weight:600;text-decoration:none}
-.spinner{
-  display:inline-block;width:16px;height:16px;
-  border:2px solid rgba(255,255,255,.3);border-top-color:#fff;
-  border-radius:50%;animation:spin .6s linear infinite;
-  margin-right:8px;vertical-align:middle;
-}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;margin-right:8px;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
-
 <div class="login-container">
   <div class="logo-big">🔐</div>
   <h1>Connexion</h1>
   <p class="sub">Connectez-vous à votre compte ENSTP</p>
-
   <div class="error-msg" id="errorMsg"></div>
   <div class="success-msg" id="successMsg"></div>
-
   <form id="loginForm">
     <div class="form-group">
       <label for="email">Email universitaire</label>
       <input type="email" id="email" placeholder="prenom.nom@enstp.edu.dz" required>
       <small>⚠️ Uniquement @enstp.edu.dz</small>
     </div>
-
     <div class="form-group">
       <label for="password">Mot de passe</label>
       <input type="password" id="password" placeholder="Votre mot de passe" required>
     </div>
-
-    <button type="submit" class="btn-submit" id="submitBtn">
-      Se connecter
-    </button>
+    <button type="submit" class="btn-submit" id="submitBtn">Se connecter</button>
   </form>
-
-  <div class="register-link">
-    Pas encore de compte ? <a href="register.html">S'inscrire</a>
-  </div>
+  <div class="register-link">Pas encore de compte ? <a href="register.html">S'inscrire</a></div>
 </div>
-
 <script type="module">
 import { loginUser, onAuthChange } from './auth.js';
-
-onAuthChange(user => {
-  if (user) {
-    window.location.href = 'forum.html';
-  }
-});
-
+onAuthChange(user => { if (user) window.location.href = 'forum.html'; });
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  
   const errorMsg = document.getElementById('errorMsg');
   const successMsg = document.getElementById('successMsg');
   const submitBtn = document.getElementById('submitBtn');
-  
   errorMsg.classList.remove('show');
   successMsg.classList.remove('show');
-  
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
-  
   if (!email.toLowerCase().endsWith('@enstp.edu.dz')) {
     errorMsg.textContent = '⚠️ Utilisez votre email @enstp.edu.dz';
     errorMsg.classList.add('show');
     return;
   }
-  
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span class="spinner"></span> Connexion...';
-  
   try {
     await loginUser(email, password);
     successMsg.textContent = '✅ Connexion réussie ! Redirection...';
     successMsg.classList.add('show');
-    setTimeout(() => {
-      window.location.href = 'forum.html';
-    }, 1000);
+    setTimeout(() => { window.location.href = 'forum.html'; }, 800);
   } catch (err) {
-    console.error(err);
     let msg = '❌ ' + err.message;
-    if (err.code === 'auth/user-not-found') {
-      msg = '❌ Aucun compte avec cet email';
-    } else if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-      msg = '❌ Mot de passe incorrect';
-    } else if (err.code === 'auth/too-many-requests') {
-      msg = '❌ Trop de tentatives. Réessayez plus tard';
-    } else if (err.code === 'auth/network-request-failed') {
-      msg = '❌ Erreur réseau. Vérifiez votre connexion';
-    }
+    if (err.code === 'auth/user-not-found') msg = '❌ Aucun compte avec cet email';
+    else if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') msg = '❌ Mot de passe incorrect';
+    else if (err.code === 'auth/too-many-requests') msg = '❌ Trop de tentatives. Réessayez plus tard';
+    else if (err.code === 'auth/network-request-failed') msg = '❌ Erreur réseau. Vérifiez votre connexion';
     errorMsg.textContent = msg;
     errorMsg.classList.add('show');
     submitBtn.disabled = false;
@@ -171,6 +88,5 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   }
 });
 </script>
-
 </body>
 </html>
