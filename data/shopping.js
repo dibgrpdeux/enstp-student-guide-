@@ -153,20 +153,12 @@ window.SECTIONS = window.SECTIONS || [];
     introKey: "shoppingIntro",
     type: "shops",
     categories: Object.keys(CATS).map(function(key) {
-      // ترتيب المتاجر: التي تحتوي على فيديو أولاً
-      const catItems = items.filter(function(x) { return x.c === key; });
-      catItems.sort((a, b) => {
-        if (a.video && !b.video) return -1;
-        if (!a.video && b.video) return 1;
-        return 0;
-      });
-
       return {
         id: key,
         icon: CATS[key].icon,
         titleKey: "shop_" + key,
         title: CATS[key].fr,
-        items: catItems
+        items: items.filter(function(x) { return x.c === key; })
       };
     }).filter(function(c) { return c.items.length > 0; })
   });
@@ -177,7 +169,7 @@ window.SECTIONS = window.SECTIONS || [];
   const trans = {
     fr: {
       sectionShopping: "Manger & Shopping",
-      shoppingIntro: "Tous les commerces autour de l'ENSTP : restos, cafés, pharmacies, sport...",
+      shoppingIntro: "Tous les commerces autour de l'ENSTP.",
       shop_manger: "🍽️ Manger", shop_cafe: "☕ Cafés", shop_courses: "🛒 Courses",
       shop_pharma: "💊 Pharmacies", shop_copie: "🖨️ Copie & Print", shop_sport: "🏋️ Sport",
       shop_beaute: "💈 Beauté", shop_tel: "📱 Téléphonie", shop_vetements: "👕 Vêtements",
@@ -186,7 +178,7 @@ window.SECTIONS = window.SECTIONS || [];
     },
     ar: {
       sectionShopping: "الأكل والتسوق",
-      shoppingIntro: "كل المتاجر حول ENSTP: مطاعم، مقاهي، صيدليات، رياضة...",
+      shoppingIntro: "كل المتاجر حول ENSTP.",
       shop_manger: "🍽️ المطاعم", shop_cafe: "☕ المقاهي", shop_courses: "🛒 التسوق اليومي",
       shop_pharma: "💊 الصيدليات", shop_copie: "🖨️ النسخ والطبع", shop_sport: "🏋️ الرياضة",
       shop_beaute: "💈 الحلاقة", shop_tel: "📱 الهواتف", shop_vetements: "👕 الملابس",
@@ -195,7 +187,7 @@ window.SECTIONS = window.SECTIONS || [];
     },
     en: {
       sectionShopping: "Food & Shopping",
-      shoppingIntro: "All shops around ENSTP: food, cafés, pharmacies, sports...",
+      shoppingIntro: "All shops around ENSTP.",
       shop_manger: "🍽️ Food", shop_cafe: "☕ Cafés", shop_courses: "🛒 Groceries",
       shop_pharma: "💊 Pharmacies", shop_copie: "🖨️ Print & Copy", shop_sport: "🏋️ Sports",
       shop_beaute: "💈 Beauty", shop_tel: "📱 Phones", shop_vetements: "👕 Clothing",
@@ -207,6 +199,4 @@ window.SECTIONS = window.SECTIONS || [];
     if (!window.LANG_DATA[lang]) window.LANG_DATA[lang] = {};
     Object.assign(window.LANG_DATA[lang], trans[lang]);
   });
-
 })();
-      
