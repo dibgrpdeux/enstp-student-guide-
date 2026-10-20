@@ -1,23 +1,19 @@
 /* ============================================
    🎓 profs-card.css — تصميم بطاقات الأساتذة
-   Guide de survie ENSTP
-   Version 5.0 — تصميم عصري 2025
    ============================================ */
 
-/* ============================================
-   🎨 الخلفية الملونة الجميلة لصفحة الأستاذ
-   ============================================ */
-#app:has(.prof-card-wrapper) {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-  padding: 20px 14px !important;
-  border-radius: 0;
+/* الخلفية الجميلة عند فتح قسم الأساتذة */
+body.prof-theme-active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+body.prof-theme-active #app {
   position: relative;
-  overflow-x: hidden;
+  z-index: 1;
 }
 
 /* زخرفة دائرية علوية */
-#app:has(.prof-card-wrapper)::before {
+body.prof-theme-active #app::before {
   content: "";
   position: fixed;
   top: -120px;
@@ -27,11 +23,11 @@
   background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 70%);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
 }
 
 /* زخرفة دائرية سفلية */
-#app:has(.prof-card-wrapper)::after {
+body.prof-theme-active #app::after {
   content: "";
   position: fixed;
   bottom: -180px;
@@ -41,46 +37,10 @@
   background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent 70%);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
 }
 
-#app:has(.prof-card-wrapper) > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* زر الرجوع */
-#app:has(.prof-card-wrapper) .back {
-  background: rgba(255, 255, 255, 0.95) !important;
-  color: #c2410c !important;
-  border: 0 !important;
-  padding: 10px 22px !important;
-  border-radius: 50px !important;
-  font-weight: 700 !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  margin-bottom: 16px !important;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-}
-
-#app:has(.prof-card-wrapper) .back:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  background: #fff !important;
-}
-
-/* عنوان الصفحة */
-#app:has(.prof-card-wrapper) h2 {
-  color: #fff !important;
-  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.35);
-  font-weight: 800;
-  margin-bottom: 20px !important;
-  font-size: 1.3rem;
-}
-
-/* حاوية البطاقة */
+/* الحاوية الرئيسية */
 .prof-card-wrapper {
   display: flex;
   flex-direction: column;
@@ -90,9 +50,23 @@
   padding-bottom: 50px;
 }
 
-/* ============================================
-   📋 عناصر قائمة الأساتذة (List)
-   ============================================ */
+/* زر الرجوع داخل قسم الأساتذة */
+body.prof-theme-active .back {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #c2410c !important;
+  border: 0 !important;
+  padding: 10px 22px !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  margin-bottom: 16px !important;
+}
+body.prof-theme-active h2 {
+  color: #fff !important;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.35);
+}
+
+/* عناصر قائمة الأساتذة (List) */
 .profs-list-item {
   display: flex;
   align-items: center;
@@ -110,14 +84,11 @@
   text-align: inherit;
   margin-bottom: 12px;
 }
-
 .profs-list-item:hover {
   transform: translateY(-4px);
   border-color: #c2410c !important;
   box-shadow: 0 15px 30px rgba(194, 65, 12, 0.2);
 }
-
-/* صورة الأستاذ في القائمة */
 .profs-list-avatar {
   width: 62px !important;
   height: 62px !important;
@@ -125,526 +96,55 @@
   overflow: hidden;
   flex-shrink: 0;
   border: 3px solid #c2410c;
-  box-shadow: 0 6px 18px rgba(194, 65, 12, 0.25);
   background: linear-gradient(135deg, #c2410c, #9a3412);
-  transition: all 0.35s ease;
-  position: relative;
 }
+.profs-list-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 
-.profs-list-avatar::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent 60%);
-  pointer-events: none;
-}
-
-.profs-list-item:hover .profs-list-avatar {
-  transform: scale(1.08) rotate(-3deg);
-  box-shadow: 0 10px 25px rgba(194, 65, 12, 0.45);
-}
-
-.profs-list-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
-
-/* ============================================
-   🪪 البطاقة البسيطة (Fallback)
-   ============================================ */
+/* البطاقة البسيطة (Fallback) */
 .prof-simple-card {
   background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%) !important;
   border: 3px solid rgba(255, 255, 255, 0.4) !important;
   border-radius: 24px !important;
   padding: 32px 24px !important;
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.3),
-    0 8px 20px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
-  position: relative;
-  overflow: hidden;
-  animation: cardFadeIn 0.5s ease-out;
-}
-
-.prof-simple-card::before {
-  content: "";
-  position: absolute;
-  top: -60px;
-  right: -60px;
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle, rgba(194, 65, 12, 0.15), transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.prof-simple-name {
-  font-size: 1.5rem !important;
-  font-weight: 800 !important;
-  color: #c2410c !important;
-  margin-bottom: 8px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important;
   text-align: center;
-  letter-spacing: -0.5px;
-  position: relative;
 }
+.prof-simple-name { font-size: 1.5rem !important; font-weight: 800 !important; color: #c2410c !important; margin-bottom: 8px !important; }
+.prof-simple-module { font-size: 1rem !important; color: #64748b !important; margin-bottom: 20px !important; padding-bottom: 16px; border-bottom: 2px dashed #e2e8f0; }
+.prof-simple-email { background: linear-gradient(135deg, #c2410c, #9a3412) !important; color: #fff !important; padding: 12px 22px !important; border-radius: 50px !important; text-decoration: none !important; font-weight: 600 !important; display: inline-block !important; box-shadow: 0 8px 20px rgba(194, 65, 12, 0.35); }
 
-.prof-simple-module {
-  font-size: 1rem !important;
-  color: #64748b !important;
-  margin-bottom: 20px !important;
-  text-align: center;
-  font-weight: 500;
-  padding-bottom: 16px;
-  border-bottom: 2px dashed #e2e8f0;
-  position: relative;
-}
-
-.prof-simple-email {
-  background: linear-gradient(135deg, #c2410c, #9a3412) !important;
-  color: #fff !important;
-  padding: 12px 22px !important;
-  border-radius: 50px !important;
-  text-decoration: none !important;
-  font-weight: 600 !important;
-  font-size: 0.9rem !important;
-  margin: 8px auto !important;
-  display: block !important;
-  width: fit-content !important;
-  box-shadow: 0 8px 20px rgba(194, 65, 12, 0.35);
-  transition: all 0.3s ease;
-  text-align: center;
-  position: relative;
-}
-
-.prof-simple-email:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(194, 65, 12, 0.5);
-}
-
-.prof-simple-no-email {
-  text-align: center;
-  color: #94a3b8;
-  font-size: 0.9rem;
-  padding: 12px;
-  background: #f1f5f9;
-  border-radius: 12px;
-  margin-top: 8px;
-  position: relative;
-}
-
-.prof-badge-vacataire {
-  display: inline-block;
-  background: #fef3c7;
-  color: #92400e;
-  font-size: 0.72rem;
-  font-weight: 800;
-  padding: 6px 14px;
-  border-radius: 999px;
-  margin-top: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  position: relative;
-}
-
-/* ============================================
-   📇 بطاقة الهوية (ID Card)
-   ============================================ */
+/* بطاقة الهوية الكاملة (ID Card) */
 .prof-id-card {
   background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%) !important;
   border: 3px solid rgba(255, 255, 255, 0.4) !important;
   border-radius: 24px !important;
-  box-shadow:
-    0 25px 60px rgba(0, 0, 0, 0.3),
-    0 10px 20px rgba(0, 0, 0, 0.15) !important;
-  animation: cardFadeIn 0.5s ease-out;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3) !important;
   padding: 26px;
   display: flex;
   gap: 20px;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 16px;
 }
+.prof-photo { width: 130px !important; height: 130px !important; border-radius: 24px !important; border: 4px solid #fff !important; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25) !important; overflow: hidden; flex-shrink: 0; }
+.prof-photo img { width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: center top !important; }
+.prof-id-info { flex: 1; min-width: 200px; }
+.prof-name { font-size: 1.45rem !important; font-weight: 800 !important; color: #1d2433 !important; margin-bottom: 10px; }
+.prof-role, .prof-location { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.68rem; font-weight: 800; margin-right: 5px; }
+.prof-role { background: #c2410c; color: #fff; }
+.prof-location { background: #1d2433; color: #fff; }
 
-/* صورة الأستاذ الكبيرة */
-.prof-photo {
-  width: 130px !important;
-  height: 130px !important;
-  border-radius: 24px !important;
-  border: 4px solid #fff !important;
-  box-shadow:
-    0 20px 45px rgba(0, 0, 0, 0.25),
-    0 8px 18px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
-  overflow: hidden;
-  flex-shrink: 0;
-  position: relative;
-  background: linear-gradient(135deg, #c2410c, #9a3412);
-}
+/* بطاقات المعلومات الإضافية */
+.prof-section-card { border-radius: 20px !important; padding: 20px; margin-top: 15px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important; }
+.prof-section-title { font-weight: 800 !important; font-size: 1rem !important; color: #1d2433 !important; text-transform: uppercase; margin-bottom: 6px !important; }
 
-.prof-photo img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center top !important;
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
+.prof-email-card { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important; }
+.prof-modules-card { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important; }
+.prof-advice-card { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%) !important; }
+.prof-research-card { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important; }
+.prof-links-card { background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%) !important; }
 
-.prof-photo:hover img {
-  transform: scale(1.1);
-}
-
-/* Fallback: الحرف الأول */
-.prof-avatar-fallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #c2410c, #9a3412);
-  color: #fff;
-  font-size: 2.8rem;
-  font-weight: 800;
-  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-}
-
-.prof-id-info {
-  flex: 1;
-  min-width: 200px;
-}
-
-/* اسم الأستاذ */
-.prof-name {
-  font-size: 1.45rem !important;
-  font-weight: 800 !important;
-  color: #1d2433 !important;
-  line-height: 1.2;
-  margin-bottom: 10px;
-  letter-spacing: -0.4px;
-}
-
-.prof-title-line {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin: 8px 0;
-}
-
-.prof-role, .prof-location {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-.prof-role {
-  background: #c2410c;
-  color: #fff;
-  box-shadow: 0 4px 10px rgba(194, 65, 12, 0.35);
-}
-
-.prof-location {
-  background: #1d2433;
-  color: #fff;
-  box-shadow: 0 4px 10px rgba(29, 36, 51, 0.35);
-}
-
-/* ============================================
-   📧 بطاقة البريد (ذهبية)
-   ============================================ */
-.prof-section-card {
-  border-radius: 20px !important;
-  padding: 20px;
-  margin-top: 15px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
-  position: relative;
-}
-
-.prof-email-card { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important; border: 3px solid rgba(255, 255, 255, 0.5) !important; }
-.prof-modules-card { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important; border: 3px solid rgba(255, 255, 255, 0.5) !important; }
-.prof-advice-card { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%) !important; border: 3px solid rgba(255, 255, 255, 0.5) !important; }
-.prof-research-card { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important; border: 3px solid rgba(255, 255, 255, 0.5) !important; }
-.prof-links-card { background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%) !important; border: 3px solid rgba(255, 255, 255, 0.5) !important; }
-
-.prof-section-title {
-  font-weight: 800 !important;
-  font-size: 1rem !important;
-  color: #1d2433 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px !important;
-}
-
-.prof-email-link {
-  display: inline-block !important;
-  color: #c2410c !important;
-  text-decoration: none !important;
-  font-weight: 700 !important;
-  font-size: 1rem !important;
-  padding: 10px 18px !important;
-  background: #fff !important;
-  border-radius: 12px !important;
-  word-break: break-all;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  margin-top: 6px;
-}
-
-.prof-email-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(194, 65, 12, 0.25);
-}
-
-/* ============================================
-   📚 بطاقة الوحدات (زرقاء)
-   ============================================ */
-.prof-modules-list {
-  list-style: none;
-  padding: 0;
-  margin: 8px 0 0 0;
-}
-
-.prof-modules-list li {
-  padding: 6px 0 6px 22px;
-  position: relative;
-  font-size: 0.9rem;
-  color: #334155;
-  line-height: 1.5;
-}
-
-.prof-modules-list li::before {
-  content: "✦";
-  position: absolute;
-  left: 0;
-  color: #c2410c;
-  font-weight: 700;
-}
-
-html[dir="rtl"] .prof-modules-list li {
-  padding-left: 0;
-  padding-right: 22px;
-}
-
-html[dir="rtl"] .prof-modules-list li::before {
-  left: auto;
-  right: 0;
-}
-
-/* ============================================
-   💡 بطاقة النصيحة (وردية)
-   ============================================ */
-.prof-advice-text {
-  font-size: 0.92rem;
-  line-height: 1.75;
-  color: #334155;
-  font-style: italic;
-  padding: 12px 14px;
-  border-left: 4px solid #ec4899;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
-html[dir="rtl"] .prof-advice-text {
-  border-left: 0;
-  border-right: 4px solid #ec4899;
-}
-
-/* ============================================
-   🔬 بطاقة البحث (خضراء)
-   ============================================ */
-.prof-research-text {
-  font-size: 0.9rem;
-  line-height: 1.7;
-  color: #065f46;
-  margin-top: 8px;
-  padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 8px;
-}
-
-/* ============================================
-   🔗 بطاقة الروابط (بنفسجية)
-   ============================================ */
-.prof-links-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.prof-link {
-  display: flex !important;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px !important;
-  background: #fff !important;
-  color: #4c1d95 !important;
-  text-decoration: none !important;
-  border-radius: 12px !important;
-  font-weight: 600 !important;
-  font-size: 0.9rem !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  word-break: break-all;
-}
-
-.prof-link:hover {
-  transform: translateX(5px);
-  box-shadow: 0 8px 18px rgba(76, 29, 149, 0.25);
-}
-
-html[dir="rtl"] .prof-link:hover {
-  transform: translateX(-5px);
-}
-
-.prof-link-icon {
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-/* ============================================
-   ⏳ أنيميشن الظهور
-   ============================================ */
-@keyframes cardFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* ============================================
-   📱 للشاشات الصغيرة
-   ============================================ */
-@media (max-width: 600px) {
-  .prof-id-card {
-    flex-direction: column;
-    text-align: center;
-    padding: 22px;
-  }
-
-  .prof-title-line {
-    justify-content: center;
-  }
-
-  .prof-photo {
-    width: 110px !important;
-    height: 110px !important;
-  }
-
-  .profs-list-avatar {
-    width: 56px !important;
-    height: 56px !important;
-  }
-
-  .prof-name {
-    font-size: 1.25rem !important;
-  }
-
-  .prof-simple-name {
-    font-size: 1.3rem !important;
-  }
-
-  #app:has(.prof-card-wrapper) {
-    padding: 14px 10px !important;
-  }
-
-  .prof-card-wrapper {
-    gap: 14px;
-  }
-
-  .prof-email-card,
-  .prof-modules-card,
-  .prof-advice-card,
-  .prof-research-card,
-  .prof-links-card {
-    padding: 16px;
-  }
-}
-
-/* ============================================
-   🌙 الوضع الليلي
-   ============================================ */
-body.dark .prof-simple-card,
-body.dark .prof-id-card {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
-}
-
-body.dark .profs-list-item {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-body.dark .prof-simple-name {
-  color: #fb923c !important;
-}
-
-body.dark .prof-simple-module {
-  color: #94a3b8 !important;
-  border-bottom-color: #334155;
-}
-
-body.dark .prof-name {
-  color: #f1f5f9 !important;
-}
-
-body.dark .prof-section-title {
-  color: #f1f5f9 !important;
-}
-
-body.dark .prof-email-card {
-  background: linear-gradient(135deg, #422006 0%, #78350f 100%) !important;
-}
-
-body.dark .prof-modules-card {
-  background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%) !important;
-}
-
-body.dark .prof-modules-list li {
-  color: #e2e8f0;
-}
-
-body.dark .prof-advice-card {
-  background: linear-gradient(135deg, #581c3f 0%, #831843 100%) !important;
-}
-
-body.dark .prof-advice-text {
-  color: #f1f5f9;
-  background: rgba(0, 0, 0, 0.3);
-}
-
-body.dark .prof-research-card {
-  background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
-}
-
-body.dark .prof-research-text {
-  color: #d1fae5;
-  background: rgba(0, 0, 0, 0.3);
-}
-
-body.dark .prof-links-card {
-  background: linear-gradient(135deg, #3b0764 0%, #4c1d95 100%) !important;
-}
-
-body.dark .prof-link {
-  background: rgba(255, 255, 255, 0.1) !important;
-  color: #c4b5fd !important;
-}
-
-body.dark .prof-email-link {
-  background: #1e293b !important;
-  color: #fb923c !important;
-}
-
-body.dark .prof-simple-no-email {
-  background: #1e293b;
-  color: #94a3b8;
-}
+.prof-email-link { display: inline-block !important; color: #c2410c !important; text-decoration: none !important; font-weight: 700 !important; padding: 10px 18px !important; background: #fff !important; border-radius: 12px !important; margin-top: 6px; }
+.prof-modules-list { list-style: none; padding: 0; margin: 8px 0 0 0; }
+.prof-modules-list li { padding: 6px 0 6px 22px; position: relative; font-size: 0.9rem; color: #334155; }
+.prof-modules-list li::before { content: "✦"; position: absolute; left: 0; color: #c2410c; font-weight: 700; }
+.prof-advice-text, .prof-research-text { font-size: 0.92rem
