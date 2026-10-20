@@ -55,6 +55,8 @@ const DATA_ASSETS = [
   './data/about.js',
   './data/shopping.js',
   './data/alger.js'
+  ./data/campus-map.html' // <--- أضف هذا السطر هنا
+
 ];
 
 // ============================================
