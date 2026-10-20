@@ -4,7 +4,7 @@
 
 window.SECTIONS = window.SECTIONS || [];
 
-// حذف أي نسخة قديمة
+// إزالة أي نسخة قديمة لتجنب التكرار
 for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
   if (window.SECTIONS[i].id === 'admin') window.SECTIONS.splice(i, 1);
 }
@@ -21,19 +21,18 @@ window.SECTIONS.push({
     {
       titleKey: "adminDirection",
       icon: "🏛️",
-      descKey: "departement",
+      descKey: "l'administration",
       location: "Département des classes préparatoires — 1er étage",
       hours: "Dimanche à Jeudi : 8h - 16h",
       phone: "À compléter",
-      email: "",
-      detailsKey: "adminDirectionDetails"
+      email: ""
     },
 
     // 2. Meriem Tebani
     {
       titleKey: "adminTebani",
       icon: "📋",
-      descKey: "meriem Tebani",
+      descKey: "MERIEM TEBANI",
       location: "Département des classes préparatoires — 1er bureau à droite",
       hours: "Dimanche à Jeudi : 8h - 16h",
       phone: "À compléter",
@@ -45,7 +44,7 @@ window.SECTIONS.push({
     {
       titleKey: "adminMobarki",
       icon: "🎓",
-      descKey: "Mobarki Ahmed",
+      descKey: "mobarki Ahmad",
       location: "Département des classes préparatoires — 2ème bureau à droite",
       hours: "Dimanche à Jeudi : 8h - 16h",
       phone: "À compléter",
@@ -57,8 +56,8 @@ window.SECTIONS.push({
     {
       titleKey: "adminFedghouch",
       icon: "⚖️",
-      descKey: "Fedghouch Ferhat",
-      location: "Département des classes préparatoires",
+      descKey: "fedghouch ferhat",
+      location: "Bâtiment administratif",
       hours: "Dimanche à Jeudi : 8h - 16h",
       phone: "À compléter",
       email: "",
