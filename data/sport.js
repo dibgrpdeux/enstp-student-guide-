@@ -1,12 +1,12 @@
 // ============================================
 // data/sport.js — قسم الرياضة
-// Guide de survie ENSTP
-// ============================================
-// يحتوي على: رياضة جامعية، رياضة خارج الإقامة،
-//            كرة القدم، الجري، كرة السلة والطائرة
 // ============================================
 
 window.SECTIONS = window.SECTIONS || [];
+
+for (let i = window.SECTIONS.length - 1; i >= 0; i--) {
+  if (window.SECTIONS[i].id === 'sport') window.SECTIONS.splice(i, 1);
+}
 
 window.SECTIONS.push({
   id: "sport",
@@ -14,16 +14,12 @@ window.SECTIONS.push({
   titleKey: "sectionSport",
   introKey: "sportIntro",
   type: "items",
-  
+
   items: [
-    
-    // ========== 1. الرياضة الجامعية ==========
     {
       titleKey: "sportUniv",
       icon: "🎓",
       descKey: "sportUnivDesc",
-      img: "",
-      video: "",
       extra: "🏆 Organisé par l'ONSU (Office National des Sports Universitaires)",
       details: [
         { icon: "🏀", fr: "Basket", ar: "كرة السلة", en: "Basketball" },
@@ -32,17 +28,12 @@ window.SECTIONS.push({
         { icon: "🏃", fr: "Athlétisme", ar: "ألعاب القوى", en: "Athletics" },
         { icon: "🏓", fr: "Tennis de table", ar: "تنس الطاولة", en: "Table tennis" },
         { icon: "♟️", fr: "Échecs", ar: "الشطرنج", en: "Chess" }
-      ],
-      inscription: "Inscription via l'ONSU en début d'année universitaire"
+      ]
     },
-    
-    // ========== 2. الرياضة خارج الإقامة ==========
     {
       titleKey: "sportHors",
       icon: "🏋️",
       descKey: "sportHorsDesc",
-      img: "",
-      video: "",
       map: "salle de sport près de ENSTP Garidi Kouba",
       extra: "💪 Salles de sport privées et clubs",
       details: [
@@ -54,14 +45,10 @@ window.SECTIONS.push({
         { icon: "🚴", fr: "Cyclisme", ar: "الدراجات", en: "Cycling" }
       ]
     },
-    
-    // ========== 3. كرة القدم ==========
     {
       titleKey: "sportFootball",
       icon: "⚽",
       descKey: "sportFootballDesc",
-      img: "",
-      video: "",
       extra: "⚽ Matchs libres entre étudiants",
       details: [
         { icon: "🕐", fr: "Week-end et jours fériés", ar: "نهاية الأسبوع والأعياد", en: "Weekends and holidays" },
@@ -69,14 +56,10 @@ window.SECTIONS.push({
         { icon: "👥", fr: "Organise avec tes amis", ar: "نظّم مع أصدقائك", en: "Organize with friends" }
       ]
     },
-    
-    // ========== 4. الجري ==========
     {
       titleKey: "sportRunning",
       icon: "🏃",
       descKey: "sportRunningDesc",
-      img: "",
-      video: "",
       map: "parc près de ENSTP Garidi Kouba",
       extra: "🏃 Cours le matin ou le soir",
       details: [
@@ -85,14 +68,10 @@ window.SECTIONS.push({
         { icon: "🥤", fr: "Apporte de l'eau", ar: "أحضر الماء", en: "Bring water" }
       ]
     },
-    
-    // ========== 5. كرة السلة والطائرة ==========
     {
       titleKey: "sportBasket",
       icon: "🏀",
       descKey: "sportBasketDesc",
-      img: "",
-      video: "",
       extra: "🏐 Sports collectifs dynamiques",
       details: [
         { icon: "📍", fr: "Terrains de l'école et des cités", ar: "ملاعب المدرسة والإقامات", en: "School and residence courts" },
@@ -100,6 +79,5 @@ window.SECTIONS.push({
         { icon: "🏆", fr: "Tournois inter-cités possibles", ar: "دورات بين الإقامات ممكنة", en: "Inter-residence tournaments possible" }
       ]
     }
-    
   ]
 });
