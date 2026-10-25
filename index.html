@@ -1,456 +1,474 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="ar" dir="rtl" data-theme="emerald">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ENSTP — Guide de survie</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>دليل ENSTP - الصفحة الرئيسية</title>
 
-<script src="text-size.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-<meta name="theme-color" content="#c2410c">
-<meta name="description" content="Guide de survie pour les nouveaux étudiants de l'ENSTP — 3 langues, hors ligne, gratuit.">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ENSTP Guide">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link rel="icon" type="image/png" href="icon-192.png">
+  <script src="https://cdn.tailwindcss.com"></script>
 
-<style>
-:root{--acc:#c2410c;--acc2:#9a3412;--acc-soft:#fde8dc;--bg:#0f1117;--ink:#fff}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
-img{max-width:100%;height:auto;display:block}
+  <style>
+    /* ========== الثيمات (9 ألوان) ========== */
+    :root {
+      --primary: #059669;
+      --primary-hover: #047857;
+      --primary-light: #ecfdf5;
+      --accent: #0d9488;
+      --bg-1: #f0fdf4;
+      --bg-2: #ecfdf5;
+      --bg-card: rgba(255, 255, 255, 0.92);
+      --text-main: #1e293b;
+      --text-sub: #64748b;
+      --nav-bg: rgba(255, 255, 255, 0.88);
+      --nav-border: rgba(209, 250, 229, 0.9);
+      --shadow: rgba(5, 150, 105, 0.25);
+    }
 
-.top-controls{position:fixed;top:16px;right:16px;z-index:1000;display:flex;gap:8px;align-items:center;flex-wrap:wrap;max-width:calc(100vw - 32px)}
-.pill{display:flex;gap:4px;background:rgba(0,0,0,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:5px;border-radius:30px;border:1px solid rgba(255,255,255,.15)}
-.pill button{background:transparent;color:#fff;padding:6px 11px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;border:0}
-.pill button:hover{background:rgba(255,255,255,.15)}
-.pill button.on{background:#fff;color:var(--acc)}
-.ctrl-btn{width:38px;height:38px;padding:0;font-size:1rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:transparent;color:#fff;cursor:pointer;transition:all .2s;border:0;font-family:inherit}
-.ctrl-btn:hover{background:rgba(255,255,255,.15)}
+    /* الثيمات */
+    [data-theme="emerald"] { --primary:#059669; --primary-hover:#047857; --primary-light:#ecfdf5; --accent:#0d9488; --bg-1:#f0fdf4; --bg-2:#ecfdf5; --nav-border:rgba(209,250,229,.9); --shadow:rgba(5,150,105,.25); }
+    [data-theme="indigo"]  { --primary:#4f46e5; --primary-hover:#4338ca; --primary-light:#eef2ff; --accent:#7c3aed; --bg-1:#f8fafc; --bg-2:#eef2ff; --nav-border:rgba(224,231,255,.9); --shadow:rgba(79,70,229,.25); }
+    [data-theme="blue"]    { --primary:#2563eb; --primary-hover:#1d4ed8; --primary-light:#eff6ff; --accent:#0ea5e9; --bg-1:#f8fafc; --bg-2:#eff6ff; --nav-border:rgba(219,234,254,.9); --shadow:rgba(37,99,235,.25); }
+    [data-theme="rose"]    { --primary:#e11d48; --primary-hover:#be123c; --primary-light:#fff1f2; --accent:#f43f5e; --bg-1:#fff1f2; --bg-2:#ffe4e6; --nav-border:rgba(254,205,211,.9); --shadow:rgba(225,29,72,.25); }
+    [data-theme="amber"]   { --primary:#d97706; --primary-hover:#b45309; --primary-light:#fffbeb; --accent:#f59e0b; --bg-1:#fffbeb; --bg-2:#fef3c7; --nav-border:rgba(253,230,138,.9); --shadow:rgba(217,119,6,.25); }
+    [data-theme="purple"]  { --primary:#9333ea; --primary-hover:#7e22ce; --primary-light:#faf5ff; --accent:#a855f7; --bg-1:#faf5ff; --bg-2:#f3e8ff; --nav-border:rgba(233,213,255,.9); --shadow:rgba(147,51,234,.25); }
+    [data-theme="cyan"]    { --primary:#0891b2; --primary-hover:#0e7490; --primary-light:#ecfeff; --accent:#06b6d4; --bg-1:#ecfeff; --bg-2:#cffafe; --nav-border:rgba(165,243,252,.9); --shadow:rgba(8,145,178,.25); }
+    [data-theme="slate"]   { --primary:#475569; --primary-hover:#334155; --primary-light:#f1f5f9; --accent:#64748b; --bg-1:#f8fafc; --bg-2:#f1f5f9; --nav-border:rgba(226,232,240,.9); --shadow:rgba(71,85,105,.25); }
+    [data-theme="orange"]  { --primary:#ea580c; --primary-hover:#c2410c; --primary-light:#fff7ed; --accent:#f97316; --bg-1:#fff7ed; --bg-2:#ffedd5; --nav-border:rgba(254,215,170,.9); --shadow:rgba(234,88,12,.25); }
 
-.text-size-panel{position:fixed;top:70px;right:16px;z-index:999;background:#fff;color:#1d2433;padding:16px;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.25);border:1px solid #e5e1d8;display:none;min-width:240px}
-.text-size-panel.show{display:block;animation:fadeSlide .25s ease-out}
-@keyframes fadeSlide{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
-.text-size-panel .tsp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.text-size-panel .tsp-header strong{font-size:.9rem;color:#c2410c}
-.text-size-panel .tsp-close{background:none;border:0;font-size:1.4rem;color:#94a3b8;cursor:pointer;padding:0;line-height:1;font-family:inherit}
-.text-size-panel .tsp-list{display:flex;flex-direction:column;gap:8px}
-.text-size-panel .tsp-btn{padding:12px 14px;border:2px solid #e5e1d8;background:#fff;color:#1d2433;border-radius:10px;cursor:pointer;text-align:left;font-family:inherit;transition:all .2s;display:flex;justify-content:space-between;align-items:center}
-.text-size-panel .tsp-btn:hover{border-color:#c2410c;transform:translateX(3px)}
-.text-size-panel .tsp-btn.active{border-color:#c2410c;background:#fde8dc;color:#c2410c;font-weight:700}
-.text-size-panel .tsp-btn .tsp-label{font-size:.8rem;color:#94a3b8}
-.text-size-panel .tsp-btn.active .tsp-label{color:#c2410c}
+    /* الوضع الليلي */
+    [data-mode="dark"] {
+      --bg-1: #0f172a;
+      --bg-2: #1e293b;
+      --bg-card: rgba(30, 41, 59, 0.85);
+      --text-main: #f1f5f9;
+      --text-sub: #94a3b8;
+      --nav-bg: rgba(15, 23, 42, 0.88);
+      --nav-border: rgba(51, 65, 85, 0.9);
+    }
 
-.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:6.25rem 1.25rem 3.75rem;text-align:center;background-image:linear-gradient(135deg,rgba(194,65,12,.55),rgba(15,17,23,.72)),url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80');background-size:cover;background-position:center 40%;background-attachment:fixed;background-color:#0f1117}
-.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.08),transparent 70%);z-index:0}
-.hero>*{position:relative;z-index:1}
-.logo-3d{width:6.875rem;height:6.875rem;margin:0 auto 1.625rem;background:linear-gradient(135deg,#fff,#f8f5ef);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;box-shadow:0 20px 40px rgba(0,0,0,.4),0 8px 16px rgba(0,0,0,.3),inset 0 -4px 10px rgba(0,0,0,.08),inset 0 4px 10px rgba(255,255,255,.9);animation:floatLogo 4s ease-in-out infinite}
-@keyframes floatLogo{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.hero h1{font-size:clamp(1.7rem,6vw,3.2rem);font-weight:900;margin-bottom:1rem;line-height:1.2;letter-spacing:-.8px;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.5)}
-.hero .subtitle{font-size:clamp(1rem,3.5vw,1.35rem);opacity:.95;margin-bottom:.625rem;font-weight:300;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)}
-.hero .tagline{font-size:clamp(.9rem,3vw,1.1rem);opacity:.9;margin-bottom:2.25rem;font-style:italic;max-width:40rem;margin-left:auto;margin-right:auto;line-height:1.5;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)}
-.badges{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:2.5rem;max-width:47.5rem;margin-left:auto;margin-right:auto}
-.badge{background:rgba(255,255,255,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.3);padding:.5rem 1rem;border-radius:1.5rem;font-size:.82rem;font-weight:500;color:#fff;transition:all .25s}
-.badge:hover{background:rgba(255,255,255,.28);transform:translateY(-2px)}
-.cta-group{display:flex;flex-wrap:wrap;gap:.875rem;justify-content:center;align-items:center}
-.btn-3d{display:inline-flex;align-items:center;gap:.625rem;background:linear-gradient(180deg,#fff,#f0ebe2);color:var(--acc);padding:1.125rem 3.25rem;border-radius:3.125rem;font-size:1.15rem;font-weight:800;text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,.35),0 6px 12px rgba(0,0,0,.2),inset 0 -3px 6px rgba(0,0,0,.06),inset 0 3px 6px rgba(255,255,255,.9);transition:all .25s;border:0;cursor:pointer;font-family:inherit}
-.btn-3d:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.4),0 10px 20px rgba(0,0,0,.25),inset 0 -3px 6px rgba(0,0,0,.06),inset 0 3px 6px rgba(255,255,255,.9)}
-.btn-3d .arrow{transition:transform .3s}
-.btn-3d:hover .arrow{transform:translateX(6px)}
-html[dir="rtl"] .btn-3d .arrow{transform:scaleX(-1)}
-html[dir="rtl"] .btn-3d:hover .arrow{transform:scaleX(-1) translateX(6px)}
-.btn-install{display:none;align-items:center;gap:.5rem;background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:.9375rem 1.875rem;border-radius:3.125rem;font-size:1rem;font-weight:700;box-shadow:0 10px 25px rgba(16,185,129,.4),0 4px 10px rgba(0,0,0,.2),inset 0 -3px 6px rgba(0,0,0,.1),inset 0 3px 6px rgba(255,255,255,.25);transition:all .25s;border:0;cursor:pointer;font-family:inherit}
-.btn-install:hover{transform:translateY(-3px)}
-.btn-install.show{display:inline-flex}
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg-1);
+      color: var(--text-main);
+      transition: background .4s ease, color .4s ease;
+    }
 
-section{padding:4.375rem 1.25rem}
-.about{background:#fff;color:#1d2433}
-.about-inner{max-width:51.25rem;margin:0 auto}
-.about h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:1.5rem;text-align:center}
-.about p{font-size:1.05rem;line-height:1.85;color:#475569;margin-bottom:1rem;text-align:justify}
-.about p strong{color:var(--acc)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;max-width:43.75rem;margin:2.5rem auto 0;padding:0 .625rem}
-.stat{text-align:center;background:linear-gradient(180deg,#fff,#f8fafc);padding:1.625rem .875rem;border-radius:1rem;border:1px solid #e2e8f0;box-shadow:0 4px 12px rgba(0,0,0,.04)}
-.stat b{display:block;font-size:2rem;color:var(--acc);font-weight:900;margin-bottom:.25rem}
-.stat span{font-size:.85rem;color:#64748b;font-weight:500}
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 40%),
+        radial-gradient(circle at 85% 85%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 45%),
+        linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+      transition: background .4s ease;
+    }
 
-.features{background:#f8fafc}
-.features-inner{max-width:62.5rem;margin:0 auto}
-.features h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:1.875rem;text-align:center}
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.25rem}
-.feature{background:#fff;padding:1.75rem 1.25rem;border-radius:1rem;box-shadow:0 4px 15px rgba(0,0,0,.05);text-align:center;border:1px solid #e2e8f0;transition:all .3s}
-.feature:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,.1)}
-.feature .icon{font-size:2.5rem;margin-bottom:.75rem;display:block}
-.feature h3{color:var(--acc);margin-bottom:.5rem;font-size:1.05rem}
-.feature p{color:#64748b;font-size:.9rem;line-height:1.6}
+    .glass-nav {
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--nav-border);
+      transition: background .4s ease, border-color .4s ease;
+    }
 
-.gallery{background:#fff}
-.gallery-inner{max-width:62.5rem;margin:0 auto}
-.gallery h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:1.875rem;text-align:center}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(13.75rem,1fr));gap:1rem}
-.gallery-item{border-radius:1rem;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);aspect-ratio:4/3;background:#e2e8f0;position:relative;transition:transform .3s}
-.gallery-item:hover{transform:scale(1.03)}
-.gallery-item img{width:100%;height:100%;object-fit:cover;display:block}
-.gallery-item .cap{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.85));color:#fff;padding:1.5rem .875rem .75rem;font-size:.9rem;font-weight:600}
+    .glass-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,.95);
+      transition: all .3s cubic-bezier(.4,0,.2,1);
+    }
+    .glass-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 45px -12px var(--shadow);
+      border-color: var(--primary);
+    }
 
-.team{background:linear-gradient(135deg,#fef3c7,#fff)}
-.team-inner{max-width:51.25rem;margin:0 auto}
-.team h2{font-size:clamp(1.4rem,4vw,2rem);color:var(--acc);margin-bottom:1.5rem;text-align:center}
-.team p{font-size:1.05rem;line-height:1.85;color:#475569;margin-bottom:1rem;text-align:justify}
-.team p strong{color:var(--acc)}
-.values{display:flex;flex-wrap:wrap;gap:.625rem;justify-content:center;margin:1.875rem 0}
-.value{background:#fff;border:2px solid var(--acc-soft);padding:.5625rem 1.25rem;border-radius:1.875rem;font-size:.9rem;font-weight:600;color:var(--acc);box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.quote{text-align:center;margin-top:1.875rem;font-style:italic;color:#94a3b8;font-size:1.05rem}
+    .icon-box { transition: all .3s ease; }
+    .glass-card:hover .icon-box {
+      background-color: var(--primary) !important;
+      color: white !important;
+      transform: scale(1.1) rotate(-5deg);
+    }
 
-.final-cta{background:linear-gradient(135deg,var(--acc),var(--acc2));text-align:center;color:#fff}
-.final-cta h2{font-size:clamp(1.3rem,4vw,1.8rem);margin-bottom:.75rem}
-.final-cta p{opacity:.95;margin-bottom:1.875rem;max-width:37.5rem;margin-left:auto;margin-right:auto}
+    .logo-badge {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 4px 14px var(--shadow);
+    }
 
-footer{background:#0f1117;color:#94a3b8;text-align:center;padding:2.25rem 1.25rem;font-size:.9rem;line-height:1.7}
-footer strong{color:#e2e8f0}
-footer a{color:var(--acc);text-decoration:none;font-weight:600}
+    .badge-schedule { background: var(--primary); }
 
-.install-banner{display:none;position:fixed;bottom:1.25rem;left:1.25rem;right:1.25rem;background:#fff;color:#1d2433;padding:.875rem 1.125rem;border-radius:1rem;box-shadow:0 20px 50px rgba(0,0,0,.3);z-index:1000;align-items:center;gap:.75rem;max-width:27.5rem;margin:0 auto;border:1px solid #e2e8f0}
-.install-banner.show{display:flex}
-.install-banner .ib-icon{font-size:1.8rem;flex-shrink:0}
-.install-banner .ib-text{flex:1;font-size:.88rem;line-height:1.4}
-.install-banner .ib-text strong{display:block;color:var(--acc);font-size:.95rem;margin-bottom:.125rem}
-.install-banner .ib-btn{background:var(--acc);color:#fff;padding:.625rem 1.125rem;border-radius:.625rem;font-weight:600;cursor:pointer;font-family:inherit;font-size:.88rem;flex-shrink:0;border:0}
-.install-banner .ib-close{background:none;border:0;color:#94a3b8;font-size:1.3rem;cursor:pointer;padding:0 .25rem;font-family:inherit}
+    /* زر المساعد */
+    #aiToggleBtn {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+    }
+    #aiToggleBtn:hover {
+      filter: brightness(1.1);
+    }
+    .ai-header {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+    }
 
-@media(max-width:600px){
-  .hero{background-attachment:scroll;background-position:center 30%;padding:5rem 1rem 3.125rem}
-  .stats{grid-template-columns:1fr;gap:.75rem}
-  .btn-3d{padding:1rem 2.5rem;font-size:1.05rem}
-  .btn-install{padding:.8125rem 1.5rem;font-size:.92rem}
-  .top-controls{top:.625rem;right:.625rem;gap:.3125rem}
-  .pill button{padding:.3125rem .5625rem;font-size:.7rem}
-  .install-banner{left:.75rem;right:.75rem;bottom:.75rem}
-  .text-size-panel{top:3.75rem;right:.625rem;left:.625rem;min-width:0}
-}
-</style>
+    /* لوحة الإعدادات */
+    .settings-panel {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--nav-border);
+      box-shadow: 0 20px 50px -12px rgba(0,0,0,.25);
+    }
+
+    .color-dot {
+      width: 32px; height: 32px; border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: transform .2s, border-color .2s;
+    }
+    .color-dot:hover { transform: scale(1.15); }
+    .color-dot.active {
+      border-color: var(--text-main);
+      transform: scale(1.15);
+    }
+
+    /* حجم النص */
+    [data-fontsize="small"]  { font-size: 14px; }
+    [data-fontsize="medium"] { font-size: 16px; }
+    [data-fontsize="large"]  { font-size: 18px; }
+
+    /* تأثير الظهور */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp .5s ease forwards; }
+  </style>
 </head>
-<body>
 
-<div class="top-controls">
-  <div class="pill">
-    <button onclick="setLang('fr')" data-lang="fr">🇫🇷 FR</button>
-    <button onclick="setLang('ar')" data-lang="ar">🇩🇿 AR</button>
-    <button onclick="setLang('en')" data-lang="en">🇬🇧 EN</button>
-  </div>
-  <div class="pill">
-    <button class="ctrl-btn" onclick="toggleTextSizePanel()" title="Taille du texte" id="text-size-btn">🅰️</button>
-  </div>
-</div>
+<body class="min-h-screen flex flex-col justify-between" data-fontsize="medium">
 
-<div class="text-size-panel" id="text-size-panel">
-  <div class="tsp-header">
-    <strong id="tsp-title">Taille du texte</strong>
-    <button class="tsp-close" onclick="closeTextSizePanel()">×</button>
-  </div>
-  <div class="tsp-list">
-    <button class="tsp-btn" data-text-size-btn="small" onclick="setTextSize('small')">
-      <span>🅰️- <span id="ts-small-label">Petit</span></span><span class="tsp-label">14px</span>
-    </button>
-    <button class="tsp-btn" data-text-size-btn="normal" onclick="setTextSize('normal')">
-      <span>🅰️ <span id="ts-normal-label">Normal</span></span><span class="tsp-label">16px</span>
-    </button>
-    <button class="tsp-btn" data-text-size-btn="large" onclick="setTextSize('large')">
-      <span>🅰️+ <span id="ts-large-label">Grand</span></span><span class="tsp-label">19px</span>
-    </button>
-    <button class="tsp-btn" data-text-size-btn="xlarge" onclick="setTextSize('xlarge')">
-      <span>🅰️++ <span id="ts-xlarge-label">Très grand</span></span><span class="tsp-label">22px</span>
-    </button>
-  </div>
-</div>
+  <div class="ambient-bg"></div>
 
-<section class="hero">
-  <div class="logo-3d">🎓</div>
-  <h1 id="hero-title">École Nationale Supérieure<br>des Travaux Publics</h1>
-  <p class="subtitle" id="hero-subtitle">ENSTP — Alger, Garidi Kouba</p>
-  <p class="tagline" id="hero-tagline">« Former les ingénieurs qui construisent l'Algérie de demain »</p>
-  <div class="badges">
-    <span class="badge">🏗️ Génie Civil</span>
-    <span class="badge">🛣️ Routes</span>
-    <span class="badge">🌉 Ouvrages d'art</span>
-    <span class="badge">🏛️ Infrastructures de Base</span>
-    <span class="badge">🔩 Matériaux & Structures</span>
-    <span class="badge">💧 Hydraulique</span>
-    <span class="badge">📐 Topographie</span>
-  </div>
-  <div class="cta-group">
-    <a href="guide.html" class="btn-3d"><span id="hero-btn">Commencer</span> <span class="arrow">→</span></a>
-    <button id="install-btn-hero" class="btn-install" onclick="installApp()"><span>📱</span> <span id="install-text-hero">Installer</span></button>
-  </div>
-</section>
+  <!-- ===== الهيدر ===== -->
+  <header class="sticky top-0 z-50 glass-nav px-4 lg:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
 
-<section class="about">
-  <div class="about-inner">
-    <h2 id="about-title">🏫 À propos de l'ENSTP</h2>
-    <p id="about-p1">L'École Nationale Supérieure des Travaux Publics (ENSTP) est un établissement public algérien d'enseignement supérieur et de recherche, placé sous la tutelle du Ministère des Travaux Publics. Située à Garidi, Kouba (Alger), elle forme depuis des décennies des ingénieurs d'État spécialisés dans les domaines stratégiques des travaux publics.</p>
-    <p id="about-p2">L'école assure une formation d'excellence à travers un cycle préparatoire intégré suivi d'un cycle ingénieur, couvrant des spécialités telles que les routes, les ouvrages d'art, la géotechnique, l'hydraulique et la topographie.</p>
-  </div>
-  <div class="stats">
-    <div class="stat"><b>1967</b><span id="stat1">Année de création</span></div>
-    <div class="stat"><b>+5000</b><span id="stat2">Ingénieurs diplômés</span></div>
-    <div class="stat"><b>5</b><span id="stat3">Spécialités</span></div>
-  </div>
-</section>
+      <!-- الشعار -->
+      <div class="flex items-center gap-3">
+        <div class="logo-badge w-11 h-11 rounded-2xl flex items-center justify-center text-white font-black text-lg">
+          E
+        </div>
+        <div class="hidden sm:block">
+          <h1 class="font-bold text-base leading-tight" style="color:var(--text-main)">دليل ENSTP</h1>
+          <p class="text-[11px]" style="color:var(--text-sub)">المدرسة الوطنية العليا للأشغال العمومية</p>
+        </div>
+      </div>
 
-<section class="features">
-  <div class="features-inner">
-    <h2 id="features-title">✨ Pourquoi cette app ?</h2>
-    <div class="features-grid">
-      <div class="feature"><span class="icon">📱</span><h3 id="f1-title">Installable</h3><p id="f1-desc">Installez l'app en un clic.</p></div>
-      <div class="feature"><span class="icon">📴</span><h3 id="f2-title">Hors ligne</h3><p id="f2-desc">Fonctionne sans Internet.</p></div>
-      <div class="feature"><span class="icon">🌍</span><h3 id="f3-title">3 langues</h3><p id="f3-desc">FR / AR / EN.</p></div>
-      <div class="feature"><span class="icon">🔎</span><h3 id="f4-title">Recherche</h3><p id="f4-desc">Trouvez tout en secondes.</p></div>
-      <div class="feature"><span class="icon">🎨</span><h3 id="f5-title">9 thèmes</h3><p id="f5-desc">9 couleurs, mode sombre.</p></div>
-      <div class="feature"><span class="icon">🅰️</span><h3 id="f7-title">Taille du texte</h3><p id="f7-desc">Ajustez la lecture.</p></div>
+      <!-- الأزرار -->
+      <div class="flex items-center gap-2 relative">
+
+        <!-- زر الإعدادات -->
+        <button id="settingsBtn"
+          class="w-10 h-10 rounded-full flex items-center justify-center transition"
+          style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-palette"></i>
+        </button>
+
+        <!-- زر الجرس -->
+        <button class="w-10 h-10 rounded-full flex items-center justify-center transition"
+          style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-regular fa-bell"></i>
+        </button>
+
+        <!-- لوحة الإعدادات -->
+        <div id="settingsPanel"
+          class="settings-panel absolute top-14 left-0 w-72 rounded-2xl p-4 hidden z-50">
+
+          <!-- الثيمات -->
+          <div class="mb-4">
+            <p class="text-xs font-bold mb-2" style="color:var(--text-sub)">🎨 اختر الثيم</p>
+            <div class="grid grid-cols-5 gap-2">
+              <div class="color-dot" data-color="emerald" style="background:#059669"></div>
+              <div class="color-dot" data-color="indigo"  style="background:#4f46e5"></div>
+              <div class="color-dot" data-color="blue"    style="background:#2563eb"></div>
+              <div class="color-dot" data-color="rose"    style="background:#e11d48"></div>
+              <div class="color-dot" data-color="amber"   style="background:#d97706"></div>
+              <div class="color-dot" data-color="purple"  style="background:#9333ea"></div>
+              <div class="color-dot" data-color="cyan"    style="background:#0891b2"></div>
+              <div class="color-dot" data-color="slate"   style="background:#475569"></div>
+              <div class="color-dot" data-color="orange"  style="background:#ea580c"></div>
+            </div>
+          </div>
+
+          <!-- الوضع الليلي -->
+          <div class="mb-4 flex items-center justify-between">
+            <span class="text-sm font-bold" style="color:var(--text-main)">🌙 الوضع الليلي</span>
+            <button id="darkModeToggle"
+              class="w-12 h-6 rounded-full relative transition"
+              style="background:var(--primary-light)">
+              <span id="darkModeKnob"
+                class="absolute top-0.5 right-0.5 w-5 h-5 rounded-full transition-all"
+                style="background:var(--primary)"></span>
+            </button>
+          </div>
+
+          <!-- حجم النص -->
+          <div>
+            <p class="text-xs font-bold mb-2" style="color:var(--text-sub)">🅰️ حجم النص</p>
+            <div class="flex gap-2">
+              <button class="fontsize-btn flex-1 py-1.5 rounded-lg text-xs font-bold transition"
+                data-size="small" style="background:var(--primary-light); color:var(--primary)">صغير</button>
+              <button class="fontsize-btn flex-1 py-1.5 rounded-lg text-xs font-bold transition"
+                data-size="medium" style="background:var(--primary-light); color:var(--primary)">متوسط</button>
+              <button class="fontsize-btn flex-1 py-1.5 rounded-lg text-xs font-bold transition"
+                data-size="large" style="background:var(--primary-light); color:var(--primary)">كبير</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== المحتوى الرئيسي ===== -->
+  <main class="max-w-7xl mx-auto px-4 lg:px-8 py-10 flex-grow w-full space-y-10">
+
+    <div class="text-center space-y-4 fade-up">
+      <span class="inline-block text-xs font-semibold px-4 py-1.5 rounded-full"
+        style="background:var(--primary-light); color:var(--primary)">
+        🎓 دليلك الجامعي الشامل
+      </span>
+      <h2 class="text-3xl md:text-4xl font-black" style="color:var(--text-main)">
+        مرحباً بك في فضائك الجامعي
+      </h2>
+      <p class="text-sm max-w-2xl mx-auto leading-relaxed" style="color:var(--text-sub)">
+        اكتشف كل ما تحتاجه لتسهيل مسارك الدراسي وحياتك اليومية في المدرسة الوطنية العليا للأشغال العمومية (ENSTP). اختر القسم المناسب أدناه للبدء.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+      <a href="ma-ecole.html" class="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group fade-up">
+        <div class="icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm" style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-school"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg" style="color:var(--text-main)">مدرستي</h3>
+          <p class="text-xs mt-1" style="color:var(--text-sub)">تعرف على المدرسة، المرافق، والمكتبة</p>
+        </div>
+      </a>
+
+      <a href="administration.html" class="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group fade-up">
+        <div class="icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm" style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-file-signature"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg" style="color:var(--text-main)">إدارتي</h3>
+          <p class="text-xs mt-1" style="color:var(--text-sub)">الوثائق، الشهادات، والإجراءات الإدارية</p>
+        </div>
+      </a>
+
+      <a href="ma-reussite.html" class="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group border-2 relative overflow-hidden fade-up" style="border-color:var(--primary)">
+        <div class="badge-schedule absolute top-0 right-0 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl">
+          استعمال الزمن
+        </div>
+        <div class="icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm mt-2" style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-user-graduate"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg" style="color:var(--text-main)">نجاحي</h3>
+          <p class="text-xs mt-1" style="color:var(--text-sub)">الدروس، الامتحانات، وجداول التوقيت</p>
+        </div>
+      </a>
+
+      <a href="residence.html" class="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group fade-up">
+        <div class="icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm" style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-bed"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg" style="color:var(--text-main)">إقامتي الجامعية</h3>
+          <p class="text-xs mt-1" style="color:var(--text-sub)">معلومات الإيواء والخدمات الجامعية</p>
+        </div>
+      </a>
+
+      <a href="sport.html" class="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group fade-up">
+        <div class="icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm" style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-dumbbell"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg" style="color:var(--text-main)">الرياضة</h3>
+          <p class="text-xs mt-1" style="color:var(--text-sub)">الأنشطة الرياضية، الملاعب، والنوادي</p>
+        </div>
+      </a>
+
+      <a href="forum.html" class="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group fade-up">
+        <div class="icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm" style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-users-rays"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg" style="color:var(--text-main)">ملتقى الطلبة</h3>
+          <p class="text-xs mt-1" style="color:var(--text-sub)">النوادي العلمية، الفعاليات، والنقاشات</p>
+        </div>
+      </a>
+
+      <a href="transport.html" class="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group fade-up">
+        <div class="icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm" style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-bus-simple"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg" style="color:var(--text-main)">النقل</h3>
+          <p class="text-xs mt-1" style="color:var(--text-sub)">خطوط الحافلات، المحطات، والتوقيت</p>
+        </div>
+      </a>
+
+      <a href="restaurants.html" class="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group fade-up">
+        <div class="icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm" style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-utensils"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg" style="color:var(--text-main)">المطاعم</h3>
+          <p class="text-xs mt-1" style="color:var(--text-sub)">مطاعم الجامعة، المقاهي، وقوائم الطعام</p>
+        </div>
+      </a>
+
+      <a href="shopping.html" class="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group fade-up">
+        <div class="icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm" style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-bag-shopping"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg" style="color:var(--text-main)">التسوق</h3>
+          <p class="text-xs mt-1" style="color:var(--text-sub)">المحلات، المكتبات، والمراكز التجارية القريبة</p>
+        </div>
+      </a>
+
+      <a href="loisirs.html" class="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group fade-up">
+        <div class="icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm" style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-map-location-dot"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg font-sans" style="color:var(--text-main)" dir="ltr">Loisirs à Alger</h3>
+          <p class="text-xs mt-1" style="color:var(--text-sub)">أماكن الترفيه والسياحة في العاصمة</p>
+        </div>
+      </a>
+
+      <a href="qr.html" class="glass-card p-6 rounded-3xl flex flex-col items-center text-center gap-4 group fade-up">
+        <div class="icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm" style="background:var(--primary-light); color:var(--primary)">
+          <i class="fa-solid fa-qrcode"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg font-sans" style="color:var(--text-main)" dir="ltr">QR Code</h3>
+          <p class="text-xs mt-1" style="color:var(--text-sub)">مسح الرموز للوصول السريع للخدمات</p>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer class="glass-nav border-t py-6 px-4 text-center text-xs" style="color:var(--text-sub)">
+    <p>© 2026 ENSTP القبة — تصميم فريق التطوير الطلابي.</p>
+  </footer>
+
+  <!-- ===== المساعد الذكي ===== -->
+  <button id="aiToggleBtn" class="fixed bottom-6 left-6 text-white rounded-full p-4 shadow-xl z-50 flex items-center justify-center transition-transform hover:scale-105">
+    💬 مساعد الطالب الذكي
+  </button>
+
+  <div id="aiChatBox" class="fixed bottom-24 left-6 w-80 md:w-96 rounded-2xl shadow-2xl z-50 hidden flex-col overflow-hidden max-h-[500px]" style="background:var(--bg-card); border:1px solid var(--nav-border)">
+    <div class="ai-header text-white p-4 flex justify-between items-center font-bold">
+      <span>🤖 مساعد ENSTP الذكي</span>
+      <button id="closeAiBtn" class="text-white hover:text-gray-200">✕</button>
+    </div>
+    <div id="aiMessages" class="p-4 flex-1 overflow-y-auto space-y-3 text-sm h-80" style="background:var(--bg-1)">
+      <div class="p-3 rounded-lg max-w-[85%]" style="background:var(--primary-light); color:var(--primary)">
+        مرحباً بك! أنا مساعدك الذكي لموقع دليل ENSTP. كيف يمكنني مساعدتك اليوم بخصوص استعمال الزمن أو المواد الدراسية؟
+      </div>
+    </div>
+    <div class="p-3 flex gap-2" style="background:var(--bg-card); border-top:1px solid var(--nav-border)">
+      <input id="aiInput" type="text" placeholder="اسأل المساعد الذكي..."
+        class="flex-1 p-2 rounded-lg text-sm focus:outline-none"
+        style="background:var(--bg-1); color:var(--text-main); border:1px solid var(--nav-border)">
+      <button id="sendAiBtn" class="text-white px-4 py-2 rounded-lg text-sm font-semibold" style="background:var(--primary)">إرسال</button>
     </div>
   </div>
-</section>
 
-<section class="gallery">
-  <div class="gallery-inner">
-    <h2 id="gallery-title">📸 Découvrir l'école</h2>
-    <div class="gallery-grid">
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80" loading="lazy" alt="ENSTP"><div class="cap" id="cap1">L'ENSTP</div></div>
-      
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&q=80" loading="lazy" alt="TP"><div class="cap" id="cap4">Travaux pratiques</div></div>
-    </div>
-  </div>
-</section>
+  <!-- ===== السكريبت ===== -->
+  <script>
+    // ===== فتح/إغلاق لوحة الإعدادات =====
+    const settingsBtn   = document.getElementById('settingsBtn');
+    const settingsPanel = document.getElementById('settingsPanel');
+    settingsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      settingsPanel.classList.toggle('hidden');
+    });
+    document.addEventListener('click', (e) => {
+      if (!settingsPanel.contains(e.target) && e.target !== settingsBtn) {
+        settingsPanel.classList.add('hidden');
+      }
+    });
 
-<section class="team">
-  <div class="team-inner">
-    <h2 id="team-title">👥 Qui sommes-nous ?</h2>
-    <p id="team-p1"><strong>Guide de survie ENSTP</strong> est un projet étudiant, à but non lucratif, né d'un constat simple : chaque année, des centaines de nouveaux étudiants arrivent à l'ENSTP sans savoir où aller, à qui parler, ni comment s'organiser.</p>
-    <p id="team-p2">Nous sommes <strong>des étudiants de 1ère année Ingénieur — Groupe 2, département Infrastructures de Base (منشآت قاعدية), promotion 2024/2025</strong> à l'ENSTP. Ce guide est un projet bénévole, né de notre propre expérience.</p>
-    <p id="team-p3">Notre mission : <strong>aider chaque nouvel étudiant à s'intégrer rapidement</strong> et à ne jamais rester seul face à un problème.</p>
-    <div class="values">
-      <span class="value">🤝 Entraide</span>
-      <span class="value">💯 Gratuité</span>
-      <span class="value">🎯 Respect</span>
-      <span class="value">🔍 Transparence</span>
-      <span class="value">💛 Confiance</span>
-    </div>
-    <div class="stats">
-      <div class="stat"><b>100%</b><span id="team-stat1">Gratuit</span></div>
-      <div class="stat"><b>3</b><span id="team-stat2">Langues</span></div>
-      <div class="stat"><b>14</b><span id="team-stat3">Rubriques</span></div>
-    </div>
-    <p class="quote" id="team-quote">« Ne jamais rester sans savoir quoi faire. »</p>
-  </div>
-</section>
-
-<section class="final-cta">
-  <h2 id="final-title">Prêt à découvrir ton guide ?</h2>
-  <p id="final-p">Tout ce dont tu as besoin pour ton premier jour à l'ENSTP.</p>
-  <a href="guide.html" class="btn-3d"><span id="final-btn">Commencer</span> <span class="arrow">→</span></a>
-</section>
-
-<footer>
-  <p><strong>Guide d'ENSTP</strong> — Un projet des étudiants de 1ère année Ingénieur,<br>Groupe 2 — Département Infrastructures de Base (منشآت قاعدية) — Promotion 2024/2025.</p>
-  <p style="margin-top:.625rem">100% gratuit · 3 langues · Bénévole · Hors ligne</p>
-  <p style="margin-top:.5rem"><a href="guide.html">Accéder au guide →</a></p>
-</footer>
-
-<div class="install-banner" id="install-banner">
-  <span class="ib-icon">📱</span>
-  <div class="ib-text">
-    <strong id="ib-title">Installer l'app</strong>
-    <span id="ib-desc">Accès rapide, hors ligne</span>
-  </div>
-  <button class="ib-btn" onclick="installApp()" id="ib-btn">Installer</button>
-  <button class="ib-close" onclick="dismissBanner()">×</button>
-</div>
-
-<script>
-const LANG_DATA_INDEX = {
-  fr: {
-    heroTitle: "École Nationale Supérieure<br>des Travaux Publics",
-    heroSubtitle: "ENSTP — Alger, Garidi Kouba",
-    heroTagline: "« Former les ingénieurs qui construisent l'Algérie de demain »",
-    heroBtn: "Commencer", installBtn: "Installer",
-    aboutTitle: "🏫 À propos de l'ENSTP",
-    aboutP1: "L'École Nationale Supérieure des Travaux Publics (ENSTP) est un établissement public algérien d'enseignement supérieur et de recherche, placé sous la tutelle du Ministère des Travaux Publics. Située à Garidi, Kouba (Alger), elle forme depuis des décennies des ingénieurs d'État spécialisés dans les domaines stratégiques des travaux publics.",
-    aboutP2: "L'école assure une formation d'excellence à travers un cycle préparatoire intégré suivi d'un cycle ingénieur, couvrant des spécialités telles que les routes, les ouvrages d'art, la géotechnique, l'hydraulique et la topographie.",
-    stat1: "Année de création", stat2: "Ingénieurs diplômés", stat3: "Spécialités",
-    featuresTitle: "✨ Pourquoi cette app ?",
-    f1Title: "Installable", f1Desc: "Installez l'app en un clic.",
-    f2Title: "Hors ligne", f2Desc: "Fonctionne sans Internet.",
-    f3Title: "3 langues", f3Desc: "FR / AR / EN.",
-    f4Title: "Recherche", f4Desc: "Trouvez tout en secondes.",
-    f5Title: "9 thèmes", f5Desc: "9 couleurs, mode sombre.",
-    f7Title: "Taille du texte", f7Desc: "Ajustez la lecture.",
-    galleryTitle: "📸 Découvrir l'école",
-    cap1: "L'ENSTP", cap2: "Étudiants", cap3: "Laboratoires", cap4: "TP",
-    teamTitle: "👥 Qui sommes-nous ?",
-    teamP1: "Guide de survie ENSTP est un projet étudiant, à but non lucratif, né d'un constat simple : chaque année, des centaines de nouveaux étudiants arrivent à l'ENSTP sans savoir où aller.",
-    teamP2: "Nous sommes des étudiants de 1ère année Ingénieur — Groupe 2, département Infrastructures de Base (منشآت قاعدية), promotion 2024/2025.",
-    teamP3: "Notre mission : aider chaque nouvel étudiant à s'intégrer rapidement et à ne jamais rester seul face à un problème.",
-    teamStat1: "Gratuit", teamStat2: "Langues", teamStat3: "Rubriques",
-    teamQuote: "« Ne jamais rester sans savoir quoi faire. »",
-    finalTitle: "Prêt à découvrir ton guide ?",
-    finalP: "Tout ce dont tu as besoin pour ton premier jour.",
-    finalBtn: "Commencer",
-    ibTitle: "Installer l'app", ibDesc: "Accès rapide, hors ligne", ibBtn: "Installer",
-    tspTitle: "Taille du texte",
-    tsSmall: "Petit", tsNormal: "Normal", tsLarge: "Grand", tsXLarge: "Très grand"
-  },
-  ar: {
-    heroTitle: "المدرسة الوطنية العليا<br>للأشغال العمومية",
-    heroSubtitle: "ENSTP — الجزائر، قاريدي القبة",
-    heroTagline: "« نُكوّن المهندسين الذين يبنون جزائر الغد »",
-    heroBtn: "ابدأ", installBtn: "تثبيت",
-    aboutTitle: "🏫 عن المدرسة",
-    aboutP1: "المدرسة الوطنية العليا للأشغال العمومية (ENSTP) مؤسسة عمومية جزائرية للتعليم العالي والبحث العلمي، تحت وصاية وزارة الأشغال العمومية. تقع في قاريدي، القبة (الجزائر العاصمة)، وتكوّن منذ عقود مهندسي دولة متخصصين في المجالات الاستراتيجية للأشغال العمومية.",
-    aboutP2: "توفّر المدرسة تكويناً متميزاً عبر طور تحضيري مدمج يتبعه طور مهندس، يشمل تخصصات مثل الطرق، المنشآت الفنية، الجيوتقنية، الهيدروليك والطبوغرافيا.",
-    stat1: "سنة التأسيس", stat2: "مهندس متخرج", stat3: "تخصصات",
-    featuresTitle: "✨ لماذا هذا التطبيق؟",
-    f1Title: "قابل للتثبيت", f1Desc: "ثبّت التطبيق بضغطة.",
-    f2Title: "بدون إنترنت", f2Desc: "يعمل بدون إنترنت.",
-    f3Title: "3 لغات", f3Desc: "فرنسي، عربي، إنجليزي.",
-    f4Title: "بحث ذكي", f4Desc: "جد كل شيء بسرعة.",
-    f5Title: "9 ألوان", f5Desc: "9 ألوان، وضع ليلي.",
-    f7Title: "حجم النص", f7Desc: "اضبط القراءة.",
-    galleryTitle: "📸 اكتشف المدرسة",
-    cap1: "المدرسة", cap2: "طلاب", cap3: "مخابر", cap4: "تطبيقي",
-    teamTitle: "👥 من نحن؟",
-    teamP1: "دليل  ENSTP مشروع طلابي غير ربحي، وُلد من ملاحظة بسيطة: كل سنة، مئات الطلاب الجدد يصلون إلى المدرسة دون معرفة أين يذهبون.",
-    teamP2: "نحن طلاب السنة الأولى مهندس — المجموعة 2، قسم المنشآت القاعدية، دفعة 2024/2025.",
-    teamP3: "مهمتنا: مساعدة كل طالب جديد على الاندماج بسرعة وعدم البقاء وحيداً أمام أي مشكلة.",
-    teamStat1: "مجاني", teamStat2: "لغات", teamStat3: "أقسام",
-    teamQuote: "« لا تبقَ أبداً دون أن تعرف ماذا تفعل. »",
-    finalTitle: "جاهز لاكتشاف دليلك؟",
-    finalP: "كل ما تحتاجه ليومك الأول.",
-    finalBtn: "ابدأ",
-    ibTitle: "ثبّت التطبيق", ibDesc: "وصول سريع، بدون إنترنت", ibBtn: "تثبيت",
-    tspTitle: "حجم النص",
-    tsSmall: "صغير", tsNormal: "عادي", tsLarge: "كبير", tsXLarge: "كبير جداً"
-  },
-  en: {
-    heroTitle: "National Higher School<br>of Public Works",
-    heroSubtitle: "ENSTP — Algiers, Garidi Kouba",
-    heroTagline: "\"Training the engineers who build tomorrow's Algeria\"",
-    heroBtn: "Start", installBtn: "Install",
-    aboutTitle: "🏫 About ENSTP",
-    aboutP1: "The National Higher School of Public Works (ENSTP) is an Algerian public institution for higher education and research, under the supervision of the Ministry of Public Works. Located in Garidi, Kouba (Algiers), it has trained state engineers for decades.",
-    aboutP2: "The school provides excellent training through an integrated preparatory cycle followed by an engineering cycle, covering specialties such as roads, bridges, geotechnics, hydraulics and topography.",
-    stat1: "Year of creation", stat2: "Graduate engineers", stat3: "Specialties",
-    featuresTitle: "✨ Why use this app?",
-    f1Title: "Installable", f1Desc: "Install in one click.",
-    f2Title: "Offline", f2Desc: "Works without Internet.",
-    f3Title: "3 languages", f3Desc: "FR / AR / EN.",
-    f4Title: "Smart search", f4Desc: "Find anything fast.",
-    f5Title: "9 themes", f5Desc: "9 colors, dark mode.",
-    f7Title: "Text size", f7Desc: "Adjust reading.",
-    galleryTitle: "📸 Discover the school",
-    cap1: "ENSTP", cap2: "Students", cap3: "Labs", cap4: "Practical work",
-    teamTitle: "👥 Who are we?",
-    teamP1: "ENSTP  Guide is a student project, non-profit, born from a simple observation: every year, hundreds of new students arrive at ENSTP without knowing where to go.",
-    teamP2: "We are 1st year Engineering students — Group 2, Infrastructures de Base department, promotion 2024/2025.",
-    teamP3: "Our mission: help every new student integrate quickly and never stay alone facing a problem.",
-    teamStat1: "Free", teamStat2: "Languages", teamStat3: "Sections",
-    teamQuote: "\"Never stay without knowing what to do.\"",
-    finalTitle: "Ready to discover your guide?",
-    finalP: "Everything you need for your first day.",
-    finalBtn: "Start",
-    ibTitle: "Install the app", ibDesc: "Fast access, offline", ibBtn: "Install",
-    tspTitle: "Text size",
-    tsSmall: "Small", tsNormal: "Normal", tsLarge: "Large", tsXLarge: "X-Large"
-  }
-};
-
-function setLang(lang) {
-  localStorage.setItem('lang', lang);
-  document.documentElement.lang = lang;
-  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-  const d = LANG_DATA_INDEX[lang];
-  if (!d) return;
-  const map = {
-    'hero-title': 'heroTitle', 'hero-subtitle': 'heroSubtitle', 'hero-tagline': 'heroTagline',
-    'hero-btn': 'heroBtn', 'install-text-hero': 'installBtn',
-    'about-title': 'aboutTitle', 'about-p1': 'aboutP1', 'about-p2': 'aboutP2',
-    'stat1': 'stat1', 'stat2': 'stat2', 'stat3': 'stat3',
-    'features-title': 'featuresTitle',
-    'f1-title': 'f1Title', 'f1-desc': 'f1Desc',
-    'f2-title': 'f2Title', 'f2-desc': 'f2Desc',
-    'f3-title': 'f3Title', 'f3-desc': 'f3Desc',
-    'f4-title': 'f4Title', 'f4-desc': 'f4Desc',
-    'f5-title': 'f5Title', 'f5-desc': 'f5Desc',
-    'f7-title': 'f7Title', 'f7-desc': 'f7Desc',
-    'gallery-title': 'galleryTitle',
-    'cap1': 'cap1', 'cap2': 'cap2', 'cap3': 'cap3', 'cap4': 'cap4',
-    'team-title': 'teamTitle', 'team-p1': 'teamP1', 'team-p2': 'teamP2', 'team-p3': 'teamP3',
-    'team-stat1': 'teamStat1', 'team-stat2': 'teamStat2', 'team-stat3': 'teamStat3',
-    'team-quote': 'teamQuote',
-    'final-title': 'finalTitle', 'final-p': 'finalP', 'final-btn': 'finalBtn',
-    'ib-title': 'ibTitle', 'ib-desc': 'ibDesc', 'ib-btn': 'ibBtn',
-    'tsp-title': 'tspTitle',
-    'ts-small-label': 'tsSmall', 'ts-normal-label': 'tsNormal',
-    'ts-large-label': 'tsLarge', 'ts-xlarge-label': 'tsXLarge'
-  };
-  Object.keys(map).forEach(id => {
-    const el = document.getElementById(id);
-    if (el && d[map[id]]) {
-      if (id === 'hero-title') el.innerHTML = d[map[id]];
-      else el.textContent = d[map[id]];
+    // ===== تغيير الثيم =====
+    const colorDots = document.querySelectorAll('.color-dot');
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('enstp-theme', theme);
+      colorDots.forEach(d => d.classList.toggle('active', d.dataset.color === theme));
     }
-  });
-  document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('on', b.dataset.lang === lang));
-}
+    colorDots.forEach(dot => {
+      dot.addEventListener('click', () => applyTheme(dot.dataset.color));
+    });
 
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('install-btn-hero').classList.add('show');
-  setTimeout(() => {
-    if (!localStorage.getItem('installDismissed') && !isInstalled()) {
-      document.getElementById('install-banner').classList.add('show');
+    // ===== الوضع الليلي =====
+    const darkToggle = document.getElementById('darkModeToggle');
+    const darkKnob   = document.getElementById('darkModeKnob');
+    function applyMode(mode) {
+      document.documentElement.setAttribute('data-mode', mode);
+      localStorage.setItem('enstp-mode', mode);
+      if (mode === 'dark') {
+        darkKnob.style.right = 'calc(100% - 22px)';
+        darkToggle.style.background = 'var(--primary)';
+      } else {
+        darkKnob.style.right = '2px';
+        darkToggle.style.background = 'var(--primary-light)';
+      }
     }
-  }, 3000);
-});
+    darkToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-mode') || 'light';
+      applyMode(current === 'dark' ? 'light' : 'dark');
+    });
 
-function installApp() {
-  if (!deferredPrompt) {
-    alert('Pour installer :\n\n• Android : Menu ⋮ → "Installer l\'application"\n• iPhone : Partager 📤 → "Sur l\'écran d\'accueil"');
-    return;
-  }
-  deferredPrompt.prompt();
-  deferredPrompt.userChoice.then((choice) => {
-    if (choice.outcome === 'accepted') {
-      document.getElementById('install-btn-hero').classList.remove('show');
-      document.getElementById('install-banner').classList.remove('show');
+    // ===== حجم النص =====
+    const fontBtns = document.querySelectorAll('.fontsize-btn');
+    function applyFontSize(size) {
+      document.body.setAttribute('data-fontsize', size);
+      localStorage.setItem('enstp-fontsize', size);
+      fontBtns.forEach(b => {
+        b.style.background = b.dataset.size === size ? 'var(--primary)' : 'var(--primary-light)';
+        b.style.color      = b.dataset.size === size ? '#fff' : 'var(--primary)';
+      });
     }
-    deferredPrompt = null;
-  });
-}
+    fontBtns.forEach(btn => {
+      btn.addEventListener('click', () => applyFontSize(btn.dataset.size));
+    });
 
-function dismissBanner() {
-  document.getElementById('install-banner').classList.remove('show');
-  localStorage.setItem('installDismissed', '1');
-}
+    // ===== تحميل الإعدادات المحفوظة =====
+    (function loadSettings() {
+      const savedTheme = localStorage.getItem('enstp-theme') || 'emerald';
+      const savedMode  = localStorage.getItem('enstp-mode')  || 'light';
+      const savedFont  = localStorage.getItem('enstp-fontsize') || 'medium';
+      applyTheme(savedTheme);
+      applyMode(savedMode);
+      applyFontSize(savedFont);
+    })();
 
-function isInstalled() {
-  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-}
+    // ===== المساعد الذكي =====
+    const toggleBtn = document.getElementById('aiToggleBtn');
+    const chatBox   = document.getElementById('aiChatBox');
+    const closeBtn  = document.getElementById('closeAiBtn');
+    toggleBtn.addEventListener('click', () => chatBox.classList.toggle('hidden'));
+    closeBtn.addEventListener('click', () => chatBox.classList.add('hidden'));
+  </script>
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js', { scope: './' })
-      .then(() => console.log('✅ SW registered'))
-      .catch((err) => console.log('❌ SW:', err));
-  });
-}
-
-setLang(localStorage.getItem('lang') || 'fr');
-if (typeof applyTextSize === 'function') applyTextSize();
-</script>
 </body>
 </html>
