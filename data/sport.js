@@ -30,7 +30,7 @@ window.SECTIONS.push({
       video: "byDM5wQ3wcc"
     },
     {
-      title: { fr: "Be Different", ar: "كن مختلفاً", en: "Be Different" },
+      title: { fr: "", ar: "", en: "" },
       icon: "✨",
       desc: { fr: "Un short inspirant pour te dépasser.", ar: "فيديو قصير ملهم لتجاوز نفسك.", en: "An inspiring short to push your limits." },
       videoUrl: "https://youtube.com/shorts/s4IcvPRD5dY",
