@@ -32,7 +32,7 @@ window.SECTIONS.push({
     {
       title: { fr: "", ar: "", en: "" },
       icon: "✨",
-      desc: { fr: "Un short inspirant pour te dépasser.", ar: "فيديو قصير ملهم لتجاوز نفسك.", en: "An inspiring short to push your limits." },
+      desc: { fr: "Un short inspirant .", ar: "فيديو قصير .", en: "An inspiring short to push your limits." },
       videoUrl: "https://youtube.com/shorts/s4IcvPRD5dY",
       extra: "🎬 YouTube Shorts"
     }
